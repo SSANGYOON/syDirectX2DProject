@@ -20,9 +20,9 @@ public:
 	void Initialize();
 	void Update();
 	void AddEvent(const EventStruct& eve);
+
 private:
 	void Execute(const EventStruct& eve);
-	
 	vector<EventStruct> _events;
 };
 

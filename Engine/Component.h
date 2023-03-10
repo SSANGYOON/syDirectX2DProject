@@ -9,6 +9,7 @@ enum class Component_Type
 	Mesh,
 	Collider,
 	Renderer,
+	Animator,
 	UI,
 	Script,
 	End,

@@ -10,7 +10,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	void Start();
+	virtual void Start();
 	void Update();
 	void LateUpdate();
 	void FinalUpdate();

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Script.h"
+#include "Collider.h"
 
 GameObject::GameObject()
 	:_state(PAUSED)
@@ -27,7 +28,7 @@ void GameObject::Start()
 		comp->Start();
 	}
 
-	for (shared_ptr<Component>& script : _scripts)
+	for (shared_ptr<Script>& script : _scripts)
 	{
 		if (script == nullptr)
 			continue;
@@ -46,7 +47,7 @@ void GameObject::Update()
 		comp->Update();
 	}
 
-	for (shared_ptr<Component>& script : _scripts)
+	for (shared_ptr<Script>& script : _scripts)
 	{
 		if (script == nullptr)
 			continue;
@@ -66,7 +67,7 @@ void GameObject::LateUpdate()
 		comp->LateUpdate();
 	}
 
-	for (shared_ptr<Component>& script : _scripts)
+	for (shared_ptr<Script>& script : _scripts)
 	{
 		if (script == nullptr)
 			continue;
@@ -85,7 +86,7 @@ void GameObject::FinalUpdate()
 		comp->FinalUpdate();
 	}
 
-	for (shared_ptr<Component>& script : _scripts)
+	for (shared_ptr<Script>& script : _scripts)
 	{
 		if (script == nullptr)
 			continue;
@@ -104,5 +105,41 @@ void GameObject::Render()
 
 		comp->Render();
 	}
+}
+
+void GameObject::OnTriggerEnter(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OntriggerEnter(collider);
+}
+
+void GameObject::OnTriggerStay(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OntriggerStay(collider);
+}
+
+void GameObject::OnTriggerExit(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OntriggerExit(collider);
+}
+
+void GameObject::OnCollisionEnter(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OnCollisionEnter(collider);
+}
+
+void GameObject::OnCollisionStay(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OnCollisionStay(collider);
+}
+
+void GameObject::OnCollisionExit(Collider* collider)
+{
+	for (auto& script : _scripts)
+		script->OnCollisionExit(collider);
 }
 

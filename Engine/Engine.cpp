@@ -27,8 +27,12 @@ void Engine::Init(const WindowInfo& info)
 	CreateRenderTarget();
 	CreateDepthStencil();
 
-	RECT winRect;
-	GetClientRect(_window.hwnd, &winRect);
+	RECT rt = { 0, 0, (LONG)info.width , (LONG)info.height };
+	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+	SetWindowPos(info.hwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
+	ShowWindow(info.hwnd, true);
+	UpdateWindow(info.hwnd);
+
 	_viewPort = { 0.0f, 0.0f, (float)_window.width, (float)_window.height, 0.0f, 1.0f };
 	_device->GetContext()->RSSetViewports(1, &_viewPort);
 	_device->GetContext()->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());

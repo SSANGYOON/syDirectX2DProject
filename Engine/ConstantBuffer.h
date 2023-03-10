@@ -17,6 +17,12 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix projection;
 };
 
+CBUFFER(SpriteCB, CBSLOT_SPRITE)
+{
+	float UV;
+	Vector3 padding;
+};
+
 CBUFFER(MaterialCB, CBSLOT_MATERIAL)
 {
 	int iData;

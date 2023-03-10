@@ -71,7 +71,7 @@ void Editor::Render()
 {
 	for (shared_ptr<EditorObject> obj : _editorObjects)
 	{
-		obj->Render();
+		//obj->Render();
 	}
 
 	for (const DebugAttribute& debugAtt : GET_SINGLE(Resources)->GetDebugAtts())

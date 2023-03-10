@@ -44,7 +44,7 @@ void Camera::CreateProjection()
 	if (_type == ProjectionType::Perspective)
 		_projection = ::XMMatrixPerspectiveFovLH(_fov, _aspectRatio, _near, _far);
 	else
-		_projection = ::XMMatrixOrthographicLH(info.width * _scale/200.f, info.height * _scale/200.f, _near, _far);
+		_projection = ::XMMatrixOrthographicLH(info.width * _scale, info.height * _scale, _near, _far);
 }
 
 void Camera::TurnLayerMask(UINT layerIndex, bool enable)

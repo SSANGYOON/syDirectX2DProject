@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include "Layer.h"
 
+class Script;
+class Collider;
 class GameObject : public Entity, public enable_shared_from_this<GameObject>
 {
 public:
@@ -21,6 +23,14 @@ public:
 	virtual void FinalUpdate();
 	virtual void Render();
 
+	void OnTriggerEnter(Collider* collider);
+	void OnTriggerStay(Collider* collider);
+	void OnTriggerExit(Collider* collider);
+
+	void OnCollisionEnter(Collider* collider);
+	void OnCollisionStay(Collider* collider);
+	void OnCollisionExit(Collider* collider);
+
 	template <typename T>
 	shared_ptr<T> AddComponent();
 
@@ -32,7 +42,7 @@ private:
 	void SetGameObjectState(STATE state) { _state = state; }
 
 	array<shared_ptr<Component>, (UINT)Component_Type::End> _components;
-	vector<shared_ptr<Component>> _scripts;
+	vector<shared_ptr<Script>> _scripts;
 	STATE _state;
 };
 
@@ -43,7 +53,7 @@ inline shared_ptr<T> GameObject::AddComponent()
 	Component_Type order = comp->GetType();
 
 	if (order == Component_Type::Script)
-		_scripts.push_back(comp);
+		_scripts.push_back(dynamic_pointer_cast<Script>(comp));
 	else
 		_components[(UINT)order] = comp;
 

@@ -122,7 +122,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-   WindowInfo info = { hWnd,1600,900,true };
+   WindowInfo info = { hWnd,1280,720,true };
    GEngine->Init(info);
    GET_SINGLE(Editor)->Initalize();
    return TRUE;

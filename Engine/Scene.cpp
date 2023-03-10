@@ -15,8 +15,8 @@ Scene::~Scene()
 
 void Scene::Start()
 {
-	//for (auto layer : _layers)
-		//layer.Start();
+	for (auto layer : _layers)
+		layer.Start();
 }
 
 void Scene::Update()

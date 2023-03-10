@@ -38,7 +38,7 @@ void Resources::CreateDefaultResource()
 	indexes.push_back(2);
 	indexes.push_back(3);
 
-	mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+	mesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
 
 #pragma region DebugRect
@@ -53,7 +53,7 @@ void Resources::CreateDefaultResource()
 	indexes.push_back(3);
 	indexes.push_back(0);
 
-	debugmesh->CreateIndexBuffer(indexes.data(), indexes.size());
+	debugmesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
 
 #pragma region DebugCircle
@@ -93,11 +93,11 @@ void Resources::CreateDefaultResource()
 
 	std::shared_ptr<Mesh> cirlceMesh = std::make_shared<Mesh>();
 	Resources::Insert<Mesh>(L"CircleMesh", cirlceMesh);
-	cirlceMesh->CreateVertexBuffer(circleVertexes.data(), circleVertexes.size());
+	cirlceMesh->CreateVertexBuffer(circleVertexes.data(), (UINT)circleVertexes.size());
 	cirlceMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 #pragma endregion
 
-#pragma region Default
+#pragma region DefaultShader
 	shared_ptr<Shader> shader = std::make_shared<Shader>();
 	Resources::Insert<Shader>(L"DefaultShader", shader);
 	ShaderInfo _info;
@@ -152,4 +152,15 @@ void Resources::CreateDefaultResource()
 	Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 #pragma endregion
 
+#pragma region TitleBackGround
+	shared_ptr<Texture> TitleSky = std::make_shared<Texture>();
+	TitleSky->Load(L"TitleSky.png");
+	Resources::Insert<Texture>(L"TitleSky", TitleSky);
+#pragma endregion
+
+#pragma region TitleText
+	shared_ptr<Texture> Titletext = std::make_shared<Texture>();
+	Titletext->Load(L"TitleText.png");
+	Resources::Insert<Texture>(L"TitleText", Titletext);
+#pragma endregion
 }

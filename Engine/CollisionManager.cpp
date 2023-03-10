@@ -98,7 +98,7 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	// 충돌체크를 해준다.
 	if (Intersect(left, right)) // 충돌을 한 상태
 	{
-		if (iter->second == false)
+		if (!iter->second)
 		{
 			
 			if (!left->IsTrigger() && !right->IsTrigger())
@@ -111,7 +111,7 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 			else
 				left->OnTriggerEnter(right);
 
-			iter->second == true;
+			iter->second = true;
 		}
 		else
 		{
@@ -128,7 +128,7 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	}
 	else
 	{
-		if (iter->second == true)
+		if (iter->second)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
@@ -139,7 +139,7 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				right->OnTriggerExit(left);
 			else
 				left->OnTriggerExit(right);
-			iter->second == true;;
+			iter->second = false;
 		}
 	}
 }

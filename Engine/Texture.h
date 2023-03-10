@@ -1,6 +1,6 @@
 #pragma once
 #include "DirectXTex\Include\DirectXTex.h"
-#include "Resource.h"
+
 
 #ifdef _DEBUG
 #pragma comment(lib, "..\\External\\DirectXTex\\lib\\Debug\\DirectXTex.lib") 
@@ -8,6 +8,7 @@
 #pragma comment(lib, "..\\External\\DirectXTex\\lib\\Release\\DirectXTex.lib") 
 #endif
 
+#include "Resource.h"
 
 class Texture : public Resource
 {

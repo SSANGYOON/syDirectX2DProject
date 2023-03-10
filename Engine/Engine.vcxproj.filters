@@ -62,6 +62,12 @@
     <Filter Include="Component\Colider">
       <UniqueIdentifier>{23c00a51-bc5f-4a41-90f0-aadd04579d3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{96bd12ac-4457-4f4d-b522-29841de28e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Animation">
+      <UniqueIdentifier>{6578e5ca-32fa-4f85-a3f7-0fb556eeb0c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -165,6 +171,15 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +287,15 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
