@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
-#include "Transform.h"
+#include "BaseRenderer.h"
 #include "Script.h"
 #include "Collider.h"
 
@@ -14,6 +14,15 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+}
+
+shared_ptr<Transform> GameObject::GetTransform()
+{
+	return static_pointer_cast<Transform>(_components[(UINT)Component_Type::Transform]); 
+}
+shared_ptr<BaseRenderer> GameObject::GetRenderer()
+{ 
+	return static_pointer_cast<BaseRenderer>(_components[(UINT)Component_Type::Renderer]); 
 }
 
 void GameObject::Start()

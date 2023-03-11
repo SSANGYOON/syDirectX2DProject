@@ -4,9 +4,7 @@ enum class Constantbuffer_Type : UINT8
 	TRANSFORM,
 	MATERIAL,
 	GRID,
-	//LIGHT,
-	
-	
+	//LIGHT,	
 	END
 };
 
@@ -17,20 +15,9 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix projection;
 };
 
-CBUFFER(SpriteCB, CBSLOT_SPRITE)
+CBUFFER(SpriteCB, CBSLOT_ANIMATION)
 {
-	float UV;
-	Vector3 padding;
-};
-
-CBUFFER(MaterialCB, CBSLOT_MATERIAL)
-{
-	int iData;
-	float fData;
-	Vector2 xy;
-	Vector3 xyz;
-	Vector4 xyzw;
-	Matrix matrix;
+	Vector2 UV;
 };
 
 CBUFFER(GridCB, CBSLOT_GRID)

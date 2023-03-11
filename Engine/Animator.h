@@ -2,10 +2,23 @@
 #include "Component.h"
 
 class GameObject;
-class Animation;
 class Texture;
+//using AnimationEvent = function<void(GameObject&)>;
 
-using AnimationEvent = function<void(GameObject&)>;
+struct SpriteAnimClip
+{
+	Vector2 offset;
+	Vector2 size;
+	UINT row;
+	UINT col;
+	UINT frame_count;
+	float duration;
+};
+
+enum
+{
+	MAX_ANIMATION_SIZE = 4
+};
 class Animator : public Component
 {
 public:
@@ -13,27 +26,27 @@ public:
 	~Animator();
 
 	virtual void Start() override;
-	virtual void Update() override;
-	virtual void Render() override;
+	virtual void FinalUpdate() override;
 
-	bool Create(const wstring& name, shared_ptr<Texture> atlas
-		, Vector2 leftTop, Vector2 size, Vector2 offset
-		, UINT columnLegth, UINT spriteLegth, float duration);
+	void AddSpriteAnimation(UINT8 ind, const SpriteAnimClip& clip) { _animations[ind] = clip; }
+	void SetSpriteSheet(shared_ptr<Texture> spriteSheet) { _spriteSheet = spriteSheet; }
 
-	shared_ptr<Animation> FindAnimation(const wstring& name);
-	AnimationEvent FindEvent(const wstring& name);
+	//AnimationEvent FindEvent(const wstring& name);
 
-	void AddEvent(AnimationEvent event, const wstring& name);
-	void Play(wstring& name, bool loop = true);
+	//void AddEvent(AnimationEvent event, const wstring& name);
+	void Play(UINT8 ind, bool loop = true);
 
-	void Binds();
+	void SetSpriteData();
 	void Clear();
 
 private:
-	map<wstring, shared_ptr<Animation>> _animations;
-	map<wstring, AnimationEvent> _events;
-	shared_ptr<Animation> _activeAnimation;
-	wstring t;
+	shared_ptr<Texture> _spriteSheet;
+	array<SpriteAnimClip, MAX_ANIMATION_SIZE> _animations;
+
+
+	float _updateTime;
+	UINT _clipIndex;
+	UINT _frameindex;
 	bool _loop;
 };
 

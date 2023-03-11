@@ -11,7 +11,7 @@ void Resources::CreateDefaultResource()
 	shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 	Resources::Insert<Mesh>(L"RectMesh", mesh);
 	Vertex vertexes[4] = {};
-	
+
 	vertexes[0].pos = Vector4(-0.5f, 0.5f, 100.f, 1.0f);
 	vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertexes[0].uv = Vector2(0.f, 0.f);
@@ -118,7 +118,7 @@ void Resources::CreateDefaultResource()
 	Resources::Insert<Material>(L"DefaultMaterial", material);
 	shared_ptr<Texture> texture = std::make_shared<Texture>();
 	texture->Load(L"Smile.png");
-	material->SetTexture(texture);
+	material->SetTexture(0, texture);
 #pragma endregion
 
 #pragma region DebugShader
@@ -152,15 +152,21 @@ void Resources::CreateDefaultResource()
 	Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 #pragma endregion
 
-#pragma region TitleBackGround
-	shared_ptr<Texture> TitleSky = std::make_shared<Texture>();
-	TitleSky->Load(L"TitleSky.png");
-	Resources::Insert<Texture>(L"TitleSky", TitleSky);
-#pragma endregion
 
-#pragma region TitleText
-	shared_ptr<Texture> Titletext = std::make_shared<Texture>();
-	Titletext->Load(L"TitleText.png");
-	Resources::Insert<Texture>(L"TitleText", Titletext);
+#pragma region SpriteShader
+	{
+		shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"SpriteShader", shader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidBack;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		shader->CreateShader(_info, _entry, L"Sprite.hlsl");
+	}
 #pragma endregion
 }

@@ -47,6 +47,9 @@ HRESULT Texture::Load(const std::wstring& path)
 	);
 
 	_SRV->GetResource((ID3D11Resource**)_texture.GetAddressOf());
+	D3D11_TEXTURE2D_DESC desc;
+	_texture->GetDesc(&desc);
+	_size = { float(desc.Width), float(desc.Height) };
 	return S_OK;
 }
 

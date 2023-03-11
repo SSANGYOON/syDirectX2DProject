@@ -7,12 +7,26 @@ cbuffer Transform : register(b0)
 
 cbuffer MaterialData : register(b1)
 {
-    int cbiData;
-    float cbfData;
-    float2 cbxy;
-    float3 cbxyz;
-    float4 cbxyzw;
-    matrix cbmat;
+    int     g_int_0;
+    int     g_int_1;
+    int     g_int_2;
+    int     g_int_3;
+    float   g_float_0;
+    float   g_float_1;
+    float   g_float_2;
+    float   g_float_3;
+    float2  g_vec2_0;
+    float2  g_vec2_1;
+    float2  g_vec2_2;
+    float2  g_vec2_3;
+    float4  g_vec4_0;
+    float4  g_vec4_1;
+    float4  g_vec4_2;
+    float4  g_vec4_3;
+    row_major float4x4 g_mat_0;
+    row_major float4x4 g_mat_1;
+    row_major float4x4 g_mat_2;
+    row_major float4x4 g_mat_3;
 }
 
 cbuffer Grid : register(b2)
@@ -26,6 +40,7 @@ SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
-Texture2D defaultTexture : register(t0);
-//Texture2D defaultTexture2 : register(t1);
-//Texture2D defaultTexture3 : register(t2);
+Texture2D tex_0 : register(t0);
+Texture2D tex_1 : register(t1);
+Texture2D tex_2 : register(t2);
+Texture2D tex_3 : register(t3);

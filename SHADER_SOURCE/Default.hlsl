@@ -32,7 +32,7 @@ VSOut VS_MAIN(VSIn In)
 float4 PS_MAIN(VSOut In) : SV_TARGET
 {
     float4 color = (float)0.0f;
-    color = defaultTexture.Sample(anisotropicSampler, In.UV);
+    color = tex_0.Sample(anisotropicSampler, In.UV);
 
     return color;
 }

@@ -18,10 +18,12 @@ public:
 
 	virtual HRESULT Load(const std::wstring& path) override;
 	void BindSRV(ShaderStage stage, UINT slot);
-
+	const Vector2& GetSize() { return _size; }
 private:
 	ScratchImage _image;
 	ComPtr<ID3D11Texture2D> _texture;
 	ComPtr<ID3D11ShaderResourceView> _SRV;
+
+	Vector2 _size;
 };
 

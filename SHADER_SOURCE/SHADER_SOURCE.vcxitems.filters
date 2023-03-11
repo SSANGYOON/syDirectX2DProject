@@ -4,6 +4,7 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Default.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)DebugShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Grid.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Sprite.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

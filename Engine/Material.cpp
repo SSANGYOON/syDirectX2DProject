@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Engine.h"
+#include "ConstantBuffer.h"
 
 Material::Material()
 	:Resource(Resource_Type::MATERIAL)
@@ -20,8 +21,18 @@ HRESULT Material::Load(const std::wstring& path)
 
 void Material::Bind()
 {
-	if (_texture)
-		_texture->BindSRV(ShaderStage::PS,0);
+	ConstantBuffer* cb = GEngine->GetConstantBuffer(Constantbuffer_Type::MATERIAL).get();
+	cb->SetData(&_params);
+	cb->SetPipline(ShaderStage::VS);
+	cb->SetPipline(ShaderStage::PS);
 
+
+	for (size_t i = 0; i < _textures.size(); i++)
+	{
+		if (_textures[i] == nullptr)
+			continue;
+		_textures[i]->BindSRV(ShaderStage::VS,i);
+		_textures[i]->BindSRV(ShaderStage::PS, i);
+	}
 	_shader->BindShader();
 }

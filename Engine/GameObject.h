@@ -1,10 +1,14 @@
 #pragma once
 #include "Entity.h"
-#include "Transform.h"
 #include "Layer.h"
+#include "Transform.h"
+#include "Script.h"
 
-class Script;
+
+
 class Collider;
+class BaseRenderer;
+class Transform;
 class GameObject : public Entity, public enable_shared_from_this<GameObject>
 {
 public:
@@ -36,7 +40,8 @@ public:
 
 	STATE GetState() { return _state; }
 	shared_ptr<Component> GetComponent(Component_Type type) { return _components[(UINT)type]; }
-	shared_ptr<Transform> GetTransform() { return static_pointer_cast<Transform>(_components[(UINT)Component_Type::Transform]); }
+	shared_ptr<Transform> GetTransform();
+	shared_ptr<BaseRenderer> GetRenderer();
 private:
 	friend class SceneManager;
 	void SetGameObjectState(STATE state) { _state = state; }

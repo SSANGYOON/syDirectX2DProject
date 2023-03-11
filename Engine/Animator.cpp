@@ -1,14 +1,18 @@
 #include "pch.h"
 #include "Animator.h"
-#include "Animation.h"
+#include "Timer.h"
+#include "Material.h"
+#include "GameObject.h"
+#include "BaseRenderer.h"
+#include "Texture.h"
 
 Animator::Animator()
     :Component(Component_Type::Animator)
+    ,_frameindex(-1)
+    ,_clipIndex(-1)
+    ,_updateTime(0.f)
+    ,_loop(false)
     , _animations{}
-    , _events{}
-    , _activeAnimation(nullptr)
-
-    , _loop(false)
 {
 }
 
@@ -20,40 +24,20 @@ void Animator::Start()
 {
 }
 
-void Animator::Update()
+void Animator::FinalUpdate()
 {
-    if (_activeAnimation == nullptr)
+    _updateTime += GET_SINGLE(Timer)->DeltaTime();
+    if (_clipIndex < 0)
         return;
+    if (_updateTime >= _animations[_clipIndex].duration && _loop)
+        _updateTime -= _animations[_clipIndex].duration;
+    else if(_updateTime >= _animations[_clipIndex].duration)
+        _updateTime = _animations[_clipIndex].duration;
 
-    if (_activeAnimation->IsComplete() && _loop)
-    {
-        AnimationEvent event
-            = FindEvent(_activeAnimation->GetName());
-
-        if (event)
-            event(*GetOwner());
-
-        _activeAnimation->Reset();
-    }
-
-    _activeAnimation->Update();
+    SetSpriteData();
 }
 
-void Animator::Render()
-{
-}
-
-bool Animator::Create(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, UINT columnLegth, UINT spriteLegth, float duration)
-{
-    return false;
-}
-
-shared_ptr<Animation> Animator::FindAnimation(const std::wstring& name)
-{
-    return shared_ptr<Animation>();
-}
-
-AnimationEvent Animator::FindEvent(const wstring& name)
+/*AnimationEvent Animator::FindEvent(const wstring& name)
 {
     if (_events.find(name) != _events.end())
         return _events.find(name)->second;
@@ -64,33 +48,43 @@ AnimationEvent Animator::FindEvent(const wstring& name)
 void Animator::AddEvent(AnimationEvent event, const wstring& name)
 {
     _events[name] = event;
-}
+}*/
 
-void Animator::Play(std::wstring& name, bool loop)
+void Animator::Play(UINT8 ind, bool loop)
 {
-    Animation* prevAnimation = _activeAnimation.get();
-    AnimationEvent event= FindEvent(prevAnimation->GetName());
+    //Animation* prevAnimation = _activeAnimation.get();
+    //AnimationEvent event= FindEvent(prevAnimation->GetName());
 
-    if (event)
-        event(*GetOwner());
+    //if (event)
+      //  event(*GetOwner());
 
-    _activeAnimation = FindAnimation(name);
-    _activeAnimation->Reset();
+    _clipIndex = ind;
+    _updateTime = 0.f;
     _loop = loop;
 }
 
-void Animator::Binds()
+void Animator::SetSpriteData()
 {
-    if (_activeAnimation == nullptr)
+    if (_clipIndex < 0)
         return;
 
-    _activeAnimation->BindShader();
+    UINT curCount = (UINT)(_updateTime / _animations[_clipIndex].duration * _animations[_clipIndex].frame_count);
+
+    Vector2 slice = _animations[_clipIndex].size;
+    UINT col = _animations[_clipIndex].col;
+
+    Vector2 LT = _animations[_clipIndex].offset +
+        Vector2((curCount % col) * slice.x,
+                (curCount / col) * slice.y);
+    Vector2 RB = LT + slice;
+
+    shared_ptr<Material> material = GetOwner()->GetRenderer()->GetMaterial();
+
+    Vector2 SheetSize = _spriteSheet->GetSize();
+    material->SetVec2(0,LT);
+    material->SetVec2(1,RB);
 }
 
 void Animator::Clear()
 {
-    if (_activeAnimation == nullptr)
-        return;
-
-    _activeAnimation->Clear();
 }

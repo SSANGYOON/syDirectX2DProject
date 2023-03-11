@@ -44,3 +44,6 @@ struct DebugAttribute
 	float duration;
 	float time;
 };
+
+
+

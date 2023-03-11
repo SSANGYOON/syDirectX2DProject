@@ -15,6 +15,9 @@ public:
 
 	virtual HRESULT Load(const std::wstring& path) = 0;
 
+	void SetKey(const wstring& key) { _key = key; }
+	void SetPath(const wstring& path) { _path = path; }
+
 	const wstring& GetKey() { return _key;}
 	const wstring& GetPath() { return _path; }
 

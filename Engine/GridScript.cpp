@@ -3,6 +3,7 @@
 #include "ConstantBuffer.h"
 #include "GameObject.h"
 #include "Engine.h"
+#include "Transform.h"
 
 GridScript::GridScript()
 {

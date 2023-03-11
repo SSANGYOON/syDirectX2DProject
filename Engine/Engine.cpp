@@ -7,6 +7,7 @@
 #include "Resources.h"
 #include "SceneManager.h"
 #include "CollisionManager.h"
+#include "Material.h"
 
 #include "Input.h"
 #include "Timer.h"
@@ -44,6 +45,9 @@ void Engine::Init(const WindowInfo& info)
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::GRID] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::GRID]->Init(Constantbuffer_Type::GRID, sizeof(GridCB));
+
+	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL]->Init(Constantbuffer_Type::MATERIAL, sizeof(MaterialCB));
 	
 	GET_SINGLE(SceneManager)->LoadScene(L"TestScene");
 	GET_SINGLE(CollisionManager)->Initialize();
