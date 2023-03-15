@@ -8,6 +8,7 @@ enum class Component_Type
 	Camera,
 	Mesh,
 	Collider,
+	RigidBody,
 	Animator,
 	Renderer,
 	UI,

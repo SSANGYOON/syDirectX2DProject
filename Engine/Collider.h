@@ -3,6 +3,7 @@
 
 enum Collider_TYPE
 {
+	LINEAR,
 	CIRCLE,
 	RECTANGLE,
 	SPHERE,

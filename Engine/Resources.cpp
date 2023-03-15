@@ -156,7 +156,7 @@ void Resources::CreateDefaultResource()
 #pragma region SpriteShader
 	{
 		shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
-		Resources::Insert<Shader>(L"SpriteShader", shader);
+		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 		ShaderInfo _info = {};
 		ShaderEntry _entry;
 		_info.bst = BSType::AlphaBlend;
@@ -166,7 +166,7 @@ void Resources::CreateDefaultResource()
 		_entry = {};
 		_entry.VS = true;
 		_entry.PS = true;
-		shader->CreateShader(_info, _entry, L"Sprite.hlsl");
+		spriteShader->CreateShader(_info, _entry, L"Sprite.hlsl");
 	}
 #pragma endregion
 }

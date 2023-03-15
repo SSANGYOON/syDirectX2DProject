@@ -97,8 +97,10 @@ void Editor::DebugRender(const DebugAttribute& debugAtt)
 	tr->FinalUpdate();
 
 	auto cam = GET_SINGLE(SceneManager)->GetActiveScene()->GetMainCamera();
-	cam->SetView();
-	cam->SetProjection();
-
-	debugObj->Render();
+	if (cam)
+	{
+		cam->SetView();
+		cam->SetProjection();
+		debugObj->Render();
+	}
 }

@@ -173,7 +173,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="PipelineStates.h" />
+    <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="RectScript.h" />
+    <ClInclude Include="RigidBody.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
@@ -217,7 +219,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PipelineStates.cpp" />
+    <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="RectScript.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resources.cpp" />

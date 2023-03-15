@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "Device.h"
 
+Device::~Device()
+{
+	_debug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_SUMMARY);
+}
+
 void Device::Init()
 {
 	UINT DeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
@@ -12,4 +17,7 @@ void Device::Init()
 		, _device.GetAddressOf()
 		, &FeatureLevel
 		, _context.GetAddressOf());
+
+	_device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(_debug.GetAddressOf()));
+	_debug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL);
 }

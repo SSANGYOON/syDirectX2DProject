@@ -19,7 +19,7 @@ public:
 	void AddGameObject(shared_ptr<GameObject> GameObject, LAYER_TYPE type);
 	void RemoveGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type);
 
-	shared_ptr<Camera> GetMainCamera() { return _cameras[0]; }
+	shared_ptr<Camera> GetMainCamera();
 	Layer& GetLayer(LAYER_TYPE type) { return _layers[UINT(type)]; }
 
 private:

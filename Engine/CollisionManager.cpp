@@ -107,9 +107,9 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				left->OnCollisionEnter(right);
 			}
 			else if (left->IsTrigger())
-				right->OnTriggerEnter(left);
-			else
 				left->OnTriggerEnter(right);
+			else
+				right->OnTriggerEnter(left);
 
 			iter->second = true;
 		}
@@ -121,9 +121,9 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				left->OnCollisionStay(right);
 			}
 			else if (left->IsTrigger())
-				right->OnTriggerStay(left);
-			else
 				left->OnTriggerStay(right);
+			else
+				right->OnTriggerStay(left);
 		}
 	}
 	else
@@ -136,9 +136,9 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				left->OnCollisionExit(right);
 			}
 			else if (left->IsTrigger())
-				right->OnTriggerExit(left);
-			else
 				left->OnTriggerExit(right);
+			else
+				right->OnTriggerExit(left);
 			iter->second = false;
 		}
 	}
@@ -197,8 +197,10 @@ bool CollisionManager::Intersect(Collider* left, Collider* right)
 		return true;
 	}
 
-	else if (left->GetColiderType() == Collider_TYPE::CIRCLE && right->GetColiderType() == Collider_TYPE::RECTANGLE)
-	{
+	else if (left->GetColiderType() == Collider_TYPE::CIRCLE && right->GetColiderType() == Collider_TYPE::RECTANGLE || 
+			 right->GetColiderType() == Collider_TYPE::CIRCLE && left->GetColiderType() == Collider_TYPE::RECTANGLE
+			)
+		{
 		Collider2D* Circle2d;
 		Collider2D* Rect2d;
 		if (left->GetColiderType() == Collider_TYPE::RECTANGLE)

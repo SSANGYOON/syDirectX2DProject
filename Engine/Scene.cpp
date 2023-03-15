@@ -43,6 +43,13 @@ void Scene::Render()
 		cam->Render();
 }
 
+shared_ptr<Camera> Scene::GetMainCamera()
+{
+	if (_cameras.size())
+		return _cameras[0];
+	else
+		return nullptr;
+}
 void Scene::AddGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 {
 	_layers[(UINT)type].AddGameObject(gameObject);

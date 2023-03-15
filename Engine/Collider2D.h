@@ -20,6 +20,8 @@ public:
 	void SetCenter(const Vector3 center) { _center = center; }
 	bool IsTriiger() { return _trigger; }
 
+	Vector3 GetWorldPos() { return _worldPos; }
+	Quaternion GetWorldRotation() { return _worldRotation; }
 	const Matrix& GetMatrix() { return _matrix; }
 	const float GetRadius() { return _radius; }
 
@@ -27,7 +29,8 @@ private:
 	Matrix _matrix;
 	Vector3 _size;
 	Vector3 _center;
-
+	Quaternion _worldRotation;
+	Vector3 _worldPos;
 	float _radius;
 	bool _trigger;
 	shared_ptr<Transform> _transform;

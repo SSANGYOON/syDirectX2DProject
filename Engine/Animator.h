@@ -19,6 +19,7 @@ enum
 {
 	MAX_ANIMATION_SIZE = 4
 };
+
 class Animator : public Component
 {
 public:
