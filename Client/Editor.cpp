@@ -91,8 +91,8 @@ void Editor::DebugRender(const DebugAttribute& debugAtt)
 	DebugObject* debugObj = _debugObjects[(UINT)debugAtt.dtype].get();
 
 	Transform* tr = debugObj->GetTransform().get();
+	tr->SetParent(debugAtt._target);
 	tr->SetPosition(debugAtt.position);
-	tr->SetRotation(debugAtt.rotation);
 	tr->SetScale(debugAtt.scale);
 	tr->FinalUpdate();
 

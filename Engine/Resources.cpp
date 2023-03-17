@@ -42,6 +42,11 @@ void Resources::CreateDefaultResource()
 #pragma endregion
 
 #pragma region DebugRect
+	vertexes[0].pos = Vector4(-0.5f, 0.5f, 1.f, 1.0f);
+	vertexes[1].pos = Vector4(0.5f, 0.5f, 1.f, 1.0f);
+	vertexes[2].pos = Vector4(0.5f, -0.5f, 1.f, 1.0f);
+	vertexes[3].pos = Vector4(-0.5f, -0.5f, 1.f, 1.0f);
+
 	shared_ptr<Mesh> debugmesh = std::make_shared<Mesh>();
 	Resources::Insert<Mesh>(L"DebugMesh", debugmesh);
 	debugmesh->CreateVertexBuffer(vertexes, 4);

@@ -1,6 +1,7 @@
 #pragma once
 #include <wrl.h>
 
+class Transform;
 struct WindowInfo
 {
 	HWND hwnd;
@@ -37,9 +38,9 @@ enum class DebugMeshType
 
 struct DebugAttribute
 {
+	shared_ptr<Transform> _target;
 	DebugMeshType dtype;
 	Vector3 position;
-	Quaternion rotation;
 	Vector3 scale;
 	float duration;
 	float time;

@@ -16,19 +16,12 @@ void CollisionManager::Update()
 	Scene* scene = GET_SINGLE(SceneManager)->GetActiveScene().get();
 	for (UINT row = 0; row < (UINT)LAYER_TYPE::END; row++)
 	{
-		for (UINT column = 0; column < (UINT)(UINT)LAYER_TYPE::END; column++)
+		for (UINT column = row; column < (UINT)(UINT)LAYER_TYPE::END; column++)
 		{
 			if (_LayerCollisionMatrix[row][column])
-			{
 				LayerCollision(scene, (LAYER_TYPE)row, (LAYER_TYPE)column);
-			}
 		}
 	}
-}
-
-void CollisionManager::Render()
-{
-	
 }
 
 void CollisionManager::CollisionLayerCheck(LAYER_TYPE left, LAYER_TYPE right, bool enable)
@@ -55,26 +48,48 @@ void CollisionManager::LayerCollision(Scene* scene, LAYER_TYPE left, LAYER_TYPE 
 	const std::vector<shared_ptr<GameObject>>& lefts = scene->GetLayer(left).GetGameObjects();
 	const std::vector<shared_ptr<GameObject>>& rights = scene->GetLayer(right).GetGameObjects();
 
-	for (shared_ptr<GameObject> left : lefts)
+	if (left == right)
 	{
-		Component* lcol;
-		Component* rcol;
-		if (left->GetState() != GameObject::ACTIVE)
-			continue;
-		if ((lcol = left->GetComponent(Component_Type::Collider).get()) == nullptr)
-			continue;
-
-
-		for (shared_ptr<GameObject> right : rights)
+		for (size_t i =0; i<lefts.size()-1; i++)
 		{
-			if (right->GetState() != GameObject::ACTIVE)
+			if (lefts[i]->GetState() != GameObject::ACTIVE)
 				continue;
-			if ((rcol = right->GetComponent(Component_Type::Collider).get()) == nullptr)
+			auto lcols = lefts[i]->GetComponents<Collider>();
+			for (const auto& lcol : lcols)
+			{
+				for (size_t j = i+1; j < rights.size(); j++)
+				{
+					if (lefts[j]->GetState() != GameObject::ACTIVE)
+						continue;
+					auto rcols = rights[j]->GetComponents<Collider>();
+					for (const auto& rcol : rcols)
+					{
+						ColliderCollision(lcol.get(), rcol.get());
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		for (const auto& left : lefts)
+		{
+			if (left->GetState() != GameObject::ACTIVE)
 				continue;
-			if (left == right)
-				continue;
-
-			ColliderCollision(static_cast<Collider*>(lcol), static_cast<Collider*>(rcol));
+			auto lcols = left->GetComponents<Collider>();
+			for (const auto& lcol : lcols)
+			{
+				for (const auto& right : rights)
+				{
+					if (right->GetState() != GameObject::ACTIVE)
+						continue;
+					auto rcols = right->GetComponents<Collider>();
+					for (const auto& rcol : rcols)
+					{
+						ColliderCollision(lcol.get(), rcol.get());
+					}
+				}
+			}
 		}
 	}
 }
@@ -85,9 +100,6 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	colliderID.left = (UINT)left->GetID();
 	colliderID.right = (UINT)right->GetID();
 
-	// 이전 충돌 정보를 검색한다.
-	// 만약에 충돌정보가 없는 상태라면
-	// 충돌정보를 생성해준다.
 	std::map<UINT64, bool>::iterator iter = _collisionMap.find(colliderID.id);
 	if (iter == _collisionMap.end())
 	{
@@ -95,21 +107,35 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		iter = _collisionMap.find(colliderID.id);
 	}
 
-	// 충돌체크를 해준다.
-	if (Intersect(left, right)) // 충돌을 한 상태
+	vector<Vector3> simplex;
+	shared_ptr<GameObject> leftob = left->GetOwner();
+	shared_ptr<GameObject> rightob = right->GetOwner();
+	if (detect(left, right, simplex))
 	{
+		if (!left->IsTrigger() && !right->IsTrigger())
+		{
+			Vector3 normal;
+			float depth;
+			FindPenetration(simplex, left, right, normal, depth);
+
+			auto leftTr = leftob->GetTransform();
+			leftTr->Translate(- normal * (depth));
+
+			auto rightTr = rightob->GetTransform();
+			rightTr->Translate(normal * (depth));
+		}
+		
 		if (!iter->second)
 		{
-			
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				right->OnCollisionEnter(left);
-				left->OnCollisionEnter(right);
+				rightob->OnCollisionEnter(left);
+				leftob->OnCollisionEnter(right);
 			}
 			else if (left->IsTrigger())
-				left->OnTriggerEnter(right);
+				leftob->OnTriggerEnter(right);
 			else
-				right->OnTriggerEnter(left);
+				rightob->OnTriggerEnter(left);
 
 			iter->second = true;
 		}
@@ -117,13 +143,13 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				right->OnCollisionStay(left);
-				left->OnCollisionStay(right);
+				rightob->OnCollisionStay(left);
+				leftob->OnCollisionStay(right);
 			}
 			else if (left->IsTrigger())
-				left->OnTriggerStay(right);
+				leftob->OnTriggerStay(right);
 			else
-				right->OnTriggerStay(left);
+				rightob->OnTriggerStay(left);
 		}
 	}
 	else
@@ -132,117 +158,102 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				right->OnCollisionExit(left);
-				left->OnCollisionExit(right);
+				rightob->OnCollisionExit(left);
+				leftob->OnCollisionExit(right);
 			}
 			else if (left->IsTrigger())
-				left->OnTriggerExit(right);
+				leftob->OnTriggerExit(right);
 			else
-				right->OnTriggerExit(left);
+				rightob->OnTriggerExit(left);
 			iter->second = false;
 		}
 	}
 }
 
-bool CollisionManager::Intersect(Collider* left, Collider* right)
+bool CollisionManager::detect(Collider* left, Collider* right, Simplex& simplex)
 {
+	Vector3 dir = left->GetCenter() - right->GetCenter();
+	if (dir.LengthSquared() < EPSILON)
+		dir = Vector3(1.0f, 0.f, 0.f);
 
-	static const Vector3 LocalPos[4] =
-	{
-		 Vector3{-0.5f, 0.5f, 0.0f}
-		,Vector3{0.5f, 0.5f, 0.0f}
-		,Vector3{0.5f, -0.5f, 0.0f}
-		,Vector3{-0.5f, -0.5f, 0.0f}
-	};
+	simplex.push_back(left->GetFarthestPoint(dir) - right->GetFarthestPoint(-dir));
 
-	if (left->GetColiderType() == Collider_TYPE::RECTANGLE && right->GetColiderType() == Collider_TYPE::RECTANGLE)
-	{
-		auto left2d = static_cast<Collider2D*>(left);
-		auto right2d = static_cast<Collider2D*>(right);
+	if (simplex[0].Dot(dir) <= 0.0f)
+		return false;
 
-		Matrix leftMat = left2d->GetMatrix();
-		Matrix rightMat = right2d->GetMatrix();
+	dir *= -1.0;
 
-		Vector3	leftPos = leftMat.Translation();
-		Vector3	rightPos = rightMat.Translation();
+	while (true) {
+		simplex.push_back(left->GetFarthestPoint(dir) - right->GetFarthestPoint(-dir));
 
-		Vector3 Axis[4] = {};
-
-		Axis[0] = Vector3::Transform(LocalPos[1], leftMat);
-		Axis[1] = Vector3::Transform(LocalPos[3], leftMat);
-		Axis[2] = Vector3::Transform(LocalPos[1], rightMat);
-		Axis[3] = Vector3::Transform(LocalPos[3], rightMat);
-
-		Axis[0] -= Vector3::Transform(LocalPos[0], leftMat);
-		Axis[1] -= Vector3::Transform(LocalPos[0], leftMat);
-		Axis[2] -= Vector3::Transform(LocalPos[0], rightMat);
-		Axis[3] -= Vector3::Transform(LocalPos[0], rightMat);
-
-		
-
-		Vector3 centerdiff = rightPos - leftPos;
-
-		for (size_t i = 0; i < 4; i++)
+		Vector3 lastPoint = simplex.back();
+		if (lastPoint.Dot(dir) <= 0.f)
+			return false;
+		else 
 		{
-			Vector3 vA = Axis[i];
-			vA.Normalize();
-
-			float projDist = 0.0f;
-			for (size_t j = 0; j < 4; j++)
-				projDist += fabsf(Axis[j].Dot(vA) / 2.0f);
-
-			if (projDist < fabsf(centerdiff.Dot(vA)))
-				return false;
-		}
-		return true;
-	}
-
-	else if (left->GetColiderType() == Collider_TYPE::CIRCLE && right->GetColiderType() == Collider_TYPE::RECTANGLE || 
-			 right->GetColiderType() == Collider_TYPE::CIRCLE && left->GetColiderType() == Collider_TYPE::RECTANGLE
-			)
-		{
-		Collider2D* Circle2d;
-		Collider2D* Rect2d;
-		if (left->GetColiderType() == Collider_TYPE::RECTANGLE)
-		{
-			Rect2d = static_cast<Collider2D*>(left);
-			Circle2d = static_cast<Collider2D*>(right);
-		}
-		else
-		{
-			Rect2d = static_cast<Collider2D*>(right);
-			Circle2d = static_cast<Collider2D*>(left);
-		}
-
-		Matrix RectMat = Rect2d->GetMatrix();
-		Matrix CircleMat = Circle2d->GetMatrix();
-
-		Vector3 RectPos = RectMat.Translation();
-		Vector3	CirclePos = CircleMat.Translation();
-		
-		for (auto& la : LocalPos)
-		{
-			if (Vector3::Distance(Vector3::Transform(la, RectMat) , CirclePos) < Circle2d->GetRadius())
+			if (checkSimplex(simplex, dir))
 				return true;
 		}
-		return false;
 	}
+}
 
-	else if (left->GetColiderType() == Collider_TYPE::CIRCLE && right->GetColiderType() == Collider_TYPE::CIRCLE)
+bool CollisionManager::checkSimplex(Simplex& simplex, Vector3& dir)
+{
+	Vector3 a = simplex.back();
+	Vector3 ao = -a;
+
+	if (simplex.size() == 3)
 	{
-		auto Circle1 = static_cast<Collider2D*>(right);
-		auto Circle2 = static_cast<Collider2D*>(left);
+		Vector3 b = simplex[1];
+		Vector3 c = simplex[0];
 
-		Matrix m1 = Circle1->GetMatrix();
-		Matrix m2 = Circle2->GetMatrix();
+		Vector3 ab = b - a;
+		Vector3 ac = c - a;
 
-		Vector3 pos1 = m1.Translation();
-		Vector3	pos2 = m2.Translation();
+		Vector3 abPerp = ac.Cross(ab).Cross(ab);
+		Vector3 acPerp = ab.Cross(ac).Cross(ac);
 
-		if (Vector3::Distance(pos2, pos1) < Circle1->GetRadius() + Circle2->GetRadius())
-			return true;
-		else
-			return false;
+		float acLocation = acPerp.Dot(ao);
 
+		if (acLocation >= 0.0f) {
+			simplex.erase(simplex.begin() + 1);
+			dir = acPerp;
+		}
+		else {
+			float abLocation = abPerp.Dot(ao);
+			if (abLocation < 0.0f) {
+				return true;
+			}
+			else {
+				simplex.erase(simplex.begin());
+				dir = abPerp;
+			}
+		}
 	}
+	else {
+
+		Vector3 b = simplex[0];
+		Vector3 ab = b - a;
+		dir = ab.Cross(ao).Cross(ab);
+	}
+
+	dir.Normalize();
+	return false;
+}
+
+void CollisionManager::FindPenetration(Simplex& simplex, Collider* left, Collider* right, Vector3& normal, float& depth)
+{
+	ExpandingSimplex expandingSimplex(simplex);
+
+	for (int i = 0; i < 10; i++)
+	{
+		shared_ptr < SimplexEdge > edge = expandingSimplex.findClosestEdge();
+		normal = edge->getNormal();
+		Vector3 point = left->GetFarthestPoint(normal) -right->GetFarthestPoint(-normal);
+		depth = abs(point.Dot(normal));
+		if (depth - edge->getDistance() < EPSILON)
+			return;
+		expandingSimplex.expand(point);
+	}
+	return;
 }

@@ -39,15 +39,20 @@ public:
 	shared_ptr<T> AddComponent();
 
 	STATE GetState() { return _state; }
-	shared_ptr<Component> GetComponent(Component_Type type) { return _components[(UINT)type]; }
+
+	template <typename T>
+	shared_ptr<T> GetComponent();
+
+	template<typename T>
+	const vector<shared_ptr<T>> GetComponents();
+
 	shared_ptr<Transform> GetTransform();
 	shared_ptr<BaseRenderer> GetRenderer();
 private:
 	friend class SceneManager;
 	void SetGameObjectState(STATE state) { _state = state; }
 
-	array<shared_ptr<Component>, (UINT)Component_Type::End> _components;
-	vector<shared_ptr<Script>> _scripts;
+	vector<shared_ptr<Component>> _components;
 	STATE _state;
 };
 
@@ -57,11 +62,35 @@ inline shared_ptr<T> GameObject::AddComponent()
 	shared_ptr<T> comp = make_shared<T>();
 	Component_Type order = comp->GetType();
 
-	if (order == Component_Type::Script)
-		_scripts.push_back(dynamic_pointer_cast<Script>(comp));
-	else
-		_components[(UINT)order] = comp;
-
+	_components.push_back(dynamic_pointer_cast<T>(comp));
 	comp->SetOwner(shared_from_this());
+
 	return comp;
+}
+
+template<typename T>
+inline shared_ptr<T> GameObject::GetComponent()
+{
+	for (const auto& comp : _components)
+	{
+		shared_ptr<T> tcomp = dynamic_pointer_cast<T>(comp);
+		if (tcomp)
+			return tcomp;
+	}
+	return nullptr;
+}
+
+template<typename T>
+inline const vector<shared_ptr<T>> GameObject::GetComponents()
+{
+	vector<shared_ptr<T>> vec;
+	for (const auto& comp : _components)
+	{
+		shared_ptr<T> tcomp = dynamic_pointer_cast<T>(comp);
+		if (tcomp)
+		{
+			vec.push_back(tcomp);
+		}
+	}
+	return vec;
 }

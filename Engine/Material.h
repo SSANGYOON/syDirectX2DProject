@@ -20,13 +20,13 @@ struct MaterialCB
 		}
 	}
 
-	void SetInt(UINT8 index, INT32 value) { intParams[index] = value; }
+	void SetInt(UINT8 index, UINT32 value) { intParams[index] = value; }
 	void SetFloat(UINT8 index, float value) { floatParams[index] = value; }
 	void SetVec2(UINT8 index, Vector2 value) { vec2Params[index] = value; }
 	void SetVec4(UINT8 index, Vector4 value) { vec4Params[index] = value; }
 	void SetMatrix(UINT8 index, Matrix& value) { matrixParams[index] = value; }
 
-	array<INT32, MATERIAL_ARG_COUNT> intParams;
+	array<UINT32, MATERIAL_ARG_COUNT> intParams;
 	array<float, MATERIAL_ARG_COUNT> floatParams;
 	array<Vector2, MATERIAL_ARG_COUNT> vec2Params;
 	array<Vector4, MATERIAL_ARG_COUNT> vec4Params;
@@ -43,7 +43,7 @@ public:
 	virtual HRESULT Load(const std::wstring& path) override;
 
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
-	void SetInt(UINT8 index, INT32 value) { _params.SetInt(index, value); }
+	void SetInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }
 	void SetVec2(UINT8 index, Vector2 value) { _params.SetVec2(index, value); }
 	void SetVec4(UINT8 index, Vector4 value) { _params.SetVec4(index, value); }

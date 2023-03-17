@@ -33,7 +33,7 @@ void Camera::FinalUpdate()
 
 void Camera::CreateView()
 {
-	shared_ptr<Transform> tr = static_pointer_cast<Transform>(_owner.lock()->GetComponent(Component_Type::Transform));
+	shared_ptr<Transform> tr = _owner.lock()->GetComponent<Transform>();
 	const Matrix& m = tr->GetWorld();
 	_view = m.Invert();
 }

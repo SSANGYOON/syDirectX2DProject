@@ -7,9 +7,7 @@
 GameObject::GameObject()
 	:_state(PAUSED)
 {
-	
-	shared_ptr<Transform> tr = make_shared<Transform>();
-	_components[(UINT)Component_Type::Transform] = tr;
+	_components.push_back(make_shared<Transform>());
 }
 
 GameObject::~GameObject()
@@ -18,31 +16,22 @@ GameObject::~GameObject()
 
 shared_ptr<Transform> GameObject::GetTransform()
 {
-	return static_pointer_cast<Transform>(_components[(UINT)Component_Type::Transform]); 
+	return GetComponent<Transform>();
 }
 shared_ptr<BaseRenderer> GameObject::GetRenderer()
-{ 
-	return static_pointer_cast<BaseRenderer>(_components[(UINT)Component_Type::Renderer]); 
+{
+	return GetComponent<BaseRenderer>();
 }
-
 void GameObject::Start()
 {
-	_components[(UINT)Component_Type::Transform]->SetOwner(shared_from_this());
+	_components[0]->SetOwner(shared_from_this());
+	_state = ACTIVE;
 	for (shared_ptr<Component>& comp : _components)
 	{
-		_state = ACTIVE;
 		if (comp == nullptr)
 			continue;
 
 		comp->Start();
-	}
-
-	for (shared_ptr<Script>& script : _scripts)
-	{
-		if (script == nullptr)
-			continue;
-
-		script->Start();
 	}
 }
 
@@ -55,15 +44,6 @@ void GameObject::Update()
 
 		comp->Update();
 	}
-
-	for (shared_ptr<Script>& script : _scripts)
-	{
-		if (script == nullptr)
-			continue;
-
-		script->Update();
-
-	}
 }
 
 void GameObject::LateUpdate()
@@ -75,14 +55,6 @@ void GameObject::LateUpdate()
 
 		comp->LateUpdate();
 	}
-
-	for (shared_ptr<Script>& script : _scripts)
-	{
-		if (script == nullptr)
-			continue;
-
-		script->LateUpdate();
-	}
 }
 
 void GameObject::FinalUpdate()
@@ -93,14 +65,6 @@ void GameObject::FinalUpdate()
 			continue;
 
 		comp->FinalUpdate();
-	}
-
-	for (shared_ptr<Script>& script : _scripts)
-	{
-		if (script == nullptr)
-			continue;
-
-		script->FinalUpdate();
 	}
 }
 
@@ -118,37 +82,37 @@ void GameObject::Render()
 
 void GameObject::OnTriggerEnter(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OntriggerEnter(collider);
+	for (auto& comp : _components)
+		comp->OntriggerEnter(collider);
 }
 
 void GameObject::OnTriggerStay(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OntriggerStay(collider);
+	for (auto& comp : _components)
+		comp->OntriggerStay(collider);
 }
 
 void GameObject::OnTriggerExit(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OntriggerExit(collider);
+	for (auto& comp : _components)
+		comp->OntriggerExit(collider);
 }
 
 void GameObject::OnCollisionEnter(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OnCollisionEnter(collider);
+	for (auto& comp : _components)
+		comp->OnCollisionEnter(collider);
 }
 
 void GameObject::OnCollisionStay(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OnCollisionStay(collider);
+	for (auto& comp : _components)
+		comp->OnCollisionStay(collider);
 }
 
 void GameObject::OnCollisionExit(Collider* collider)
 {
-	for (auto& script : _scripts)
-		script->OnCollisionExit(collider);
+	for (auto& comp : _components)
+		comp->OnCollisionExit(collider);
 }
 

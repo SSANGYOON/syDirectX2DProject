@@ -34,6 +34,8 @@ void Animator::FinalUpdate()
     else if(_updateTime >= _animations[_clipIndex].duration)
         _updateTime = _animations[_clipIndex].duration;
 
+    shared_ptr<Material> material = _owner.lock()->GetComponent<BaseRenderer>()->GetMaterial();
+    material->SetVec2(2, material->GetTexture(0)->GetSize());
     SetSpriteData();
 }
 
@@ -83,6 +85,7 @@ void Animator::SetSpriteData()
     Vector2 SheetSize = _spriteSheet->GetSize();
     material->SetVec2(0,LT);
     material->SetVec2(1,RB);
+    material->SetInt(0, 1);
 }
 
 void Animator::Clear()

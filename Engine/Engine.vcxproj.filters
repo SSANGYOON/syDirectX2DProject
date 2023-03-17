@@ -175,11 +175,17 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Component\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Resource\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpandingSimplex.cpp">
+      <Filter>High Level Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,11 +297,17 @@
     <ClInclude Include="Animator.h">
       <Filter>Component\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Resource\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpandingSimplex.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

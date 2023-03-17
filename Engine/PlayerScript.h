@@ -3,7 +3,7 @@
 
 class Collider;
 class Animator;
-class SpriteRenderer;
+class BaseRenderer;
 class RigidBody;
 class PlayerScript : public Script
 {
@@ -19,8 +19,8 @@ public:
 	void croutch();
 	void roll();
 
-	virtual void OntriggerStay(Collider* collider) override;
-
+	virtual void OntriggerEnter(Collider* collider) override;
+	virtual void OntriggerExit(Collider* collider) override;
 	virtual void OnCollisionEnter(Collider* collider) override;
 	virtual void OnCollisionStay(Collider* collider) override;
 	virtual void OnCollisionExit(Collider* collider) override;
@@ -28,8 +28,9 @@ public:
 public:
 	enum PlayerState : UINT8
 	{
+		GROUND,
+		CANJUMP,
 		CROUTCH,
-		AERIAL,
 		GUARD,
 		BLOCKED,
 		ATTACK,
@@ -44,8 +45,8 @@ public:
 private:
 	shared_ptr<Animator> animater;
 	shared_ptr<RigidBody> rigidBody;
-	shared_ptr<SpriteRenderer> renderer;
+	shared_ptr<BaseRenderer> renderer;
 	const Vector3 jumpForce;
-	const float moveForce;
+	const float moveSpeed;
 };
 

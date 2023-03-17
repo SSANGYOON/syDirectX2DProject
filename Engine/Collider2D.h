@@ -11,28 +11,17 @@ public:
 	Collider2D();
 	virtual ~Collider2D();
 
-	virtual void Start() override;
 	virtual void FinalUpdate() override;
 	virtual void Render() override;
 
-	void SetType(Collider_TYPE type) { _type = type; }
-	void SetSize(const Vector3& size) { _size = size; }
-	void SetCenter(const Vector3 center) { _center = center; }
-	bool IsTriiger() { return _trigger; }
+	virtual Vector3 GetFarthestPoint(const Vector3& direction) override;
 
-	Vector3 GetWorldPos() { return _worldPos; }
-	Quaternion GetWorldRotation() { return _worldRotation; }
-	const Matrix& GetMatrix() { return _matrix; }
 	const float GetRadius() { return _radius; }
+	const Matrix& GetMatrix() { return _matrix; }
+	const Vector3& GetSize() { return _size; }
+	const Vector3& GetCenter() { return _center; }
 
 private:
-	Matrix _matrix;
-	Vector3 _size;
-	Vector3 _center;
-	Quaternion _worldRotation;
-	Vector3 _worldPos;
 	float _radius;
-	bool _trigger;
-	shared_ptr<Transform> _transform;
 };
 

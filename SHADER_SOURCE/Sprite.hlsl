@@ -24,7 +24,10 @@ VSOut VS_MAIN(VSIn In)
 
     Out.Pos = ProjPosition;
     Out.Color = In.Color;
-    Out.UV = (In.UV * g_vec2_1 + (1-In.UV) * g_vec2_0) / g_vec2_2;
+    if (g_int_0 == 1)
+        Out.UV = (In.UV * g_vec2_1 + (1 - In.UV) * g_vec2_0) / g_vec2_2;
+    else
+        Out.UV = In.UV;
 
     return Out;
 }

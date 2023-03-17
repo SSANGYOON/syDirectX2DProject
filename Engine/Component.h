@@ -17,6 +17,7 @@ enum class Component_Type
 };
 
 class GameObject;
+class Collider;
 class Component : public Entity
 {
 public:
@@ -28,6 +29,15 @@ public:
 	virtual void LateUpdate();
 	virtual void FinalUpdate();
 	virtual void Render();
+
+	virtual void OntriggerEnter(Collider* collider);
+	virtual void OntriggerStay(Collider* collider);
+	virtual void OntriggerExit(Collider* collider);
+
+	virtual void OnCollisionEnter(Collider* collider);
+	virtual void OnCollisionStay(Collider* collider);
+	virtual void OnCollisionExit(Collider* collider);
+
 	shared_ptr<GameObject> GetOwner() { return _owner.lock(); }
 	Component_Type GetType() { return _type; }
 protected:

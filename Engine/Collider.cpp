@@ -6,6 +6,8 @@ Collider::Collider(Collider_TYPE type)
 	: Component(Component_Type::Collider)
 	, _type(type)
 	, _trigger(false)
+	, _size(Vector3(1.f))
+	, _center{ Vector3::Zero }
 {
 }
 
@@ -15,6 +17,7 @@ Collider::~Collider()
 
 void Collider::Start()
 {
+	_transform = GetOwner()->GetTransform();
 }
 
 void Collider::FinalUpdate()
@@ -22,32 +25,11 @@ void Collider::FinalUpdate()
 
 }
 
-void Collider::OnCollisionEnter(Collider* collider)
+void Collider::Render()
 {
-	GetOwner()->OnCollisionEnter(collider);
 }
 
-void Collider::OnCollisionStay(Collider* collider)
+Vector3 Collider::GetFarthestPoint(const Vector3& dir)
 {
-	GetOwner()->OnCollisionStay(collider);
-}
-
-void Collider::OnCollisionExit(Collider* collider)
-{
-	GetOwner()->OnCollisionExit(collider);
-}
-
-void Collider::OnTriggerEnter(Collider* collider)
-{
-	GetOwner()->OnTriggerEnter(collider);
-}
-
-void Collider::OnTriggerStay(Collider* collider)
-{
-	GetOwner()->OnTriggerStay(collider);
-}
-
-void Collider::OnTriggerExit(Collider* collider)
-{
-	GetOwner()->OnTriggerExit(collider);
+	return Vector3();
 }

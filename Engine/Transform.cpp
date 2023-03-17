@@ -8,7 +8,8 @@ Transform::Transform()
 	,_position(Vector3::Zero)
 	,_rotation(Quaternion::Identity)
 	,_scale(Vector3::One)
-	, _parent{}
+	,_parent{}
+	,_fixed(false)
 {
 
 }
@@ -38,4 +39,16 @@ void Transform::SetTransformBuffer()
 	shared_ptr<ConstantBuffer> cb = GEngine->GetConstantBuffer(Constantbuffer_Type::TRANSFORM);
 	cb->SetData(&trCB);
 	cb->SetPipline(ShaderStage::VS);
+}
+
+void Transform::Translate(const Vector3& worldDir)
+{
+	if (!_fixed)
+	{
+		shared_ptr<Transform> parent = _parent.lock();
+		if (_parent.lock())
+			_position += Vector3::Transform(worldDir, parent->GetWorld().Invert());
+		else
+			_position += worldDir;
+	}
 }

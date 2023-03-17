@@ -163,6 +163,7 @@
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="ExpandingSimplex.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GridScript.h" />
     <ClInclude Include="Input.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="EnginePch.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="ExpandingSimplex.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Input.cpp" />
