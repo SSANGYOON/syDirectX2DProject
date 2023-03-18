@@ -6,13 +6,37 @@
 #include "BaseRenderer.h"
 #include "Texture.h"
 
+AnimationClip::AnimationClip(float duration, bool loop)
+    :_loop(loop), _duration(duration)
+{
+}
+
+AnimationClip2D::AnimationClip2D(Vector2 offset, Vector2 size, Vector2 step, UINT row, UINT frame, float duration, bool loop)
+    :AnimationClip(duration, loop), _offset(offset), _size(size), _step(step), _row(row), _frame(frame)
+{
+}
+
+void AnimationClip2D::Update(Material* material, float lastTime, float currentTime)
+{
+    material->SetVec2(2, material->GetTexture(0)->GetSize());
+    UINT curFrame = UINT(min(currentTime, _duration- EPSILON) *_frame / _duration);
+
+    Vector2 LT = _offset + Vector2((curFrame % _row) * _step.x, (curFrame / _row) * _step.y);
+    Vector2 RB = LT + _size;
+
+    material->SetVec2(0, LT);
+    material->SetVec2(1, RB);
+    material->SetInt(0, 1);
+
+    for (const auto& event : _events) {
+        if (event.time >= currentTime && event.time < lastTime) {
+            event.func();
+        }
+    }
+}
+
 Animator::Animator()
-    :Component(Component_Type::Animator)
-    ,_frameindex(-1)
-    ,_clipIndex(-1)
-    ,_updateTime(0.f)
-    ,_loop(false)
-    , _animations{}
+    :Component(Component_Type::Animator), _currentTime(0.f), _lastTime(-1.f)
 {
 }
 
@@ -22,72 +46,95 @@ Animator::~Animator()
 
 void Animator::Start()
 {
+    _material = _owner.lock()->GetComponent<BaseRenderer>()->GetMaterial();
 }
 
-void Animator::FinalUpdate()
+void Animator::Update()
 {
-    _updateTime += GET_SINGLE(Timer)->DeltaTime();
-    if (_clipIndex < 0)
+    if (!_currentClip)
         return;
-    if (_updateTime >= _animations[_clipIndex].duration && _loop)
-        _updateTime -= _animations[_clipIndex].duration;
-    else if(_updateTime >= _animations[_clipIndex].duration)
-        _updateTime = _animations[_clipIndex].duration;
 
-    shared_ptr<Material> material = _owner.lock()->GetComponent<BaseRenderer>()->GetMaterial();
-    material->SetVec2(2, material->GetTexture(0)->GetSize());
-    SetSpriteData();
-}
+    _currentTime += GET_SINGLE(Timer)->DeltaTime();
+    _currentClip->Update(_material.get(), _lastTime, _currentTime);
 
-/*AnimationEvent Animator::FindEvent(const wstring& name)
-{
-    if (_events.find(name) != _events.end())
-        return _events.find(name)->second;
+    if (_currentTime >= _currentClip->_duration)
+    {
+        if (_currentClip->_loop)
+            _currentTime -= _currentClip->_duration;
+
+        else if(!_currentClip->nextAnim.empty())
+            Play(_currentClip->nextAnim);
+    }
     else
-        return nullptr;
+    {
+        auto it = _transitionRules.find(_currentKey);
+        if (it != _transitionRules.end())
+        {
+            for (const TransitionRule& transition : it->second)
+            {
+                if (checkTransitionRule(transition))
+                {
+                    Play(transition.targetAnimation);
+                    break;
+                }
+            }
+        }
+    }
+
+    _lastTime = _currentTime;
 }
 
-void Animator::AddEvent(AnimationEvent event, const wstring& name)
+void Animator::Play(const wstring& clip)
 {
-    _events[name] = event;
-}*/
-
-void Animator::Play(UINT8 ind, bool loop)
-{
-    //Animation* prevAnimation = _activeAnimation.get();
-    //AnimationEvent event= FindEvent(prevAnimation->GetName());
-
-    //if (event)
-      //  event(*GetOwner());
-
-    _clipIndex = ind;
-    _updateTime = 0.f;
-    _loop = loop;
+    if (_currentClip && _currentClip->_completeEvent)
+        _currentClip->_completeEvent();
+    _currentClip = _animations[clip];
+    _currentTime = 0.0f;
+    _lastTime = -1.0f;
 }
 
-void Animator::SetSpriteData()
+const float Animator::GetFloatCondition(const wstring& name)
 {
-    if (_clipIndex < 0)
-        return;
+    auto it = _floatConditions.find(name);
+    assert(it != _floatConditions.end());
+    return *(it->second);
+}
 
-    UINT curCount = (UINT)(_updateTime / _animations[_clipIndex].duration * _animations[_clipIndex].frame_count);
+const bool Animator::GetBooleanCondition(const wstring& name)
+{
+    auto it = _boolConditions.find(name);
+    assert(it != _boolConditions.end());
+    return *(it->second);
+}
 
-    Vector2 slice = _animations[_clipIndex].size;
-    UINT col = _animations[_clipIndex].col;
+bool Animator::checkTransitionRule(const TransitionRule& rule)
+{
+    for (const auto& condition : rule.conditions) {
+        assert(!condition.name.empty());
+        switch (condition.type) {
+        case ConditionType::BOOL:
+            if (GetBooleanCondition(condition.name) != (bool)condition.value)
+                return false;
+            break;
+        case ConditionType::FLOAT_GREATER:
+            if (GetFloatCondition(condition.name) <= condition.value)
+                return false;
+            break;
+        case ConditionType::FLOAT_LESS:
+            if (GetFloatCondition(condition.name) >= condition.value)
+                return false;
+            break;
+        default:
+            return false;
+            break;
+        }
+    }
 
-    Vector2 LT = _animations[_clipIndex].offset +
-        Vector2((curCount % col) * slice.x,
-                (curCount / col) * slice.y);
-    Vector2 RB = LT + slice;
-
-    shared_ptr<Material> material = GetOwner()->GetRenderer()->GetMaterial();
-
-    Vector2 SheetSize = _spriteSheet->GetSize();
-    material->SetVec2(0,LT);
-    material->SetVec2(1,RB);
-    material->SetInt(0, 1);
+    return true;
 }
 
 void Animator::Clear()
 {
 }
+
+

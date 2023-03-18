@@ -52,16 +52,8 @@ void TitleScene::Start()
 		col2->SetLocalCenter(Vector3(0.f, -0.3f, 0.f));
 		col2->SetTrigger(true);
 
-		SpriteAnimClip clip = {};
-		clip.offset = { 2,15 };
-		clip.size = { 31,53 };
-		clip.duration = 1.6f;
-		clip.col = 21;
-		clip.row = 3;
-		clip.frame_count = 56;
-		anim->AddSpriteAnimation(0, clip);
-		anim->Play(0, true);
-		anim->SetSpriteSheet(TitleTexture);
+		anim->AddAnimClip(L"IDLE", make_shared<AnimationClip2D>(Vector2(2.f, 15.f), Vector2(31, 53), Vector2(31, 53), 21, 56, 2.f, false));
+		anim->Play(L"IDLE");
 		AddGameObject(Player, LAYER_TYPE::PLAYER);
 	}
 

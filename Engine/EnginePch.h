@@ -62,6 +62,7 @@ public:								\
 #define CBSLOT_ANIMATION 2
 #define CBSLOT_GRID 3
 
+#define EPSILON 1e-5
 
 struct Vertex
 {

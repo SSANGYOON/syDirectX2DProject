@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "GameObject.h"
+#include "RigidBody.h"
 
 void CollisionManager::Initialize()
 {
@@ -114,6 +115,8 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	{
 		if (!left->IsTrigger() && !right->IsTrigger())
 		{
+			
+
 			Vector3 normal;
 			float depth;
 			FindPenetration(simplex, left, right, normal, depth);
@@ -123,6 +126,22 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 
 			auto rightTr = rightob->GetTransform();
 			rightTr->Translate(normal * (depth));
+
+			shared_ptr<RigidBody> leftRb = leftob->GetComponent<RigidBody>();
+			shared_ptr<RigidBody> rightRb = rightob->GetComponent<RigidBody>();
+			if (leftRb)
+			{
+				Vector3 velocity = leftRb->GetVelocity();
+				velocity -= velocity.Dot(normal) * normal;
+				leftRb->SetVelocity(velocity);
+			}
+			if (rightRb)
+			{
+				Vector3 velocity = rightRb->GetVelocity();
+				velocity -= velocity.Dot(normal) * normal;
+				rightRb->SetVelocity(velocity);
+			}
+				
 		}
 		
 		if (!iter->second)

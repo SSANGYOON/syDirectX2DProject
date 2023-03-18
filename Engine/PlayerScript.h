@@ -48,5 +48,7 @@ private:
 	shared_ptr<BaseRenderer> renderer;
 	const Vector3 jumpForce;
 	const float moveSpeed;
+	Vector3 _accel = Vector3::Zero;
+	float _smoothTime = 0.05f;
 };
 

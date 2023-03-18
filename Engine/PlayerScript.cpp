@@ -9,7 +9,7 @@
 #include "Timer.h"
 
 PlayerScript::PlayerScript()
-	: Script(), jumpForce(Vector3(0.f,5.f,0.f)), moveSpeed(10.0f)
+	: Script(), jumpForce(Vector3(0.f,500.f,0.f)), moveSpeed(10.0f)
 {
 }
 
@@ -40,7 +40,7 @@ void PlayerScript::jump()
 	if (stateBit.to_ulong() == 3)
 		if (GET_SINGLE(Input)->GetKeyState(KEY_TYPE::SPACE) == KEY_STATE::PRESS)
 		{
-			rigidBody->SetVelocity(Vector3(velocity.x, 300.f, 0.f));
+			rigidBody->ApplyForce(jumpForce, RigidBody::IMPULSE);
 			stateBit[(size_t)PlayerState::CANJUMP] = false;
 		}
 }
@@ -48,17 +48,17 @@ void PlayerScript::jump()
 void PlayerScript::Move()
 {
 	if (stateBit.to_ulong() < 4)
-	{
+	{ 
 		Vector3 velocity = rigidBody->GetVelocity();
+
 		if (GET_SINGLE(Input)->GetKeyState(KEY_TYPE::RIGHT) == KEY_STATE::PRESS)
-			rigidBody->SetVelocity(Vector3(300.f, velocity.y, 0.f));
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(moveSpeed, velocity.y, velocity.z), _accel, _smoothTime));
 
 		else if (GET_SINGLE(Input)->GetKeyState(KEY_TYPE::LEFT) == KEY_STATE::PRESS)
-			rigidBody->SetVelocity(Vector3(-300.f, velocity.y, 0.f));
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(-moveSpeed, velocity.y, velocity.z), _accel, _smoothTime));
 
 		else
-			rigidBody->SetVelocity(Vector3(0, velocity.y, 0.f));
-		int a = 0;
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(0, velocity.y, velocity.z), _accel, _smoothTime));
 	}
 }
 
