@@ -2,9 +2,6 @@
 #include "Entity.h"
 #include "Layer.h"
 #include "Transform.h"
-#include "Script.h"
-
-
 
 class Collider;
 class BaseRenderer;
@@ -35,6 +32,9 @@ public:
 	void OnCollisionStay(Collider* collider);
 	void OnCollisionExit(Collider* collider);
 
+	void SetType(LAYER_TYPE type) { _type = type; }
+	LAYER_TYPE GetType() { return _type; }
+
 	template <typename T>
 	shared_ptr<T> AddComponent();
 
@@ -53,6 +53,7 @@ private:
 	void SetGameObjectState(STATE state) { _state = state; }
 
 	vector<shared_ptr<Component>> _components;
+	LAYER_TYPE _type;
 	STATE _state;
 };
 

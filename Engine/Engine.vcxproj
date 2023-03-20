@@ -165,7 +165,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="ExpandingSimplex.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GridScript.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Material.h" />
@@ -208,7 +208,7 @@
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="ExpandingSimplex.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GridScript.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Material.cpp" />

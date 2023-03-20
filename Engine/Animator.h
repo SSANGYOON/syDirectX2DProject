@@ -13,7 +13,7 @@ class AnimationClip
 public:
 	AnimationClip(float duration, bool loop);
 	virtual void Update(Material* material, float lastTime, float currentime) = 0;
-	
+	void SetNext(const wstring& next) { _nextAnim = next; }
 	void SetCompleteEvent(function<void()> completeEvent) { _completeEvent = completeEvent; }
 
 	void addEvent(float time, function<void()> func) { _events.push_back({ time, func }); }
@@ -29,7 +29,7 @@ public:
 	function<void()> _completeEvent;
 
 	vector<AnimationEvent> _events;
-	wstring nextAnim;
+	wstring _nextAnim;
 };
 
 class AnimationClip2D : public AnimationClip
@@ -49,12 +49,13 @@ private:
 class Animator : public Component
 {
 public:
-	
 	enum class ConditionType
 	{
 		BOOL,
 		FLOAT_GREATER,
-		FLOAT_LESS
+		FLOAT_LESS,
+		FLOAT_ABS_GREATER,
+		FLOAT_ABS_LESS,
 	};
 
 	struct Condition
@@ -85,10 +86,11 @@ public:
 	const float GetFloatCondition(const wstring& name);
 	const bool GetBooleanCondition(const wstring& name);
 
-	void SetFloatCondition(const wstring& name, float* con) { _floatConditions[name] = con;}
-	void SetBooleanCondition(const wstring& name, bool* con) { _boolConditions[name] = con;}
+	void AddFloatCondition(const wstring& name, float* con) { _floatConditions[name] = con;}
+	void AddBooleanCondition(const wstring& name, bool* con) { _boolConditions[name] = con;}
 
 	bool checkTransitionRule(const TransitionRule& rule);
+	shared_ptr<AnimationClip> GetClip(const wstring& name) { return _animations[name]; }
 
 private:
 	shared_ptr<Material> _material;

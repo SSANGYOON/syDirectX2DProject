@@ -18,7 +18,11 @@ VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
 
-    float4 worldPosition = mul(In.Pos, world);
+    float4 pos = (float4)0.f;
+    pos.xy = In.Pos.xy * (g_vec2_1.xy - g_vec2_0.xy) / 10.f;
+    pos.z = In.Pos.z;
+    pos.w = 1.f;
+    float4 worldPosition = mul(pos, world);
     float4 viewPosition = mul(worldPosition, view);
     float4 ProjPosition = mul(viewPosition, projection);
 

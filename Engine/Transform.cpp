@@ -24,6 +24,8 @@ void Transform::FinalUpdate()
 	Matrix matRotation = Matrix::CreateFromQuaternion(_rotation);
 	Matrix matTranslation = Matrix::CreateTranslation(_position);
 	_world = matScale * matRotation * matTranslation;
+
+	Vector3 a = Vector3::Transform(Vector3::Zero, _world);
 	auto parent = _parent.lock();
 	if (parent != nullptr)
 		_world *= parent->GetWorld();

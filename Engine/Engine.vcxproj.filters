@@ -68,6 +68,12 @@
     <Filter Include="Resource\Animation">
       <UniqueIdentifier>{6578e5ca-32fa-4f85-a3f7-0fb556eeb0c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\RigidBody">
+      <UniqueIdentifier>{b0f1d489-2655-43ab-9538-e22b2dab5774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Grid">
+      <UniqueIdentifier>{befde438-bd6f-4302-aba5-37fc4ddcab69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -166,9 +172,6 @@
     <ClCompile Include="BaseRenderer.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="GridScript.cpp">
-      <Filter>Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -181,11 +184,14 @@
     <ClCompile Include="PlayerScript.cpp">
       <Filter>Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBody.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="ExpandingSimplex.cpp">
       <Filter>High Level Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Component\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +294,6 @@
     <ClInclude Include="BaseRenderer.h">
       <Filter>Component\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="GridScript.h">
-      <Filter>Component\Script</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -303,11 +306,14 @@
     <ClInclude Include="PlayerScript.h">
       <Filter>Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="ExpandingSimplex.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Component\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

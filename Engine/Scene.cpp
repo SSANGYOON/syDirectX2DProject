@@ -55,6 +55,7 @@ void Scene::AddGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 	_layers[(UINT)type].AddGameObject(gameObject);
 	if (type == LAYER_TYPE::CAMERA)
 		_cameras.push_back(gameObject->GetComponent<Camera>());
+	gameObject->SetType(type);
 	gameObject->Start();
 }
 

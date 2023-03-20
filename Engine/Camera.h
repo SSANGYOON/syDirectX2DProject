@@ -37,6 +37,7 @@ public:
 	void Render();
 
 private:
+	friend class Grid;
 	Matrix _view;
 	Matrix _projection;
 
@@ -45,6 +46,9 @@ private:
 	float _near;
 	float _far;
 	float _scale;
+
+	float _width;
+	float _height;
 	ProjectionType _type;
 	bitset<32> _layerMasks;
 	vector<shared_ptr<GameObject>> _vecSorted;

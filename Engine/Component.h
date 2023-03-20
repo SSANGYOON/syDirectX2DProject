@@ -12,6 +12,7 @@ enum class Component_Type
 	Animator,
 	Renderer,
 	UI,
+	GRID,
 	Script,
 	End,
 };

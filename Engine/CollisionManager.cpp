@@ -151,10 +151,11 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				rightob->OnCollisionEnter(left);
 				leftob->OnCollisionEnter(right);
 			}
-			else if (left->IsTrigger())
+			else 
+			{
 				leftob->OnTriggerEnter(right);
-			else
 				rightob->OnTriggerEnter(left);
+			}
 
 			iter->second = true;
 		}
@@ -165,10 +166,11 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				rightob->OnCollisionStay(left);
 				leftob->OnCollisionStay(right);
 			}
-			else if (left->IsTrigger())
-				leftob->OnTriggerStay(right);
 			else
+			{
+				leftob->OnTriggerStay(right);
 				rightob->OnTriggerStay(left);
+			}
 		}
 	}
 	else
@@ -180,10 +182,11 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 				rightob->OnCollisionExit(left);
 				leftob->OnCollisionExit(right);
 			}
-			else if (left->IsTrigger())
-				leftob->OnTriggerExit(right);
 			else
+			{
+				leftob->OnTriggerExit(right);
 				rightob->OnTriggerExit(left);
+			}
 			iter->second = false;
 		}
 	}

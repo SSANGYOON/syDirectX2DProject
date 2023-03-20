@@ -26,6 +26,7 @@ public:
 	
 
 private:
+	friend class Script;
 	Vector3 _velocity;
 	shared_ptr<Transform> _transform;
 	bool _stationary;

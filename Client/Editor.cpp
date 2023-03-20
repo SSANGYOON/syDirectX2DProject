@@ -4,9 +4,9 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "MeshRenderer.h"
-#include "GridScript.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Camera.h"
 
 void Editor::Initalize()
 {
@@ -30,18 +30,6 @@ void Editor::Initalize()
 
 	renderer->SetMaterial(material);
 	renderer->SetMesh(circleMesh);
-
-	//그리드 이쪽으로 옮겨줘야 한다.
-	// Grid Object
-	shared_ptr<EditorObject> gridObject = make_shared<EditorObject>();
-	MeshRenderer* gridMr = gridObject->AddComponent<MeshRenderer>().get();
-	gridMr->SetMesh(GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh"));
-	gridMr->SetMaterial(GET_SINGLE(Resources)->Find<Material>(L"GridMaterial"));
-	GridScript* gridScript = gridObject->AddComponent<GridScript>().get();
-	gridScript->SetCamera(GET_SINGLE(SceneManager)->GetActiveScene()->GetMainCamera());
-
-	_editorObjects.push_back(gridObject);
-
 }
 
 void Editor::Run()

@@ -29,7 +29,7 @@ void AnimationClip2D::Update(Material* material, float lastTime, float currentTi
     material->SetInt(0, 1);
 
     for (const auto& event : _events) {
-        if (event.time >= currentTime && event.time < lastTime) {
+        if (event.time <= currentTime && event.time > lastTime) {
             event.func();
         }
     }
@@ -56,32 +56,28 @@ void Animator::Update()
 
     _currentTime += GET_SINGLE(Timer)->DeltaTime();
     _currentClip->Update(_material.get(), _lastTime, _currentTime);
-
+    _lastTime = _currentTime;
     if (_currentTime >= _currentClip->_duration)
     {
         if (_currentClip->_loop)
             _currentTime -= _currentClip->_duration;
 
-        else if(!_currentClip->nextAnim.empty())
-            Play(_currentClip->nextAnim);
+        else if(!_currentClip->_nextAnim.empty())
+            Play(_currentClip->_nextAnim);
     }
-    else
+
+    auto it = _transitionRules.find(_currentKey);
+    if (it != _transitionRules.end())
     {
-        auto it = _transitionRules.find(_currentKey);
-        if (it != _transitionRules.end())
+        for (const TransitionRule& transition : it->second)
         {
-            for (const TransitionRule& transition : it->second)
+            if (checkTransitionRule(transition))
             {
-                if (checkTransitionRule(transition))
-                {
-                    Play(transition.targetAnimation);
-                    break;
-                }
+                Play(transition.targetAnimation);
+                break;
             }
         }
     }
-
-    _lastTime = _currentTime;
 }
 
 void Animator::Play(const wstring& clip)
@@ -90,6 +86,7 @@ void Animator::Play(const wstring& clip)
         _currentClip->_completeEvent();
     _currentClip = _animations[clip];
     _currentTime = 0.0f;
+    _currentKey = clip;
     _lastTime = -1.0f;
 }
 
@@ -97,7 +94,7 @@ const float Animator::GetFloatCondition(const wstring& name)
 {
     auto it = _floatConditions.find(name);
     assert(it != _floatConditions.end());
-    return *(it->second);
+    return  *(it->second);
 }
 
 const bool Animator::GetBooleanCondition(const wstring& name)
@@ -122,6 +119,14 @@ bool Animator::checkTransitionRule(const TransitionRule& rule)
             break;
         case ConditionType::FLOAT_LESS:
             if (GetFloatCondition(condition.name) >= condition.value)
+                return false;
+            break;
+        case ConditionType::FLOAT_ABS_GREATER:
+            if (abs(GetFloatCondition(condition.name)) <= condition.value)
+                return false;
+            break;
+        case ConditionType::FLOAT_ABS_LESS:
+            if (abs(GetFloatCondition(condition.name)) >= condition.value)
                 return false;
             break;
         default:

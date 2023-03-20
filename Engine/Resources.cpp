@@ -27,6 +27,7 @@ void Resources::CreateDefaultResource()
 	vertexes[3].pos = Vector4(-0.5f, -0.5f, 100.f, 1.0f);
 	vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertexes[3].uv = Vector2(0.0f, 1.0f);
+
 	mesh->CreateVertexBuffer(vertexes, 4);
 
 	std::vector<UINT> indexes;
@@ -34,29 +35,18 @@ void Resources::CreateDefaultResource()
 	indexes.push_back(1);
 	indexes.push_back(2);
 
-	indexes.push_back(0);
 	indexes.push_back(2);
 	indexes.push_back(3);
+	indexes.push_back(0);
 
 	mesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
 
 #pragma region DebugRect
-	vertexes[0].pos = Vector4(-0.5f, 0.5f, 1.f, 1.0f);
-	vertexes[1].pos = Vector4(0.5f, 0.5f, 1.f, 1.0f);
-	vertexes[2].pos = Vector4(0.5f, -0.5f, 1.f, 1.0f);
-	vertexes[3].pos = Vector4(-0.5f, -0.5f, 1.f, 1.0f);
 
 	shared_ptr<Mesh> debugmesh = std::make_shared<Mesh>();
 	Resources::Insert<Mesh>(L"DebugMesh", debugmesh);
 	debugmesh->CreateVertexBuffer(vertexes, 4);
-
-	indexes.clear();
-	indexes.push_back(0);
-	indexes.push_back(1);
-	indexes.push_back(2);
-	indexes.push_back(3);
-	indexes.push_back(0);
 
 	debugmesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
@@ -109,7 +99,7 @@ void Resources::CreateDefaultResource()
 	ShaderEntry _entry;
 	_info.bst = BSType::AlphaBlend;
 	_info.dst = DSType::Less;
-	_info.rst = RSType::SolidBack;
+	_info.rst = RSType::SolidNone;
 	_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	_entry = {};
 	_entry.VS = true;
@@ -146,15 +136,13 @@ void Resources::CreateDefaultResource()
 	shared_ptr<Shader> gridShader = std::make_shared<Shader>();
 	_info.bst = BSType::AlphaBlend;
 	_info.dst = DSType::Less;
-	_info.rst = RSType::SolidBack;
+	_info.rst = RSType::SolidNone;
 	_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	_entry = {};
 	_entry.VS = true;
 	_entry.PS = true;
 	gridShader->CreateShader(_info, _entry, L"Grid.hlsl");
-	shared_ptr<Material> gridMaterial = std::make_shared<Material>();
-	gridMaterial->SetShader(gridShader);
-	Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+	Resources::Insert<Shader>(L"GridShader", gridShader);
 #pragma endregion
 
 
@@ -166,7 +154,7 @@ void Resources::CreateDefaultResource()
 		ShaderEntry _entry;
 		_info.bst = BSType::AlphaBlend;
 		_info.dst = DSType::Less;
-		_info.rst = RSType::SolidBack;
+		_info.rst = RSType::SolidNone;
 		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		_entry = {};
 		_entry.VS = true;

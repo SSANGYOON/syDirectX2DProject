@@ -18,7 +18,7 @@ void Timer::Update()
     float differenceInFrequancy
         = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
-    mDeltaTime = min(differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart),1.f/144.f);
+    mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
     mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 }
 

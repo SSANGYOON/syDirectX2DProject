@@ -35,19 +35,19 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
 {
     float4 Out = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    const int width = 100;
-    const int height = 100;
+    const int width = 5;
+    const int height = 5;
 
-    uint worldX = (int)In.WorldPos.x;
-    uint worldY = (int)In.WorldPos.y;
+    int worldX = abs(round(In.WorldPos.x));
+    int worldY = abs(round(In.WorldPos.y));
 
     // ¼± µÎ²²
-    const float thickness = 1.0f;
+    const float thickness = 0.1f;
 
-    if (abs((worldX + 1) % width) <= thickness)
+    if ((worldX % width) == 0 && abs(In.WorldPos.x - round(In.WorldPos.x)) < thickness)
         return Out;
 
-    if (abs((worldY + 1) % height) <= thickness)
+    if ((worldY % height) == 0 && abs(In.WorldPos.y - round(In.WorldPos.y)) < thickness)
         return Out;
 
     discard;

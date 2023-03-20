@@ -59,8 +59,7 @@ public:								\
 
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
-#define CBSLOT_ANIMATION 2
-#define CBSLOT_GRID 3
+#define CBSLOT_GRID 2
 
 #define EPSILON 1e-5
 

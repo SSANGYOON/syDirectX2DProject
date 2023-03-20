@@ -15,11 +15,6 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix projection;
 };
 
-CBUFFER(SpriteCB, CBSLOT_ANIMATION)
-{
-	Vector2 UV;
-};
-
 CBUFFER(GridCB, CBSLOT_GRID)
 {
 	Vector4 cameraPosition;
