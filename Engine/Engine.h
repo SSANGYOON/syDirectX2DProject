@@ -16,10 +16,11 @@ public:
 	void Render();
 	void Present();
 	WindowInfo GetWindow() { return _window; }
-	shared_ptr<ConstantBuffer> GetConstantBuffer(Constantbuffer_Type type) { return _constantBuffers[static_cast<UINT8>(type)]; }
+	shared_ptr<ConstantBuffer> GetConstantBuffer(Constantbuffer_Type type) { return _constantBuffers[static_cast<UINT8>(type)];}
+
+
 private:
 	HRESULT CreateRenderTarget();
-	HRESULT CreateDepthStencil();
 
 private:
 	WindowInfo _window;
@@ -27,10 +28,8 @@ private:
 
 	shared_ptr<Device> _device = make_shared<Device>();
 	shared_ptr<SwapChain> _swapChain = make_shared<SwapChain>();
-	Microsoft::WRL::ComPtr <ID3D11Texture2D> _renderTarget;
-	Microsoft::WRL::ComPtr <ID3D11RenderTargetView> _renderTargetView;
-	Microsoft::WRL::ComPtr <ID3D11Texture2D> _depthStencilBuffer;
-	Microsoft::WRL::ComPtr <ID3D11DepthStencilView> _depthStencilView;
+	shared_ptr<class Texture> _renderTarget;
+	shared_ptr<class Texture> _depthStencilBuffer;
 
 	array<shared_ptr<ConstantBuffer>, (size_t)Constantbuffer_Type::END> _constantBuffers;
 };

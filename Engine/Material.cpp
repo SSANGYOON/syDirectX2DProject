@@ -8,6 +8,7 @@
 Material::Material()
 	:Resource(Resource_Type::MATERIAL)
 {
+	_params = MaterialCB();
 }
 
 Material::~Material()

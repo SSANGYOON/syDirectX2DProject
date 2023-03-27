@@ -43,6 +43,6 @@ protected:
 	Vector3 _size;
 	Vector3 _center;
 	bool _trigger;
-	shared_ptr<Transform> _transform;
+	Transform* _transform;
 };
 

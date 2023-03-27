@@ -1,8 +1,7 @@
 #pragma once
 #include "Resource.h"
+#include "Texture.h"
 class Shader;
-class Texture;
-
 enum : UINT8
 {
 	MATERIAL_ARG_COUNT = 4,
@@ -52,6 +51,11 @@ public:
 	void SetTexture(UINT8 index, shared_ptr<Texture> texture)
 	{
 		_textures[index] = texture;
+		_params.SetVec2(0, Vector2::Zero);
+		_params.SetVec2(1, Vector2::Zero);
+		_params.SetVec2(2, texture->GetSize());
+		_params.SetVec2(3, texture->GetSize());
+		_params.SetFloat(0, 10.f);
 	}
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }

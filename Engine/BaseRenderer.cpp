@@ -5,7 +5,7 @@
 #include "Mesh.h"
 
 BaseRenderer::BaseRenderer()
-	:Component(Component_Type::Renderer)
+	:Component(Component_Type::Renderer), _render(true)
 {
 }
 
@@ -15,7 +15,8 @@ BaseRenderer::~BaseRenderer()
 
 void BaseRenderer::Render()
 {
-	shared_ptr<Transform> tr = GetOwner()->GetTransform();
+	
+	Transform* tr = GetOwner()->GetTransform();
 	tr->SetTransformBuffer();
 	_material->Bind();
 	_mesh->BindBuffer();

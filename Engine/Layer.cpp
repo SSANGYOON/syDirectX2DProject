@@ -32,17 +32,6 @@ void Layer::Update()
 	}
 }
 
-void Layer::LateUpdate()
-{
-	for (auto obj : _gameObjects)
-	{
-		if (obj == nullptr)
-			continue;
-
-		obj->LateUpdate();
-	}
-}
-
 void Layer::FinalUpdate()
 {
 	for (auto obj : _gameObjects)

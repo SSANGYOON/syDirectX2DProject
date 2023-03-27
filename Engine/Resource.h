@@ -3,7 +3,8 @@ enum class Resource_Type
 {
 	MATERIAL,
 	MESH,
-	SHADER,
+	COMPUTESHADER,
+	GRAPHICSHADER,
 	TEXTURE,
 	Animation
 };

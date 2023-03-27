@@ -18,7 +18,7 @@ void Editor::Initalize()
 
 	_debugObjects[(UINT)DebugMeshType::RECT] = make_shared<DebugObject>();
 	MeshRenderer* renderer
-		= _debugObjects[(UINT)DebugMeshType::RECT]->AddComponent<MeshRenderer>().get();
+		= _debugObjects[(UINT)DebugMeshType::RECT]->AddComponent<MeshRenderer>();
 
 	renderer->SetMaterial(material);
 	renderer->SetMesh(rectMesh);
@@ -26,7 +26,7 @@ void Editor::Initalize()
 	std::shared_ptr<Mesh> circleMesh = GET_SINGLE(Resources)->Find<Mesh>(L"CircleMesh");
 
 	_debugObjects[(UINT)DebugMeshType::CIRCLE] = make_shared<DebugObject>();
-	renderer = _debugObjects[(UINT)DebugMeshType::CIRCLE]->AddComponent<MeshRenderer>().get();
+	renderer = _debugObjects[(UINT)DebugMeshType::CIRCLE]->AddComponent<MeshRenderer>();
 
 	renderer->SetMaterial(material);
 	renderer->SetMesh(circleMesh);
@@ -78,7 +78,7 @@ void Editor::DebugRender(const DebugAttribute& debugAtt)
 {
 	DebugObject* debugObj = _debugObjects[(UINT)debugAtt.dtype].get();
 
-	Transform* tr = debugObj->GetTransform().get();
+	Transform* tr = debugObj->GetTransform();
 	tr->SetParent(debugAtt._target);
 	tr->SetPosition(debugAtt.position);
 	tr->SetScale(debugAtt.scale);

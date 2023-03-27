@@ -39,14 +39,16 @@ public:
 	virtual void OnCollisionStay(Collider* collider);
 	virtual void OnCollisionExit(Collider* collider);
 
-	shared_ptr<GameObject> GetOwner() { return _owner.lock(); }
+	GameObject* GetOwner() { return _owner; }
 	Component_Type GetType() { return _type; }
+	void SetOwner(GameObject* owner) { _owner = owner; }
+
 protected:
-	friend class GameObject;
-	void SetOwner(shared_ptr<GameObject> owner) { _owner = owner; }
 	
-protected:
+	GameObject* _owner;
+
+private:
 	Component_Type _type;
-	weak_ptr<GameObject> _owner;
+	
 };
 

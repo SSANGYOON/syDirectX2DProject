@@ -25,10 +25,8 @@ void Transform::FinalUpdate()
 	Matrix matTranslation = Matrix::CreateTranslation(_position);
 	_world = matScale * matRotation * matTranslation;
 
-	Vector3 a = Vector3::Transform(Vector3::Zero, _world);
-	auto parent = _parent.lock();
-	if (parent != nullptr)
-		_world *= parent->GetWorld();
+	if (_parent != nullptr)
+		_world *= _parent->GetWorld();
 
 }
 
@@ -47,10 +45,34 @@ void Transform::Translate(const Vector3& worldDir)
 {
 	if (!_fixed)
 	{
-		shared_ptr<Transform> parent = _parent.lock();
-		if (_parent.lock())
-			_position += Vector3::Transform(worldDir, parent->GetWorld().Invert());
+		if (_parent)
+			_position += Vector3::Transform(worldDir, _parent->GetWorld().Invert());
 		else
 			_position += worldDir;
 	}
+}
+
+const Vector3& Transform::GetWorldPosition()
+{
+	return _world.Translation();
+}
+
+const Vector3& Transform::GetLocalToWorld(Vector3 localPos)
+{
+	return Vector3::Transform(localPos, _world);
+}
+
+Transform* Transform::GetChild(const wstring& name)
+{
+	auto it = _children.find(name);
+	if (it != _children.end())
+		return it->second;
+	else
+		return nullptr;
+}
+
+void Transform::SetChild(Transform* child, const wstring& name)
+{
+	_children[name] = child;
+	child->_parent = this;
 }

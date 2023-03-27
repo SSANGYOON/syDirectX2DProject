@@ -13,6 +13,8 @@
 #include <list>
 #include <map>
 #include <bitset>
+#include <iostream>
+#include <fstream>
 using namespace std;
 
 #include <filesystem>
@@ -24,6 +26,7 @@ namespace fs = std::filesystem;
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
+
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
@@ -33,6 +36,8 @@ using namespace Microsoft::WRL;
 
 using namespace DirectX::SimpleMath;
 #include "Struct.h"
+#include "json/json.h"
+
 
 extern unique_ptr<class Engine> GEngine;
 

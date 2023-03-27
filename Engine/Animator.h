@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-class Material;
+class SpriteRenderer;
 struct AnimationEvent
 {
 	float time;
@@ -12,8 +12,7 @@ class AnimationClip
 {
 public:
 	AnimationClip(float duration, bool loop);
-	virtual void Update(Material* material, float lastTime, float currentime) = 0;
-	void SetNext(const wstring& next) { _nextAnim = next; }
+	virtual void Update(SpriteRenderer* spriteRenderer, float lastTime, float currentime) = 0;
 	void SetCompleteEvent(function<void()> completeEvent) { _completeEvent = completeEvent; }
 
 	void addEvent(float time, function<void()> func) { _events.push_back({ time, func }); }
@@ -22,21 +21,20 @@ public:
 	bool IsLooping() { return _loop; }
 
 public:
-	friend class AnimationClip;
+	friend class Animator;
 	const float _duration;
 	const bool _loop;
 
 	function<void()> _completeEvent;
 
 	vector<AnimationEvent> _events;
-	wstring _nextAnim;
 };
 
 class AnimationClip2D : public AnimationClip
 {
 public:
 	AnimationClip2D(Vector2 offset, Vector2 size, Vector2 step, UINT row, UINT frame, float duration, bool loop);
-	virtual void Update(Material* material, float lastTime, float currentime) override;
+	virtual void Update(SpriteRenderer* material, float lastTime, float currentime) override;
 
 private:
 	Vector2 _offset;
@@ -81,25 +79,12 @@ public:
 	void Clear();
 
 	void AddAnimClip(wstring name, shared_ptr<AnimationClip> clip) { _animations[name] = clip; }
-	void AddTransitionRule(const vector<Condition>& conditions, const wstring& start, const wstring& target) { _transitionRules[start].push_back({conditions, target}); }
-
-	const float GetFloatCondition(const wstring& name);
-	const bool GetBooleanCondition(const wstring& name);
-
-	void AddFloatCondition(const wstring& name, float* con) { _floatConditions[name] = con;}
-	void AddBooleanCondition(const wstring& name, bool* con) { _boolConditions[name] = con;}
-
-	bool checkTransitionRule(const TransitionRule& rule);
+	void LoadAnimation2dFromJson(const string& jsonFile);
 	shared_ptr<AnimationClip> GetClip(const wstring& name) { return _animations[name]; }
 
 private:
-	shared_ptr<Material> _material;
-
+	SpriteRenderer* _spriteRenderer;
 	map<wstring, shared_ptr<AnimationClip>> _animations;
-	map<wstring, vector<TransitionRule>> _transitionRules;
-
-	map<wstring, float*> _floatConditions;
-	map<wstring, bool*> _boolConditions;
 
 	float _currentTime;
 	float _lastTime;

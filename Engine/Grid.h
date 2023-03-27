@@ -13,8 +13,8 @@ public:
 	virtual void Start() override;
 	virtual void Render() override;
 private:
-	shared_ptr<Camera> _camera;
-	shared_ptr<Transform> _cameraTrans;
+	Camera* _camera;
+	Transform* _cameraTrans;
 	shared_ptr<Shader> _shader;
 	shared_ptr<Mesh> _mesh;
 };

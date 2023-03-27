@@ -1,7 +1,7 @@
 #pragma once
 #include "ExpandingSimplex.h"
 #define MAX_ITERATIONS 10
-#define EPSILON 0.1f
+
 class Collider;
 class Scene;
 

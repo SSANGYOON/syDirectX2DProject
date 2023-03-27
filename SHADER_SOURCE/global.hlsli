@@ -44,3 +44,8 @@ Texture2D tex_0 : register(t0);
 Texture2D tex_1 : register(t1);
 Texture2D tex_2 : register(t2);
 Texture2D tex_3 : register(t3);
+
+float Rand(float2 co)
+{
+    return 0.5 + (frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453)) * 0.5;
+}

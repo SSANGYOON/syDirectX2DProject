@@ -65,7 +65,7 @@ void CollisionManager::LayerCollision(Scene* scene, LAYER_TYPE left, LAYER_TYPE 
 					auto rcols = rights[j]->GetComponents<Collider>();
 					for (const auto& rcol : rcols)
 					{
-						ColliderCollision(lcol.get(), rcol.get());
+						ColliderCollision(lcol, rcol);
 					}
 				}
 			}
@@ -87,7 +87,7 @@ void CollisionManager::LayerCollision(Scene* scene, LAYER_TYPE left, LAYER_TYPE 
 					auto rcols = right->GetComponents<Collider>();
 					for (const auto& rcol : rcols)
 					{
-						ColliderCollision(lcol.get(), rcol.get());
+						ColliderCollision(lcol, rcol);
 					}
 				}
 			}
@@ -109,8 +109,8 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	}
 
 	vector<Vector3> simplex;
-	shared_ptr<GameObject> leftob = left->GetOwner();
-	shared_ptr<GameObject> rightob = right->GetOwner();
+	GameObject* leftob = left->GetOwner();
+	GameObject* rightob = right->GetOwner();
 	if (detect(left, right, simplex))
 	{
 		if (!left->IsTrigger() && !right->IsTrigger())
@@ -127,19 +127,23 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 			auto rightTr = rightob->GetTransform();
 			rightTr->Translate(normal * (depth));
 
-			shared_ptr<RigidBody> leftRb = leftob->GetComponent<RigidBody>();
-			shared_ptr<RigidBody> rightRb = rightob->GetComponent<RigidBody>();
+			RigidBody* leftRb = leftob->GetComponent<RigidBody>();
+			RigidBody* rightRb = rightob->GetComponent<RigidBody>();
 			if (leftRb)
 			{
 				Vector3 velocity = leftRb->GetVelocity();
-				velocity -= velocity.Dot(normal) * normal;
-				leftRb->SetVelocity(velocity);
+				if (velocity.Dot(normal) > 0.f) {
+					velocity -= velocity.Dot(normal) * normal;
+					leftRb->SetVelocity(velocity);
+				}
 			}
 			if (rightRb)
 			{
 				Vector3 velocity = rightRb->GetVelocity();
-				velocity -= velocity.Dot(normal) * normal;
-				rightRb->SetVelocity(velocity);
+				if (velocity.Dot(normal) < 0.f) {
+					velocity -= velocity.Dot(normal) * normal;
+					rightRb->SetVelocity(velocity);
+				}
 			}
 				
 		}

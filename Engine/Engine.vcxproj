@@ -158,12 +158,14 @@
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="ExpandingSimplex.h" />
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Input.h" />
@@ -171,12 +173,27 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="ObjectState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="PipelineStates.h" />
-    <ClInclude Include="PlayerScript.h" />
-    <ClInclude Include="RectScript.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerActiveState.h" />
+    <ClInclude Include="PlayerAttacked.h" />
+    <ClInclude Include="PlayerAttackState.h" />
+    <ClInclude Include="PlayerCrouchState.h" />
+    <ClInclude Include="PlayerDeadState.h" />
+    <ClInclude Include="PlayerFallingState.h" />
+    <ClInclude Include="PlayerGuarded.h" />
+    <ClInclude Include="PlayerJumpState.h" />
+    <ClInclude Include="PlayerMoveState.h" />
+    <ClInclude Include="PlayerNormalState.h" />
+    <ClInclude Include="PlayerIdleState.h" />
+    <ClInclude Include="PlayerPassiveState.h" />
+    <ClInclude Include="PlayerRollState.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
@@ -190,9 +207,16 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Trail.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\External\jsoncpp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -200,6 +224,7 @@
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -207,6 +232,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="ExpandingSimplex.cpp" />
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -214,6 +240,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="ObjectState.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -221,9 +248,23 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PipelineStates.cpp" />
-    <ClCompile Include="PlayerScript.cpp" />
-    <ClCompile Include="RectScript.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerActiveState.cpp" />
+    <ClCompile Include="PlayerAttacked.cpp" />
+    <ClCompile Include="PlayerAttackState.cpp" />
+    <ClCompile Include="PlayerCrouchState.cpp" />
+    <ClCompile Include="PlayerDeadState.cpp" />
+    <ClCompile Include="PlayerFallingState.cpp" />
+    <ClCompile Include="PlayerGuarded.cpp" />
+    <ClCompile Include="PlayerJumpState.cpp" />
+    <ClCompile Include="PlayerMoveState.cpp" />
+    <ClCompile Include="PlayerNormalState.cpp" />
+    <ClCompile Include="PlayerIdleState.cpp" />
+    <ClCompile Include="PlayerPassiveState.cpp" />
+    <ClCompile Include="PlayerRollState.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -236,9 +277,14 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Trail.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\Heroine_clips.json" />
+    <None Include="..\Resources\PlayerWeapon.json" />
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -17,7 +17,7 @@ Collider::~Collider()
 
 void Collider::Start()
 {
-	_transform = GetOwner()->GetTransform();
+	_transform = _owner->GetTransform();
 }
 
 void Collider::FinalUpdate()

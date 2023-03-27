@@ -11,7 +11,6 @@ public:
 
 	void Start();
 	void Update();
-	void LateUpdate();
 	void FinalUpdate();
 	void Render();
 	void AddGameObject(shared_ptr<GameObject> gameObject);

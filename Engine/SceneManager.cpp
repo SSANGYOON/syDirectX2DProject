@@ -9,7 +9,6 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Camera.h"
-#include "RectScript.h"
 #include "Collider2D.h"
 #include "CollisionManager.h"
 #include "TitleScene.h"
@@ -19,7 +18,6 @@ void SceneManager::Update()
 		return;
 
 	_activeScene->Update();
-	_activeScene->LateUpdate();
 	_activeScene->FinalUpdate();
 }
 

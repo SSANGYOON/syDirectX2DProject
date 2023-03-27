@@ -39,7 +39,7 @@ enum class DebugMeshType
 
 struct DebugAttribute
 {
-	shared_ptr<Transform> _target;
+	Transform* _target;
 	DebugMeshType dtype;
 	Vector3 position;
 	Vector3 scale;

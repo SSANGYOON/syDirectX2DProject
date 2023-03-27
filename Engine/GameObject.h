@@ -6,7 +6,7 @@
 class Collider;
 class BaseRenderer;
 class Transform;
-class GameObject : public Entity, public enable_shared_from_this<GameObject>
+class GameObject : public Entity
 {
 public:
 	enum STATE
@@ -20,7 +20,6 @@ public:
 
 	virtual void Start();
 	virtual void Update();
-	virtual void LateUpdate();
 	virtual void FinalUpdate();
 	virtual void Render();
 
@@ -36,45 +35,42 @@ public:
 	LAYER_TYPE GetType() { return _type; }
 
 	template <typename T>
-	shared_ptr<T> AddComponent();
+	T* AddComponent();
 
 	STATE GetState() { return _state; }
 
 	template <typename T>
-	shared_ptr<T> GetComponent();
+	T* GetComponent();
 
 	template<typename T>
-	const vector<shared_ptr<T>> GetComponents();
+	const vector<T*> GetComponents();
 
-	shared_ptr<Transform> GetTransform();
-	shared_ptr<BaseRenderer> GetRenderer();
+	Transform* GetTransform();
+	BaseRenderer* GetRenderer();
 private:
 	friend class SceneManager;
 	void SetGameObjectState(STATE state) { _state = state; }
-
-	vector<shared_ptr<Component>> _components;
+	unique_ptr<Transform> _transform;
+	vector<unique_ptr<Component>> _components;
 	LAYER_TYPE _type;
 	STATE _state;
 };
 
 template<typename T>
-inline shared_ptr<T> GameObject::AddComponent()
+inline T* GameObject::AddComponent()
 {
-	shared_ptr<T> comp = make_shared<T>();
-	Component_Type order = comp->GetType();
+	_components.push_back(make_unique<T>());
+	_components.back()->SetOwner(this);
 
-	_components.push_back(dynamic_pointer_cast<T>(comp));
-	comp->SetOwner(shared_from_this());
-
-	return comp;
+	return static_cast<T*>(_components.back().get());
 }
 
 template<typename T>
-inline shared_ptr<T> GameObject::GetComponent()
+inline T* GameObject::GetComponent()
 {
 	for (const auto& comp : _components)
 	{
-		shared_ptr<T> tcomp = dynamic_pointer_cast<T>(comp);
+		T* tcomp = dynamic_cast<T*>(comp.get());
 		if (tcomp)
 			return tcomp;
 	}
@@ -82,16 +78,14 @@ inline shared_ptr<T> GameObject::GetComponent()
 }
 
 template<typename T>
-inline const vector<shared_ptr<T>> GameObject::GetComponents()
+inline const vector<T*> GameObject::GetComponents()
 {
-	vector<shared_ptr<T>> vec;
+	vector<T*> vec;
 	for (const auto& comp : _components)
 	{
-		shared_ptr<T> tcomp = dynamic_pointer_cast<T>(comp);
+		T* tcomp = dynamic_cast<T*>(comp.get());
 		if (tcomp)
-		{
 			vec.push_back(tcomp);
-		}
 	}
 	return vec;
 }

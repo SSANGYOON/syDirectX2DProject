@@ -7,26 +7,27 @@
 GameObject::GameObject()
 	:_state(PAUSED)
 {
-	_components.push_back(make_shared<Transform>());
+	_transform = make_unique<Transform>();
+	_transform->SetOwner(this);
 }
 
 GameObject::~GameObject()
 {
 }
 
-shared_ptr<Transform> GameObject::GetTransform()
+Transform* GameObject::GetTransform()
 {
-	return GetComponent<Transform>();
+	return _transform.get();
 }
-shared_ptr<BaseRenderer> GameObject::GetRenderer()
+BaseRenderer* GameObject::GetRenderer()
 {
 	return GetComponent<BaseRenderer>();
 }
 void GameObject::Start()
 {
-	_components[0]->SetOwner(shared_from_this());
 	_state = ACTIVE;
-	for (shared_ptr<Component>& comp : _components)
+	_transform->Start();
+	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)
 			continue;
@@ -37,7 +38,7 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
-	for (shared_ptr<Component>& comp : _components)
+	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)
 			continue;
@@ -46,20 +47,10 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::LateUpdate()
-{
-	for (shared_ptr<Component>& comp : _components)
-	{
-		if (comp == nullptr)
-			continue;
-
-		comp->LateUpdate();
-	}
-}
-
 void GameObject::FinalUpdate()
 {
-	for (shared_ptr<Component>& comp : _components)
+	_transform->FinalUpdate();
+	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)
 			continue;
@@ -71,7 +62,7 @@ void GameObject::FinalUpdate()
 void GameObject::Render()
 {
 
-	for (shared_ptr<Component>& comp : _components)
+	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)
 			continue;

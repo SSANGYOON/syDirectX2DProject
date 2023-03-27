@@ -7,7 +7,7 @@
 #include "Mesh.h"
 
 SpriteRenderer::SpriteRenderer()
-	:BaseRenderer()
+	:BaseRenderer(), _offset{}, _originPos{}, _originSize{}
 {
 }
 
@@ -19,7 +19,13 @@ void SpriteRenderer::Render()
 {
 	if (_material == nullptr || _material->GetShader() == nullptr)
 		return;
+	if (!_render)
+		return;
 	GetOwner()->GetTransform()->SetTransformBuffer();
+
+	_material->SetVec2(0, _offset);
+	_material->SetVec2(1, _originPos);
+	_material->SetVec2(2, _originSize);
 
 	_material->Bind();
 	_mesh->BindBuffer();

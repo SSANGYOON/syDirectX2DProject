@@ -1,0 +1,86 @@
+{
+  "Weapons": [
+    {
+      "WeaponType": "ONEHAND",
+      "Frames": 19,
+      "Duration" :  1.0,
+      "Frame Transform": [
+        {
+          "Frame": 0,
+          "Offset": [ -0.124, -0.014 ],
+          "Angle": 45
+        },
+        {
+          "Frame": 1,
+          "Offset": [ -0.124, -0.014 ],
+          "Angle": 45
+        },
+        {
+          "Frame": 2,
+          "Offset": [ -0.109, 0.016 ],
+          "Angle": 42
+        },
+        {
+          "Frame": 3,
+          "Offset": [ -0.13, 0.034 ],
+          "Angle": 38
+        },
+        {
+          "Frame": 4,
+          "Offset": [ -0.117, 0.068 ],
+          "Angle": 32.8
+        },
+        {
+          "Frame": 5,
+          "Offset": [ -0.13, 0.11 ],
+          "Angle": 28.5
+        },
+        {
+          "Frame": 6,
+          "Offset": [ -0.114, 0.174 ],
+          "Angle": 24.3
+        },
+        {
+          "Frame": 7,
+          "Offset": [ -0.085, 0.185 ],
+          "Angle": 21.8
+        },
+        {
+          "Frame": 8,
+          "Offset": [ -0.044, 0.189 ],
+          "Angle": 19.1
+        },
+        {
+          "Frame": 9,
+          "Offset": [ 0.022, 0.19 ],
+          "Angle": 0
+        },
+        {
+          "Frame": 10,
+          "Offset": [ 0.139, 0.072 ],
+          "Angle": -46.6
+        },
+        {
+          "Frame": 11,
+          "Offset": [ 0.134, 0.004 ],
+          "Angle": -85.7
+        },
+        {
+          "Frame": 12,
+          "Offset": [ 0.15, -0.068 ],
+          "Angle": -105
+        },
+        {
+          "Frame": 13,
+          "Offset": [ 0.149, -0.077 ],
+          "Angle": -112
+        },
+        {
+          "Frame": 14,
+          "Offset": [ 0.148, -0.079 ],
+          "Angle": -117.06
+        }
+      ]
+    },
+  ]
+}

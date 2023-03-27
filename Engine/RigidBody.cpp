@@ -16,7 +16,7 @@ RigidBody::~RigidBody()
 
 void RigidBody::Start()
 {
-	_transform = GetOwner()->GetComponent<Transform>();
+	_transform = GetOwner()->GetTransform();
 }
 
 void RigidBody::Update()  

@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Shader::Shader()
-    :Resource(Resource_Type::SHADER)
+    :Resource(Resource_Type::GRAPHICSHADER)
 	, _info{}
 {
 }

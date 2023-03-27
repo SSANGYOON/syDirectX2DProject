@@ -25,12 +25,6 @@ void Scene::Update()
 		layer.Update();
 }
 
-void Scene::LateUpdate()
-{
-	for (auto layer : _layers)
-		layer.LateUpdate();
-}
-
 void Scene::FinalUpdate()
 {
 	for (auto layer : _layers)
@@ -39,11 +33,11 @@ void Scene::FinalUpdate()
 
 void Scene::Render()
 {
-	for (shared_ptr<Camera> cam : _cameras)
+	for (Camera* cam : _cameras)
 		cam->Render();
 }
 
-shared_ptr<Camera> Scene::GetMainCamera()
+Camera* Scene::GetMainCamera()
 {
 	if (_cameras.size())
 		return _cameras[0];
@@ -56,7 +50,6 @@ void Scene::AddGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 	if (type == LAYER_TYPE::CAMERA)
 		_cameras.push_back(gameObject->GetComponent<Camera>());
 	gameObject->SetType(type);
-	gameObject->Start();
 }
 
 void Scene::RemoveGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)

@@ -3,7 +3,6 @@
 
 Device::~Device()
 {
-	_debug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_SUMMARY);
 }
 
 void Device::Init()
@@ -19,5 +18,4 @@ void Device::Init()
 		, _context.GetAddressOf());
 
 	_device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(_debug.GetAddressOf()));
-	_debug->ReportLiveDeviceObjects(D3D11_RLDO_FLAGS::D3D11_RLDO_DETAIL);
 }

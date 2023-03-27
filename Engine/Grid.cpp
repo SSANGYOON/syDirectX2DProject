@@ -29,7 +29,7 @@ void Grid::Start()
 void Grid::Render()
 {
 	GridCB grCB = {};
-	grCB.cameraPosition = Vector4(_cameraTrans->GetPosition(),1.f);
+	grCB.cameraPosition = Vector4(_cameraTrans->GetWorldPosition(),1.f);
 	grCB.cameraScale = Vector2(_camera->GetScale());
 	grCB.resolution = Vector2(_camera->_width, _camera->_height);
 

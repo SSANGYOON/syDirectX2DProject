@@ -15,7 +15,9 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Render()
 {
-	shared_ptr<Transform> tr = GetOwner()->GetTransform();
+	if (!_render)
+		return;
+	Transform* tr = GetOwner()->GetTransform();
 	tr->SetTransformBuffer();
 	_material->Bind();
 	_mesh->BindBuffer();

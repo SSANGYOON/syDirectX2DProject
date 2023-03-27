@@ -28,7 +28,8 @@ void Mesh::CreateVertexBuffer(void* data, UINT count)
 
 	D3D11_SUBRESOURCE_DATA subData = {};
 	subData.pSysMem = data;
-
+	if (_vertexBuffer)
+		_vertexBuffer->Release();
 	DEVICE->CreateBuffer(&desc, &subData, _vertexBuffer.GetAddressOf());
 }
 
@@ -42,7 +43,8 @@ void Mesh::CreateIndexBuffer(void* data, UINT count)
 
 	D3D11_SUBRESOURCE_DATA subData = {};
 	subData.pSysMem = data;
-
+	if (_indexBuffer)
+		_indexBuffer->Release();
 	DEVICE->CreateBuffer(&desc, &subData, _indexBuffer.GetAddressOf());
 	_indexes = count;
 }

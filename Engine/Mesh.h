@@ -12,6 +12,7 @@ public:
 	void CreateVertexBuffer(void* data, UINT count);
 	void CreateIndexBuffer(void* data, UINT count);
 
+	void SetIndexSize(UINT index) { _indexes = 0; }
 	void BindBuffer();
 	void Render();
 

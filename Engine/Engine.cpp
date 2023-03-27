@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "CollisionManager.h"
 #include "Material.h"
+#include "Texture.h"
 
 #include "Input.h"
 #include "Timer.h"
@@ -25,8 +26,12 @@ void Engine::Init(const WindowInfo& info)
 	if(FAILED(_swapChain->Init(info, _device->GetDevice())))
 		return;
 
-	CreateRenderTarget();
-	CreateDepthStencil();
+	_renderTarget = make_shared<Texture>();
+	_renderTarget->Create(info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
+
+	_depthStencilBuffer = make_shared<Texture>();
+	_depthStencilBuffer->Create(info.width, info.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
 
 	RECT rt = { 0, 0, (LONG)info.width , (LONG)info.height };
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
@@ -36,7 +41,7 @@ void Engine::Init(const WindowInfo& info)
 
 	_viewPort = { 0.0f, 0.0f, (float)_window.width, (float)_window.height, 0.0f, 1.0f };
 	_device->GetContext()->RSSetViewports(1, &_viewPort);
-	_device->GetContext()->OMSetRenderTargets(1, _renderTargetView.GetAddressOf(), _depthStencilView.Get());
+	_device->GetContext()->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
 
 	SetUpState();
 	
@@ -65,8 +70,8 @@ void Engine::Update()
 void Engine::Render()
 {
 	FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	_device->GetContext()->ClearRenderTargetView(_renderTargetView.Get(), backgroundColor);
-	_device->GetContext()->ClearDepthStencilView(_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	_device->GetContext()->ClearRenderTargetView(_renderTarget->GetRTV(), backgroundColor);
+	_device->GetContext()->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	GET_SINGLE(SceneManager)->Render();
 	
 }
@@ -78,37 +83,9 @@ void Engine::Present()
 
 HRESULT Engine::CreateRenderTarget()
 {
-	HRESULT hr = _swapChain->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_renderTarget.GetAddressOf());
+	HRESULT hr = _swapChain->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_renderTarget->GetRTVRef());
 
 	// Create Rendertarget View
-	hr = _device->GetDevice()->CreateRenderTargetView(_renderTarget.Get(), nullptr, _renderTargetView.GetAddressOf());
+	hr = _device->GetDevice()->CreateRenderTargetView(_renderTarget->GetD3Texture(), nullptr, _renderTarget->GetRTVRef());
 	return hr;
-}
-
-HRESULT Engine::CreateDepthStencil()
-{
-	D3D11_TEXTURE2D_DESC depthBuffer = {};
-	depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
-	depthBuffer.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-	depthBuffer.CPUAccessFlags = 0;
-
-	depthBuffer.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depthBuffer.Width = _window.width;
-	depthBuffer.Height = _window.height;
-	depthBuffer.ArraySize = 1;
-
-	depthBuffer.SampleDesc.Count = 1;
-	depthBuffer.SampleDesc.Quality = 0;
-
-	depthBuffer.MipLevels = 0;
-	depthBuffer.MiscFlags = 0;
-
-	// Depth Stencil Buffer
-	if (FAILED(_device->GetDevice()->CreateTexture2D(&depthBuffer, nullptr, _depthStencilBuffer.GetAddressOf())))
-		return S_FALSE;
-
-	// Depth Stencil Buffer View
-	if (FAILED(_device->GetDevice()->CreateDepthStencilView(_depthStencilBuffer.Get(), nullptr, _depthStencilView.GetAddressOf())))
-		return S_FALSE;
-	return S_OK;
 }

@@ -1,0 +1,136 @@
+{
+  "Clips": [
+    {
+      "name": "IDLE",
+      "OriginalOffset": [ 2.0, 15.0 ],
+      "SpriteSize": [ 31.0, 50.0 ],
+      "Step": [ 31.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 56,
+      "Duration": 1.5,
+      "Loop": true
+    },
+    {
+      "name": "IDLE2RUN",
+      "OriginalOffset": [ 2.0, 189.0 ],
+      "SpriteSize": [ 31.0, 50.0 ],
+      "Step": [ 36.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 2,
+      "Duration": 0.1,
+      "Loop": false
+    },
+    {
+      "name": "RUN",
+      "OriginalOffset": [ 2.0, 256.0 ],
+      "SpriteSize": [ 30.0, 50.0 ],
+      "Step": [ 33.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 8,
+      "Duration": 0.75,
+      "Loop": true
+    },
+    {
+      "name": "RUN2IDLE",
+      "OriginalOffset": [ 2.0, 322.0 ],
+      "SpriteSize": [ 26.0, 50.0 ],
+      "Step": [ 30.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 4,
+      "Duration": 0.2,
+      "Loop": false
+    },
+    {
+      "name": "JUMP",
+      "OriginalOffset": [ 2.0, 634.0 ],
+      "SpriteSize": [ 27.0, 50.0 ],
+      "Step": [ 32.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 5,
+      "Duration": 0.5,
+      "Loop": false
+    },
+    {
+      "name": "FALLING",
+      "OriginalOffset": [ 2.0, 702.0 ],
+      "SpriteSize": [ 30.0, 52.0 ],
+      "Step": [ 30.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 3,
+      "Duration": 0.25,
+      "Loop": false
+    },
+    {
+      "name": "LANDING",
+      "OriginalOffset": [ 5.0, 771.0 ],
+      "SpriteSize": [ 32.0, 45.0 ],
+      "Step": [ 37.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 3,
+      "Duration": 0.2,
+      "Loop": false
+    },
+    {
+      "name": "CROUCH",
+      "OriginalOffset": [ 3.0, 390.0 ],
+      "SpriteSize": [ 32.0, 46.0 ],
+      "Step": [ 34.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 4,
+      "Duration": 0.2,
+      "Loop": false
+    },
+    {
+      "name": "CROUCHING",
+      "OriginalOffset": [ 3.0, 445.0 ],
+      "SpriteSize": [ 28.0, 45.0 ],
+      "Step": [ 30.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 1,
+      "Duration": 0.1,
+      "Loop": true
+    },
+    {
+      "name": "CROUCH2IDLE",
+      "OriginalOffset": [ 3.0, 507.0 ],
+      "SpriteSize": [ 28.0, 47.0 ],
+      "Step": [ 34.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 1,
+      "Duration": 0.1,
+      "Loop": false
+    },
+    {
+      "name": "ROLLING",
+      "OriginalOffset": [ 4.0, 573.0 ],
+      "SpriteSize": [ 41.0, 43.0 ],
+      "Step": [ 45.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 9,
+      "Duration": 1.0,
+      "Loop": false
+    },
+    {
+      "name": "ATTACKED",
+      "OriginalOffset": [ 2.0, 2607.0 ],
+      "SpriteSize": [ 30.0, 45.0 ],
+      "Step": [ 30.0, 53.0 ],
+      "Columns": 21,
+      "Sprites": 1,
+      "Duration": 0.5,
+      "Loop": false
+    },
+
+    {
+      "name": "ONEHANDSTANDING",
+      "OriginalOffset": [ 2.0, 1026.0 ],
+      "SpriteSize": [ 35.0, 48.0 ],
+      "Step": [ 33.0, 53.0 ],
+      "Columns": 19,
+      "Sprites": 19,
+      "Duration": 1.0,
+      "Loop": false
+    }
+
+  ]
+}

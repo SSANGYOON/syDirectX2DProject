@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Material.h"
+#include "ComputeShader.h"
 
 void Resources::CreateDefaultResource()
 {
@@ -108,14 +109,23 @@ void Resources::CreateDefaultResource()
 	shared_ptr<Material> material = make_shared<Material>();
 	material->SetShader(shader);
 #pragma endregion
-
-#pragma region SmileTexture
-	Resources::Insert<Material>(L"DefaultMaterial", material);
-	shared_ptr<Texture> texture = std::make_shared<Texture>();
-	texture->Load(L"Smile.png");
-	material->SetTexture(0, texture);
+{
+#pragma region TrailShader
+		shared_ptr<Shader> TrailShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"TrailShader", TrailShader);
+		ShaderInfo _info;
+		_info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		TrailShader->CreateShader(_info, _entry, L"TrailShader.hlsl");
 #pragma endregion
-
+}
 #pragma region DebugShader
 	shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 	Resources::Insert<Shader>(L"DebugShader", debugShader);
@@ -161,5 +171,22 @@ void Resources::CreateDefaultResource()
 		_entry.PS = true;
 		spriteShader->CreateShader(_info, _entry, L"Sprite.hlsl");
 	}
+#pragma endregion
+
+#pragma region ComputeShader
+	{
+		shared_ptr<ComputeShader> computeShader = std::make_shared<ComputeShader>();
+		Resources::Insert<ComputeShader>(L"TestCompute", computeShader);
+		computeShader->Create(L"TestCompute.hlsl");
+	}
+#pragma endregion
+
+#pragma region PaintTexture
+{
+	shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
+	uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE
+		| D3D11_BIND_UNORDERED_ACCESS);
+	Resources::Insert<Texture>(L"PaintTexture", uavTexture);
+}
 #pragma endregion
 }
