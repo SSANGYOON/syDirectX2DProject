@@ -4,7 +4,7 @@ class Transform;
 class RigidBody : public Component
 {
 public:
-	RigidBody();
+	RigidBody(class GameObject* owner);
 	virtual ~RigidBody();
 	
 	enum ForceMode

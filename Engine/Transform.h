@@ -1,9 +1,10 @@
 #pragma once
 #include "Component.h"
+#include "GameObject.h"
 class Transform : public Component
 {
 public:
-	Transform();
+	Transform(GameObject* owner);
 	virtual ~Transform();
 
 	virtual void FinalUpdate() override;
@@ -17,8 +18,8 @@ public:
 	const Vector3& GetLocalPosition() { return _position; }
 	const Quaternion& GetRotation() { return _rotation; }
 	const Vector3& GetScale() { return _scale; }
-	const Vector3& GetWorldPosition();
-	const Vector3& GetLocalToWorld(Vector3 localPos);
+	const Vector3 GetWorldPosition();
+	const Vector3 GetLocalToWorld(Vector3 localPos);
 	const Matrix& GetWorld() { return _world; }
 
 	void SetPosition(const Vector3& position) { _position = position; };

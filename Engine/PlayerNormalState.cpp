@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "FSM.h"
 #include "Input.h"
+#include "Animator.h"
 
 PlayerNormalState::PlayerNormalState(Player* player, FSM* stateMachine, const wstring& stateName)
 	:PlayerState(player, stateMachine, stateName)
@@ -37,6 +38,12 @@ void PlayerNormalState::CheckTransition()
 	else if (_player->GetWeapon(0) && INPUT->GetKeyState(KEY_TYPE::Z) == KEY_STATE::PRESS)
 	{
 		_fsm->ChangeState(_player->attack1.get(), FSM::READY);
+		isExitingState = true;
+	}
+
+	else if (INPUT->GetKeyState(KEY_TYPE::A) == KEY_STATE::PRESS)
+	{
+		_fsm->ChangeState(_player->skill1.get(), FSM::READY);
 		isExitingState = true;
 	}
 

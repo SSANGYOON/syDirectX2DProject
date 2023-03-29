@@ -4,8 +4,8 @@
 #include "GameObject.h"
 #include "Resources.h"
 
-Collider2D::Collider2D()
-	:Collider(Collider_TYPE::CIRCLE)
+Collider2D::Collider2D(GameObject* owner)
+	:Collider(Collider_TYPE::CIRCLE, owner)
 	,_radius(0.f)
 	
 {

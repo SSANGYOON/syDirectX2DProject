@@ -12,14 +12,21 @@ void PlayerActiveState::Enter()
 	PlayerState::Enter();
 }
 
+void PlayerActiveState::Update()
+{
+	PlayerState::Update();
+	CheckTransition();
+}
+
 void PlayerActiveState::Exit()
 {
 }
 
+
 void PlayerActiveState::CheckTransition()
 {
 	if (_player->_attacked) {
-		_fsm->ChangeState(_player->attacked.get(), FSM::READY);
+		_fsm->ChangeState(_player->idle.get(), FSM::READY);
 		isExitingState = true;
 	}
 }

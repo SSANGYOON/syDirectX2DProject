@@ -4,9 +4,9 @@
 #include "Timer.h"
 #include "GameObject.h"
 
-RigidBody::RigidBody()
-	:Component(Component_Type::RigidBody)
-	,_useGravity(false)
+RigidBody::RigidBody(GameObject* owner)
+	:Component(Component_Type::RigidBody, owner)
+	,_useGravity(false), _stationary(false), _transform(GetOwner()->GetTransform())
 {
 }
 

@@ -25,7 +25,7 @@ struct WeaponStruct
 class Weapon : public Script
 {
 public:
-	Weapon();
+	Weapon(GameObject* owner);
 	~Weapon();
 
 	virtual void Start();
@@ -36,6 +36,7 @@ public:
 	
 	float GetElapsed() { return _elapsed; }
 	void SetUse();
+	void Stop();
 	WeaponStruct* weaponDesc;
 
 private:

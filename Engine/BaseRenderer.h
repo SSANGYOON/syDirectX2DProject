@@ -5,7 +5,7 @@ class Material;
 class BaseRenderer : public Component
 {
 public:
-	BaseRenderer();
+	BaseRenderer(class GameObject* owner);
 	virtual ~BaseRenderer();
 
 

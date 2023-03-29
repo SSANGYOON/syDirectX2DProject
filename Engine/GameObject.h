@@ -59,7 +59,7 @@ private:
 template<typename T>
 inline T* GameObject::AddComponent()
 {
-	_components.push_back(make_unique<T>());
+	_components.push_back(make_unique<T>(this));
 	_components.back()->SetOwner(this);
 
 	return static_cast<T*>(_components.back().get());

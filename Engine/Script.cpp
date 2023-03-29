@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "Script.h"
 #include "Collider.h"
+#include "GameObject.h"
 
-Script::Script()
-	:Component(Component_Type::Script)
+Script::Script(GameObject* owner)
+	:Component(Component_Type::Script, owner)
 {
 
 }

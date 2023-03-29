@@ -3,8 +3,8 @@
 #include "GameObject.h"
 
 #include <iostream>
-Component::Component(Component_Type type)
-	:_type(type)
+Component::Component(Component_Type type, GameObject* owner)
+	:_type(type), _owner(owner)
 {
 }
 

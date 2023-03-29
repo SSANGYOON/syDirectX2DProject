@@ -192,6 +192,7 @@
     <ClInclude Include="PlayerPassiveState.h" />
     <ClInclude Include="PlayerRollState.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayerSummonState.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="SpriteRenderer.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="PlayerPassiveState.cpp" />
     <ClCompile Include="PlayerRollState.cpp" />
     <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="PlayerSummonState.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
@@ -283,7 +285,9 @@
     <ClCompile Include="WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\BloomRenderPath.json" />
     <None Include="..\Resources\Heroine_clips.json" />
+    <None Include="..\Resources\Heroine_RenderPath.json" />
     <None Include="..\Resources\PlayerWeapon.json" />
     <None Include="SimpleMath.inl" />
   </ItemGroup>

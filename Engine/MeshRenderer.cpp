@@ -5,7 +5,8 @@
 #include "Material.h"
 #include "Mesh.h"
 
-MeshRenderer::MeshRenderer()
+MeshRenderer::MeshRenderer(GameObject* owner)
+	:BaseRenderer(owner)
 {
 }
 
@@ -19,7 +20,5 @@ void MeshRenderer::Render()
 		return;
 	Transform* tr = GetOwner()->GetTransform();
 	tr->SetTransformBuffer();
-	_material->Bind();
-	_mesh->BindBuffer();
-	_mesh->Render();
+	_material->Render(_mesh);
 }

@@ -25,8 +25,8 @@ void AnimationClip2D::Update(SpriteRenderer* spriteRenderer, float lastTime, flo
     Vector2 LT = _offset + Vector2((curFrame % _row) * _step.x, (curFrame / _row) * _step.y);
 
 
-    spriteRenderer->SetOriginPos(LT);
-    spriteRenderer->SetOriginSize(_size);
+    spriteRenderer->SetSourceOffset(LT);
+    spriteRenderer->SetSourceSize(_size);
 
     for (const auto& event : _events) {
         if (event.time <= currentTime && event.time > lastTime) {
@@ -35,8 +35,8 @@ void AnimationClip2D::Update(SpriteRenderer* spriteRenderer, float lastTime, flo
     }
 }
 
-Animator::Animator()
-    :Component(Component_Type::Animator), _currentTime(0.f), _lastTime(-1.f)
+Animator::Animator(GameObject* owner)
+    :Component(Component_Type::Animator, owner), _currentTime(0.f), _lastTime(-1.f), _spriteRenderer(nullptr)
 {
 }
 

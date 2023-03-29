@@ -5,7 +5,23 @@ cbuffer Transform : register(b0)
     row_major matrix projection;
 }
 
-cbuffer MaterialData : register(b1)
+cbuffer Sprite : register(b1)
+{
+    float2 sourceOffset;
+    float2 sourceSize;
+    float2 sourceSheetSize;
+    float2 targetOffset;
+    float2 targetSizeRatio;
+}
+
+cbuffer Grid : register(b2)
+{
+    float4 cameraPosition;
+    float2 cameraScale;
+    float2 resolution;
+}
+
+cbuffer MaterialData : register(b3)
 {
     int     g_int_0;
     int     g_int_1;
@@ -27,13 +43,6 @@ cbuffer MaterialData : register(b1)
     row_major float4x4 g_mat_1;
     row_major float4x4 g_mat_2;
     row_major float4x4 g_mat_3;
-}
-
-cbuffer Grid : register(b2)
-{
-    float4 cameraPosition;
-    float2 cameraScale;
-    float2 resolution;
 }
 
 SamplerState pointSampler : register(s0);

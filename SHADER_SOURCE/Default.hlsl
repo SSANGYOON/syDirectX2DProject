@@ -17,7 +17,7 @@ struct VSOut
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
-
+    In.Pos.xy = In.Pos.xy * g_vec2_0 / 10.f;
     float4 worldPosition = mul(In.Pos, world);
     float4 viewPosition = mul(worldPosition, view);
     float4 ProjPosition = mul(viewPosition, projection);
@@ -31,8 +31,28 @@ VSOut VS_MAIN(VSIn In)
 
 float4 PS_MAIN(VSOut In) : SV_TARGET
 {
-    float4 color = (float)0.0f;
-    color = tex_0.Sample(anisotropicSampler, In.UV);
+    float4 frag = (float)0.0f;
+
+    float alpha = 0;
+
+    const float weight[] = {
+      1.f, 0.9231, 0.7261, 0.4868, 0.278, 0.1353, 0.0561
+    };
+
+    float2 texel = 1.f / (g_vec2_0);
+    float weightSum = 0.f;
+    float4 color = tex_0.Sample(pointSampler, In.UV);
+    for (int i = -6; i <= 6; i++)
+    {
+        for (int j = -6; j <= 6; j++)
+        {
+            float2 diff = float2(texel.x * i, texel.y * j);
+            frag += weight[abs(i)] * weight[abs(j)] * tex_0.Sample(anisotropicSampler, In.UV + diff);
+            weightSum += weight[abs(i)] * weight[abs(j)];
+        }
+    }
+    color = pow(pow(color, 2.2f) +pow(frag * 1.5f / weightSum, 2.2f), 1/2.2f);
+    color.xyz = float3(244.f/255.f, 0.f, 80.f / 255.f);
 
     return color;
 }

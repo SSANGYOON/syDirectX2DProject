@@ -125,6 +125,15 @@
     <Filter Include="LibraryCode\Resource\ComputeShader">
       <UniqueIdentifier>{68969fc8-a1a0-4203-93e4-d8afcd997263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting\Player\PlayerShader">
+      <UniqueIdentifier>{b4bc995e-e82b-4fb7-86e6-c5bc18c11695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryCode\Resource\ShaderGroup">
+      <UniqueIdentifier>{43ea026f-3130-4bd3-a2c6-927fa17683bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Player\PlayerShader\BloomShader">
+      <UniqueIdentifier>{f55db709-7908-4d17-a5bb-292e6b96f0c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -306,6 +315,9 @@
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
       <Filter>LibraryCode\Resource\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSummonState.cpp">
+      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -489,16 +501,25 @@
     <ClInclude Include="ComputeShader.h">
       <Filter>LibraryCode\Resource\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerSummonState.h">
+      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>LibraryCode\Utils\Math</Filter>
     </None>
-    <None Include="..\Resources\Heroine_clips.json">
-      <Filter>Scripting</Filter>
-    </None>
     <None Include="..\Resources\PlayerWeapon.json">
-      <Filter>Scripting</Filter>
+      <Filter>Scripting\Player\PlayerAnims</Filter>
+    </None>
+    <None Include="..\Resources\Heroine_clips.json">
+      <Filter>Scripting\Player\PlayerAnims</Filter>
+    </None>
+    <None Include="..\Resources\Heroine_RenderPath.json">
+      <Filter>Scripting\Player\PlayerShader</Filter>
+    </None>
+    <None Include="..\Resources\BloomRenderPath.json">
+      <Filter>Scripting\Player\PlayerShader\BloomShader</Filter>
     </None>
   </ItemGroup>
 </Project>

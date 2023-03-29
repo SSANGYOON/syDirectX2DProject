@@ -1,10 +1,11 @@
 #pragma once
 #include "Component.h"
 class Collider;
+class GameObject;
 class Script : public Component
 {
 public:
-	Script();
+	Script(GameObject* owner);
 	virtual ~Script();
 
 	virtual void Start() override;

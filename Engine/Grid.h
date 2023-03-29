@@ -7,7 +7,7 @@ class Mesh;
 class Grid : public Component
 {
 public:
-	Grid();
+	Grid(class GameObject* owner);
 	virtual ~Grid();
 
 	virtual void Start() override;

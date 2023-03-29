@@ -79,6 +79,12 @@ void Shader::CreateShader(const ShaderInfo& info, const ShaderEntry& entry, cons
 			, _PSBlob.GetAddressOf()
 			, _ErrorBlob.GetAddressOf());
 
+		if (_ErrorBlob)
+		{
+			OutputDebugStringA((char*)_ErrorBlob->GetBufferPointer());
+			//_ErrorBlob->Release();
+		}
+
 		DEVICE->CreatePixelShader(_PSBlob->GetBufferPointer()
 			, _PSBlob->GetBufferSize()
 			, nullptr

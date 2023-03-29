@@ -5,10 +5,12 @@
 #include "Material.h"
 #include "Texture.h"
 #include "Mesh.h"
-
-SpriteRenderer::SpriteRenderer()
-	:BaseRenderer(), _offset{}, _originPos{}, _originSize{}
+#include "Animator.h"
+#include "Engine.h"
+SpriteRenderer::SpriteRenderer(GameObject* owner)
+	:BaseRenderer(owner), spCB{}
 {
+	spCB.targetSizeRatio = Vector2(0.1f, 0.1f);
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -17,17 +19,19 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::Render()
 {
-	if (_material == nullptr || _material->GetShader() == nullptr)
+	if (_material == nullptr)
 		return;
 	if (!_render)
 		return;
-	GetOwner()->GetTransform()->SetTransformBuffer();
+	_owner->GetTransform()->SetTransformBuffer();
+	BindSpriteBuffer();
+	_material->Render(_mesh);
+}
 
-	_material->SetVec2(0, _offset);
-	_material->SetVec2(1, _originPos);
-	_material->SetVec2(2, _originSize);
-
-	_material->Bind();
-	_mesh->BindBuffer();
-	_mesh->Render();
+void SpriteRenderer::BindSpriteBuffer()
+{
+	shared_ptr<ConstantBuffer> cb = GEngine->GetConstantBuffer(Constantbuffer_Type::SPRITE);
+	spCB.sourceSheetSize = _material->GetTexture(0)->GetSize();
+	cb->SetData(&spCB);
+	cb->SetPipline(ShaderStage::VS);
 }

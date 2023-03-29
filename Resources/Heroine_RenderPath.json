@@ -1,0 +1,31 @@
+{
+  "Textures": [
+    {
+      "ID": 0,
+      "Type": "Resource",
+      "KEY": "Heroine Maid",
+      "Path": "Heroine Maid.png"
+    }
+  ],
+  "ShaderGroup": [
+      {
+        "ID": 0,
+        "KEY": "SpriteShader",
+        "Path": "Sprite.hlsl",
+        "ShaderInfo": {
+          "BSType": 1,
+          "DSType": 0,
+          "RSType": 2,
+          "Topology" : 4
+        },
+        "ShaderResource": [
+          0
+        ],
+        "Target": -1,
+        "ShaderPhases": [
+          "VS",
+          "PS"
+        ]
+      }
+  ]
+}

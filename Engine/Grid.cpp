@@ -10,7 +10,8 @@
 #include "ConstantBuffer.h"
 #include "Engine.h"
 
-Grid::Grid() : Component(Component_Type::GRID)
+Grid::Grid(GameObject* owner) : Component(Component_Type::GRID, owner)
+	, _camera(nullptr), _cameraTrans(nullptr)
 {
 }
 

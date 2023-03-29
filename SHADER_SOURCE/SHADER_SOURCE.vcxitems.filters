@@ -7,6 +7,7 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Sprite.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)TrailShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)TestCompute.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)RangeExtractTest.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

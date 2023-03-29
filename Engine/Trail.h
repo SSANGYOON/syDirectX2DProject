@@ -6,7 +6,7 @@ class Material;
 class Trail : public Script
 {
 public:
-	Trail();
+	Trail(class GameObject* owner);
 	~Trail();
 
 public:

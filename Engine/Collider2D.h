@@ -8,7 +8,7 @@ class Transform;
 class Collider2D : public Collider
 {
 public:
-	Collider2D();
+	Collider2D(class GameObject* owner);
 	virtual ~Collider2D();
 
 	virtual void FinalUpdate() override;

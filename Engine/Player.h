@@ -13,7 +13,7 @@ class Skill;
 class Player : public Script
 {
 public:
-    Player();
+    Player(class GameObject* owner);
     virtual ~Player();
 
     virtual void Start() override;
@@ -25,14 +25,16 @@ public:
 
     virtual void SetWeapon(UINT8 slot, Weapon* weapon);
     Weapon* GetWeapon(UINT8 slot) { return weapons[slot]; }
-    virtual void SetSkill(UINT8 slot, shared_ptr<Skill> skill);
+
+    virtual void SetSkill(UINT8 slot, Skill* skill);
+    Skill* GetSkill(UINT8 slot) { return skills[slot]; }
 
 private:
     Animator* animator;
     RigidBody* rigidBody;
     Transform* transform;
     array<Weapon*, 2> weapons;
-    array<shared_ptr<Skill>, 2> skills;
+    array<Skill*, 2> skills;
 
 private:
     void Move();

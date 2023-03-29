@@ -4,7 +4,7 @@
 class MeshRenderer : public BaseRenderer
 {
 public:
-	MeshRenderer();
+	MeshRenderer(class GameObject* owner);
 	virtual ~MeshRenderer();
 
 	virtual void Render();

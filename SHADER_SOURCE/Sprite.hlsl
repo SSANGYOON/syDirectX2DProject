@@ -20,10 +20,10 @@ VSOut VS_MAIN(VSIn In)
 
     float4 pos = (float4)0.f;
 
-    Out.UV = (g_vec2_1 + In.UV * g_vec2_2) / g_vec2_3;
+    Out.UV = (sourceOffset + In.UV * sourceSize) / sourceSheetSize;
 
 
-    pos.xy = In.Pos.xy * g_vec2_2 / g_float_0 + g_vec2_0;
+    pos.xy = In.Pos.xy * sourceSize * targetSizeRatio + targetOffset;
     pos.z = In.Pos.z;
     pos.w = 1.f;
 

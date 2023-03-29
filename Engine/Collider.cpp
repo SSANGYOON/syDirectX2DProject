@@ -2,8 +2,8 @@
 #include "Collider.h"
 #include "GameObject.h"
 
-Collider::Collider(Collider_TYPE type)
-	: Component(Component_Type::Collider)
+Collider::Collider(Collider_TYPE type, GameObject* owner)
+	: Component(Component_Type::Collider, owner)
 	, _type(type)
 	, _trigger(false)
 	, _size(Vector3(1.f))

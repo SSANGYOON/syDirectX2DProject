@@ -9,7 +9,7 @@ public:
 		Perspective,
 		Orthographic,
 	};
-	Camera();
+	Camera(class GameObject* owner);
 	virtual ~Camera();
 
 	virtual void FinalUpdate() override;

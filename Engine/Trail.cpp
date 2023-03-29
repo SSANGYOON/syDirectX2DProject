@@ -8,8 +8,8 @@
 #include "Resources.h"
 #include "Shader.h"
 #include "Timer.h"
-Trail::Trail()
-	:Script(), trailLength(60), WeaponLength(3.6f), curFrame(0), tr(nullptr)
+Trail::Trail(GameObject* owner)
+	:Script(owner), trailLength(60), WeaponLength(3.6f), curFrame(0), tr(nullptr), mr(nullptr)
 {
 }
 Trail::~Trail()
@@ -22,7 +22,7 @@ void Trail::Start()
 	tr = GetOwner()->GetTransform();
 	vertexes.resize(trailLength * 2);
 	indexes.resize(trailLength * 6);
-	for (int i = 0; i < trailLength; i++)
+	/*for (UINT i = 0; i < trailLength; i++)
 	{
 		vertexes[2 * i] = {};
 		vertexes[2 * i + 1] = {};
@@ -35,14 +35,14 @@ void Trail::Start()
 			indexes[(i - 1) * 6 + 4] = i * 2 + 1;
 			indexes[(i - 1) * 6 + 5] = i * 2 - 1;
 		}
-	}
-	mr = GetOwner()->GetComponent<MeshRenderer>();
-	mr->SetMesh(trailMesh);
-	m = make_shared<Material>();
-	m->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"TrailShader"));
-	mr->SetMaterial(m);
-	m->SetTexture(0,GET_SINGLE(Resources)->Load<Texture>(L"TrailTexture", L"SlashTrail.png"));
-	mr->SetRender(false);
+	}*/
+	//mr = GetOwner()->GetComponent<MeshRenderer>();
+	//mr->SetMesh(trailMesh);
+	//m = make_shared<Material>();
+	//m->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"TrailShader"));
+	//mr->SetMaterial(m);
+	//m->SetTexture(0,GET_SINGLE(Resources)->Load<Texture>(L"TrailTexture", L"SlashTrail.png"));
+	//mr->SetRender(false);
 }
 
 void Trail::FinalUpdate()

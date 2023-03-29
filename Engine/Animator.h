@@ -69,7 +69,7 @@ public:
 		wstring targetAnimation;
 	};
 
-	Animator();
+	Animator(class GameObject* owner);
 	~Animator();
 
 	virtual void Start() override;

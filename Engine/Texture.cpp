@@ -70,7 +70,8 @@ bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 	//Depth stencil texture
 	_size.x = width;
 	_size.y = height;
-	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+
+	if (bindFlag  ==  D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 	{
 		GEngine->GetSwapChain()->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_texture.GetAddressOf());
 
@@ -88,13 +89,17 @@ bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 	mDesc.SampleDesc.Count = 1;
 	mDesc.SampleDesc.Quality = 0;
 
-	mDesc.MipLevels = 0;
+	mDesc.MipLevels = 1;
 	mDesc.MiscFlags = 0;
 
 	if (FAILED(DEVICE->CreateTexture2D(&mDesc, nullptr, _texture.GetAddressOf())))
 		return false;
 
-	
+	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+	{
+		if (FAILED(DEVICE->CreateRenderTargetView(_texture.Get(), nullptr, _RTV.GetAddressOf())))
+			return false;
+	}
 
 	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 	{
@@ -155,8 +160,54 @@ void Texture::BindSRV(ShaderStage stage, UINT slot)
 	}
 }
 
+void Texture::ClearSRV(ShaderStage stage, UINT slot)
+{
+	ID3D11ShaderResourceView* srv = nullptr;
+
+	switch (stage)
+	{
+	case ShaderStage::VS:
+		CONTEXT->VSSetShaderResources(slot, 1, &srv);
+		break;
+	case ShaderStage::HS:
+		CONTEXT->HSSetShaderResources(slot, 1, &srv);
+		break;
+	case ShaderStage::DS:
+		CONTEXT->DSSetShaderResources(slot, 1, &srv);
+		break;
+	case ShaderStage::GS:
+		CONTEXT->GSSetShaderResources(slot, 1, &srv);
+		break;
+	case ShaderStage::PS:
+		CONTEXT->PSSetShaderResources(slot, 1, &srv);
+		break;
+	case ShaderStage::CS:
+		CONTEXT->CSSetShaderResources(slot, 1, &srv);
+		break;
+	default:
+		break;
+	}
+}
+
 void Texture::BindUAV(UINT slot)
 {
 	UINT i = -1;
 	CONTEXT->CSSetUnorderedAccessViews(slot, 1, _UAV.GetAddressOf(), &i);
+}
+
+void Texture::ClearUAV(ShaderStage stage, UINT slot)
+{
+	ID3D11UnorderedAccessView* uav = nullptr;
+	UINT i = -1;
+	CONTEXT->CSSetUnorderedAccessViews(slot, 1, &uav, &i);
+}
+
+ID3D11RenderTargetView* Texture::GetRTV()
+{
+	return _RTV.Get();
+}
+
+ID3D11RenderTargetView** Texture::GetRTVRef()
+{
+	return _RTV.GetAddressOf();
 }

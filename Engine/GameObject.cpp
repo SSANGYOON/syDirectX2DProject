@@ -7,7 +7,7 @@
 GameObject::GameObject()
 	:_state(PAUSED)
 {
-	_transform = make_unique<Transform>();
+	_transform = make_unique<Transform>(this);
 	_transform->SetOwner(this);
 }
 
@@ -61,7 +61,6 @@ void GameObject::FinalUpdate()
 
 void GameObject::Render()
 {
-
 	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)

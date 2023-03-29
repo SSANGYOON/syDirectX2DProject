@@ -9,8 +9,8 @@
 Matrix Camera::s_view;
 Matrix Camera::s_projection;
 
-Camera::Camera()
-	:Component(Component_Type::Camera)
+Camera::Camera(GameObject* owner)
+	:Component(Component_Type::Camera, owner)
 	, _fov(XM_PI/3)
 	, _type(ProjectionType::Orthographic)
 	, _aspectRatio(1.0f)

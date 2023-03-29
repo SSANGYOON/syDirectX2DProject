@@ -13,7 +13,13 @@ PlayerAttackState::PlayerAttackState(Player* player, FSM* stateMachine, const ws
 
 void PlayerAttackState::Update()
 {
-	PlayerState::Update();
+	PlayerActiveState::Update();
+	if (isExitingState)
+	{
+		weapon->Stop();
+		return;
+	}
+
 	CheckTransition();
 
 }
@@ -34,11 +40,12 @@ void PlayerAttackState::Enter()
 
 void PlayerAttackState::Exit()
 {
-	PlayerActiveState::Exit();
+
 }
 
 void PlayerAttackState::CheckTransition()
 {
+	PlayerActiveState::CheckTransition();
 	if (elapsedTime > weapon->weaponDesc->duration)
 		_fsm->ChangeState(_player->idle.get(), FSM::READY);
 }

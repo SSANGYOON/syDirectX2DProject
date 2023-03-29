@@ -15,6 +15,7 @@ public:
 
 	void Render();
 	void Present();
+	void SetOriginalRederTarget();
 	WindowInfo GetWindow() { return _window; }
 	shared_ptr<ConstantBuffer> GetConstantBuffer(Constantbuffer_Type type) { return _constantBuffers[static_cast<UINT8>(type)];}
 

@@ -130,6 +130,28 @@
       "Sprites": 19,
       "Duration": 1.0,
       "Loop": false
+    },
+
+    {
+      "name": "STANDSUMMON",
+      "OriginalOffset": [ 4.0, 1916.0 ],
+      "SpriteSize": [ 29.0, 48.0 ],
+      "Step": [ 33.0, 53.0 ],
+      "Columns": 19,
+      "Sprites": 5,
+      "Duration": 0.5,
+      "Loop": false
+    },
+
+    {
+      "name": "STANDCASTINGEND",
+      "OriginalOffset": [ 169.0, 1916.0 ],
+      "SpriteSize": [ 29.0, 48.0 ],
+      "Step": [ 33.0, 53.0 ],
+      "Columns": 19,
+      "Sprites": 3,
+      "Duration": 0.3,
+      "Loop": false
     }
 
   ]

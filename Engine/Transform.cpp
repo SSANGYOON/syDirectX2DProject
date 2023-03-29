@@ -2,9 +2,10 @@
 #include "Transform.h"
 #include "Engine.h"
 #include "Camera.h"
+#include "GameObject.h"
+Transform::Transform(GameObject* owner)
 
-Transform::Transform()
-	:Component(Component_Type::Transform)
+	:Component(Component_Type::Transform, owner)
 	,_position(Vector3::Zero)
 	,_rotation(Quaternion::Identity)
 	,_scale(Vector3::One)
@@ -52,12 +53,12 @@ void Transform::Translate(const Vector3& worldDir)
 	}
 }
 
-const Vector3& Transform::GetWorldPosition()
+const Vector3 Transform::GetWorldPosition()
 {
 	return _world.Translation();
 }
 
-const Vector3& Transform::GetLocalToWorld(Vector3 localPos)
+const Vector3 Transform::GetLocalToWorld(Vector3 localPos)
 {
 	return Vector3::Transform(localPos, _world);
 }

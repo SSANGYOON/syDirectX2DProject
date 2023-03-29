@@ -2,8 +2,10 @@
 enum class Constantbuffer_Type : UINT8
 {
 	TRANSFORM,
-	MATERIAL,
+	SPRITE,
 	GRID,
+	MATERIAL,
+	
 	//LIGHT,	
 	END
 };
@@ -13,6 +15,15 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix world;
 	Matrix view;
 	Matrix projection;
+};
+
+CBUFFER(SpriteCB, CBSLOT_SPRITE)
+{
+	Vector2 sourceOffset;
+	Vector2 sourceSize;
+	Vector2 sourceSheetSize;
+	Vector2 targetOffset;
+	Vector2 targetSizeRatio;
 };
 
 CBUFFER(GridCB, CBSLOT_GRID)

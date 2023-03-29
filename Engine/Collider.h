@@ -14,7 +14,7 @@ class Transform;
 class Collider : public Component
 {
 public:
-	Collider(Collider_TYPE type);
+	Collider(Collider_TYPE type, class GameObject* owner);
 	virtual ~Collider();
 
 	virtual void Start() override;

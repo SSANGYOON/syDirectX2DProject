@@ -1,6 +1,8 @@
 #pragma once
 #include "Resource.h"
 #include "Texture.h"
+
+class Mesh;
 class Shader;
 enum : UINT8
 {
@@ -41,31 +43,25 @@ public :
 public:
 	virtual HRESULT Load(const std::wstring& path) override;
 
-	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }
 	void SetVec2(UINT8 index, Vector2 value) { _params.SetVec2(index, value); }
 	void SetVec4(UINT8 index, Vector4 value) { _params.SetVec4(index, value); }
 	void SetMatrix(UINT8 index, Matrix& value) { _params.SetMatrix(index, value); }
 
-	void SetTexture(UINT8 index, shared_ptr<Texture> texture)
-	{
-		_textures[index] = texture;
-		_params.SetVec2(0, Vector2::Zero);
-		_params.SetVec2(1, Vector2::Zero);
-		_params.SetVec2(2, texture->GetSize());
-		_params.SetVec2(3, texture->GetSize());
-		_params.SetFloat(0, 10.f);
-	}
+	void SetTexture(UINT8 index, shared_ptr<Texture> texture) { _textures[index] = texture;}
+
+	void SetShader(UINT8 index, shared_ptr<Shader> shader) { _shaders[index] = shader; }
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
 
-	shared_ptr<Shader> GetShader() { return _shader; }
-	void Bind();
+	void Render(shared_ptr<Mesh> mesh);
 
 private:
-	shared_ptr<Shader> _shader;
 	MaterialCB		_params;
+	vector<shared_ptr<Shader>> _shaders;
+	vector<vector<int>> _inputTextureIndex;
+	vector<int> _targetTextureIndex;
 	array<shared_ptr<Texture>, MAX_TEXTURE_COUNT> _textures;
 };
 

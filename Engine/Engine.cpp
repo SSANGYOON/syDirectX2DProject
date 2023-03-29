@@ -40,8 +40,7 @@ void Engine::Init(const WindowInfo& info)
 	UpdateWindow(info.hwnd);
 
 	_viewPort = { 0.0f, 0.0f, (float)_window.width, (float)_window.height, 0.0f, 1.0f };
-	_device->GetContext()->RSSetViewports(1, &_viewPort);
-	_device->GetContext()->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
+	SetOriginalRederTarget();
 
 	SetUpState();
 	
@@ -50,6 +49,10 @@ void Engine::Init(const WindowInfo& info)
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::GRID] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::GRID]->Init(Constantbuffer_Type::GRID, sizeof(GridCB));
+
+
+	_constantBuffers[(UINT8)Constantbuffer_Type::SPRITE] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::SPRITE]->Init(Constantbuffer_Type::SPRITE, sizeof(SpriteCB));
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL]->Init(Constantbuffer_Type::MATERIAL, sizeof(MaterialCB));
@@ -69,7 +72,7 @@ void Engine::Update()
 
 void Engine::Render()
 {
-	FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	FLOAT backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	_device->GetContext()->ClearRenderTargetView(_renderTarget->GetRTV(), backgroundColor);
 	_device->GetContext()->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	GET_SINGLE(SceneManager)->Render();
@@ -79,6 +82,12 @@ void Engine::Render()
 void Engine::Present()
 {
 	_swapChain->Present();
+}
+
+void Engine::SetOriginalRederTarget()
+{
+	_device->GetContext()->RSSetViewports(1, &_viewPort);
+	_device->GetContext()->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
 }
 
 HRESULT Engine::CreateRenderTarget()

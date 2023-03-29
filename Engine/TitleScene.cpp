@@ -27,10 +27,12 @@ TitleScene::~TitleScene()
 
 void TitleScene::Start()
 {
+#pragma region DefaultSetting
 	shared_ptr<GameObject> cameraObj = make_shared<GameObject>();
 	Camera* cameracomp = cameraObj->AddComponent<Camera>();
 	cameracomp->DisableLayerMasks();
 	cameracomp->TurnLayerMask(1, true);
+	cameracomp->TurnLayerMask(UINT(LAYER_TYPE::MONSTER), true);
 	AddGameObject(cameraObj, LAYER_TYPE::CAMERA);
 
 	shared_ptr<GameObject> gridOb = make_shared<GameObject>();
@@ -40,60 +42,15 @@ void TitleScene::Start()
 	GET_SINGLE(CollisionManager)->CollisionLayerCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::MONSTER, true);
 	GET_SINGLE(CollisionManager)->CollisionLayerCheck(LAYER_TYPE::PLAYER, LAYER_TYPE::FIXEDOBJECT, true);
 	GET_SINGLE(CollisionManager)->CollisionLayerCheck(LAYER_TYPE::MONSTER, LAYER_TYPE::FIXEDOBJECT, true);
+#pragma endregion
 
-	//paint shader
-	shared_ptr<ComputeShader> paintShader = GET_SINGLE(Resources)->Find<ComputeShader>(L"TestCompute");
-	//L"SmileTexture"
-	shared_ptr<Texture> paintTex = GET_SINGLE(Resources)->Find<Texture>(L"PaintTexture");
-	paintTex->BindUAV(0);
-	paintShader->Dispatch();
-	
 
-	{
-		shared_ptr<GameObject> ComputObj = make_shared<GameObject>();
-		SpriteRenderer* rd = ComputObj->AddComponent<SpriteRenderer>();
-		shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
-		shared_ptr<Material> material = make_shared<Material>();
-		rd->SetOriginSize(Vector2(256, 256));
-		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Find<Shader>(L"SpriteShader");
-		material->SetShader(shader);
-		material->SetTexture(0, paintTex);
-		rd->SetMesh(mesh);
-		rd->SetMaterial(material);
-		AddGameObject(ComputObj, LAYER_TYPE::PLAYER);
-	}
-	 {
-		shared_ptr<GameObject> PlayerObj = make_shared<GameObject>();
-		SpriteRenderer* rd = PlayerObj->AddComponent<SpriteRenderer>();
-		shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
-		shared_ptr<Material> material = make_shared<Material>();
-		shared_ptr<Shader> shader = GET_SINGLE(Resources)->Find<Shader>(L"SpriteShader");
-		shared_ptr<Texture> TitleTexture = GET_SINGLE(Resources)->Load<Texture>(L"maid", L"Heroine Maid.png");
-		material->SetShader(shader);
-		material->SetTexture(0, TitleTexture);
-		rd->SetMesh(mesh);
-		rd->SetMaterial(material);
+	shared_ptr<GameObject> PlayerObj = make_shared<GameObject>();
+	PlayerObj->AddComponent<Player>();
+	AddGameObject(PlayerObj, LAYER_TYPE::PLAYER);
 
-		auto rb = PlayerObj->AddComponent<RigidBody>();
-		rb->SetGravity(true);
-		Animator* anim = PlayerObj->AddComponent<Animator>();
-
-		Collider2D* col = PlayerObj->AddComponent<Collider2D>();
-		col->SetType(Collider_TYPE::RECTANGLE);
-		col->SetSize(Vector3(1.f, 4.2f, 1.f));
-		col->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
-
-		Collider2D* col2 = PlayerObj->AddComponent<Collider2D>();
-		col2->SetType(Collider_TYPE::CIRCLE);
-		col2->SetSize(Vector3(0.2f, 0.2f, 1.0));
-		col2->SetLocalCenter(Vector3(0.f, -2.5f, 0.f));
-		col2->SetTrigger(true);
-
-		Player* player = PlayerObj->AddComponent<Player>();
-
-		AddGameObject(PlayerObj, LAYER_TYPE::PLAYER);
-
-		shared_ptr<GameObject> WeaponObj = make_shared<GameObject>();
+#pragma region Todo
+		/*shared_ptr<GameObject> WeaponObj = make_shared<GameObject>();
 		SpriteRenderer* weaponsr = WeaponObj->AddComponent<SpriteRenderer>();
 		weaponsr->SetMesh(mesh);
 		auto WeaponMaterial = make_shared<Material>();
@@ -114,8 +71,8 @@ void TitleScene::Start()
 		TrailObj->AddComponent<Trail>();
 		WeaponObj->GetTransform()->SetChild(TrailObj->GetTransform(), L"trail");
 		AddGameObject(TrailObj, LAYER_TYPE::PLAYER);
-#pragma region weapon2
-		{
+		*/
+	 /*{
 		shared_ptr<GameObject> WeaponObj2 = make_shared<GameObject>();
 		SpriteRenderer* weaponsr2 = WeaponObj2->AddComponent<SpriteRenderer>();
 		weaponsr2->SetMesh(mesh);
@@ -129,9 +86,7 @@ void TitleScene::Start()
 
 		PlayerObj->GetTransform()->SetChild(WeaponObj2->GetTransform(), L"weapon2");
 		AddGameObject(WeaponObj2, LAYER_TYPE::PLAYER);
-		}
-#pragma endregion
-	}
+	}*/
 	{
 		shared_ptr<GameObject> ground = make_shared<GameObject>();
 		Transform* tr = ground->GetTransform();
@@ -148,14 +103,20 @@ void TitleScene::Start()
 		shared_ptr<GameObject> Enemy = make_shared<GameObject>();
 
 		Transform* tr = Enemy->GetTransform();
-		tr->SetPosition(Vector3(5.f, -5.f, 0.f));
+		tr->SetPosition(Vector3(2.f, -5.f, -1.f));
 		tr->SetFixed(true);
 		Collider2D* col = Enemy->AddComponent<Collider2D>();
+		SpriteRenderer* sr = Enemy->AddComponent<SpriteRenderer>();
+		shared_ptr<Material> material = make_shared<Material>();
+		material->SetVec4(0, Vector4(0.f, 1.f, 0.f, 1.f));
+		material->Load(L"BloomRenderPath.json");
+		sr->SetMaterial(material);
+		sr->SetMesh(GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh"));
 		col->SetTrigger(true);
 		col->SetType(Collider_TYPE::RECTANGLE);
 		col->SetSize(Vector3(1.5, 1.5f, 1.f));
 		AddGameObject(Enemy, LAYER_TYPE::MONSTER);
 	}
-
+#pragma endregion
 	Scene::Start();
 }

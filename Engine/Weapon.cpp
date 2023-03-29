@@ -5,8 +5,8 @@
 #include "Transform.h"
 #include "WeaponManager.h"
 
-Weapon::Weapon()
-	: Script(), _using(false)
+Weapon::Weapon(GameObject* owner)
+	: Script(owner), _using(false)
 {
 	
 }
@@ -35,6 +35,13 @@ void Weapon::SetWeaponType(WEAPON_TYPE type)
 void Weapon::SetUse()
 {
 	_using = true; _elapsed = 0.f; sr->SetRender(true);
+}
+
+void Weapon::Stop()
+{
+	_using = false; sr->SetRender(false);
+	if(trail)
+		trail->StopRecord();
 }
 
 void Weapon::Start()
