@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Animator.h"
 #include "FSM.h"
+#include "Collider2D.h"
 
 PlayerAttackState::PlayerAttackState(Player* player, FSM* stateMachine, const wstring& stateName, const UINT8 slot) 
 	: PlayerActiveState(player, stateMachine, stateName), weapon(nullptr), _slot(slot)
@@ -32,7 +33,11 @@ void PlayerAttackState::Enter()
 	if (!_player->_ground)
 		_stateName += L"AERIAL";
 	else if (INPUT->GetKeyState(KEY_TYPE::DOWN) == KEY_STATE::PRESS)
-		_stateName += L"CROUCH";
+	{
+		_stateName += L"CROUCHING";
+		_player->collider->SetSize(Vector3(1.f, 2.5f, 1.f));
+		_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
+	}
 	else
 		_stateName += L"STANDING";
 	weapon->SetUse();
@@ -40,12 +45,17 @@ void PlayerAttackState::Enter()
 
 void PlayerAttackState::Exit()
 {
-
+	_player->collider->SetSize(Vector3(1.f, 4.0f, 1.f));
+	_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
 }
 
 void PlayerAttackState::CheckTransition()
 {
 	PlayerActiveState::CheckTransition();
-	if (elapsedTime > weapon->weaponDesc->duration)
-		_fsm->ChangeState(_player->idle.get(), FSM::READY);
+	if (!weapon->IsUsing()) {
+		if (INPUT->GetKeyState(KEY_TYPE::DOWN) == KEY_STATE::PRESS)
+			_fsm->ChangeState(_player->crouch.get(), FSM::READY);
+		else
+			_fsm->ChangeState(_player->idle.get(), FSM::READY);
+	}
 }

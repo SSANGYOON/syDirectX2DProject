@@ -211,7 +211,6 @@
     <ClInclude Include="Trail.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Weapon.h" />
-    <ClInclude Include="WeaponManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\External\jsoncpp.cpp">
@@ -282,13 +281,17 @@
     <ClCompile Include="Trail.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="WeaponManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\BloomRenderPath.json" />
+    <None Include="..\Resources\DaggerShader.json" />
+    <None Include="..\Resources\DaggerTrail.json" />
+    <None Include="..\Resources\OneHandShader.json" />
     <None Include="..\Resources\Heroine_clips.json" />
     <None Include="..\Resources\Heroine_RenderPath.json" />
+    <None Include="..\Resources\OneHandTrail.json" />
     <None Include="..\Resources\PlayerWeapon.json" />
+    <None Include="..\Resources\SummonSword.json" />
+    <None Include="..\Resources\SummonSwordShader.json" />
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

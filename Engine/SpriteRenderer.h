@@ -18,7 +18,6 @@ public:
 	
 
 private:
-
 	void BindSpriteBuffer();
 	SpriteCB spCB;
 };

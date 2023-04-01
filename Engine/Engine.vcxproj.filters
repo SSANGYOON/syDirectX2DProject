@@ -128,10 +128,7 @@
     <Filter Include="Scripting\Player\PlayerShader">
       <UniqueIdentifier>{b4bc995e-e82b-4fb7-86e6-c5bc18c11695}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource\ShaderGroup">
-      <UniqueIdentifier>{43ea026f-3130-4bd3-a2c6-927fa17683bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerShader\BloomShader">
+    <Filter Include="Scripting\Player\PlayerShader\WeaponShader">
       <UniqueIdentifier>{f55db709-7908-4d17-a5bb-292e6b96f0c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -309,9 +306,6 @@
     </ClCompile>
     <ClCompile Include="Trail.cpp">
       <Filter>Scripting\Player\Weapon\Traill</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponManager.cpp">
-      <Filter>Scripting\Player\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
       <Filter>LibraryCode\Resource\ComputeShader</Filter>
@@ -495,9 +489,6 @@
     <ClInclude Include="Trail.h">
       <Filter>Scripting\Player\Weapon\Traill</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponManager.h">
-      <Filter>Scripting\Player\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="ComputeShader.h">
       <Filter>LibraryCode\Resource\ComputeShader</Filter>
     </ClInclude>
@@ -509,17 +500,32 @@
     <None Include="SimpleMath.inl">
       <Filter>LibraryCode\Utils\Math</Filter>
     </None>
-    <None Include="..\Resources\PlayerWeapon.json">
-      <Filter>Scripting\Player\PlayerAnims</Filter>
-    </None>
     <None Include="..\Resources\Heroine_clips.json">
       <Filter>Scripting\Player\PlayerAnims</Filter>
     </None>
     <None Include="..\Resources\Heroine_RenderPath.json">
       <Filter>Scripting\Player\PlayerShader</Filter>
     </None>
-    <None Include="..\Resources\BloomRenderPath.json">
-      <Filter>Scripting\Player\PlayerShader\BloomShader</Filter>
+    <None Include="..\Resources\OneHandShader.json">
+      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+    </None>
+    <None Include="..\Resources\PlayerWeapon.json">
+      <Filter>Scripting\Player\PlayerAnims</Filter>
+    </None>
+    <None Include="..\Resources\DaggerShader.json">
+      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+    </None>
+    <None Include="..\Resources\DaggerTrail.json">
+      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+    </None>
+    <None Include="..\Resources\OneHandTrail.json">
+      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+    </None>
+    <None Include="..\Resources\SummonSwordShader.json">
+      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+    </None>
+    <None Include="..\Resources\SummonSword.json">
+      <Filter>Scripting\Player\PlayerAnims</Filter>
     </None>
   </ItemGroup>
 </Project>

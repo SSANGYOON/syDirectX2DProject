@@ -12,7 +12,7 @@ public:
 
 public:
 	shared_ptr<Scene> GetActiveScene() { return _activeScene; }
-	shared_ptr<GameObject> Instantiate(LAYER_TYPE type);
+	GameObject* Instantiate(LAYER_TYPE type);
 
 private:
 	shared_ptr<Scene> _activeScene;

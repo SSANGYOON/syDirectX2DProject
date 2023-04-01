@@ -25,6 +25,18 @@ Material::~Material()
 
 HRESULT Material::Load(const std::wstring& path)
 {
+    for (int i = 0; i < MAX_TEXTURE_COUNT; i++)
+    {
+        _textures[i] = nullptr;
+    }
+
+    for (int i = 0; i < _shaders.size(); i++)
+    {
+        _shaders[i] = nullptr;
+    }
+    _targetTextureIndex.clear();
+    _inputTextureIndex.clear();
+
     ifstream json_f;
     std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
 

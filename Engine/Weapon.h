@@ -1,27 +1,20 @@
 #pragma once
 #include "Script.h"
-#include "SpriteRenderer.h"
-#include "Trail.h"
+
+class SpriteRenderer;
+class Animator;
+class Trail;
 
 enum class WEAPON_TYPE
 {
+	TWOHAND,
 	ONEHAND,
-	//ONEHAND,
-	//DAGGER,
-	END
-};
-struct WeaponTransform
-{
-	Vector2 position;
-	float angle;
+	STAFF,
+	DAGGER,
+	SUMMON,
+	BESTFRIEND
 };
 
-struct WeaponStruct
-{
-	UINT frames;
-	float duration;
-	vector<WeaponTransform> transforms;
-};
 class Weapon : public Script
 {
 public:
@@ -33,19 +26,20 @@ public:
 
 	const wstring GetWeaponAnimKey();
 	void SetWeaponType(WEAPON_TYPE type);
-	
-	float GetElapsed() { return _elapsed; }
+	WEAPON_TYPE GetWeaponType() { return _type; }
+
 	void SetUse();
 	void Stop();
-	WeaponStruct* weaponDesc;
-
+	bool IsUsing() { return _using;}
+	
 private:
 	WEAPON_TYPE _type;
 	bool _using;
 	float _elapsed;
-	
+	float _duration;
+
 	Trail* trail;
 	SpriteRenderer* sr;
-	Transform* tr;
+	Animator* animator;
 };
 

@@ -1,14 +1,28 @@
 #include "pch.h"
 #include "Weapon.h"
+
+#include "SceneManager.h"
 #include "GameObject.h"
-#include "Timer.h"
 #include "Transform.h"
-#include "WeaponManager.h"
+#include "SpriteRenderer.h"
+#include "Animator.h"
+#include "Trail.h"
+
+#include "Material.h"
+
+#include "Timer.h"
 
 Weapon::Weapon(GameObject* owner)
-	: Script(owner), _using(false)
+	: Script(owner), _using(false), _type(WEAPON_TYPE::ONEHAND)
 {
-	
+	sr = owner->AddComponent<SpriteRenderer>();	
+	sr->SetRender(false);
+
+	GameObject* trailObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	auto tr = _owner->GetTransform();
+	tr->SetChild(trailObj->GetTransform(), L"trail");
+	trail = trailObj->AddComponent<Trail>();
+	int a = 0;
 }
 
 Weapon::~Weapon()
@@ -19,8 +33,16 @@ const wstring Weapon::GetWeaponAnimKey()
 {
 	switch (_type)
 	{
+	case WEAPON_TYPE::TWOHAND:
+		return L"TWOHAND";
 	case WEAPON_TYPE::ONEHAND:
 		return L"ONEHAND";
+	case WEAPON_TYPE::STAFF:
+		return L"STAFF";
+	case WEAPON_TYPE::DAGGER:
+		return L"DAGGER";
+	case WEAPON_TYPE::BESTFRIEND:
+		return L"BESTFRIEND";
 	default:
 		return L"";
 	}
@@ -28,72 +50,67 @@ const wstring Weapon::GetWeaponAnimKey()
 
 void Weapon::SetWeaponType(WEAPON_TYPE type)
 {
+	shared_ptr<Material> material = make_shared<Material>();
+	if (type == WEAPON_TYPE::ONEHAND) {
+		material->Load(L"OneHandShader.json");
+		trail->SetTrailType(WEAPON_TYPE::ONEHAND);
+		_duration = 1.0f;
+	}
+	else if (type == WEAPON_TYPE::DAGGER) {
+		material->Load(L"DaggerShader.json");
+		trail->SetTrailType(WEAPON_TYPE::DAGGER);
+		_duration = 0.8f;
+	}
+	else if (type == WEAPON_TYPE::SUMMON)
+	{
+		material->Load(L"SummonSwordShader.json");
+		trail->SetTrailType(WEAPON_TYPE::SUMMON);
+		_duration = 20.f;
+		auto trailtr = trail->GetOwner()->GetTransform();
+		trailtr->SetPosition(Vector3(0, -3, 0));
+	}
 	_type = type;
-	weaponDesc = GET_SINGLE(WeaponManager)->GetWeaponStruct(_type);
-}
-
-void Weapon::SetUse()
-{
-	_using = true; _elapsed = 0.f; sr->SetRender(true);
-}
-
-void Weapon::Stop()
-{
-	_using = false; sr->SetRender(false);
-	if(trail)
-		trail->StopRecord();
+	sr->SetMaterial(material);
 }
 
 void Weapon::Start()
 {
-	tr = GetOwner()->GetTransform();
-	sr = GetOwner()->GetComponent<SpriteRenderer>();
-	sr->SetRender(false);
-
-	auto trailtr = GetOwner()->GetTransform()->GetChild(L"trail");
-	
-	if (trailtr)
-	{
-		auto trailObj = trailtr->GetOwner();
-		trail = trailObj->GetComponent<Trail>();
+	if (_type != WEAPON_TYPE::SUMMON) {
+		animator = _owner->AddComponent<Animator>();
+		animator->LoadTransformFromJson("PlayerWeapon.json");
 	}
+	
 }
 
 void Weapon::Update()
 {
 	if (_using)
 	{
-		if (_elapsed < 0.4f && _elapsed + TIME->DeltaTime() > 0.4f)
-		{
-			auto trailtr = GetOwner()->GetTransform()->GetChild(L"trail");
-
-			if (trail)
-				trail->StartRecord();
-		}
 		_elapsed += TIME->DeltaTime();
-		float curFrameTime = _elapsed / weaponDesc->duration * weaponDesc->frames;
-		if (curFrameTime < weaponDesc->transforms.size()-1)
-		{
-			UINT curFrame = (UINT)curFrameTime;
-			Vector2 pos = weaponDesc->transforms[curFrame].position;
-			float angle = weaponDesc->transforms[curFrame].angle;
-
-			Vector2 nextpos = weaponDesc->transforms[curFrame+1].position;
-			float nextangle = weaponDesc->transforms[curFrame+1].angle;
-
-			tr->SetPosition(10.f * Vector3::Lerp({ pos.x,pos.y,0.f }, { nextpos.x,nextpos.y,0.f }, curFrameTime - curFrame));
-			tr->SetRotation(Quaternion::CreateFromAxisAngle(Vector3::Backward, 
-				(angle + (nextangle-angle) * (curFrameTime - curFrame)) / 360.f * DirectX::XM_2PI));
-		}
-		else if (curFrameTime < weaponDesc->frames)
-		{
-			sr->SetRender(false);
-			if (trail)
-				trail->StopRecord();
-		}
-		else {
+		if (_elapsed > _duration)
 			_using = false;
-			
-		}
 	}
+}
+
+void Weapon::SetUse()
+{
+	_using = true;
+
+	sr->SetRender(true);
+	if (_type != WEAPON_TYPE::SUMMON) {
+		auto clip = animator->GetClip(GetWeaponAnimKey());
+		clip->SetEndEvent(std::bind(&Weapon::Stop, this));
+		animator->Play(GetWeaponAnimKey());
+	}
+	trail->StartRecord();
+	_elapsed = 0.f;
+
+
+}
+
+void Weapon::Stop()
+{
+	//_using = false;
+	sr->SetRender(false);
+	trail->StopRecord();
 }

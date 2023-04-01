@@ -9,7 +9,7 @@ class FSM;
 class PlayerState;
 class Weapon;
 class Skill;
-
+class Collider2D;
 class Player : public Script
 {
 public:
@@ -29,12 +29,13 @@ public:
     virtual void SetSkill(UINT8 slot, Skill* skill);
     Skill* GetSkill(UINT8 slot) { return skills[slot]; }
 
-private:
+public:
     Animator* animator;
     RigidBody* rigidBody;
     Transform* transform;
     array<Weapon*, 2> weapons;
     array<Skill*, 2> skills;
+    Collider2D* collider;
 
 private:
     void Move();

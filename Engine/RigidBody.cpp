@@ -17,13 +17,14 @@ RigidBody::~RigidBody()
 void RigidBody::Start()
 {
 	_transform = GetOwner()->GetTransform();
+
 }
 
 void RigidBody::Update()  
 {
 	float dt = GET_SINGLE(Timer)->DeltaTime();
 	if (_useGravity)
-		_velocity += Vector3(0.f, -45.f, 0.f) * dt;
+		_velocity += Vector3(0.f, -70.f, 0.f) * dt;
 
 	_transform->Translate(_velocity * dt);
 }

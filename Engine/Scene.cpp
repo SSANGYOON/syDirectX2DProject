@@ -3,7 +3,7 @@
 #include "Layer.h"
 #include "Camera.h"
 #include "GameObject.h"
-
+#include "Timer.h"
 Scene::Scene()
 {
 	_layers.resize((UINT)LAYER_TYPE::END);
@@ -15,6 +15,7 @@ Scene::~Scene()
 
 void Scene::Start()
 {
+	GET_SINGLE(Timer)->Init();
 	for (auto layer : _layers)
 		layer.Start();
 }

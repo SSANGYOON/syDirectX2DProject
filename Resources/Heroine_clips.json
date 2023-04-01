@@ -9,6 +9,7 @@
       "Sprites": 56,
       "Duration": 1.5,
       "Loop": true
+
     },
     {
       "name": "IDLE2RUN",
@@ -18,7 +19,8 @@
       "Columns": 21,
       "Sprites": 2,
       "Duration": 0.1,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "RUN"
     },
     {
       "name": "RUN",
@@ -38,12 +40,14 @@
       "Columns": 21,
       "Sprites": 4,
       "Duration": 0.2,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "IDLE"
     },
     {
       "name": "JUMP",
       "OriginalOffset": [ 2.0, 634.0 ],
       "SpriteSize": [ 27.0, 50.0 ],
+      "TargetOffset": [ -4.0, 0.0 ],
       "Step": [ 32.0, 53.0 ],
       "Columns": 21,
       "Sprites": 5,
@@ -68,23 +72,27 @@
       "Columns": 21,
       "Sprites": 3,
       "Duration": 0.2,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "IDLE"
     },
     {
       "name": "CROUCH",
       "OriginalOffset": [ 3.0, 390.0 ],
-      "SpriteSize": [ 32.0, 46.0 ],
+      "SpriteSize": [ 32.0, 44.0 ],
       "Step": [ 34.0, 53.0 ],
+      "TargetOffset": [ 0.0, 2.0 ],
       "Columns": 21,
       "Sprites": 4,
       "Duration": 0.2,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "CROUCHING"
     },
     {
       "name": "CROUCHING",
-      "OriginalOffset": [ 3.0, 445.0 ],
-      "SpriteSize": [ 28.0, 45.0 ],
+      "OriginalOffset": [ 3.0, 453.0 ],
+      "SpriteSize": [ 28.0, 37.0 ],
       "Step": [ 30.0, 53.0 ],
+      "TargetOffset": [ 0.0, 4.0 ],
       "Columns": 21,
       "Sprites": 1,
       "Duration": 0.1,
@@ -98,7 +106,8 @@
       "Columns": 21,
       "Sprites": 1,
       "Duration": 0.1,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "IDLE"
     },
     {
       "name": "ROLLING",
@@ -108,7 +117,8 @@
       "Columns": 21,
       "Sprites": 9,
       "Duration": 1.0,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "IDLE"
     },
     {
       "name": "ATTACKED",
@@ -127,8 +137,44 @@
       "SpriteSize": [ 35.0, 48.0 ],
       "Step": [ 33.0, 53.0 ],
       "Columns": 19,
+      "TargetOffset": [ 2.0, 0.0 ],
       "Sprites": 19,
       "Duration": 1.0,
+      "Loop": false
+    },
+    {
+      "name": "ONEHANDAERIAL",
+      "OriginalOffset": [ 1.0, 1153.0 ],
+      "SpriteSize": [ 33.0, 48.0 ],
+      "Step": [ 31.0, 53.0 ],
+      "Columns": 19,
+      "TargetOffset": [ 3.0, 0.0 ],
+      "Sprites": 19,
+      "Duration": 1.0,
+      "Loop": false
+    },
+
+    {
+      "name": "ONEHANDCROUCHING",
+      "OriginalOffset": [ 2.0, 1095.0 ],
+      "SpriteSize": [ 33.0, 38.0 ],
+      "Step": [ 32.0, 53.0 ],
+      "Columns": 19,
+      "TargetOffset": [ 2.0, 4.0 ],
+      "Sprites": 19,
+      "Duration": 1.0,
+      "Loop": false
+    },
+
+    {
+      "name": "DAGGERSTANDING",
+      "OriginalOffset": [ 2.0, 836.0 ],
+      "SpriteSize": [ 32.0, 48.0 ],
+      "Step": [ 33.0, 53.0 ],
+      "Columns": 19,
+      //"TargetOffset": [ 2.0, 0.0 ],
+      "Sprites": 15,
+      "Duration": 0.8,
       "Loop": false
     },
 
@@ -151,7 +197,8 @@
       "Columns": 19,
       "Sprites": 3,
       "Duration": 0.3,
-      "Loop": false
+      "Loop": false,
+      "nextKey": "IDLE"
     }
 
   ]

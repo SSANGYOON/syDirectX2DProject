@@ -12,11 +12,10 @@
 #include "Resources.h"
 #include "Mesh.h"
 #include "Material.h"
-#include "Shader.h"
-#include "Texture.h"
 
 #include "Input.h"
 #include "Timer.h"
+#include "SceneManager.h"
 
 #include "FSM.h"
 #include "PlayerIdleState.h"
@@ -29,16 +28,14 @@
 #include "PlayerAttacked.h"
 #include "PlayerGuarded.h"
 #include "PlayerDeadState.h"
+#include "PlayerSummonState.h"
 
 #include "Weapon.h"
-#include "WeaponManager.h"
-
-#include "PlayerSummonState.h"
 #include "Skill.h"
 
 Player::Player(GameObject* owner)
 	: Script(owner), _facingRight(true), _ground(false), _jump(false), _attacked(false), _falling(false), _invisible(false)
-	, jumpForce(Vector3(0.f, 20.f, 0.f)), moveSpeed(10.0f), velocity(Vector3::Zero), accel(Vector3::Zero) ,smoothTime(0.1f)
+	, jumpForce(Vector3(0.f, 30.f, 0.f)), moveSpeed(10.0f), velocity(Vector3::Zero), accel(Vector3::Zero) ,smoothTime(0.1f)
 {
 	transform = owner->GetTransform();
 	animator = owner->AddComponent<Animator>();
@@ -46,23 +43,38 @@ Player::Player(GameObject* owner)
 	rigidBody->SetGravity(true);
 	SpriteRenderer* sr = owner->AddComponent<SpriteRenderer>();
 
-	shared_ptr<Mesh> mesh = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
 	shared_ptr<Material> material = make_shared<Material>();
 	material->Load(L"Heroine_RenderPath.json");
 	sr->SetMaterial(material);
-	sr->SetMesh(mesh);
+
 	Animator* anim = owner->AddComponent<Animator>();
 
-	Collider2D* col = owner->AddComponent<Collider2D>();
-	col->SetType(Collider_TYPE::RECTANGLE);
-	col->SetSize(Vector3(1.f, 4.2f, 1.f));
-	col->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
+	collider = owner->AddComponent<Collider2D>();
+	collider->SetType(Collider_TYPE::RECTANGLE);
+	collider->SetSize(Vector3(1.f, 4.0f, 1.f));
+	collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
 
-	Collider2D* col2 = owner->AddComponent<Collider2D>();
-	col2->SetType(Collider_TYPE::CIRCLE);
-	col2->SetSize(Vector3(0.2f, 0.2f, 1.0));
-	col2->SetLocalCenter(Vector3(0.f, -2.5f, 0.f));
-	col2->SetTrigger(true);
+	Collider2D* groundChecker = owner->AddComponent<Collider2D>();
+	groundChecker->SetType(Collider_TYPE::CIRCLE);
+	groundChecker->SetSize(Vector3(0.2f, 0.2f, 1.0));
+	groundChecker->SetLocalCenter(Vector3(0.f, -2.5f, 0.f));
+	groundChecker->SetTrigger(true);
+
+	GameObject* WeaponObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	Weapon* weapon = WeaponObj->AddComponent<Weapon>();
+
+	transform->SetChild(WeaponObj->GetTransform(), L"weapon1");
+	weapons[0] = weapon;
+
+	GameObject* WeaponObj2 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	Weapon* weapon2 = WeaponObj2->AddComponent<Weapon>();
+	transform->SetChild(WeaponObj2->GetTransform(), L"weapon2");
+	weapons[1] = weapon2;
+
+	GameObject* SkillObj1 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	Skill* skill1 = SkillObj1->AddComponent<Skill>();
+	transform->SetChild(SkillObj1->GetTransform(), L"skill1");
+	skills[0] = skill1;
 }
 
 Player::~Player()
@@ -73,7 +85,6 @@ void Player::Start()
 {
 
 	animator->LoadAnimation2dFromJson("c:\\Users\\eondr\\source\\repos\\syDirectX2DProject\\Resources\\Heroine_clips.json");
-
 
     playerFSM = make_unique<FSM>();
 	idle = make_unique<PlayerIdleState>(this,playerFSM.get(), L"IDLE");
@@ -90,24 +101,16 @@ void Player::Start()
 	skill1 = make_unique<PlayerSummonState>(this, playerFSM.get(), L"STANDSUMMON", 0);
 	//skill2 = make_unique<PlayerAttackState>(this, playerFSM.get(), L"skill2");
 
-	GET_SINGLE(WeaponManager)->Init();
 
 	attacked = make_unique<PlayerAttacked>(this, playerFSM.get(), L"ATTACKED");
 	guarded = make_unique<PlayerGuarded>(this, playerFSM.get(), L"GUARDED");
 	dead = make_unique<PlayerGuarded>(this, playerFSM.get(), L"DEAD");
 
-
-	animator->GetClip(L"IDLE2RUN")->addEvent(0.2f, bind(&Player::TransitionEnd, this));
-	animator->GetClip(L"RUN2IDLE")->addEvent(0.2f, bind(&Player::TransitionEnd, this));
-	animator->GetClip(L"LANDING")->addEvent(0.2f, bind(&Player::TransitionEnd, this));
-	animator->GetClip(L"CROUCH")->addEvent(0.2f, bind(&Player::TransitionEnd, this));
-	animator->GetClip(L"CROUCH2IDLE")->addEvent(0.2f, bind(&Player::TransitionEnd, this));
-	animator->GetClip(L"STANDCASTINGEND")->addEvent(0.3f, bind(&Player::TransitionEnd, this));
-
-	//weapons[0] = transform->GetChild(L"weapon1")->GetOwner()->GetComponent<Weapon>();
-	//weapons[0]->SetWeaponType(WEAPON_TYPE::ONEHAND);
-	//weapons[1] = transform->GetChild(L"weapon2")->GetOwner()->GetComponent<Weapon>();
-
+	weapons[0] = transform->GetChild(L"weapon1")->GetOwner()->GetComponent<Weapon>();
+	weapons[0]->SetWeaponType(WEAPON_TYPE::ONEHAND);
+	weapons[1] = transform->GetChild(L"weapon2")->GetOwner()->GetComponent<Weapon>();
+	weapons[1]->SetWeaponType(WEAPON_TYPE::DAGGER);
+	transform->SetPosition(Vector3::Up * 10.f);
 }
 void Player::Update()
 {

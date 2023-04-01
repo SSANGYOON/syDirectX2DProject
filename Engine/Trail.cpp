@@ -8,9 +8,22 @@
 #include "Resources.h"
 #include "Shader.h"
 #include "Timer.h"
+#include "Weapon.h"
+
 Trail::Trail(GameObject* owner)
-	:Script(owner), trailLength(60), WeaponLength(3.6f), curFrame(0), tr(nullptr), mr(nullptr)
+	:Script(owner), trailLength(10), WeaponLength(3.6f), curFrame(-1), tr(nullptr), mr(nullptr)
 {
+	trailMesh = make_shared<Mesh>();
+
+	mr = _owner->AddComponent<MeshRenderer>();
+	mr->SetRender(false);
+	m = make_shared<Material>();
+
+	tr = GetOwner()->GetTransform();
+	
+
+	mr->SetMaterial(m);
+	mr->SetMesh(trailMesh);
 }
 Trail::~Trail()
 {
@@ -18,31 +31,19 @@ Trail::~Trail()
 
 void Trail::Start()
 {
-	trailMesh = make_shared<Mesh>();
-	tr = GetOwner()->GetTransform();
-	vertexes.resize(trailLength * 2);
+	auto weponType = tr->GetParent()->GetOwner()->GetComponent<Weapon>()->GetWeaponType();
+	vertexes.resize(trailLength * 6);
 	indexes.resize(trailLength * 6);
-	/*for (UINT i = 0; i < trailLength; i++)
+	for (UINT i = 0; i < trailLength; i++)
 	{
-		vertexes[2 * i] = {};
-		vertexes[2 * i + 1] = {};
-		if (i > 1) {
-			indexes[(i - 1) * 6]     = i * 2 - 2;
-			indexes[(i - 1) * 6 + 1] = i * 2 - 1;
-			indexes[(i - 1) * 6 + 2] = i * 2;
-
-			indexes[(i - 1) * 6 + 3] = i * 2;
-			indexes[(i - 1) * 6 + 4] = i * 2 + 1;
-			indexes[(i - 1) * 6 + 5] = i * 2 - 1;
+		for (UINT j = 0; j < 6; j++)
+		{
+			vertexes[6 * i + j] = {};
+			indexes[6 * i + j] = 6 * i + j;
 		}
-	}*/
-	//mr = GetOwner()->GetComponent<MeshRenderer>();
-	//mr->SetMesh(trailMesh);
-	//m = make_shared<Material>();
-	//m->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"TrailShader"));
-	//mr->SetMaterial(m);
-	//m->SetTexture(0,GET_SINGLE(Resources)->Load<Texture>(L"TrailTexture", L"SlashTrail.png"));
-	//mr->SetRender(false);
+	}
+	trailMesh->CreateVertexBuffer(vertexes.data(), vertexes.size(),D3D11_USAGE_DYNAMIC);
+	trailMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 }
 
 void Trail::FinalUpdate()
@@ -53,35 +54,101 @@ void Trail::FinalUpdate()
 
 	if (elapsed > 1.f / 60.f)
 	{
-		vertexes[curFrame * 2].pos = Vector4(tr->GetWorldPosition(),1.f);
-		vertexes[curFrame * 2].uv.x = curFrame;
-		vertexes[curFrame * 2].uv.y = 1;
-
-		vertexes[curFrame * 2 + 1].pos = Vector4(tr->GetLocalToWorld(Vector3::Up * WeaponLength),1.f);
-		vertexes[curFrame * 2 + 1].uv.x = curFrame;
-		vertexes[curFrame * 2 + 1].uv.y = 0;
-
-		previousBasePos = vertexes[curFrame * 2].pos;
-		previousTipPos = vertexes[curFrame * 2 + 1].pos;
-
-		
-
-		if (curFrame){
+		if (curFrame >= 0)
+		{
 			mr->SetRender(true);
-			trailMesh->CreateVertexBuffer(vertexes.data(), (curFrame + 1) * 2);
-			trailMesh->CreateIndexBuffer(indexes.data(), curFrame * 6);
+			vertexes[curFrame * 6].pos = previousBasePos;
+			vertexes[curFrame * 6 + 1].pos = previousTipPos;
+			vertexes[curFrame * 6 + 2].pos = Vector4(tr->GetWorldPosition(), 1.f);
+			vertexes[curFrame * 6 + 3].pos = previousTipPos;
+			vertexes[curFrame * 6 + 4].pos = Vector4(tr->GetWorldPosition(), 1.f);
+			vertexes[curFrame * 6 + 5].pos = Vector4(tr->GetLocalToWorld(Vector3::Up * WeaponLength), 1.f);
+
+
+			if (_trailType == TRAIL_TYPE::HORIZON)
+			{
+				vertexes[curFrame * 6].uv.x = 0;
+				vertexes[curFrame * 6].uv.y = curFrame;
+				vertexes[curFrame * 6 + 1].uv.x = 1;
+				vertexes[curFrame * 6 + 1].uv.y = curFrame;
+				vertexes[curFrame * 6 + 2].uv.x = 0;
+				vertexes[curFrame * 6 + 2].uv.y = curFrame + 1;
+				vertexes[curFrame * 6 + 3].uv.x = 1;
+				vertexes[curFrame * 6 + 3].uv.y = curFrame;
+				vertexes[curFrame * 6 + 4].uv.x = 0;
+				vertexes[curFrame * 6 + 4].uv.y = curFrame + 1;
+				vertexes[curFrame * 6 + 5].uv.x = 1;
+				vertexes[curFrame * 6 + 5].uv.y = curFrame + 1;
+			}
+			else if (_trailType == TRAIL_TYPE::VERTICAL)
+			{
+				vertexes[curFrame * 6].uv.x = curFrame;
+				vertexes[curFrame * 6].uv.y = 1;
+				vertexes[curFrame * 6 + 1].uv.x = curFrame;
+				vertexes[curFrame * 6 + 1].uv.y = 0;
+				vertexes[curFrame * 6 + 2].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 2].uv.y = 1;
+				vertexes[curFrame * 6 + 3].uv.x = curFrame;
+				vertexes[curFrame * 6 + 3].uv.y = 0;
+				vertexes[curFrame * 6 + 4].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 4].uv.y = 1;
+				vertexes[curFrame * 6 + 5].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 5].uv.y = 0;
+			}
+			else if (_trailType == TRAIL_TYPE::VERTICALFLIPED)
+			{
+				vertexes[curFrame * 6].uv.x = curFrame;
+				vertexes[curFrame * 6].uv.y = 0;
+				vertexes[curFrame * 6 + 1].uv.x = curFrame;
+				vertexes[curFrame * 6 + 1].uv.y = 1;
+				vertexes[curFrame * 6 + 2].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 2].uv.y = 0;
+				vertexes[curFrame * 6 + 3].uv.x = curFrame;
+				vertexes[curFrame * 6 + 3].uv.y = 1;
+				vertexes[curFrame * 6 + 4].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 4].uv.y = 0;
+				vertexes[curFrame * 6 + 5].uv.x = curFrame + 1;
+				vertexes[curFrame * 6 + 5].uv.y = 1;
+			}
+			trailMesh->SetVertexData(vertexes.data(), vertexes.size());
 		}
 
-		curFrame++;
+		previousBasePos = Vector4(tr->GetWorldPosition(), 1.f);
+		previousTipPos = Vector4(tr->GetLocalToWorld(Vector3::Up * WeaponLength), 1.f);
+		curFrame = (curFrame + 1) % trailLength;
 		elapsed -= 1.f / 60.f;
+
 		m->SetInt(0, curFrame);
-		m->SetInt(1, 60);
+		m->SetInt(1, trailLength);
+		m->SetInt(2, UINT(_trailType == TRAIL_TYPE::HORIZON));
 	}	
+}
+
+void Trail::SetTrailType(WEAPON_TYPE type)
+{
+	if (type == WEAPON_TYPE::ONEHAND) {
+		m->Load(L"OneHandTrail.json");
+		WeaponLength = 3.6f;
+		_trailType = TRAIL_TYPE::VERTICAL;
+	}
+	else if (type == WEAPON_TYPE::DAGGER) {
+		m->Load(L"DaggerTrail.json");
+		WeaponLength = 2.0f;
+		_trailType = TRAIL_TYPE::HORIZON;
+	}
+	else if (type == WEAPON_TYPE::SUMMON) {
+		m->Load(L"OneHandTrail.json");
+		WeaponLength = 3.6f;
+		_trailType = TRAIL_TYPE::VERTICALFLIPED;
+	}
 }
 
 void Trail::StartRecord()
 {
-	_record = true; curFrame = 0;
+	
+	Vertex v = {};
+	std::fill(vertexes.begin(), vertexes.end(), v);
+	curFrame = -1; _record = true;
 	elapsed = 0.f;
 }
 

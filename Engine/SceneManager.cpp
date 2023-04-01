@@ -33,10 +33,10 @@ void SceneManager::LoadScene(const wstring& SceneName)
 	_activeScene->Start();
 }
 
-shared_ptr<GameObject> SceneManager::Instantiate(LAYER_TYPE type)
+GameObject* SceneManager::Instantiate(LAYER_TYPE type)
 {
 	shared_ptr<GameObject> obj = make_shared<GameObject>();
 	obj->SetGameObjectState(GameObject::ACTIVE);
 	_activeScene->AddGameObject(obj,type);
-	return obj;
+	return obj.get();
 }

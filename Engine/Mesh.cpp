@@ -17,20 +17,29 @@ HRESULT Mesh::Load(const std::wstring& path)
     return E_NOTIMPL;
 }
 
-void Mesh::CreateVertexBuffer(void* data, UINT count)
+void Mesh::CreateVertexBuffer(void* data, UINT count, D3D11_USAGE usage)
 {
 	// 버텍스 버퍼
 	D3D11_BUFFER_DESC desc = {};
 	desc.ByteWidth = sizeof(Vertex) * count;
 	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-	desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-	desc.CPUAccessFlags = 0;
+	desc.Usage = usage;
+	if (usage == D3D11_USAGE_DYNAMIC)
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	else
+		desc.CPUAccessFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA subData = {};
 	subData.pSysMem = data;
-	if (_vertexBuffer)
-		_vertexBuffer->Release();
 	DEVICE->CreateBuffer(&desc, &subData, _vertexBuffer.GetAddressOf());
+}
+
+void Mesh::SetVertexData(void* data, UINT count)
+{
+	D3D11_MAPPED_SUBRESOURCE sub = {};
+	CONTEXT->Map(_vertexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+	memcpy(sub.pData, data, sizeof(Vertex) * count);
+	CONTEXT->Unmap(_vertexBuffer.Get(), 0);
 }
 
 void Mesh::CreateIndexBuffer(void* data, UINT count)
@@ -43,8 +52,6 @@ void Mesh::CreateIndexBuffer(void* data, UINT count)
 
 	D3D11_SUBRESOURCE_DATA subData = {};
 	subData.pSysMem = data;
-	if (_indexBuffer)
-		_indexBuffer->Release();
 	DEVICE->CreateBuffer(&desc, &subData, _indexBuffer.GetAddressOf());
 	_indexes = count;
 }

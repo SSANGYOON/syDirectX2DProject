@@ -23,7 +23,7 @@ VSOut VS_MAIN(VSIn In)
     Out.UV = (sourceOffset + In.UV * sourceSize) / sourceSheetSize;
 
 
-    pos.xy = In.Pos.xy * sourceSize * targetSizeRatio + targetOffset;
+    pos.xy = (In.Pos.xy * sourceSize + targetOffset) * targetSizeRatio;
     pos.z = In.Pos.z;
     pos.w = 1.f;
 

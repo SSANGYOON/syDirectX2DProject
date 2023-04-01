@@ -41,7 +41,13 @@ void PlayerNormalState::CheckTransition()
 		isExitingState = true;
 	}
 
-	else if (INPUT->GetKeyState(KEY_TYPE::A) == KEY_STATE::PRESS)
+	else if (_player->GetWeapon(1) && INPUT->GetKeyState(KEY_TYPE::X) == KEY_STATE::PRESS)
+	{
+		_fsm->ChangeState(_player->attack2.get(), FSM::READY);
+		isExitingState = true;
+	}
+
+	else if (INPUT->GetKeyState(KEY_TYPE::A) == KEY_STATE::DOWN)
 	{
 		_fsm->ChangeState(_player->skill1.get(), FSM::READY);
 		isExitingState = true;

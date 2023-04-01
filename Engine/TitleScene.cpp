@@ -49,44 +49,6 @@ void TitleScene::Start()
 	PlayerObj->AddComponent<Player>();
 	AddGameObject(PlayerObj, LAYER_TYPE::PLAYER);
 
-#pragma region Todo
-		/*shared_ptr<GameObject> WeaponObj = make_shared<GameObject>();
-		SpriteRenderer* weaponsr = WeaponObj->AddComponent<SpriteRenderer>();
-		weaponsr->SetMesh(mesh);
-		auto WeaponMaterial = make_shared<Material>();
-		weaponsr->SetMaterial(WeaponMaterial);
-		shared_ptr<Texture> weapontext = make_shared<Texture>();
-		weapontext->Load(L"HolySword.png");
-		WeaponMaterial->SetTexture(0, weapontext);
-		WeaponMaterial->SetShader(shader);
-		Weapon* weapon = WeaponObj->AddComponent<Weapon>();
-		weaponsr->SetOriginSize(weapontext->GetSize());
-		weaponsr->SetOriginPos(Vector2::Zero);
-
-		PlayerObj->GetTransform()->SetChild(WeaponObj->GetTransform(), L"weapon1");
-		AddGameObject(WeaponObj, LAYER_TYPE::PLAYER);
-
-		shared_ptr<GameObject> TrailObj = make_shared<GameObject>();
-		TrailObj->AddComponent<MeshRenderer>();
-		TrailObj->AddComponent<Trail>();
-		WeaponObj->GetTransform()->SetChild(TrailObj->GetTransform(), L"trail");
-		AddGameObject(TrailObj, LAYER_TYPE::PLAYER);
-		*/
-	 /*{
-		shared_ptr<GameObject> WeaponObj2 = make_shared<GameObject>();
-		SpriteRenderer* weaponsr2 = WeaponObj2->AddComponent<SpriteRenderer>();
-		weaponsr2->SetMesh(mesh);
-		auto WeaponMaterial2 = make_shared<Material>();
-		weaponsr2->SetMaterial(WeaponMaterial2);
-		WeaponMaterial2->SetTexture(0, weapontext);
-		WeaponMaterial2->SetShader(shader);
-		Weapon* weapon2 = WeaponObj2->AddComponent<Weapon>();
-		weaponsr2->SetOriginSize(weapontext->GetSize());
-		weaponsr2->SetOriginPos(Vector2::Zero);
-
-		PlayerObj->GetTransform()->SetChild(WeaponObj2->GetTransform(), L"weapon2");
-		AddGameObject(WeaponObj2, LAYER_TYPE::PLAYER);
-	}*/
 	{
 		shared_ptr<GameObject> ground = make_shared<GameObject>();
 		Transform* tr = ground->GetTransform();
@@ -101,7 +63,6 @@ void TitleScene::Start()
 
 	{
 		shared_ptr<GameObject> Enemy = make_shared<GameObject>();
-
 		Transform* tr = Enemy->GetTransform();
 		tr->SetPosition(Vector3(2.f, -5.f, -1.f));
 		tr->SetFixed(true);
@@ -109,7 +70,7 @@ void TitleScene::Start()
 		SpriteRenderer* sr = Enemy->AddComponent<SpriteRenderer>();
 		shared_ptr<Material> material = make_shared<Material>();
 		material->SetVec4(0, Vector4(0.f, 1.f, 0.f, 1.f));
-		material->Load(L"BloomRenderPath.json");
+		material->Load(L"OneHandShader.json");
 		sr->SetMaterial(material);
 		sr->SetMesh(GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh"));
 		col->SetTrigger(true);

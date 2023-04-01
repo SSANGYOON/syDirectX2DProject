@@ -72,7 +72,7 @@ void Engine::Update()
 
 void Engine::Render()
 {
-	FLOAT backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 	_device->GetContext()->ClearRenderTargetView(_renderTarget->GetRTV(), backgroundColor);
 	_device->GetContext()->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	GET_SINGLE(SceneManager)->Render();

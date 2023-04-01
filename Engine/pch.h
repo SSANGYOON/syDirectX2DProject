@@ -5,6 +5,8 @@
 
 
 #include "EnginePch.h"
+#include "Input.h"
+#include "Timer.h"
 
 #define INPUT GET_SINGLE(Input)
 #define TIME GET_SINGLE(Timer)

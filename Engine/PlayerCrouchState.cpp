@@ -3,6 +3,7 @@
 #include "FSM.h"
 #include "Animator.h"
 #include "Input.h"
+#include "Collider2D.h"
 
 PlayerCrouchState::PlayerCrouchState(Player* player, FSM* stateMachine, const wstring& stateName) :
 	PlayerNormalState(player, stateMachine, stateName)
@@ -19,11 +20,15 @@ void PlayerCrouchState::Enter()
 {
 	PlayerNormalState::Enter();
 	_controllable = false;
+	_player->collider->SetSize(Vector3(1.f, 2.5f, 1.f));
+	_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
 }
 
 void PlayerCrouchState::Exit()
 {
 	PlayerNormalState::Exit();
+	_player->collider->SetSize(Vector3(1.f, 4.0f, 1.f));
+	_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
 }
 
 void PlayerCrouchState::CheckTransition()

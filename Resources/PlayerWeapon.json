@@ -1,86 +1,161 @@
 {
-  "Weapons": [
+  "Clips": [
     {
-      "WeaponType": "ONEHAND",
-      "Frames": 19,
-      "Duration" :  1.0,
+      "ClipName": "ONEHAND",
+      "Frames": 15,
+      "Duration": 0.8333333,
+      "Loop": false,
       "Frame Transform": [
         {
           "Frame": 0,
-          "Offset": [ -0.124, -0.014 ],
+          "Offset": [ -0.124, -0.014, 0 ],
           "Angle": 45
         },
         {
           "Frame": 1,
-          "Offset": [ -0.124, -0.014 ],
+          "Offset": [ -0.124, -0.014, 0 ],
           "Angle": 45
         },
         {
           "Frame": 2,
-          "Offset": [ -0.109, 0.016 ],
+          "Offset": [ -0.109, 0.016, 0 ],
           "Angle": 42
         },
         {
           "Frame": 3,
-          "Offset": [ -0.13, 0.034 ],
+          "Offset": [ -0.13, 0.034, 0 ],
           "Angle": 38
         },
         {
           "Frame": 4,
-          "Offset": [ -0.117, 0.068 ],
+          "Offset": [ -0.117, 0.068, 0 ],
           "Angle": 32.8
         },
         {
           "Frame": 5,
-          "Offset": [ -0.13, 0.11 ],
+          "Offset": [ -0.13, 0.11, 0 ],
           "Angle": 28.5
         },
         {
           "Frame": 6,
-          "Offset": [ -0.114, 0.174 ],
+          "Offset": [ -0.114, 0.174, 0 ],
           "Angle": 24.3
         },
         {
           "Frame": 7,
-          "Offset": [ -0.085, 0.185 ],
+          "Offset": [ -0.085, 0.185, 0 ],
           "Angle": 21.8
         },
         {
           "Frame": 8,
-          "Offset": [ -0.044, 0.189 ],
+          "Offset": [ -0.044, 0.189, 0 ],
           "Angle": 19.1
         },
         {
           "Frame": 9,
-          "Offset": [ 0.022, 0.19 ],
+          "Offset": [ 0.022, 0.19, 0 ],
           "Angle": 0
         },
         {
           "Frame": 10,
-          "Offset": [ 0.139, 0.072 ],
+          "Offset": [ 0.139, 0.072, 0 ],
           "Angle": -46.6
         },
         {
           "Frame": 11,
-          "Offset": [ 0.134, 0.004 ],
+          "Offset": [ 0.134, 0.004, 0 ],
           "Angle": -85.7
         },
         {
           "Frame": 12,
-          "Offset": [ 0.15, -0.068 ],
+          "Offset": [ 0.15, -0.068, 0 ],
           "Angle": -105
         },
         {
           "Frame": 13,
-          "Offset": [ 0.149, -0.077 ],
+          "Offset": [ 0.149, -0.077, 0 ],
           "Angle": -112
         },
         {
           "Frame": 14,
-          "Offset": [ 0.148, -0.079 ],
+          "Offset": [ 0.148, -0.079, 0 ],
+          "Angle": -117.06
+        },
+        {
+          "Frame": 15,
+          "Offset": [ 0.148, -0.079, 0 ],
           "Angle": -117.06
         }
       ]
     },
+    {
+      "ClipName": "DAGGER",
+      "Frames": 11,
+      "Duration": 0.5,
+      "Loop": false,
+      "Frame Transform": [
+        {
+          "Frame": 0,
+          "Offset": [ -0.035, -0.03, 0 ],
+          "Angle": -95
+        },
+        {
+          "Frame": 1,
+          "Offset": [ -0.0573, -0.009, 0 ],
+          "Angle": -93.79
+        },
+        {
+          "Frame": 2,
+          "Offset": [ -0.079, 0.03, 0 ],
+          "Angle": -92.144
+        },
+        {
+          "Frame": 3,
+          "Offset": [ -0.086, 0.067, 0 ],
+          "Angle": -90
+        },
+        {
+          "Frame": 4,
+          "Offset": [ -0.081, 0.103, 0 ],
+          "Angle": -89.557
+        },
+        {
+          "Frame": 5,
+          "Offset": [ -0.058, 0.084, 0 ],
+          "Angle": -89.672
+        },
+        {
+          "Frame": 6,
+          "Offset": [ -0.043, 0.054, 0 ],
+          "Angle": -90.304
+        },
+        {
+          "Frame": 7,
+          "Offset": [ 0.045, 0.042, 0 ],
+          "Angle": -90.695
+
+        },
+        {
+          "Frame": 8,
+          "Offset": [ 0.119, 0.017, 0 ],
+          "Angle": -91.433
+        },
+        {
+          "Frame": 9,
+          "Offset": [ 0.167, 0.007, 0 ],
+          "Angle": -91.748
+        },
+        {
+          "Frame": 10,
+          "Offset": [ 0.167, 0.007, 0 ],
+          "Angle": -91.748
+        },
+        {
+          "Frame": 11,
+          "Offset": [ 0.167, 0.007, 0 ],
+          "Angle": -91.748
+        }
+      ]
+    }
   ]
 }
