@@ -58,7 +58,8 @@ void Camera::Render()
 	Camera::s_projection = _projection;
 	Camera::s_view = _view;
 
-	shared_ptr<Scene> curScene = GET_SINGLE(SceneManager)->GetActiveScene();
+
+	Scene* curScene = GET_SINGLE(SceneManager)->GetActiveScene();
 
 	for (size_t i = 0; i < 32; i++)
 	{

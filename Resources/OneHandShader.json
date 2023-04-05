@@ -22,7 +22,7 @@
       "Path": "RangeExtractTest.hlsl",
       "ShaderInfo": {
         "BSType": 1,
-        "DSType": 0,
+        "DSType": 2,
         "RSType": 2,
         "Topology": 4
       },
@@ -41,7 +41,7 @@
       "Path": "Rect.hlsl",
       "ShaderInfo": {
         "BSType": 1,
-        "DSType": 2,
+        "DSType": 0,
         "RSType": 2,
         "Topology": 4
       },
@@ -60,7 +60,7 @@
       "Path": "Bloom.hlsl",
       "ShaderInfo": {
         "BSType": 1,
-        "DSType": 2,
+        "DSType": 0,
         "RSType": 2,
         "Topology": 4
       },

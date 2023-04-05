@@ -54,5 +54,6 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
     color.w = 1.f;
 
     color.w = alpha.z;
+
     return color;
 }

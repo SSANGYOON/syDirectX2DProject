@@ -10,21 +10,21 @@
 Skill::Skill(GameObject* owner)
 	:Script(owner), phases(2), summoned(false), currentPhase(0)
 {
-	GameObject* SworldHolder = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	GameObject* SworldHolder = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 	auto holdtr = SworldHolder->GetTransform();
 	holderAnim = SworldHolder->AddComponent<Animator>();
 	holderAnim->LoadTransformFromJson("SummonSword.json");
 
 	for (int i = 0; i < 5; i++)
 	{
-		GameObject* satlelight = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+		GameObject* satlelight = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 		Transform* satletr = satlelight->GetTransform();
 		holdtr->SetChild(satletr, L"satlelight" + i);
 
 		satleliteAnim[i] = satlelight->AddComponent<Animator>();
 		satleliteAnim[i]->LoadTransformFromJson("SummonSword.json");
 		
-		GameObject* swordObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+		GameObject* swordObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 		weapons[i] = swordObj->AddComponent<Weapon>();
 		satletr->SetChild(swordObj->GetTransform(), L"sword");
 		swordAnim[i] = swordObj->AddComponent<Animator>();

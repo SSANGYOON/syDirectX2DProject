@@ -40,6 +40,8 @@ void Transform::SetTransformBuffer()
 	shared_ptr<ConstantBuffer> cb = GEngine->GetConstantBuffer(Constantbuffer_Type::TRANSFORM);
 	cb->SetData(&trCB);
 	cb->SetPipline(ShaderStage::VS);
+	cb->SetPipline(ShaderStage::GS);
+	cb->SetPipline(ShaderStage::PS);
 }
 
 void Transform::Translate(const Vector3& worldDir)

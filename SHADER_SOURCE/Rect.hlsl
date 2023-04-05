@@ -18,9 +18,7 @@ VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
 
-    In.Pos.xy = In.Pos.xy * sourceSheetSize * targetSizeRatio;
-    In.Pos.z = In.Pos.z;
-    In.Pos.w = 1.f;
+    In.Pos.xy = In.Pos.xy * g_vec2_0 * 0.1f;
     float4 worldPosition = mul(In.Pos, world);
     float4 viewPosition = mul(worldPosition, view);
     float4 ProjPosition = mul(viewPosition, projection);
@@ -36,6 +34,7 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
 {
     float4 color = (float)0.0f;
     color = tex_0.Sample(anisotropicSampler, In.UV);
+
     if (color.w == 0.f)
         discard;
     return color;

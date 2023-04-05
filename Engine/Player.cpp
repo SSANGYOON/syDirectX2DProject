@@ -56,22 +56,22 @@ Player::Player(GameObject* owner)
 
 	Collider2D* groundChecker = owner->AddComponent<Collider2D>();
 	groundChecker->SetType(Collider_TYPE::CIRCLE);
-	groundChecker->SetSize(Vector3(0.2f, 0.2f, 1.0));
+	groundChecker->SetSize(Vector3(0.8f, 0.8f, 1.0));
 	groundChecker->SetLocalCenter(Vector3(0.f, -2.5f, 0.f));
 	groundChecker->SetTrigger(true);
 
-	GameObject* WeaponObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	GameObject* WeaponObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 	Weapon* weapon = WeaponObj->AddComponent<Weapon>();
 
 	transform->SetChild(WeaponObj->GetTransform(), L"weapon1");
 	weapons[0] = weapon;
 
-	GameObject* WeaponObj2 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	GameObject* WeaponObj2 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 	Weapon* weapon2 = WeaponObj2->AddComponent<Weapon>();
 	transform->SetChild(WeaponObj2->GetTransform(), L"weapon2");
 	weapons[1] = weapon2;
 
-	GameObject* SkillObj1 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	GameObject* SkillObj1 = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 	Skill* skill1 = SkillObj1->AddComponent<Skill>();
 	transform->SetChild(SkillObj1->GetTransform(), L"skill1");
 	skills[0] = skill1;
@@ -84,7 +84,7 @@ Player::~Player()
 void Player::Start()
 {
 
-	animator->LoadAnimation2dFromJson("c:\\Users\\eondr\\source\\repos\\syDirectX2DProject\\Resources\\Heroine_clips.json");
+	animator->LoadAnimation2dFromJson("Heroine_clips.json");
 
     playerFSM = make_unique<FSM>();
 	idle = make_unique<PlayerIdleState>(this,playerFSM.get(), L"IDLE");

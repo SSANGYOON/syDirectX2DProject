@@ -8,5 +8,8 @@ public:
 	virtual ~MeshRenderer();
 
 	virtual void Render();
+
+private:
+	float _accTime;
 };
 

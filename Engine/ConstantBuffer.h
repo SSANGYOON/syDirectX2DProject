@@ -3,10 +3,9 @@ enum class Constantbuffer_Type : UINT8
 {
 	TRANSFORM,
 	SPRITE,
-	GRID,
 	MATERIAL,
-	
-	//LIGHT,	
+	LIGHT,
+	GRID,
 	END
 };
 
@@ -31,6 +30,24 @@ CBUFFER(GridCB, CBSLOT_GRID)
 	Vector4 cameraPosition;
 	Vector2 cameraScale;
 	Vector2 resolution;
+};
+
+struct LightInfo
+{
+	Vector3 dir;
+	float angle;
+	Vector3 position;
+	float range;
+	Vector4 color;
+	UINT type;
+	Vector3 padding;
+};
+
+CBUFFER(LightCB, CBSLOT_LIGHT)
+{
+	UINT		lightCount;
+	Vector3		padding;
+	LightInfo	lights[50];
 };
 
 class ConstantBuffer

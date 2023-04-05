@@ -11,7 +11,7 @@ public:
 	void LoadScene(const wstring& SceneName);
 
 public:
-	shared_ptr<Scene> GetActiveScene() { return _activeScene; }
+	Scene* GetActiveScene() { return _activeScene.get(); }
 	GameObject* Instantiate(LAYER_TYPE type);
 
 private:

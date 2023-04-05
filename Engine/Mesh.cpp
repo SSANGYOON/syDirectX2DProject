@@ -69,3 +69,8 @@ void Mesh::Render()
 {
 	CONTEXT->DrawIndexed(_indexes, 0, 0);
 }
+
+void Mesh::RenderIndexed(UINT count)
+{
+	CONTEXT->DrawIndexedInstanced(_indexes, count, 0, 0, 0);
+}

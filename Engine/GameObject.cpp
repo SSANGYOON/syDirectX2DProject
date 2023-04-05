@@ -26,7 +26,7 @@ BaseRenderer* GameObject::GetRenderer()
 void GameObject::Start()
 {
 	_state = ACTIVE;
-	_transform->Start();
+
 	for (unique_ptr<Component>& comp : _components)
 	{
 		if (comp == nullptr)

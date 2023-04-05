@@ -113,7 +113,9 @@ void Animator::Clear()
 void Animator::LoadAnimation2dFromJson(const string& jsonFile)
 {
     ifstream json_f;
-    json_f.open(jsonFile);
+    std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+    std::string fullPath = parentPath.string() + "\\Resources\\" + jsonFile;
+    json_f.open(fullPath);
     Json::CharReaderBuilder builder;
     builder["collectComments"] = false;
     Json::Value value;

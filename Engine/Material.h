@@ -4,6 +4,7 @@
 
 class Mesh;
 class Shader;
+class ComputeShader;
 enum : UINT8
 {
 	MATERIAL_ARG_COUNT = 4,
@@ -43,23 +44,27 @@ public :
 public:
 	virtual HRESULT Load(const std::wstring& path) override;
 
-	void SetInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
+	void SetUInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }
 	void SetVec2(UINT8 index, Vector2 value) { _params.SetVec2(index, value); }
 	void SetVec4(UINT8 index, Vector4 value) { _params.SetVec4(index, value); }
+
 	void SetMatrix(UINT8 index, Matrix& value) { _params.SetMatrix(index, value); }
 
 	void SetTexture(UINT8 index, shared_ptr<Texture> texture) { _textures[index] = texture;}
-
 	void SetShader(UINT8 index, shared_ptr<Shader> shader) { _shaders[index] = shader; }
+	void SetComputeShader(shared_ptr<ComputeShader> computeShader) { _computeShader = computeShader; }
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
 
 	void Render(shared_ptr<Mesh> mesh);
+	void RenderIndexed(shared_ptr<Mesh> mesh, UINT count);
+	void Dispatch();
 
 private:
 	MaterialCB		_params;
 	vector<shared_ptr<Shader>> _shaders;
+	shared_ptr<ComputeShader> _computeShader;
 	vector<vector<int>> _inputTextureIndex;
 	vector<int> _targetTextureIndex;
 	array<shared_ptr<Texture>, MAX_TEXTURE_COUNT> _textures;

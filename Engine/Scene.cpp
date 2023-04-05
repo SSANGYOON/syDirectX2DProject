@@ -3,7 +3,12 @@
 #include "Layer.h"
 #include "Camera.h"
 #include "GameObject.h"
+#include "Light.h"
+#include "ConstantBuffer.h"
+
 #include "Timer.h"
+#include "Engine.h"
+
 Scene::Scene()
 {
 	_layers.resize((UINT)LAYER_TYPE::END);
@@ -34,6 +39,7 @@ void Scene::FinalUpdate()
 
 void Scene::Render()
 {
+	PushLightData();
 	for (Camera* cam : _cameras)
 		cam->Render();
 }
@@ -44,6 +50,23 @@ Camera* Scene::GetMainCamera()
 		return _cameras[0];
 	else
 		return nullptr;
+}
+void Scene::PushLightData()
+{
+	LightCB lightParams = {};
+
+	for (auto& light : _lights)
+	{
+		const LightInfo& lightInfo = light->GetLightInfo();
+
+		lightParams.lights[lightParams.lightCount] = lightInfo;
+		lightParams.lightCount++;
+	}
+
+	shared_ptr<ConstantBuffer> cb = GEngine->GetConstantBuffer(Constantbuffer_Type::LIGHT);
+	cb->SetData(&lightParams);
+	cb->SetPipline(ShaderStage::PS);
+
 }
 void Scene::AddGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 {
@@ -56,4 +79,9 @@ void Scene::AddGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 void Scene::RemoveGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type)
 {
 	_layers[(UINT)type].RemoveGameObject(gameObject);
+}
+
+void Scene::AddLight(Light* light)
+{
+	_lights.push_back(light);
 }

@@ -17,7 +17,13 @@ struct VSOut
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
-    In.Pos.xy = In.Pos.xy * g_vec2_0 / 10.f;
+    In.Pos.xy = In.Pos.xy * g_vec2_0 / 5.f;
+
+    float2 uv = (In.UV - 0.5) * 2.f + 0.5;
+
+    if (uv.x > 1.f && uv.x < 0.f && uv.y > 1.f && uv.y < 0.f)
+        In.Pos.z -= 0.1f;
+
     float4 worldPosition = mul(In.Pos, world);
     float4 viewPosition = mul(worldPosition, view);
     float4 ProjPosition = mul(viewPosition, projection);
@@ -39,20 +45,33 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
       1.f, 0.9231, 0.7261, 0.4868, 0.278, 0.1353, 0.0561
     };
 
-    float2 texel = 1.f / (g_vec2_0);
+    float2 texel = 1.f / (g_vec2_0) * 2.f;
     float weightSum = 0.f;
-    float4 color = tex_0.Sample(pointSampler, In.UV);
+
+    float2 uv = (In.UV - 0.5f) * 2.f + 0.5f;
+
+    float4 color = (float4)0.f;
+
+    if (uv.x <= 1.f && uv.x >= 0.f && uv.y <= 1.f && uv.y >= 0.f)
+        color = tex_0.Sample(anisotropicSampler, uv);
+
     for (int i = -6; i <= 6; i++)
     {
         for (int j = -6; j <= 6; j++)
         {
-            float2 diff = float2(texel.x * i, texel.y * j);
-            frag += weight[abs(i)] * weight[abs(j)] * tex_0.Sample(anisotropicSampler, In.UV + diff);
+            float2 tuv = uv + float2(texel.x * i, texel.y * j);
+
+            if (tuv.x <= 1.f && tuv.x >= 0.f && tuv.y <= 1.f && tuv.y >= 0.f) {
+                frag += weight[abs(i)] * weight[abs(j)] * tex_0.Sample(anisotropicSampler, tuv);
+            }
+
             weightSum += weight[abs(i)] * weight[abs(j)];
         }
     }
+
     color = pow(pow(abs(color), 2.2f) +pow(abs(frag * 1.5f / weightSum), 2.2f), 1/2.2f);
     color.xyz = float3(153.f/255.f, 217.f, 234.f / 255.f);
-
+    if (color.w == 0)
+        discard;
     return color;
 }

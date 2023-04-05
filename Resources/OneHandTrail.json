@@ -14,7 +14,7 @@
       "Path": "TrailShader.hlsl",
       "ShaderInfo": {
         "BSType": 1,
-        "DSType": 2,
+        "DSType": 0,
         "RSType": 2,
         "Topology": 4
       },

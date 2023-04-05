@@ -118,9 +118,9 @@ void Trail::FinalUpdate()
 		curFrame = (curFrame + 1) % trailLength;
 		elapsed -= 1.f / 60.f;
 
-		m->SetInt(0, curFrame);
-		m->SetInt(1, trailLength);
-		m->SetInt(2, UINT(_trailType == TRAIL_TYPE::HORIZON));
+		m->SetUInt(0, curFrame);
+		m->SetUInt(1, trailLength);
+		m->SetUInt(2, UINT(_trailType == TRAIL_TYPE::HORIZON));
 	}	
 }
 

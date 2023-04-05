@@ -18,7 +18,7 @@ Weapon::Weapon(GameObject* owner)
 	sr = owner->AddComponent<SpriteRenderer>();	
 	sr->SetRender(false);
 
-	GameObject* trailObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER);
+	GameObject* trailObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
 	auto tr = _owner->GetTransform();
 	tr->SetChild(trailObj->GetTransform(), L"trail");
 	trail = trailObj->AddComponent<Trail>();

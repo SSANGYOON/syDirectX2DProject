@@ -6,7 +6,7 @@
 #include "Mesh.h"
 
 MeshRenderer::MeshRenderer(GameObject* owner)
-	:BaseRenderer(owner)
+	:BaseRenderer(owner) ,_accTime(0.f)
 {
 }
 
@@ -16,9 +16,11 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::Render()
 {
+	_accTime += TIME->DeltaTime();
 	if (!_render)
 		return;
 	Transform* tr = GetOwner()->GetTransform();
 	tr->SetTransformBuffer();
 	_material->Render(_mesh);
+	_material->SetFloat(2, _accTime);
 }

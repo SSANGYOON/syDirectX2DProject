@@ -1,0 +1,25 @@
+{
+  "Textures": [
+  ],
+  "ShaderGroup": [
+    {
+      "ID": 0,
+      "KEY": "BrightWing",
+      "Path": "WingShader.hlsl",
+      "ShaderInfo": {
+        "BSType": 1,
+        "DSType": 0,
+        "RSType": 2,
+        "Topology": 4
+      },
+      "ShaderResource": [
+        -1
+      ],
+      "Target": -1,
+      "ShaderPhases": [
+        "VS",
+        "PS"
+      ]
+    }
+  ]
+}

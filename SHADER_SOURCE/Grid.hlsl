@@ -15,6 +15,13 @@ struct VSOut
     float2 WorldPos : POSITION;
 };
 
+cbuffer Grid : register(b2)
+{
+    float4 cameraPosition;
+    float2 cameraScale;
+    float2 resolution;
+}
+
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.0f;
@@ -35,8 +42,8 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
 {
     float4 Out = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    const int width = 5;
-    const int height = 5;
+    const uint width = 5;
+    const uint height = 5;
 
     int worldX = abs(round(In.WorldPos.x));
     int worldY = abs(round(In.WorldPos.y));

@@ -6,8 +6,8 @@ ComputeShader::ComputeShader()
     : Resource(Resource_Type::COMPUTESHADER)
 	, _CSBlob(nullptr)
 	, _CS(nullptr)
-	, mThreadGroupCountX(32)
-	, mThreadGroupCountY(32)
+	, mThreadGroupCountX(1)
+	, mThreadGroupCountY(1)
 	, mThreadGroupCountZ(1)
 {
 }
@@ -36,6 +36,12 @@ bool ComputeShader::Create(const std::wstring& file)
 		, _CSBlob.GetAddressOf()
 		, mErrorBlob.GetAddressOf());
 
+	if (mErrorBlob)
+	{
+		OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+		//mErrorBlob->Release();
+	}
+
 	DEVICE->CreateComputeShader(_CSBlob->GetBufferPointer()
 		, _CSBlob->GetBufferSize()
 		, nullptr
@@ -46,9 +52,6 @@ bool ComputeShader::Create(const std::wstring& file)
 
 void ComputeShader::Dispatch()
 {
-	UINT i = 0;
 	CONTEXT->CSSetShader(_CS.Get(), nullptr, 0);
 	CONTEXT->Dispatch(mThreadGroupCountX, mThreadGroupCountY, mThreadGroupCountZ);
-	ID3D11UnorderedAccessView* p = nullptr;
-	CONTEXT->CSSetUnorderedAccessViews(0, 1, &p, &i);
 }

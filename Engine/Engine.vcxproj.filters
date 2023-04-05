@@ -125,11 +125,26 @@
     <Filter Include="LibraryCode\Resource\ComputeShader">
       <UniqueIdentifier>{68969fc8-a1a0-4203-93e4-d8afcd997263}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Player\PlayerShader">
+    <Filter Include="Scripting\DarkLady">
+      <UniqueIdentifier>{4aafaea2-6d67-431c-ab32-459647b1d6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Player\PlayerMaterial">
       <UniqueIdentifier>{b4bc995e-e82b-4fb7-86e6-c5bc18c11695}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting\Player\PlayerShader\WeaponShader">
+    <Filter Include="Scripting\Player\PlayerMaterial\WeaponShader">
       <UniqueIdentifier>{f55db709-7908-4d17-a5bb-292e6b96f0c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyAnims">
+      <UniqueIdentifier>{89436b6e-80f8-469a-8f13-cce3e884826f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryCode\Component\ParticleSystem">
+      <UniqueIdentifier>{369fed0f-b83d-44c5-83b4-f439c8541f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryCode\Component\Light">
+      <UniqueIdentifier>{e7240095-705a-493c-8cb1-2a10f97c72b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyMaterial">
+      <UniqueIdentifier>{5f24e171-a846-45b4-aaaa-c99a53e5cba0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +328,21 @@
     <ClCompile Include="PlayerSummonState.cpp">
       <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
     </ClCompile>
+    <ClCompile Include="DarkLady.cpp">
+      <Filter>Scripting\DarkLady</Filter>
+    </ClCompile>
+    <ClCompile Include="StructuredBuffer.cpp">
+      <Filter>LibraryCode\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>LibraryCode\Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>LibraryCode\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Halo.cpp">
+      <Filter>LibraryCode\Component\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -495,6 +525,21 @@
     <ClInclude Include="PlayerSummonState.h">
       <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
     </ClInclude>
+    <ClInclude Include="DarkLady.h">
+      <Filter>Scripting\DarkLady</Filter>
+    </ClInclude>
+    <ClInclude Include="StructuredBuffer.h">
+      <Filter>LibraryCode\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>LibraryCode\Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>LibraryCode\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Halo.h">
+      <Filter>LibraryCode\Component\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -504,28 +549,46 @@
       <Filter>Scripting\Player\PlayerAnims</Filter>
     </None>
     <None Include="..\Resources\Heroine_RenderPath.json">
-      <Filter>Scripting\Player\PlayerShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial</Filter>
     </None>
     <None Include="..\Resources\OneHandShader.json">
-      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
     </None>
     <None Include="..\Resources\PlayerWeapon.json">
       <Filter>Scripting\Player\PlayerAnims</Filter>
     </None>
     <None Include="..\Resources\DaggerShader.json">
-      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
     </None>
     <None Include="..\Resources\DaggerTrail.json">
-      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
     </None>
     <None Include="..\Resources\OneHandTrail.json">
-      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
     </None>
     <None Include="..\Resources\SummonSwordShader.json">
-      <Filter>Scripting\Player\PlayerShader\WeaponShader</Filter>
+      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
     </None>
     <None Include="..\Resources\SummonSword.json">
       <Filter>Scripting\Player\PlayerAnims</Filter>
+    </None>
+    <None Include="..\Resources\The_Dark_Lady_clips.json">
+      <Filter>Scripting\DarkLady\DarkLadyAnims</Filter>
+    </None>
+    <None Include="..\Resources\The_Dark_Lady_Material.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+    </None>
+    <None Include="..\Resources\The_Dark_Lady_Eye.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+    </None>
+    <None Include="..\Resources\The_Dark_Lady_particle.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+    </None>
+    <None Include="..\Resources\Halo.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+    </None>
+    <None Include="..\Resources\BrightWing.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
     </None>
   </ItemGroup>
 </Project>

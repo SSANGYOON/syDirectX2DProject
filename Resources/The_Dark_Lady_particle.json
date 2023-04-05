@@ -1,0 +1,32 @@
+{
+  "Textures": [
+    {
+      "ID": 0,
+      "Type": "Resource",
+      "KEY": "long_particle1",
+      "Path": "long_particle1.png"
+    }
+  ],
+  "ShaderGroup": [
+    {
+      "ID": 0,
+      "KEY": "ParticleGraphic",
+      "Path": "Particle.hlsl",
+      "ShaderInfo": {
+        "BSType": 1,
+        "DSType": 0,
+        "RSType": 2,
+        "Topology": 1
+      },
+      "ShaderResource": [
+        0
+      ],
+      "Target": -1,
+      "ShaderPhases": [
+        "VS",
+        "GS",
+        "PS"
+      ]
+    }
+  ]
+}

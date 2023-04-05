@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Shader.h"
 #include "Engine.h"
+#include "Resources.h"
 
 Shader::Shader()
     :Resource(Resource_Type::GRAPHICSHADER)
@@ -90,6 +91,25 @@ void Shader::CreateShader(const ShaderInfo& info, const ShaderEntry& entry, cons
 			, nullptr
 			, _PS.GetAddressOf());
 	}
+
+	if (entry.GS)
+	{
+		D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+			, "GS_MAIN", "gs_5_0", 0, 0
+			, _GSBlob.GetAddressOf()
+			, _ErrorBlob.GetAddressOf());
+
+		if (_ErrorBlob)
+		{
+			OutputDebugStringA((char*)_ErrorBlob->GetBufferPointer());
+		//	mErrorBlob->Release();
+		}
+
+		DEVICE->CreateGeometryShader(_GSBlob->GetBufferPointer()
+			, _GSBlob->GetBufferSize()
+			, nullptr
+			, _GS.GetAddressOf());
+	}
 }
 void Shader::BindShader()
 {
@@ -98,6 +118,7 @@ void Shader::BindShader()
 
 		CONTEXT->VSSetShader(_VS.Get(), nullptr, 0);
 		CONTEXT->PSSetShader(_PS.Get(), nullptr, 0);
+		CONTEXT->GSSetShader(_GS.Get(), nullptr, 0);
 
 		ComPtr<ID3D11RasterizerState> rs = rasterizerStates[(UINT)_info.rst];
 		ComPtr<ID3D11DepthStencilState> ds = depthstencilStates[(UINT)_info.dst];

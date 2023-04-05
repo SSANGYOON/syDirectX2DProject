@@ -14,7 +14,7 @@ void CollisionManager::Initialize()
 
 void CollisionManager::Update()
 {
-	Scene* scene = GET_SINGLE(SceneManager)->GetActiveScene().get();
+	Scene* scene = GET_SINGLE(SceneManager)->GetActiveScene();
 	for (UINT row = 0; row < (UINT)LAYER_TYPE::END; row++)
 	{
 		for (UINT column = row; column < (UINT)(UINT)LAYER_TYPE::END; column++)

@@ -10,6 +10,10 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)RangeExtractTest.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Rect.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Default.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Particle.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Halo.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)WingShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />
