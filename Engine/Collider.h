@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#define EPSILON 1e-4
 class Transform;
 
 struct Collision
@@ -34,16 +33,10 @@ public:
 
 	virtual void FinalUpdate() override;
 	virtual void Render() override;
+
 	virtual bool Intersects(Collider* other, OUT Vector3& dis) abstract;
+	virtual bool RayCast(const Vector3& origin, const Vector3& dir, OUT float& dist) abstract;
 	const Matrix& GetColliderTransform() { return toWorld; }
-
-	void OnCollisionEnter(const Collision& collision);
-	void OnCollisionStay(const Collision& collision);
-	void OnCollisionExit(const Collision& collision);
-
-	void OnTriggerEnter(const Collision& collision);
-	void OnTriggerStay(const Collision& collision);
-	void OnTriggerExit(const Collision& collision);
 
 	UINT getDim() { return _dim; }
 	ColliderType GetType() { return _type; }

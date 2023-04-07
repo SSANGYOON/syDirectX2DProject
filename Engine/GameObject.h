@@ -3,7 +3,8 @@
 #include "Layer.h"
 #include "Transform.h"
 
-class Collider;
+
+struct Collision;
 class BaseRenderer;
 class Transform;
 class GameObject : public Entity
@@ -23,13 +24,13 @@ public:
 	virtual void FinalUpdate();
 	virtual void Render();
 
-	void OnTriggerEnter(Collider* collider);
-	void OnTriggerStay(Collider* collider);
-	void OnTriggerExit(Collider* collider);
+	void OnTriggerEnter(const Collision& collision);
+	void OnTriggerStay(const Collision& collision);
+	void OnTriggerExit(const Collision& collision);
 
-	void OnCollisionEnter(Collider* collider);
-	void OnCollisionStay(Collider* collider);
-	void OnCollisionExit(Collider* collider);
+	void OnCollisionEnter(const Collision& collision);
+	void OnCollisionStay(const Collision& collision);
+	void OnCollisionExit(const Collision& collision);
 
 	void SetType(LAYER_TYPE type) { _type = type; }
 	LAYER_TYPE GetType() { return _type; }

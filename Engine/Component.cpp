@@ -32,26 +32,26 @@ void Component::Render()
 {
 }
 
-void Component::OntriggerEnter(Collider* collider)
+void Component::OntriggerEnter(const Collision& collision)
 {
 }
 
-void Component::OntriggerStay(Collider* collider)
+void Component::OntriggerStay(const Collision& collision)
 {
 }
 
-void Component::OntriggerExit(Collider* collider)
+void Component::OntriggerExit(const Collision& collision)
 {
 }
 
-void Component::OnCollisionEnter(Collider* collider)
+void Component::OnCollisionEnter(const Collision& collision)
 {
 }
 
-void Component::OnCollisionStay(Collider* collider)
+void Component::OnCollisionStay(const Collision& collision)
 {
 }
 
-void Component::OnCollisionExit(Collider* collider)
+void Component::OnCollisionExit(const Collision& collision)
 {
 }

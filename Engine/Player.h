@@ -1,7 +1,6 @@
 #pragma once
 #include "Script.h"
 
-class Collider;
 class Animator;
 class BaseRenderer;
 class RigidBody;
@@ -9,7 +8,7 @@ class FSM;
 class PlayerState;
 class Weapon;
 class Skill;
-class Collider;
+struct Collision;
 class Player : public Script
 {
 public:
@@ -20,8 +19,8 @@ public:
     virtual void Update() override;
     virtual Animator* GetAnimator() { return animator; }
 
-    virtual void OntriggerEnter(Collider* collider) override;
-    virtual void OntriggerExit(Collider* collider) override;
+    virtual void OntriggerEnter(const Collision& collider) override;
+    virtual void OntriggerExit(const Collision& collider) override;
 
     virtual void SetWeapon(UINT8 slot, Weapon* weapon);
     Weapon* GetWeapon(UINT8 slot) { return weapons[slot]; }

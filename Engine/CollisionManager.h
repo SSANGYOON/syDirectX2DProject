@@ -1,7 +1,5 @@
 #pragma once
-
-class Collider;
-class Scene;
+#include "Collider.h"
 
 union ColliderID
 {
@@ -25,6 +23,8 @@ public:
 	void CollisionLayerCheck(LAYER_TYPE left, LAYER_TYPE right, bool enable = true);
 	void LayerCollision(class Scene* scene, LAYER_TYPE left, LAYER_TYPE right);
 	void ColliderCollision(Collider* left, Collider* right);
+
+	bool RayCast(const Vector3& origin, const Vector3& dir, LAYER_TYPE type, OUT Collision& collision);
 
 private:
 	bitset<(UINT)LAYER_TYPE::END> _LayerCollisionMatrix[(UINT)LAYER_TYPE::END] = {};

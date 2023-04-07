@@ -16,6 +16,7 @@
 #include "Input.h"
 #include "Timer.h"
 #include "SceneManager.h"
+#include "CollisionManager.h"
 
 #include "FSM.h"
 #include "PlayerIdleState.h"
@@ -122,11 +123,15 @@ void Player::Update()
 	Ability();
 
 	playerFSM->Update();
+
+	Collision col;
+	auto origin = Vector3(0.f, 200.f, 0.f);
+	auto dir = Vector3(0.f, -1.f, 0.f);
 }
 
-void Player::OntriggerEnter(Collider* collider)
+void Player::OntriggerEnter(const Collision& collision)
 {
-	GameObject* opponent = collider->GetOwner();
+	GameObject* opponent = collision.other;
 	Transform* opponentTr = opponent->GetTransform();
 
 	LAYER_TYPE type = opponent->GetType();
@@ -162,13 +167,11 @@ void Player::OntriggerEnter(Collider* collider)
 	default:
 		break;
 	}
-		
 }
 
-
-void Player::OntriggerExit(Collider* collider)
+void Player::OntriggerExit(const Collision& collider)
 {
-	GameObject* opponent = collider->GetOwner();
+	GameObject* opponent = collider.other;
 	LAYER_TYPE type = opponent->GetType();
 	switch (type)
 	{

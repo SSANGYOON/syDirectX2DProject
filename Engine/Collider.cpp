@@ -33,27 +33,3 @@ void Collider::Render()
 {
 
 }
-
-void Collider::OnCollisionEnter(const Collision& collision)
-{
-}
-
-void Collider::OnCollisionStay(const Collision& collision)
-{
-}
-
-void Collider::OnCollisionExit(const Collision& collision)
-{
-}
-
-void Collider::OnTriggerEnter(const Collision& collision)
-{
-}
-
-void Collider::OnTriggerStay(const Collision& collision)
-{
-}
-
-void Collider::OnTriggerExit(const Collision& collision)
-{
-}

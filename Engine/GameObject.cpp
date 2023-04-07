@@ -70,39 +70,38 @@ void GameObject::Render()
 	}
 }
 
-void GameObject::OnTriggerEnter(Collider* collider)
+void GameObject::OnTriggerEnter(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OntriggerEnter(collider);
+		comp->OntriggerEnter(collision);
 }
 
-void GameObject::OnTriggerStay(Collider* collider)
+void GameObject::OnTriggerStay(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OntriggerStay(collider);
+		comp->OntriggerStay(collision);
 }
 
-void GameObject::OnTriggerExit(Collider* collider)
+void GameObject::OnTriggerExit(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OntriggerExit(collider);
+		comp->OntriggerExit(collision);
 }
 
-void GameObject::OnCollisionEnter(Collider* collider)
+void GameObject::OnCollisionEnter(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OnCollisionEnter(collider);
+		comp->OnCollisionEnter(collision);
 }
 
-void GameObject::OnCollisionStay(Collider* collider)
+void GameObject::OnCollisionStay(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OnCollisionStay(collider);
+		comp->OnCollisionStay(collision);
 }
 
-void GameObject::OnCollisionExit(Collider* collider)
+void GameObject::OnCollisionExit(const Collision& collision)
 {
 	for (auto& comp : _components)
-		comp->OnCollisionExit(collider);
+		comp->OnCollisionExit(collision);
 }
-

@@ -137,3 +137,12 @@ bool RectCollider::Intersects(Collider* other, OUT Vector3& dis)
     else
         return false;
 }
+
+bool RectCollider::RayCast(const Vector3& origin, const Vector3& dir, OUT float& dist)
+{
+    BoundingOrientedBox b({ 0.f,0.f,0.f }, { 0.5f, 0.5f, 0.5f }, { 0.f, 0.f, 0.f, 1.f });
+    BoundingOrientedBox bob;
+    b.Transform(bob, XMLoadFloat4x4(&toWorld));
+
+    return bob.Intersects(origin, dir, dist);
+}

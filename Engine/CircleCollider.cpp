@@ -30,3 +30,9 @@ bool CircleCollider::Intersects(Collider* other, OUT Vector3& dis)
 	dis = centerDiff / centerDiff.Length() * (other->GetSize().x + this->_size.x - centerDiff.Length());
 	return true;
 }
+
+bool CircleCollider::RayCast(const Vector3& origin, const Vector3& dir, OUT float& dist)
+{
+	BoundingSphere bs(toWorld.Translation(), toWorld.Right().Length() / 2.f);
+	return bs.Intersects(origin, dir, dist);
+}

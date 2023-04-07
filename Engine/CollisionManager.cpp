@@ -150,13 +150,13 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				rightob->OnCollisionEnter(left);
-				leftob->OnCollisionEnter(right);
+				rightob->OnCollisionEnter({dis, leftob});
+				leftob->OnCollisionEnter({-dis,rightob});
 			}
 			else 
 			{
-				leftob->OnTriggerEnter(right);
-				rightob->OnTriggerEnter(left);
+				rightob->OnTriggerEnter({ dis, leftob });
+				leftob->OnTriggerEnter({ -dis,rightob });
 			}
 
 			iter->second = true;
@@ -165,13 +165,13 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				rightob->OnCollisionStay(left);
-				leftob->OnCollisionStay(right);
+				rightob->OnCollisionStay({ dis, leftob });
+				leftob->OnCollisionStay({ -dis,rightob });
 			}
 			else
 			{
-				leftob->OnTriggerStay(right);
-				rightob->OnTriggerStay(left);
+				rightob->OnTriggerStay({ dis, leftob });
+				leftob->OnTriggerStay({ -dis,rightob });
 			}
 		}
 	}
@@ -181,15 +181,48 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		{
 			if (!left->IsTrigger() && !right->IsTrigger())
 			{
-				rightob->OnCollisionExit(left);
-				leftob->OnCollisionExit(right);
+				rightob->OnCollisionExit({ dis, leftob });
+				leftob->OnCollisionExit({ -dis,rightob });
 			}
 			else
 			{
-				leftob->OnTriggerExit(right);
-				rightob->OnTriggerExit(left);
+				rightob->OnTriggerExit({ dis, leftob });
+				leftob->OnTriggerExit({ -dis,rightob });
 			}
 			iter->second = false;
 		}
 	}
+}
+
+bool CollisionManager::RayCast(const Vector3& origin, const Vector3& dir, LAYER_TYPE type, OUT Collision& collision)
+{
+	const std::vector<shared_ptr<GameObject>>& objs = GET_SINGLE(SceneManager)->GetActiveScene()->GetLayer(type).GetGameObjects();
+
+	bool ret = false;
+	float len = 1e9;
+	GameObject* target = nullptr;
+
+	for (auto& obj : objs)
+	{
+		auto cols = obj->GetComponents<Collider>();
+
+		for (const auto col : cols)
+		{
+			if (!col->IsTrigger()) {
+				float dist = 1e9;
+				bool hit = col->RayCast(origin, dir, OUT dist);
+				if (hit) {
+					ret = true;
+					if (len > dist) {
+						target = obj.get();
+						len = dist;
+					}
+				}
+			}
+		}
+	}
+	collision.other = target;
+	collision.repulse = dir * len;
+
+	return ret;
 }
