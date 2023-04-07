@@ -127,6 +127,8 @@ HRESULT Material::Load(const std::wstring& path)
             GET_SINGLE(Resources)->Insert<Shader>(shaderKey, _shaders[itemID]);
         }
     }
+
+
     return S_OK;
 }
 

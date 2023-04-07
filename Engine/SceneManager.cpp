@@ -9,7 +9,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Camera.h"
-#include "Collider2D.h"
+#include "Collider.h"
 #include "CollisionManager.h"
 #include "TitleScene.h"
 void SceneManager::Update()

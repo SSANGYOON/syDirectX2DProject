@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CollisionManager.h"
-#include "Collider2D.h"
+#include "Collider.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "Layer.h"
@@ -98,6 +98,8 @@ void CollisionManager::LayerCollision(Scene* scene, LAYER_TYPE left, LAYER_TYPE 
 void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 {
 	ColliderID colliderID;
+
+
 	colliderID.left = (UINT)left->GetID();
 	colliderID.right = (UINT)right->GetID();
 
@@ -108,40 +110,36 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 		iter = _collisionMap.find(colliderID.id);
 	}
 
-	vector<Vector3> simplex;
 	GameObject* leftob = left->GetOwner();
 	GameObject* rightob = right->GetOwner();
-	if (detect(left, right, simplex))
+
+	Vector3 dis;
+	if (left->Intersects(right,dis))
 	{
 		if (!left->IsTrigger() && !right->IsTrigger())
 		{
-			
-
-			Vector3 normal;
-			float depth;
-			FindPenetration(simplex, left, right, normal, depth);
 
 			auto leftTr = leftob->GetTransform();
-			leftTr->Translate(- normal * (depth));
+			leftTr->Translate(-dis);
 
 			auto rightTr = rightob->GetTransform();
-			rightTr->Translate(normal * (depth));
+			rightTr->Translate(dis);
 
 			RigidBody* leftRb = leftob->GetComponent<RigidBody>();
 			RigidBody* rightRb = rightob->GetComponent<RigidBody>();
 			if (leftRb)
 			{
 				Vector3 velocity = leftRb->GetVelocity();
-				if (velocity.Dot(normal) > 0.f) {
-					velocity -= velocity.Dot(normal) * normal;
+				if (velocity.Dot(dis) > 0.f) {
+					velocity -= velocity.Dot(dis) * dis / dis.LengthSquared();
 					leftRb->SetVelocity(velocity);
 				}
 			}
 			if (rightRb)
 			{
 				Vector3 velocity = rightRb->GetVelocity();
-				if (velocity.Dot(normal) < 0.f) {
-					velocity -= velocity.Dot(normal) * normal;
+				if (velocity.Dot(dis) < 0.f) {
+					velocity -= velocity.Dot(dis) * dis / dis.LengthSquared();
 					rightRb->SetVelocity(velocity);
 				}
 			}
@@ -194,92 +192,4 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 			iter->second = false;
 		}
 	}
-}
-
-bool CollisionManager::detect(Collider* left, Collider* right, Simplex& simplex)
-{
-	Vector3 dir = left->GetCenter() - right->GetCenter();
-	if (dir.LengthSquared() < EPSILON)
-		dir = Vector3(1.0f, 0.f, 0.f);
-
-	simplex.push_back(left->GetFarthestPoint(dir) - right->GetFarthestPoint(-dir));
-
-	if (simplex[0].Dot(dir) <= 0.0f)
-		return false;
-
-	dir *= -1.0;
-
-	while (true) {
-		simplex.push_back(left->GetFarthestPoint(dir) - right->GetFarthestPoint(-dir));
-
-		Vector3 lastPoint = simplex.back();
-		if (lastPoint.Dot(dir) <= 0.f)
-			return false;
-		else 
-		{
-			if (checkSimplex(simplex, dir))
-				return true;
-		}
-	}
-}
-
-bool CollisionManager::checkSimplex(Simplex& simplex, Vector3& dir)
-{
-	Vector3 a = simplex.back();
-	Vector3 ao = -a;
-
-	if (simplex.size() == 3)
-	{
-		Vector3 b = simplex[1];
-		Vector3 c = simplex[0];
-
-		Vector3 ab = b - a;
-		Vector3 ac = c - a;
-
-		Vector3 abPerp = ac.Cross(ab).Cross(ab);
-		Vector3 acPerp = ab.Cross(ac).Cross(ac);
-
-		float acLocation = acPerp.Dot(ao);
-
-		if (acLocation >= 0.0f) {
-			simplex.erase(simplex.begin() + 1);
-			dir = acPerp;
-		}
-		else {
-			float abLocation = abPerp.Dot(ao);
-			if (abLocation < 0.0f) {
-				return true;
-			}
-			else {
-				simplex.erase(simplex.begin());
-				dir = abPerp;
-			}
-		}
-	}
-	else {
-
-		Vector3 b = simplex[0];
-		Vector3 ab = b - a;
-		dir = ab.Cross(ao).Cross(ab);
-	}
-
-	dir.Normalize();
-	return false;
-}
-
-void CollisionManager::FindPenetration(Simplex& simplex, Collider* left, Collider* right, Vector3& normal, float& depth)
-{
-	ExpandingSimplex expandingSimplex(simplex);
-
-	for (int i = 0; i < 10; i++)
-	{
-		shared_ptr < SimplexEdge > edge = expandingSimplex.findClosestEdge();
-		normal = edge->getNormal();
-		Vector3 point = left->GetFarthestPoint(normal) -right->GetFarthestPoint(-normal);
-		depth = abs(point.Dot(normal));
-		if (depth - edge->getDistance() < EPSILON)
-			return;
-		expandingSimplex.expand(point);
-	}
-	return;
 }

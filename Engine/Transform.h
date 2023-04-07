@@ -27,6 +27,8 @@ public:
 	void SetScale(const Vector3& scale) { _scale = scale; };
 	void SetFixed(bool fixed) { _fixed = fixed; }
 
+	void SetWorld(const Matrix& world) { _world = world; }
+
 	Transform* GetChild(const wstring& name);
 	const map<wstring, Transform*>& GetChildren() { return _children; }
 	void SetChild(Transform* child, const wstring& name);

@@ -9,7 +9,7 @@ class FSM;
 class PlayerState;
 class Weapon;
 class Skill;
-class Collider2D;
+class Collider;
 class Player : public Script
 {
 public:
@@ -35,7 +35,7 @@ public:
     Transform* transform;
     array<Weapon*, 2> weapons;
     array<Skill*, 2> skills;
-    Collider2D* collider;
+    Collider* collider;
 
 private:
     void Move();
@@ -47,8 +47,6 @@ private:
 
     void Guarded();
     void Flip();
-
-    void TransitionEnd();
 
 private:
     const Vector3 jumpForce;
@@ -77,12 +75,11 @@ public:
 
     bool _facingRight;
     bool _ground;
-    bool _jump;
     bool _attacked;
     bool _falling;
     bool _invisible;
 
     const float evadeTime = 1.f;
-    const float evadeSpeed = 15.f;
+    const float evadeSpeed = 150.f;
 };
 

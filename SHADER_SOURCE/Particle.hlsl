@@ -61,7 +61,7 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
 
     float ratio = g_data[id].curTime / g_data[id].lifeTime;
     float2 dir = g_data[id].worldDir.xy;
-    float2 scale = float2(g_vec2_0.x /10, (g_vec2_0.y + g_vec2_0.y * ratio) / 10);
+    float2 scale = float2(g_vec2_0.x, (g_vec2_0.y + g_vec2_0.y * ratio));
 
     output[0].Pos = vtx.Pos;
     output[1].Pos = vtx.Pos;
@@ -103,7 +103,7 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
 float4 PS_MAIN(GS_OUT input) : SV_Target
 {
     float ratio = 1.f - g_data[input.id].curTime / g_data[input.id].lifeTime;
-    float4 color = tex_0.Sample(pointSampler, input.uv);
+    float4 color = tex_0.Sample(pointSampler, input.uv) * g_vec4_1;
 
     color.w *= ratio;
 

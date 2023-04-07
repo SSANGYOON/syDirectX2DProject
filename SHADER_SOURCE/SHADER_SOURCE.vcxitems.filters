@@ -6,7 +6,6 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Grid.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Sprite.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)TrailShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)TestCompute.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)RangeExtractTest.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Rect.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Default.hlsl" />

@@ -11,15 +11,12 @@ public:
 private:
 	class Transform* _transform;
 
-	float buyoncyRange = 0.5f;
+	float buyoncyRange = 5.f;
 	float buyoncyFrequency = 0.5f;
 
 	float time = 0.f;
 
 	GameObject* _target;
 	Transform* _pupilTr;
-
-	Transform* _leftWingTr;
-	Transform* _rightWingTr;
 };
 

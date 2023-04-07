@@ -3,7 +3,8 @@
 #include "TitleScene.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
-#include "Collider2D.h"
+#include "RectCollider.h"
+#include "CircleCollider.h"
 #include "RigidBody.h"
 #include "Resources.h"
 #include "Shader.h"
@@ -57,12 +58,11 @@ void TitleScene::Start()
 	{
 		shared_ptr<GameObject> ground = make_shared<GameObject>();
 		Transform* tr = ground->GetTransform();
-		tr->SetScale(Vector3(50.f, 5.f, 1.f));
-		tr->SetPosition(Vector3(0.f, -10.f, 0.f));
+		tr->SetScale(Vector3(500.f, 50.f, 1.f));
+		tr->SetPosition(Vector3(0.f, -100.f, 0.f));
 		tr->SetFixed(true);
 
-		Collider2D* col = ground->AddComponent<Collider2D>();
-		col->SetType(Collider_TYPE::RECTANGLE);
+		RectCollider* col = ground->AddComponent<RectCollider>();
 		AddGameObject(ground, LAYER_TYPE::FIXEDOBJECT);
 	}
 
@@ -86,7 +86,6 @@ void TitleScene::Start()
 	{
 		shared_ptr<GameObject> darkLady = make_shared<GameObject>();
 		darkLady->AddComponent<DarkLady>();
-		darkLady->GetTransform()->SetPosition(Vector3(0.f, -15.f, 0.1f));
 		AddGameObject(darkLady, LAYER_TYPE::MONSTER);
 	}
 #pragma endregion

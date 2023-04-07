@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "Collider.h"
 #include "GameObject.h"
+#include "Resources.h"
 
-Collider::Collider(Collider_TYPE type, GameObject* owner)
+Collider::Collider(GameObject* owner)
 	: Component(Component_Type::Collider, owner)
-	, _type(type)
 	, _trigger(false)
-	, _size(Vector3(1.f))
-	, _center{ Vector3::Zero }
+	, _size(Vector3(1.f, 1.f, 1.f))
 {
 }
 
@@ -15,21 +14,46 @@ Collider::~Collider()
 {
 }
 
-void Collider::Start()
-{
-	_transform = _owner->GetTransform();
-}
-
 void Collider::FinalUpdate()
 {
+	toWorld = Matrix::CreateScale(_size) * Matrix::CreateTranslation(_localCenter) * Matrix(_owner->GetTransform()->GetWorld());
 
+#ifdef _DEBUG
+	DebugAttribute att;
+	if (_type == ColliderType::CIRCLE)
+		att.dtype = DebugMeshType::CIRCLE;
+	else
+		att.dtype = DebugMeshType::RECT;
+	att.transform = toWorld;
+	GET_SINGLE(Resources)->InsertDebug(att);
+#endif
 }
 
 void Collider::Render()
 {
+
 }
 
-Vector3 Collider::GetFarthestPoint(const Vector3& dir)
+void Collider::OnCollisionEnter(const Collision& collision)
 {
-	return Vector3();
+}
+
+void Collider::OnCollisionStay(const Collision& collision)
+{
+}
+
+void Collider::OnCollisionExit(const Collision& collision)
+{
+}
+
+void Collider::OnTriggerEnter(const Collision& collision)
+{
+}
+
+void Collider::OnTriggerStay(const Collision& collision)
+{
+}
+
+void Collider::OnTriggerExit(const Collision& collision)
+{
 }

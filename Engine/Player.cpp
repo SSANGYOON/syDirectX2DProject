@@ -3,11 +3,11 @@
 
 #include "GameObject.h"
 
-#include "Collider.h"
+#include "RectCollider.h"
+#include "CircleCollider.h"
 #include "RigidBody.h"
 #include "Animator.h"
 #include "SpriteRenderer.h"
-#include "Collider2D.h"
 
 #include "Resources.h"
 #include "Mesh.h"
@@ -34,8 +34,8 @@
 #include "Skill.h"
 
 Player::Player(GameObject* owner)
-	: Script(owner), _facingRight(true), _ground(false), _jump(false), _attacked(false), _falling(false), _invisible(false)
-	, jumpForce(Vector3(0.f, 30.f, 0.f)), moveSpeed(10.0f), velocity(Vector3::Zero), accel(Vector3::Zero) ,smoothTime(0.1f)
+	: Script(owner), _facingRight(true), _ground(false), _attacked(false), _falling(false), _invisible(false)
+	, jumpForce(Vector3(0.f, 300.f, 0.f)), moveSpeed(100.0f), velocity(Vector3::Zero), accel(Vector3::Zero) ,smoothTime(0.1f)
 {
 	transform = owner->GetTransform();
 	animator = owner->AddComponent<Animator>();
@@ -47,17 +47,15 @@ Player::Player(GameObject* owner)
 	material->Load(L"Heroine_RenderPath.json");
 	sr->SetMaterial(material);
 
-	Animator* anim = owner->AddComponent<Animator>();
+	owner->AddComponent<Animator>();
 
-	collider = owner->AddComponent<Collider2D>();
-	collider->SetType(Collider_TYPE::RECTANGLE);
-	collider->SetSize(Vector3(1.f, 4.0f, 1.f));
-	collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
+	collider = owner->AddComponent<RectCollider>();
+	collider->SetSize(Vector3(10.f, 40.0f, 1.f));
+	collider->SetLocalCenter(Vector3(0.f, -5.f, 0.f));
 
-	Collider2D* groundChecker = owner->AddComponent<Collider2D>();
-	groundChecker->SetType(Collider_TYPE::CIRCLE);
-	groundChecker->SetSize(Vector3(0.8f, 0.8f, 1.0));
-	groundChecker->SetLocalCenter(Vector3(0.f, -2.5f, 0.f));
+	Collider* groundChecker = owner->AddComponent<CircleCollider>();
+	groundChecker->SetSize(Vector3(4.f, 4.f, 1.0));
+	groundChecker->SetLocalCenter(Vector3(0.f, -25.f, 0.f));
 	groundChecker->SetTrigger(true);
 
 	GameObject* WeaponObj = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::PLAYER_WEAPON);
@@ -137,7 +135,6 @@ void Player::OntriggerEnter(Collider* collider)
 	{
 
 	case LAYER_TYPE::FIXEDOBJECT:
-		_jump = true;
 		_ground = true;
 		break;
 	case LAYER_TYPE::MONSTER:
@@ -207,23 +204,23 @@ void Player::Move()
 		float delta = p->GetTime() / evadeTime;
 		float targetSpeed = (1.f - delta) * (evadeSpeed - moveSpeed / 2.f) + delta * moveSpeed / 2.f;
 		if (_facingRight)
-			rigidBody->SetVelocity({ targetSpeed, velocity.y, velocity.x });
+			rigidBody->SetVelocity({ targetSpeed, velocity.y, 0 });
 		else
-			rigidBody->SetVelocity({ -targetSpeed, velocity.y, velocity.x });
+			rigidBody->SetVelocity({ -targetSpeed, velocity.y, 0 });
 	}
 	else if (p->_controllable)
 	{
 		if (INPUT->GetKeyState(KEY_TYPE::RIGHT) == KEY_STATE::PRESS)
-			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(moveSpeed, velocity.y, velocity.z), accel, smoothTime));
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(moveSpeed, velocity.y, 0), accel, smoothTime));
 
 		else if (INPUT->GetKeyState(KEY_TYPE::LEFT) == KEY_STATE::PRESS)
-			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(-moveSpeed, velocity.y, velocity.z), accel, smoothTime));
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(-moveSpeed, velocity.y, 0), accel, smoothTime));
 
 		else
-			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(0.f, velocity.y, velocity.z), accel, smoothTime));
+			rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(0.f, velocity.y, 0), accel, smoothTime));
 	}
 	else 
-		rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(0.f, velocity.y, velocity.z), accel, smoothTime));
+		rigidBody->SetVelocity(RigidBody::SmoothDamp(velocity, Vector3(0.f, velocity.y, 0), accel, smoothTime));
 
 	if (_facingRight && velocity.x < 0.f || !_facingRight && velocity.x > 0.f)
 		Flip();
@@ -241,12 +238,11 @@ void Player::Flip()
 void Player::Jump()
 {
 	auto p = static_cast<PlayerState*>(playerFSM->GetCurrentState());
-	if (p->_controllable && _jump)
+	if (p->_controllable && _ground)
 	{
 		if (GET_SINGLE(Input)->GetKeyState(KEY_TYPE::SPACE) == KEY_STATE::DOWN)
 		{
 			rigidBody->ApplyForce(jumpForce, RigidBody::IMPULSE);
-			_jump = false;
 		}
 	}
 }
@@ -258,17 +254,12 @@ void Player::Ability()
 void Player::Attacked()
 {
 	if (_facingRight)
-		velocity = Vector3(-7.f, 7.f, 0.f);
+		velocity = Vector3(-70.f, 70.f, 0.f);
 	else
-		velocity = Vector3(7.f, 7.f, 0);
+		velocity = Vector3(70.f, 70.f, 0);
 	rigidBody->SetVelocity(velocity);
 }
 
 void Player::Guarded()
 {
-}
-
-void Player::TransitionEnd()
-{
-	playerFSM->SetTransitionState(FSM::READY);
 }

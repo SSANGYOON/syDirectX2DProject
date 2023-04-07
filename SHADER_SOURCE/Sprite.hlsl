@@ -21,7 +21,7 @@ VSOut VS_MAIN(VSIn In)
 
     Out.UV = (sourceOffset + In.UV * sourceSize) / sourceSheetSize;
 
-    In.Pos.xy = (In.Pos.xy * sourceSize + targetOffset) * targetSizeRatio;
+    In.Pos.xy = (In.Pos.xy * sourceSize + targetOffset);
 
     float4 worldPosition = mul(In.Pos, world);
     float4 viewPosition = mul(worldPosition, view);

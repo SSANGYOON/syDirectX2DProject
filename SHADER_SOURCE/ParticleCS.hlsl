@@ -38,6 +38,7 @@ void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupInd
     float maxLifeTime = g_vec4_0.y;
     float minSpeed = g_vec4_0.z;
     float maxSpeed = g_vec4_0.w;
+    float4 targetOffset = g_vec4_1;
 
     g_shared[0].addCount = addCount;
     GroupMemoryBarrierWithGroupSync();
@@ -88,12 +89,12 @@ void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupInd
 
             if (type == 0) {
                 g_particle[GroupIndex].worldDir = dir;
-                g_particle[GroupIndex].worldPos = dir * particleGenPos.x;
+                g_particle[GroupIndex].worldPos = dir * particleGenPos.x + targetOffset.xyz;
             }
 
             else {
                 g_particle[GroupIndex].worldDir = float3(0, 1, 0);
-                g_particle[GroupIndex].worldPos = float3(dir.xy * particleGenPos, 0);
+                g_particle[GroupIndex].worldPos = float3(dir.xy * particleGenPos, 0) + targetOffset.xyz;;
             }
 
             g_particle[GroupIndex].lifeTime = (maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;

@@ -233,21 +233,4 @@ void Resources::CreateDefaultResource()
 		spriteShader->CreateShader(_info, _entry, L"Sprite.hlsl");
 	}
 #pragma endregion
-
-#pragma region ComputeShader
-	{
-		shared_ptr<ComputeShader> computeShader = std::make_shared<ComputeShader>();
-		Resources::Insert<ComputeShader>(L"TestCompute", computeShader);
-		computeShader->Create(L"TestCompute.hlsl");
-	}
-#pragma endregion
-
-#pragma region PaintTexture
-{
-	shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
-	uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE
-		| D3D11_BIND_UNORDERED_ACCESS);
-	Resources::Insert<Texture>(L"PaintTexture", uavTexture);
-}
-#pragma endregion
 }

@@ -24,7 +24,7 @@ void RigidBody::Update()
 {
 	float dt = GET_SINGLE(Timer)->DeltaTime();
 	if (_useGravity)
-		_velocity += Vector3(0.f, -70.f, 0.f) * dt;
+		_velocity += Vector3(0.f, -700.f, 0.f) * dt;
 
 	_transform->Translate(_velocity * dt);
 }

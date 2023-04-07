@@ -146,6 +146,15 @@
     <Filter Include="Scripting\DarkLady\DarkLadyMaterial">
       <UniqueIdentifier>{5f24e171-a846-45b4-aaaa-c99a53e5cba0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyPart">
+      <UniqueIdentifier>{d0b83967-0da9-477c-9451-6c48ac2aebb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyWing">
+      <UniqueIdentifier>{e28a1c2b-7a86-4b58-8a98-97e3d9b204d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye">
+      <UniqueIdentifier>{abd89642-11bc-4880-8c62-f669cf9582f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -217,9 +226,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>LibraryCode\Resource\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Collider2D.cpp">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>LibraryCode\Component\Colider</Filter>
     </ClCompile>
@@ -252,9 +258,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Scripting\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="ExpandingSimplex.cpp">
-      <Filter>LibraryCode\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Scripting\Player\Weapon</Filter>
@@ -343,6 +346,18 @@
     <ClCompile Include="Halo.cpp">
       <Filter>LibraryCode\Component\Light</Filter>
     </ClCompile>
+    <ClCompile Include="DarkLadyWing.cpp">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyWing</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkLadyEye.cpp">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye</Filter>
+    </ClCompile>
+    <ClCompile Include="RectCollider.cpp">
+      <Filter>LibraryCode\Component\Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>LibraryCode\Component\Colider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -417,9 +432,6 @@
     <ClInclude Include="Texture.h">
       <Filter>LibraryCode\Resource\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Collider2D.h">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>LibraryCode\Component\Colider</Filter>
     </ClInclude>
@@ -440,9 +452,6 @@
     </ClInclude>
     <ClInclude Include="TitleScene.h">
       <Filter>LibraryCode\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="ExpandingSimplex.h">
-      <Filter>LibraryCode\Utils</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>LibraryCode\Component\RigidBody</Filter>
@@ -539,6 +548,18 @@
     </ClInclude>
     <ClInclude Include="Halo.h">
       <Filter>LibraryCode\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkLadyWing.h">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyWing</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkLadyEye.h">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye</Filter>
+    </ClInclude>
+    <ClInclude Include="RectCollider.h">
+      <Filter>LibraryCode\Component\Colider</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>LibraryCode\Component\Colider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

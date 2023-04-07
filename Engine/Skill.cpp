@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
-#include "Trail.h"
+#include "Weapon.h"
 #include "Material.h"
 
 Skill::Skill(GameObject* owner)

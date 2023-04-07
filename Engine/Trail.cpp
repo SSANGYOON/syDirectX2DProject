@@ -11,7 +11,7 @@
 #include "Weapon.h"
 
 Trail::Trail(GameObject* owner)
-	:Script(owner), trailLength(10), WeaponLength(3.6f), curFrame(-1), tr(nullptr), mr(nullptr)
+	:Script(owner), trailLength(10), WeaponLength(36.f), curFrame(-1), tr(nullptr), mr(nullptr)
 {
 	trailMesh = make_shared<Mesh>();
 
@@ -128,17 +128,17 @@ void Trail::SetTrailType(WEAPON_TYPE type)
 {
 	if (type == WEAPON_TYPE::ONEHAND) {
 		m->Load(L"OneHandTrail.json");
-		WeaponLength = 3.6f;
+		WeaponLength = 36.f;
 		_trailType = TRAIL_TYPE::VERTICAL;
 	}
 	else if (type == WEAPON_TYPE::DAGGER) {
 		m->Load(L"DaggerTrail.json");
-		WeaponLength = 2.0f;
+		WeaponLength = 20.f;
 		_trailType = TRAIL_TYPE::HORIZON;
 	}
 	else if (type == WEAPON_TYPE::SUMMON) {
 		m->Load(L"OneHandTrail.json");
-		WeaponLength = 3.6f;
+		WeaponLength = 36.f;
 		_trailType = TRAIL_TYPE::VERTICALFLIPED;
 	}
 }

@@ -60,6 +60,7 @@ void ParticleSystem::FinalUpdate()
 	_computeMaterial->SetVec2(2, GenPosRT);
 	_computeMaterial->SetVec2(3, _graphicsMaterial->GetTexture(0)->GetSize());
 	_computeMaterial->SetVec4(0, Vector4(_minLifeTime, _maxLifeTime, _minSpeed, _maxSpeed));
+	_computeMaterial->SetVec4(1, _targetOffset);
 
 	_computeMaterial->Dispatch();
 
@@ -72,6 +73,9 @@ void ParticleSystem::Render()
 	_owner->GetTransform()->SetTransformBuffer();
 
 	_particleBuffer->BindSRV(4);
+	_graphicsMaterial->SetVec4(1, _color);
 	_graphicsMaterial->RenderIndexed(_pointMesh, _maxParticle);
 	_particleBuffer->Clear();
 }
+
+

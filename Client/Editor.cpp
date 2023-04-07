@@ -79,10 +79,8 @@ void Editor::DebugRender(const DebugAttribute& debugAtt)
 	DebugObject* debugObj = _debugObjects[(UINT)debugAtt.dtype].get();
 
 	Transform* tr = debugObj->GetTransform();
-	tr->SetParent(debugAtt._target);
-	tr->SetPosition(debugAtt.position);
-	tr->SetScale(debugAtt.scale);
-	tr->FinalUpdate();
+
+	tr->SetWorld(debugAtt.transform);
 
 	auto cam = GET_SINGLE(SceneManager)->GetActiveScene()->GetMainCamera();
 	if (cam)

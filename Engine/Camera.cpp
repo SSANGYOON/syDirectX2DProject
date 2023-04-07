@@ -17,8 +17,8 @@ Camera::Camera(GameObject* owner)
 	, _near(1.0f)
 	, _far(1000.0f)
 	, _scale(1.0f)
-	, _width(64.f)
-	, _height(38.4f)
+	, _width(640.f)
+	, _height(384.f)
 {
 	EnableLayerMasks();
 }

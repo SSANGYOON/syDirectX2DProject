@@ -1,48 +1,62 @@
 #pragma once
 #include "Component.h"
+#define EPSILON 1e-4
+class Transform;
 
-enum Collider_TYPE
+struct Collision
 {
-	LINEAR,
-	CIRCLE,
-	RECTANGLE,
-	SPHERE,
-	CUBOID,
+	Vector3 repulse;
+	GameObject* other;
 };
 
-class Transform;
+enum class ColliderType
+{
+	RECT,
+	CIRCLE,
+	BOX,
+	SPHERE
+};
 class Collider : public Component
 {
 public:
-	Collider(Collider_TYPE type, class GameObject* owner);
+	Collider(class GameObject* owner);
 	virtual ~Collider();
 
-	virtual void Start() override;
-	virtual void FinalUpdate() override;
-	virtual void Render() override;
-	virtual Vector3 GetFarthestPoint(const Vector3& dir);
-	Vector3 GetCenter() { return _matrix.Translation(); }
-
-	void SetType(Collider_TYPE type) { _type = type; }
-	void SetSize(const Vector3& size) { _size = size; }
-	void SetLocalCenter(const Vector3& center) { _center = center; }
 	bool IsTriiger() { return _trigger; }
 
-	const Matrix& GetMatrix() { return _matrix; }
-	const Vector3& GetSize() { return _size; }
-	const Vector3& GetLocalCenter() { return _center; }
+	void SetLocalCenter(Vector3 localCenter) { _localCenter = localCenter;}
 
-	Collider_TYPE GetColiderType() { return _type; }
+	void SetSize(Vector3 size) { _size = size; }
+	const Vector3 GetSize() { return _size; }
+
 	void SetTrigger(bool trigger) { _trigger = trigger; }
 	bool IsTrigger() { return _trigger; }
 
+	virtual void FinalUpdate() override;
+	virtual void Render() override;
+	virtual bool Intersects(Collider* other, OUT Vector3& dis) abstract;
+	const Matrix& GetColliderTransform() { return toWorld; }
+
+	void OnCollisionEnter(const Collision& collision);
+	void OnCollisionStay(const Collision& collision);
+	void OnCollisionExit(const Collision& collision);
+
+	void OnTriggerEnter(const Collision& collision);
+	void OnTriggerStay(const Collision& collision);
+	void OnTriggerExit(const Collision& collision);
+
+	UINT getDim() { return _dim; }
+	ColliderType GetType() { return _type; }
+
+	
+
+
 protected:
-	Matrix _matrix;
-	Matrix _invMatrix;
-	Collider_TYPE _type;
+	UINT _dim;
+	Vector3 _localCenter;
 	Vector3 _size;
-	Vector3 _center;
+	Matrix toWorld;
+	ColliderType _type;
 	bool _trigger;
-	Transform* _transform;
 };
 

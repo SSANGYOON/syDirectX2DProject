@@ -67,7 +67,7 @@ void Weapon::SetWeaponType(WEAPON_TYPE type)
 		trail->SetTrailType(WEAPON_TYPE::SUMMON);
 		_duration = 20.f;
 		auto trailtr = trail->GetOwner()->GetTransform();
-		trailtr->SetPosition(Vector3(0, -3, 0));
+		trailtr->SetPosition(Vector3(0, -30, 0));
 	}
 	_type = type;
 	sr->SetMaterial(material);

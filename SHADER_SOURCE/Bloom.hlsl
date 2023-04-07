@@ -17,7 +17,7 @@ struct VSOut
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
-    In.Pos.xy = In.Pos.xy * g_vec2_0 / 5.f;
+    In.Pos.xy = In.Pos.xy * g_vec2_0 * 2.f;
 
     float2 uv = (In.UV - 0.5) * 2.f + 0.5;
 
@@ -45,7 +45,7 @@ float4 PS_MAIN(VSOut In) : SV_TARGET
       1.f, 0.9231, 0.7261, 0.4868, 0.278, 0.1353, 0.0561
     };
 
-    float2 texel = 1.f / (g_vec2_0) * 2.f;
+    float2 texel = 1.f / (g_vec2_0);
     float weightSum = 0.f;
 
     float2 uv = (In.UV - 0.5f) * 2.f + 0.5f;

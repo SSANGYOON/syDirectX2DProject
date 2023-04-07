@@ -41,10 +41,8 @@ enum class DebugMeshType
 
 struct DebugAttribute
 {
-	Transform* _target;
 	DebugMeshType dtype;
-	Vector3 position;
-	Vector3 scale;
+	Matrix transform;
 	float duration;
 	float time;
 };

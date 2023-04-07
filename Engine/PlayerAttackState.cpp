@@ -4,7 +4,7 @@
 #include "Input.h"
 #include "Animator.h"
 #include "FSM.h"
-#include "Collider2D.h"
+#include "Collider.h"
 
 PlayerAttackState::PlayerAttackState(Player* player, FSM* stateMachine, const wstring& stateName, const UINT8 slot) 
 	: PlayerActiveState(player, stateMachine, stateName), weapon(nullptr), _slot(slot)
@@ -35,8 +35,8 @@ void PlayerAttackState::Enter()
 	else if (INPUT->GetKeyState(KEY_TYPE::DOWN) == KEY_STATE::PRESS)
 	{
 		_stateName += L"CROUCHING";
-		_player->collider->SetSize(Vector3(1.f, 2.5f, 1.f));
-		_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
+		_player->collider->SetSize(Vector3(10.f, 25.f, 1.f));
+		_player->collider->SetLocalCenter(Vector3(0.f, -5.f, 0.f));
 	}
 	else
 		_stateName += L"STANDING";
@@ -45,8 +45,8 @@ void PlayerAttackState::Enter()
 
 void PlayerAttackState::Exit()
 {
-	_player->collider->SetSize(Vector3(1.f, 4.0f, 1.f));
-	_player->collider->SetLocalCenter(Vector3(0.f, -0.5f, 0.f));
+	_player->collider->SetSize(Vector3(10.f, 40.f, 1.f));
+	_player->collider->SetLocalCenter(Vector3(0.f, -5.f, 0.f));
 }
 
 void PlayerAttackState::CheckTransition()

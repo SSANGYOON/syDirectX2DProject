@@ -23,7 +23,7 @@ VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
 
-    In.Pos.xy = In.Pos.xy * g_vec2_0 / 10.f;
+    In.Pos.xy = In.Pos.xy * g_vec2_0;
 
     float4 worldPosition = mul(In.Pos, world);
     float4 viewPosition = mul(worldPosition, view);

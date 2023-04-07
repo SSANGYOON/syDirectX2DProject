@@ -24,10 +24,6 @@ VSOut VS_MAIN(VSIn In)
     pos.z = 0.f;
     pos.w = 1.f;
 
-    float4 worldPosition = mul(pos, world);
-    float4 viewPosition = mul(worldPosition, view);
-    float4 ProjPosition = mul(viewPosition, projection);
-
     Out.Pos.xy = In.Pos.xy * 2;
     Out.Pos.zw = float2(0.5f, 1.f);
     Out.Color = In.Color;
