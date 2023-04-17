@@ -7,8 +7,8 @@
 #include "SpriteRenderer.h"
 #include "Animator.h"
 #include "Trail.h"
-
-#include "Material.h"
+#include "Texture.h"
+#include "Resources.h"
 
 #include "Timer.h"
 
@@ -50,27 +50,26 @@ const wstring Weapon::GetWeaponAnimKey()
 
 void Weapon::SetWeaponType(WEAPON_TYPE type)
 {
-	shared_ptr<Material> material = make_shared<Material>();
 	if (type == WEAPON_TYPE::ONEHAND) {
-		material->Load(L"OneHandShader.json");
+		sr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"ONEHAND", L"HolySword.png"));
 		trail->SetTrailType(WEAPON_TYPE::ONEHAND);
 		_duration = 1.0f;
 	}
 	else if (type == WEAPON_TYPE::DAGGER) {
-		material->Load(L"DaggerShader.json");
+		sr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DAGGER", L"HolyDagger.png"));
 		trail->SetTrailType(WEAPON_TYPE::DAGGER);
 		_duration = 0.8f;
 	}
 	else if (type == WEAPON_TYPE::SUMMON)
 	{
-		material->Load(L"SummonSwordShader.json");
+		sr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"SUMMON", L"BossCastlePhase2Sword.png"));
 		trail->SetTrailType(WEAPON_TYPE::SUMMON);
 		_duration = 20.f;
 		auto trailtr = trail->GetOwner()->GetTransform();
 		trailtr->SetPosition(Vector3(0, -30, 0));
 	}
 	_type = type;
-	sr->SetMaterial(material);
+	
 }
 
 void Weapon::Start()

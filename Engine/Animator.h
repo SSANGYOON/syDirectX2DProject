@@ -89,6 +89,7 @@ public:
 		FLOAT_LESS,
 		FLOAT_ABS_GREATER,
 		FLOAT_ABS_LESS,
+		TRIGGER
 	};
 
 	struct Condition

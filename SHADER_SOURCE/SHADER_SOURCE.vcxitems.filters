@@ -13,6 +13,8 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Halo.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)WingShader.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)LaserShader.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)GaugeShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

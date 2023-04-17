@@ -38,11 +38,13 @@ using namespace DirectX::SimpleMath;
 #include "Struct.h"
 #include "json/json.h"
 
+#include "imgui.h"
 
 extern unique_ptr<class Engine> GEngine;
 
-#define DEVICE				GEngine->GetDevice()->GetDevice()
-#define CONTEXT				GEngine->GetDevice()->GetContext()
+#define DEVICE				GEngine->GetDevice()
+#define CONTEXT				GEngine->GetContext()
+#define SWAPCHAIN			GEngine->GetSwapChain()
 
 #define DECLARE_SINGLE(type)		\
 private:							\

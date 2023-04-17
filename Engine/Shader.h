@@ -25,7 +25,7 @@ public:
 	Shader();
 	virtual ~Shader();
 
-	virtual HRESULT Load(const wstring& path) override;
+	virtual HRESULT Load( const wstring& path) override;
 
 	void CreateShader(const ShaderInfo& info,const ShaderEntry& entry, const wstring& file);
 	void BindShader();

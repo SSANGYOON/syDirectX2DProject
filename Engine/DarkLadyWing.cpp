@@ -12,9 +12,6 @@ DarkLadyWing::DarkLadyWing(GameObject* wing)
 	: Script(wing), time(0.f)
 {
 
-	shared_ptr<Material> DarkBodymaterial = make_shared<Material>();
-	DarkBodymaterial->Load(L"The_Dark_Lady_Material.json");
-
 	//LeftWing
 	GameObject* LeftWing = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::MONSTER);
 	_leftWingTr = LeftWing->GetTransform();
@@ -22,7 +19,7 @@ DarkLadyWing::DarkLadyWing(GameObject* wing)
 	wing->GetTransform()->SetChild(_leftWingTr, L"LeftWing");
 	GameObject* LeftDarkWing = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::MONSTER);
 	SpriteRenderer* LeftDarkWingSr = LeftDarkWing->AddComponent<SpriteRenderer>();
-	LeftDarkWingSr->SetMaterial(DarkBodymaterial);
+	LeftDarkWingSr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DarkBody", L"DarkLady.png"));
 	_leftWingTr->SetChild(LeftDarkWing->GetTransform(), L"DarkWing");
 	LeftDarkWing->GetTransform()->SetPosition(Vector3(-47, 54, 0));
 	LeftDarkWingSr->SetSourceOffset(Vector2(3, 2197));
@@ -88,7 +85,7 @@ DarkLadyWing::DarkLadyWing(GameObject* wing)
 	GameObject* RightDarkWing = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::MONSTER);
 
 	SpriteRenderer* RightDarkWingSr = RightDarkWing->AddComponent<SpriteRenderer>();
-	RightDarkWingSr->SetMaterial(DarkBodymaterial);
+	RightDarkWingSr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DarkBody", L"DarkLady.png"));
 	_rightWingTr->SetChild(RightDarkWing->GetTransform(), L"DarkWing");
 	RightDarkWing->GetTransform()->SetPosition(Vector3(-47, 54, 0));
 	RightDarkWingSr->SetSourceOffset(Vector2(3, 2197));

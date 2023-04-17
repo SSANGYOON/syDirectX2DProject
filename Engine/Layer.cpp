@@ -32,6 +32,14 @@ void Layer::Update()
 	}
 }
 
+void Layer::hiearchy()
+{
+	for (auto obj : _gameObjects)
+	{
+		ImGui::Text(obj->GetName().c_str());
+	}
+}
+
 void Layer::FinalUpdate()
 {
 	for (auto obj : _gameObjects)

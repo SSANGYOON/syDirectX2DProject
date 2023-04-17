@@ -21,6 +21,8 @@ void MeshRenderer::Render()
 		return;
 	Transform* tr = GetOwner()->GetTransform();
 	tr->SetTransformBuffer();
-	_material->Render(_mesh);
+	_material->Bind();
 	_material->SetFloat(2, _accTime);
+	_mesh->BindBuffer();
+	_mesh->Render();
 }

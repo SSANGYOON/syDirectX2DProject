@@ -228,6 +228,7 @@ namespace DirectX
             Vector3() noexcept : XMFLOAT3(0.f, 0.f, 0.f) {}
             constexpr explicit Vector3(float ix) noexcept : XMFLOAT3(ix, ix, ix) {}
             constexpr Vector3(float ix, float iy, float iz) noexcept : XMFLOAT3(ix, iy, iz) {}
+            constexpr Vector3(const Vector2& v2, float iz) noexcept : XMFLOAT3(v2.x, v2.y, iz) {}
             explicit Vector3(_In_reads_(3) const float* pArray) noexcept : XMFLOAT3(pArray) {}
             Vector3(FXMVECTOR V) noexcept { XMStoreFloat3(this, V); }
             Vector3(const XMFLOAT3& V) noexcept { this->x = V.x; this->y = V.y; this->z = V.z; }
@@ -352,6 +353,7 @@ namespace DirectX
             Vector4(FXMVECTOR V) noexcept { XMStoreFloat4(this, V); }
             Vector4(const XMFLOAT4& V) noexcept { this->x = V.x; this->y = V.y; this->z = V.z; this->w = V.w; }
             Vector4(const Vector3& V, float w) noexcept { this->x = V.x; this->y = V.y; this->z = V.z; this->w = w; }
+            Vector4(const Vector2& V1, const Vector2& V2) noexcept { this->x = V1.x; this->y = V1.y; this->z = V2.x; this->w = V2.y; }
             explicit Vector4(const XMVECTORF32& F) noexcept { this->x = F.f[0]; this->y = F.f[1]; this->z = F.f[2]; this->w = F.f[3]; }
 
             Vector4(const Vector4&) = default;

@@ -15,7 +15,5 @@ BaseRenderer::~BaseRenderer()
 
 void BaseRenderer::Render()
 {
-	Transform* tr = GetOwner()->GetTransform();
-	tr->SetTransformBuffer();
-	_material->Render(_mesh);
+
 }

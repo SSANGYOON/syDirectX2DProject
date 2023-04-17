@@ -10,9 +10,10 @@
 #include "ParticleSystem.h"
 #include "Light.h"
 #include "Halo.h"
-#include "Material.h"
+
 #include "Mesh.h"
 #include "Resources.h"
+#include "Texture.h"
 
 #include "SceneManager.h"
 #include "Scene.h"
@@ -25,10 +26,7 @@ DarkLady::DarkLady(GameObject* obj)
 	GameObject* DarkBody = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::MONSTER);
 	SpriteRenderer* DarkBodySr = DarkBody->AddComponent<SpriteRenderer>();
 
-
-	shared_ptr<Material> DarkBodymaterial = make_shared<Material>();
-	DarkBodymaterial->Load(L"The_Dark_Lady_Material.json");
-	DarkBodySr->SetMaterial(DarkBodymaterial);
+	DarkBodySr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DarkBody", L"DarkLady.png"));
 	Animator* DarkBodyAnim = DarkBody->AddComponent<Animator>();
 	DarkBodyAnim->LoadAnimation2dFromJson("The_Dark_Lady_clips.json");
 	DarkBodyAnim->Play(L"IDLE");
@@ -38,7 +36,7 @@ DarkLady::DarkLady(GameObject* obj)
 	tr->SetPosition(Vector3(0, 140, 0.1f));
 	SpriteRenderer* HairSr = hair->AddComponent<SpriteRenderer>();
 	Animator* HairAnim = hair->AddComponent<Animator>();
-	HairSr->SetMaterial(DarkBodymaterial);
+	HairSr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DarkBody", L"DarkLady.png"));
 	HairAnim->LoadAnimation2dFromJson("The_Dark_Lady_clips.json");
 	HairAnim->Play(L"HAIR");
 
@@ -47,12 +45,15 @@ DarkLady::DarkLady(GameObject* obj)
 
 	//Circlet
 	GameObject* circlet = GET_SINGLE(SceneManager)->Instantiate(LAYER_TYPE::MONSTER);
-	ParticleSystem* p = circlet->AddComponent<ParticleSystem>();
-	p->setColor(Vector4(1.f, 1.f, 128.f / 255.f, 1.f));
+
 	SpriteRenderer* circletSr = circlet->AddComponent<SpriteRenderer>();
-	circletSr->SetMaterial(DarkBodymaterial);
+	circletSr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"DarkBody", L"DarkLady.png"));
 	circletSr->SetSourceOffset(Vector2(1,2050));
 	circletSr->SetSourceSize(Vector2(140, 97));
+
+	//ParticleSystem* p = circlet->AddComponent<ParticleSystem>();
+	//p->setColor(Vector4(1.f, 1.f, 128.f / 255.f, 1.f));
+
 	Transform* circletr = circlet->GetTransform();
 	circletr->SetPosition(Vector3(0, 315.f, 0.05f));
 	DarkBody->GetTransform()->SetChild(circlet->GetTransform(), L"Circlet");
@@ -92,5 +93,5 @@ void DarkLady::Update()
 {
 	time += TIME->DeltaTime();
 
-	_transform->SetPosition(Vector3(0, -200 + buyoncyRange * sinf(time * buyoncyFrequency * DirectX::XM_2PI), 0.1f));
+	_transform->SetPosition(Vector3(128, -180 + buyoncyRange * sinf(time * buyoncyFrequency * DirectX::XM_2PI), 0.1f));
 }

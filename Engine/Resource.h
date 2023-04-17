@@ -1,17 +1,18 @@
 #pragma once
-enum class Resource_Type
+
+enum class RESOURCE_TYPE
 {
-	MATERIAL,
 	MESH,
-	COMPUTESHADER,
-	GRAPHICSHADER,
 	TEXTURE,
-	Animation
+	GRAPHIC_SHADER,
+	COMPUTE_SHADER,
+	MATERIAL,
 };
+
 class Resource
 {
 public:
-	Resource(Resource_Type type);
+	Resource(RESOURCE_TYPE type);
 	virtual ~Resource();
 
 	virtual HRESULT Load(const std::wstring& path) = 0;
@@ -23,7 +24,8 @@ public:
 	const wstring& GetPath() { return _path; }
 
 private:
-	Resource_Type _type;
+	RESOURCE_TYPE _type;
+
 	wstring _key;
 	wstring _path;
 };

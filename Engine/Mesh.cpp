@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Mesh::Mesh()
-    :Resource(Resource_Type::MESH)
+    :Resource(RESOURCE_TYPE::MESH)
 	,_indexes(0)
 {
 }

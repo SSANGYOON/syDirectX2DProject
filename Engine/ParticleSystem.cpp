@@ -26,6 +26,8 @@ void ParticleSystem::Start()
 	_particleBuffer->Create(sizeof(ParticleInfo), _maxParticle, particles, true, true);
 
 	_computeSharedBuffer = make_shared<StructuredBuffer>();
+
+
 	_computeSharedBuffer->Create(sizeof(ComputeSharedInfo), 1, nullptr, true, true);
 
 	_pointMesh = GET_SINGLE(Resources)->Find<Mesh>(L"PointMesh");
@@ -53,14 +55,18 @@ void ParticleSystem::FinalUpdate()
 
 	_computeMaterial->SetUInt(0, _maxParticle);
 	_computeMaterial->SetUInt(1, add);
-	_computeMaterial->SetUInt(2, 0);
+
+	_computeMaterial->SetFloat(0, _zOffset);
 
 	_computeMaterial->SetVec2(0, Vector2(TIME->DeltaTime(), _accTime));
-	_computeMaterial->SetVec2(1, GenPosLB);
-	_computeMaterial->SetVec2(2, GenPosRT);
-	_computeMaterial->SetVec2(3, _graphicsMaterial->GetTexture(0)->GetSize());
-	_computeMaterial->SetVec4(0, Vector4(_minLifeTime, _maxLifeTime, _minSpeed, _maxSpeed));
-	_computeMaterial->SetVec4(1, _targetOffset);
+	_computeMaterial->SetVec2(1, _graphicsMaterial->GetTexture(0)->GetSize());
+	_computeMaterial->SetVec2(2, _localPosition);
+	_computeMaterial->SetVec2(3, _force);
+
+	_computeMaterial->SetVec4(0, Vector4(_posVarFrom, _posVarTo));
+	_computeMaterial->SetVec4(1, Vector4(_dir, _dirVar));
+	_computeMaterial->SetVec4(2, Vector4(_aliveZone, Vector2(_aliveZoneType, _posvarType)));
+	_computeMaterial->SetVec4(3, Vector4(_minLifeTime, _maxLifeTime, _minSpeed, _maxSpeed));
 
 	_computeMaterial->Dispatch();
 
@@ -74,7 +80,9 @@ void ParticleSystem::Render()
 
 	_particleBuffer->BindSRV(4);
 	_graphicsMaterial->SetVec4(1, _color);
-	_graphicsMaterial->RenderIndexed(_pointMesh, _maxParticle);
+	_graphicsMaterial->Bind();
+	_pointMesh->BindBuffer();
+	_pointMesh->RenderIndexed(_maxParticle);
 	_particleBuffer->Clear();
 }
 

@@ -35,6 +35,7 @@ void Halo::Render()
 {
 	_haloMaterial->SetVec4(0, Vector4(_owner->GetTransform()->GetWorldPosition(),1.f));
 	_owner->GetTransform()->SetTransformBuffer();
-
-	_haloMaterial->Render(_circleMesh);
+	_haloMaterial->Bind();
+	_circleMesh->BindBuffer();
+	_circleMesh->Render();
 }

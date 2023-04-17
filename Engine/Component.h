@@ -23,7 +23,7 @@ struct Collision;
 class Component : public Entity
 {
 public:
-	Component(Component_Type type ,GameObject* owner);
+	Component(Component_Type type, GameObject* owner);
 	virtual ~Component();
 
 	virtual void Start() ;

@@ -11,7 +11,7 @@
 
 #include "Resources.h"
 #include "Mesh.h"
-#include "Material.h"
+#include "Texture.h"
 
 #include "Input.h"
 #include "Timer.h"
@@ -44,10 +44,7 @@ Player::Player(GameObject* owner)
 	rigidBody->SetGravity(true);
 	SpriteRenderer* sr = owner->AddComponent<SpriteRenderer>();
 
-	shared_ptr<Material> material = make_shared<Material>();
-	material->Load(L"Heroine_RenderPath.json");
-	sr->SetMaterial(material);
-
+	sr->SetSpriteSheet(GET_SINGLE(Resources)->Load<Texture>(L"Key", L"Heroine Maid.png"));
 	owner->AddComponent<Animator>();
 
 	collider = owner->AddComponent<RectCollider>();
@@ -109,7 +106,7 @@ void Player::Start()
 	weapons[0]->SetWeaponType(WEAPON_TYPE::ONEHAND);
 	weapons[1] = transform->GetChild(L"weapon2")->GetOwner()->GetComponent<Weapon>();
 	weapons[1]->SetWeaponType(WEAPON_TYPE::DAGGER);
-	transform->SetPosition(Vector3::Up * 10.f);
+	transform->SetPosition(Vector3(-464,100.f,0.f));
 }
 void Player::Update()
 {
@@ -123,10 +120,6 @@ void Player::Update()
 	Ability();
 
 	playerFSM->Update();
-
-	Collision col;
-	auto origin = Vector3(0.f, 200.f, 0.f);
-	auto dir = Vector3(0.f, -1.f, 0.f);
 }
 
 void Player::OntriggerEnter(const Collision& collision)
@@ -134,7 +127,7 @@ void Player::OntriggerEnter(const Collision& collision)
 	GameObject* opponent = collision.other;
 	Transform* opponentTr = opponent->GetTransform();
 
-	LAYER_TYPE type = opponent->GetType();
+	LAYER_TYPE type = opponent->GetLayer();
 
 	switch (type)
 	{
@@ -163,7 +156,7 @@ void Player::OntriggerEnter(const Collision& collision)
 		if (_attacked)
 			Attacked();
 	}
-	break;
+		break;
 	default:
 		break;
 	}
@@ -172,7 +165,7 @@ void Player::OntriggerEnter(const Collision& collision)
 void Player::OntriggerExit(const Collision& collider)
 {
 	GameObject* opponent = collider.other;
-	LAYER_TYPE type = opponent->GetType();
+	LAYER_TYPE type = opponent->GetLayer();
 	switch (type)
 	{
 	case LAYER_TYPE::FIXEDOBJECT:

@@ -21,6 +21,17 @@ struct ComputeSharedInfo
 	UINT padding[3];
 };
 
+enum ALIVE_ZONE_TYPE {
+	NO_DEAD_ZONE,
+	SPHERE,
+	RECT_ZONE,
+};
+
+enum POSVAR_TYPE {
+	NORMALIZED,
+	EMISSION,
+	BOX
+};
 
 class ParticleSystem : public Component
 {
@@ -35,15 +46,23 @@ public:
 
 	void SetGraphicsMaterial(shared_ptr<Material> graphicsMaterial) {_graphicsMaterial = graphicsMaterial;};
 	void setCreateInterval(float interval) { _createInterval = interval; }
-	void setMinLifeTime(float lifeTime) {_minLifeTime = lifeTime;}
-	void setMaxLifeTime(float lifeTime) {_maxLifeTime = lifeTime;}
-	void setMinSpeed(float speed){_minSpeed = speed;}
-	void setMaxSpeed(float speed){_maxSpeed = speed;}
-	void setMinRange(Vector2 LB){GenPosLB = LB;}
-	void setMaxRange(Vector2 RT){GenPosRT = RT;}
-	void setTargetOffset(Vector4 targetOffset) { _targetOffset = targetOffset; }
-	void setColor(Vector4 color) { _color = color; }
 
+	void SetInitialLocalPosition(Vector2 position) { _localPosition = position; }
+	void SetPositionVarianceFrom(Vector2 posvar) { _posVarFrom = posvar; }
+	void SetPositionVarianceTo(Vector2 posvar) { _posVarTo = posvar; }
+
+	void SetInitialDirection(Vector2 dir) { _dir = dir; }
+	void SetDirVariance(Vector2 dirVar) { _dirVar = dirVar; }
+
+	void SetForce(Vector2 force) { _force = force; }
+
+	void setColor(Vector4 color) { _color = color; }
+	void setZoffset(float offset) { _zOffset = offset; }
+
+	void SetAliveZone(Vector2 aliveZone) { _aliveZone = aliveZone; }
+	void SetAliveZoneType(ALIVE_ZONE_TYPE type) { _aliveZoneType = type; }
+
+	void SetPositionVarienceType(POSVAR_TYPE type) { _posvarType = type; }
 private:
 	shared_ptr<StructuredBuffer> _particleBuffer;
 	shared_ptr<StructuredBuffer> _computeSharedBuffer;
@@ -61,10 +80,21 @@ private:
 	float				_maxLifeTime = 1.f;
 	float				_minSpeed = 50;
 	float				_maxSpeed = 100;
+	float				_zOffset = 0.f;
 
-	Vector2 GenPosLB = Vector2(40, 40);
-	Vector2 GenPosRT = Vector2(80, 80);
-	Vector4 _targetOffset = Vector4::Zero;
+	Vector2 _localPosition = Vector2::Zero;
+	Vector2 _posVarFrom = Vector2(25.f, 25.f);
+	Vector2 _posVarTo = Vector2(50.f, 50.f);
+	Vector2 _dir = Vector2::Zero;
+	Vector2 _dirVar = Vector2::One;
+	Vector2 _force = Vector2(50,50);
+	Vector2 _aliveZone = Vector2::Zero;
+
+	ALIVE_ZONE_TYPE _aliveZoneType = ALIVE_ZONE_TYPE::NO_DEAD_ZONE;
+	POSVAR_TYPE _posvarType = POSVAR_TYPE::EMISSION;
+
+
+	Vector2 _targetOffset = Vector2::Zero;
 	Vector4 _color = Vector4::Zero;
 };
 

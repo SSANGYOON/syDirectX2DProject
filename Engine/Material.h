@@ -52,21 +52,18 @@ public:
 	void SetMatrix(UINT8 index, Matrix& value) { _params.SetMatrix(index, value); }
 
 	void SetTexture(UINT8 index, shared_ptr<Texture> texture) { _textures[index] = texture;}
-	void SetShader(UINT8 index, shared_ptr<Shader> shader) { _shaders[index] = shader; }
+	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetComputeShader(shared_ptr<ComputeShader> computeShader) { _computeShader = computeShader; }
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
 
-	void Render(shared_ptr<Mesh> mesh);
-	void RenderIndexed(shared_ptr<Mesh> mesh, UINT count);
+	void Bind();
 	void Dispatch();
 
 private:
 	MaterialCB		_params;
-	vector<shared_ptr<Shader>> _shaders;
+	shared_ptr<Shader> _shader;
 	shared_ptr<ComputeShader> _computeShader;
-	vector<vector<int>> _inputTextureIndex;
-	vector<int> _targetTextureIndex;
 	array<shared_ptr<Texture>, MAX_TEXTURE_COUNT> _textures;
 };
 

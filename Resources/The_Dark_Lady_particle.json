@@ -7,7 +7,7 @@
       "Path": "3 #155654.png"
     }
   ],
-  "ShaderGroup": [
+  "Shader":
     {
       "ID": 0,
       "KEY": "ParticleGraphic",
@@ -21,12 +21,10 @@
       "ShaderResource": [
         0
       ],
-      "Target": -1,
       "ShaderPhases": [
         "VS",
         "GS",
         "PS"
       ]
     }
-  ]
 }

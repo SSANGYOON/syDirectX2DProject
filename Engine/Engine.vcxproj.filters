@@ -155,6 +155,30 @@
     <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye">
       <UniqueIdentifier>{abd89642-11bc-4880-8c62-f669cf9582f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser">
+      <UniqueIdentifier>{2884148b-05f8-495c-94de-b0d3e774458d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye\bullet">
+      <UniqueIdentifier>{cfb115e1-0822-4845-a832-12a77e33ce53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Camera">
+      <UniqueIdentifier>{91773927-0e45-4a9e-bec1-9a3e74bd3a8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{0c7bb7ea-2057-4ea0-98b3-701410757cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ImGui">
+      <UniqueIdentifier>{36054642-d05d-4ab2-8db6-7711f3d3bc23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryCode\Component\UI">
+      <UniqueIdentifier>{be8cbecf-42cf-40d3-bdc7-51d292db34eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LibraryCode\Component\UI\Panel">
+      <UniqueIdentifier>{dd4f7f61-107f-4da7-9ba7-70010847b081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{5faeb5f0-7adb-4b97-bc6e-ec11b051f4af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -357,6 +381,45 @@
     </ClCompile>
     <ClCompile Include="CircleCollider.cpp">
       <Filter>LibraryCode\Component\Colider</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>Scripting\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_demo.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_draw.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_impl_win32.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_stdlib.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_tables.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\ImGui\imgui_widgets.cpp">
+      <Filter>Editor\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>LibraryCode\Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIChild.cpp">
+      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImage.cpp">
+      <Filter>LibraryCode\Component\UI\Panel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -561,6 +624,48 @@
     <ClInclude Include="CircleCollider.h">
       <Filter>LibraryCode\Component\Colider</Filter>
     </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>Scripting\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imconfig.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imgui.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imgui_impl_dx11.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imgui_impl_win32.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imgui_internal.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imgui_stdlib.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imstb_rectpack.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imstb_textedit.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\ImGui\imstb_truetype.h">
+      <Filter>Editor\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>LibraryCode\Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIChild.h">
+      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -609,6 +714,9 @@
       <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
     </None>
     <None Include="..\Resources\BrightWing.json">
+      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+    </None>
+    <None Include="..\Resources\Laser.json">
       <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
     </None>
   </ItemGroup>

@@ -7,7 +7,7 @@
       "Path": "Heroine Maid.png"
     }
   ],
-  "ShaderGroup": [
+  "Shader":
       {
         "ID": 0,
         "KEY": "SpriteShader",
@@ -21,11 +21,9 @@
         "ShaderResource": [
           0
         ],
-        "Target": -1,
         "ShaderPhases": [
           "VS",
           "PS"
         ]
       }
-  ]
 }

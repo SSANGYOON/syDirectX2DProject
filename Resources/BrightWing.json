@@ -1,7 +1,7 @@
 {
   "Textures": [
   ],
-  "ShaderGroup": [
+  "Shader":
     {
       "ID": 0,
       "KEY": "BrightWing",
@@ -15,11 +15,9 @@
       "ShaderResource": [
         -1
       ],
-      "Target": -1,
       "ShaderPhases": [
         "VS",
         "PS"
       ]
     }
-  ]
 }

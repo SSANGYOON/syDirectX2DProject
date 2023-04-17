@@ -14,23 +14,41 @@
 #include "Timer.h"
 // TODO: 라이브러리 함수의 예제입니다.
 
-void Engine::Init(const WindowInfo& info)
+HRESULT Engine::Init(const WindowInfo& info)
 {
 	_window = info;
 
-	_device->Init();
+	DXGI_SWAP_CHAIN_DESC sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.BufferCount = 2;
+	sd.BufferDesc.Width = info.width;
+	sd.BufferDesc.Height = info.height;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.RefreshRate.Numerator = 144;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.OutputWindow = info.hwnd;
+	sd.SampleDesc.Count = 1;
+	sd.SampleDesc.Quality = 0;
+	sd.Windowed = info.windowed;
+	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+	UINT createDeviceFlags = D3D11_CREATE_DEVICE_DEBUG;
+	D3D_FEATURE_LEVEL featureLevel;
+	const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
+	HRESULT res = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, _swapChain.GetAddressOf(), _device.GetAddressOf(), &featureLevel, _context.GetAddressOf());
+	if (res == DXGI_ERROR_UNSUPPORTED) // Try high-performance WARP software driver if hardware is not available.
+		res = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_WARP, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, _swapChain.GetAddressOf(), _device.GetAddressOf(), &featureLevel, _context.GetAddressOf());
+	if (res != S_OK)
+		return res;
+
 	GET_SINGLE(Input)->Init(info.hwnd);
 	GET_SINGLE(Timer)->Init();
 	GET_SINGLE(Resources)->CreateDefaultResource();
 
-	if(FAILED(_swapChain->Init(info, _device->GetDevice())))
-		return;
-
-	_renderTarget = make_shared<Texture>();
-	_renderTarget->Create(info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
-
-	_depthStencilBuffer = make_shared<Texture>();
-	_depthStencilBuffer->Create(info.width, info.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+	
+	CreateRenderTarget();
 
 
 	RECT rt = { 0, 0, (LONG)info.width , (LONG)info.height };
@@ -40,7 +58,7 @@ void Engine::Init(const WindowInfo& info)
 	UpdateWindow(info.hwnd);
 
 	_viewPort = { 0.0f, 0.0f, (float)_window.width, (float)_window.height, 0.0f, 1.0f };
-	SetOriginalRederTarget();
+	SetOriginalRenderTarget();
 
 	SetUpState();
 	
@@ -60,8 +78,10 @@ void Engine::Init(const WindowInfo& info)
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT]->Init(Constantbuffer_Type::LIGHT, sizeof(LightCB));
 	
-	GET_SINGLE(SceneManager)->LoadScene(L"TestScene");
 	GET_SINGLE(CollisionManager)->Initialize();
+	GET_SINGLE(SceneManager)->LoadScene(L"TestScene");
+
+	return S_OK;
 }
 
 void Engine::Update()
@@ -70,34 +90,55 @@ void Engine::Update()
 	GET_SINGLE(Input)->Update();
 	GET_SINGLE(SceneManager)->Update();
 	GET_SINGLE(CollisionManager)->Update();
-	Engine::Render();
 }
 
 void Engine::Render()
 {
 	FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	_device->GetContext()->ClearRenderTargetView(_renderTarget->GetRTV(), backgroundColor);
-	_device->GetContext()->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	ClearRenderTarget(backgroundColor);
+	_context->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	GET_SINGLE(SceneManager)->Render();
 	
 }
 
 void Engine::Present()
 {
-	_swapChain->Present();
+	_swapChain->Present(0,0);
 }
 
-void Engine::SetOriginalRederTarget()
+void Engine::SetOriginalRenderTarget()
 {
-	_device->GetContext()->RSSetViewports(1, &_viewPort);
-	_device->GetContext()->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
+	_context->RSSetViewports(1, &_viewPort);
+	_context->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
+}
+
+void Engine::SetWindow(WindowInfo info)
+{
+	_window = info;
+	_swapChain->ResizeBuffers(0, info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 }
 
 HRESULT Engine::CreateRenderTarget()
 {
-	HRESULT hr = _swapChain->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_renderTarget->GetRTVRef());
+	_renderTarget = make_shared<Texture>();
+	_renderTarget->Create(_window.width, _window.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
 
-	// Create Rendertarget View
-	hr = _device->GetDevice()->CreateRenderTargetView(_renderTarget->GetD3Texture(), nullptr, _renderTarget->GetRTVRef());
-	return hr;
+	_depthStencilBuffer = make_shared<Texture>();
+	_depthStencilBuffer->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+	
+	SetOriginalRenderTarget();
+	return S_OK;
+}
+
+HRESULT Engine::CleanUpRenderTarget()
+{
+	_renderTarget = nullptr;
+	_depthStencilBuffer = nullptr;
+
+	return S_OK;
+}
+
+void Engine::ClearRenderTarget(const float* color)
+{
+	_context->ClearRenderTargetView(_renderTarget->GetRTV(), color);
 }

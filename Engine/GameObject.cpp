@@ -4,8 +4,8 @@
 #include "Script.h"
 #include "Collider.h"
 
-GameObject::GameObject()
-	:_state(PAUSED)
+GameObject::GameObject(string name)
+	:_state(PAUSED), _name(name)
 {
 	_transform = make_unique<Transform>(this);
 	_transform->SetOwner(this);
@@ -34,6 +34,11 @@ void GameObject::Start()
 
 		comp->Start();
 	}
+}
+
+string GameObject::GetName()
+{
+	return _name;
 }
 
 void GameObject::Update()
@@ -68,6 +73,10 @@ void GameObject::Render()
 
 		comp->Render();
 	}
+}
+
+void GameObject::hiearchy()
+{
 }
 
 void GameObject::OnTriggerEnter(const Collision& collision)

@@ -1,0 +1,22 @@
+{
+  "Textures": [
+  ],
+  "Shader":{
+      "ID": 0,
+      "KEY": "Laser",
+      "Path": "LaserShader.hlsl",
+      "ShaderInfo": {
+        "BSType": 1,
+        "DSType": 0,
+        "RSType": 2,
+        "Topology": 4
+      },
+      "ShaderResource": [
+        -1
+      ],
+      "ShaderPhases": [
+        "VS",
+        "PS"
+      ]
+    }
+}

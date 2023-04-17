@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Texture::Texture()
-	:Resource(Resource_Type::TEXTURE)
+	:Resource(RESOURCE_TYPE::TEXTURE)
 {
 }
 
@@ -23,7 +23,7 @@ void Texture::Clear(UINT startSlot)
 	CONTEXT->PSSetShaderResources(startSlot, 1, &srv);
 }
 
-HRESULT Texture::Load(const std::wstring& path)
+HRESULT Texture::Load( const std::wstring& path)
 {
 	std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
 	std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
@@ -51,7 +51,7 @@ HRESULT Texture::Load(const std::wstring& path)
 
 	CreateShaderResourceView
 	(
-		DEVICE.Get(),
+		DEVICE,
 		_image.GetImages(),
 		_image.GetImageCount(),
 		_image.GetMetadata(),
@@ -73,7 +73,7 @@ bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 
 	if (bindFlag  ==  D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 	{
-		GEngine->GetSwapChain()->GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_texture.GetAddressOf());
+		SWAPCHAIN->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_texture.GetAddressOf());
 
 		return !FAILED(DEVICE->CreateRenderTargetView(_texture.Get(), nullptr, _RTV.GetAddressOf()));
 	}

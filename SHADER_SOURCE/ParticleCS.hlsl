@@ -23,26 +23,37 @@ RWStructuredBuffer<ComputeShared> g_shared : register(u1);
 void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupIndex)
 {
 
-    int maxCount = g_int_0;
-    int addCount = g_int_1;
-    int type = g_int_2;
+    uint maxCount = g_int_0;
+    uint addCount = g_int_1;
+    float zOffSet = g_float_0;
 
     float deltaTime = g_vec2_0.x;
     float accTime = g_vec2_0.y;
 
-    float2 particleMinGenRange = g_vec2_1;
-    float2 particleMaxGenRange = g_vec2_2;
-    float2 particleSpriteSize = g_vec2_3;
+    float2 particleSpriteSize = g_vec2_1;
+    float2 force = g_vec2_3;
 
-    float minLifeTime = g_vec4_0.x;
-    float maxLifeTime = g_vec4_0.y;
-    float minSpeed = g_vec4_0.z;
-    float maxSpeed = g_vec4_0.w;
-    float4 targetOffset = g_vec4_1;
+    float2 initialPos = g_vec2_2.xy;
+    float2 initialPosVarFrom = g_vec4_0.xy;
+    float2 initialPosVarTo = g_vec4_0.zw;
 
+    float2 initialDir = g_vec4_1.xy;
+    float2 initialDirVar = g_vec4_1.zw;
+
+    float2 aliveZone = g_vec4_2.xy;
+
+    uint aliveZoneType = g_vec4_2.z;
+    uint posvarType = g_vec4_2.w;
+
+    float minLifeTime = g_vec4_3.x;
+    float maxLifeTime = g_vec4_3.y;
+    float minSpeed = g_vec4_3.z;
+    float maxSpeed = g_vec4_3.w;
+    
     g_shared[0].addCount = addCount;
     GroupMemoryBarrierWithGroupSync();
 
+    float pi = 3.1415928;
     if (g_particle[GroupIndex].alive == 0)
     {
         while (true)
@@ -81,20 +92,21 @@ void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupInd
                 2 * r4 - 1
             };
 
-            float3 dir = float3(normalize((noise.xy - 0.5f) * 2.f), 0.f);
+            float2 dir = initialDir + initialDirVar * float2(cos(noise.x * 2 * pi), sin(noise.x * 2 * pi));
+            dir = normalize(dir);
+            g_particle[GroupIndex].worldDir = float3(dir.x, dir.y, 0.f);
 
-            float2 particleGenPos =
-                float2(particleMinGenRange.x + (particleMaxGenRange.x - particleMinGenRange.x) * noise.z,
-                    particleMinGenRange.y + (particleMaxGenRange.y - particleMinGenRange.y) * noise.w);
-
-            if (type == 0) {
-                g_particle[GroupIndex].worldDir = dir;
-                g_particle[GroupIndex].worldPos = dir * particleGenPos.x + targetOffset.xyz;
+            if (posvarType == 0) {
+                float2 pos = initialPos + (initialPosVarFrom + (initialPosVarTo - initialPosVarFrom) * noise.z) * float2(cos(noise.y * 2 * pi), sin(noise.y * 2 * pi));
+                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
             }
-
+            else if (posvarType == 1) {
+                float2 pos = initialPos + (initialPosVarFrom + (initialPosVarTo - initialPosVarFrom) * noise.z) * float2(dir);
+                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
+            }
             else {
-                g_particle[GroupIndex].worldDir = float3(0, 1, 0);
-                g_particle[GroupIndex].worldPos = float3(dir.xy * particleGenPos, 0) + targetOffset.xyz;;
+                float2 pos = initialPos + initialPosVarTo * float2(noise.y, noise.z);
+                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
             }
 
             g_particle[GroupIndex].lifeTime = (maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;
@@ -111,7 +123,16 @@ void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupInd
         }
 
         float ratio = g_particle[GroupIndex].curTime / g_particle[GroupIndex].lifeTime;
-        float speed = (maxSpeed - minSpeed) * ratio + minSpeed;
-        g_particle[GroupIndex].worldPos += g_particle[GroupIndex].worldDir * speed * deltaTime;
+        float2 velocity = g_particle[GroupIndex].worldDir.xy * ((maxSpeed - minSpeed) * ratio + minSpeed) - force.x * g_particle[GroupIndex].worldPos.xy * g_particle[GroupIndex].curTime;
+   
+        g_particle[GroupIndex].worldPos += float3(velocity * deltaTime, 0.f);
+
+        if (aliveZoneType == 1)
+        {
+            if (length(g_particle[GroupIndex].worldPos) > aliveZone.x) {
+                g_particle[GroupIndex].alive = 0;
+                return;
+            }
+        }
     }
 }

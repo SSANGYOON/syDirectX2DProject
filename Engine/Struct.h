@@ -23,7 +23,7 @@ enum class ShaderStage : UINT8
 enum class LAYER_TYPE : UINT8
 {
 	CAMERA,
-	GRID,
+	BACKGROUND,
 	FIXEDOBJECT,
 	MONSTER,
 	PLAYER,

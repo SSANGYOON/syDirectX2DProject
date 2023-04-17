@@ -8,7 +8,7 @@
     }
   ],
 
-  "ShaderGroup": [
+  "Shader":
     {
       "ID": 0,
       "KEY": "RectShader",
@@ -22,11 +22,9 @@
       "ShaderResource": [
         0
       ],
-      "Target": -1,
       "ShaderPhases": [
         "VS",
         "PS"
       ]
     }
-  ]
 }

@@ -2,6 +2,7 @@
 #include "Collider.h"
 #include "GameObject.h"
 #include "Resources.h"
+#include "CollisionManager.h"
 
 Collider::Collider(GameObject* owner)
 	: Component(Component_Type::Collider, owner)
@@ -12,6 +13,11 @@ Collider::Collider(GameObject* owner)
 
 Collider::~Collider()
 {
+}
+
+void Collider::Start()
+{
+	GET_SINGLE(CollisionManager)->AddCollider(this, _owner->GetLayer());
 }
 
 void Collider::FinalUpdate()

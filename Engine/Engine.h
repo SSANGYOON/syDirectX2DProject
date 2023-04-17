@@ -1,34 +1,41 @@
 #pragma once
 
-#include "Device.h"
-#include "SwapChain.h"
+
 #include "ConstantBuffer.h"
 
 class Engine
 {
 public:
-	void Init(const WindowInfo& info);
+	HRESULT Init(const WindowInfo& info);
 	void Update();
 
-	shared_ptr<Device> GetDevice() { return _device; }
-	shared_ptr<SwapChain> GetSwapChain() { return _swapChain; }
+	ID3D11Device* GetDevice() { return _device.Get(); }
+	ID3D11DeviceContext* GetContext() { return _context.Get(); }
+	IDXGISwapChain* GetSwapChain() { return _swapChain.Get(); }
 
 	void Render();
 	void Present();
-	void SetOriginalRederTarget();
+	void SetOriginalRenderTarget();
+
+	void SetWindow(WindowInfo info);
 	WindowInfo GetWindow() { return _window; }
 	shared_ptr<ConstantBuffer> GetConstantBuffer(Constantbuffer_Type type) { return _constantBuffers[static_cast<UINT8>(type)];}
 
 
-private:
+public:
 	HRESULT CreateRenderTarget();
+	HRESULT CleanUpRenderTarget();
+	void ClearRenderTarget(const float* color);
 
 private:
 	WindowInfo _window;
 	D3D11_VIEWPORT _viewPort;
 
-	shared_ptr<Device> _device = make_shared<Device>();
-	shared_ptr<SwapChain> _swapChain = make_shared<SwapChain>();
+	ComPtr<ID3D11Device> _device;
+	ComPtr<ID3D11Debug> _debug;
+	ComPtr<ID3D11DeviceContext> _context;
+	ComPtr<IDXGISwapChain> _swapChain;
+
 	shared_ptr<class Texture> _renderTarget;
 	shared_ptr<class Texture> _depthStencilBuffer;
 

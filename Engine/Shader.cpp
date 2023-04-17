@@ -4,7 +4,7 @@
 #include "Resources.h"
 
 Shader::Shader()
-    :Resource(Resource_Type::GRAPHICSHADER)
+    :Resource(RESOURCE_TYPE::COMPUTE_SHADER)
 	, _info{}
 {
 }

@@ -16,13 +16,17 @@ public:
 		PAUSED,
 		KILLED
 	};
-	GameObject();
+	GameObject(string name = "Empty");
 	virtual ~GameObject();
 
 	virtual void Start();
+	
+	string GetName();
 	virtual void Update();
 	virtual void FinalUpdate();
 	virtual void Render();
+
+	virtual void hiearchy();
 
 	void OnTriggerEnter(const Collision& collision);
 	void OnTriggerStay(const Collision& collision);
@@ -32,8 +36,8 @@ public:
 	void OnCollisionStay(const Collision& collision);
 	void OnCollisionExit(const Collision& collision);
 
-	void SetType(LAYER_TYPE type) { _type = type; }
-	LAYER_TYPE GetType() { return _type; }
+	void SetLayer(LAYER_TYPE type) { _type = type; }
+	LAYER_TYPE GetLayer() { return _type; }
 
 	template <typename T>
 	T* AddComponent();
@@ -51,6 +55,7 @@ public:
 private:
 	friend class SceneManager;
 	void SetGameObjectState(STATE state) { _state = state; }
+	string _name;
 	unique_ptr<Transform> _transform;
 	vector<unique_ptr<Component>> _components;
 	LAYER_TYPE _type;

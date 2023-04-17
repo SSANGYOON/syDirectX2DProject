@@ -31,6 +31,7 @@ public:
 	void SetTrigger(bool trigger) { _trigger = trigger; }
 	bool IsTrigger() { return _trigger; }
 
+	virtual void Start() override;
 	virtual void FinalUpdate() override;
 	virtual void Render() override;
 

@@ -17,8 +17,8 @@ Camera::Camera(GameObject* owner)
 	, _near(1.0f)
 	, _far(1000.0f)
 	, _scale(1.0f)
-	, _width(640.f)
-	, _height(384.f)
+	, _width(480.f)
+	, _height(270.f)
 {
 	EnableLayerMasks();
 }
@@ -61,13 +61,10 @@ void Camera::Render()
 
 	Scene* curScene = GET_SINGLE(SceneManager)->GetActiveScene();
 
-	for (size_t i = 0; i < 32; i++)
-	{
-		if (_layerMasks[i])
-		{
-			Layer& layer = curScene->GetLayer((LAYER_TYPE)i);
-			layer.Render();
-		}
-	}
 
+	for (auto& obj : curScene->GetObjects())
+	{
+		if(_layerMasks[(UINT)obj->GetLayer()])
+			obj->Render();
+	}
 }

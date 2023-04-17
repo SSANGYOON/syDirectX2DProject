@@ -30,7 +30,7 @@ public:
 	void SetProjectionType(ProjectionType type) { _type = type; }
 
 	float GetScale() { return _scale; }
-
+	Vector2 GetScreenSize() { assert(_type = ProjectionType::Orthographic); return Vector2(_width, _height); }
 	void SetView() { s_view = _view; }
 	void SetProjection() { s_projection = _projection; }
 

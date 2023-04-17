@@ -43,7 +43,7 @@ public:
 
 		resource->SetKey(key);
 		resource->SetPath(path);
-		_resources.insert(std::make_pair(key, dynamic_pointer_cast<Resource>(resource)));
+		_resources.insert(std::make_pair(key, static_pointer_cast<Resource>(resource)));
 
 		return resource;
 	}
@@ -63,7 +63,5 @@ private:
 
 	friend class _toRender;
 	vector<DebugAttribute> _toRender;
-
-
 };
 

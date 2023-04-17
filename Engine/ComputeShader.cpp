@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 ComputeShader::ComputeShader()
-    : Resource(Resource_Type::COMPUTESHADER)
+    : Resource(RESOURCE_TYPE::COMPUTE_SHADER)
 	, _CSBlob(nullptr)
 	, _CS(nullptr)
 	, mThreadGroupCountX(1)

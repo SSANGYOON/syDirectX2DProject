@@ -2,6 +2,7 @@
 #include "BaseRenderer.h"
 #include "ConstantBuffer.h"
 
+class Texture;
 class SpriteRenderer : public BaseRenderer
 {
 public:
@@ -16,9 +17,11 @@ public:
 	void SetTargetSizeRatio(Vector2 ratio) { spCB.targetSizeRatio = ratio; }
 	void SetSheetSize(Vector2 sheetSize) { spCB.sourceSheetSize = sheetSize; }
 	
-
+	void SetSpriteSheet(shared_ptr<Texture> texture);
 private:
 	void BindSpriteBuffer();
+
+	shared_ptr<Texture> _spriteSheet;
 	SpriteCB spCB;
 };
 

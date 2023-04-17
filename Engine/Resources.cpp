@@ -163,7 +163,7 @@ void Resources::CreateDefaultResource()
 	_entry.PS = true;
 	shader->CreateShader(_info, _entry, L"Default.hlsl");
 	shared_ptr<Material> material = make_shared<Material>();
-	material->SetShader(0,shader);
+	material->SetShader(shader);
 #pragma endregion
 {
 #pragma region TrailShader
@@ -194,7 +194,7 @@ void Resources::CreateDefaultResource()
 	_entry.PS = true;
 	debugShader->CreateShader(_info, _entry, L"DebugShader.hlsl");
 	shared_ptr<Material> debugMaterial = make_shared<Material>();
-	debugMaterial->SetShader(0,debugShader);
+	debugMaterial->SetShader(debugShader);
 	Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 #pragma endregion
 

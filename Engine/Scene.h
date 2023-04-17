@@ -18,19 +18,27 @@ public:
 	void FinalUpdate();
 	void Render();
 
-	void AddGameObject(shared_ptr<GameObject> GameObject, LAYER_TYPE type);
-	void RemoveGameObject(shared_ptr<GameObject> gameObject, LAYER_TYPE type);
+	void AddGameObject(shared_ptr<GameObject> GameObject, LAYER_TYPE type, string tag = "");
+	void RemoveGameObject(shared_ptr<GameObject> gameObject);
 
 	void AddLight(Light* light);
 
+	void SetSceneSize(Vector2 sceneSize) { _sceneSize = sceneSize; }
+	const Vector2& GetSceneSize() { return _sceneSize; }
+
+	GameObject* FindGameObject(string tag);
+	vector<shared_ptr<GameObject>>& GetObjects() { return _gameObjects; }
 	Camera* GetMainCamera();
-	Layer& GetLayer(LAYER_TYPE type) { return _layers[UINT(type)]; }
 
 private:
+	void hiearchy();
 	void PushLightData();
 
 	vector<class Light*> _lights;
-	vector<Layer> _layers;
+	vector<shared_ptr<GameObject>> _gameObjects;
+	unordered_map<string, shared_ptr<GameObject>> _tags;
 	vector<class Camera*> _cameras;
+
+	Vector2 _sceneSize;
 };
 

@@ -9,7 +9,7 @@
 
 void CollisionManager::Initialize()
 {
-
+	_colliders.resize(UINT(LAYER_TYPE::END));
 }
 
 void CollisionManager::Update()
@@ -46,50 +46,27 @@ void CollisionManager::CollisionLayerCheck(LAYER_TYPE left, LAYER_TYPE right, bo
 
 void CollisionManager::LayerCollision(Scene* scene, LAYER_TYPE left, LAYER_TYPE right)
 {
-	const std::vector<shared_ptr<GameObject>>& lefts = scene->GetLayer(left).GetGameObjects();
-	const std::vector<shared_ptr<GameObject>>& rights = scene->GetLayer(right).GetGameObjects();
+	auto& lefts = _colliders[(UINT)left];
+	auto& rights = _colliders[(UINT)right];
 
 	if (left == right)
 	{
 		for (size_t i =0; i<lefts.size()-1; i++)
 		{
-			if (lefts[i]->GetState() != GameObject::ACTIVE)
-				continue;
-			auto lcols = lefts[i]->GetComponents<Collider>();
-			for (const auto& lcol : lcols)
+			for (size_t j = i+1; j < rights.size(); j++)
 			{
-				for (size_t j = i+1; j < rights.size(); j++)
-				{
-					if (lefts[j]->GetState() != GameObject::ACTIVE)
-						continue;
-					auto rcols = rights[j]->GetComponents<Collider>();
-					for (const auto& rcol : rcols)
-					{
-						ColliderCollision(lcol, rcol);
-					}
-				}
+				ColliderCollision(lefts[i], lefts[j]);
 			}
+
 		}
 	}
 	else
 	{
 		for (const auto& left : lefts)
 		{
-			if (left->GetState() != GameObject::ACTIVE)
-				continue;
-			auto lcols = left->GetComponents<Collider>();
-			for (const auto& lcol : lcols)
+			for (const auto& right : rights)
 			{
-				for (const auto& right : rights)
-				{
-					if (right->GetState() != GameObject::ACTIVE)
-						continue;
-					auto rcols = right->GetComponents<Collider>();
-					for (const auto& rcol : rcols)
-					{
-						ColliderCollision(lcol, rcol);
-					}
-				}
+				ColliderCollision(left, right);
 			}
 		}
 	}
@@ -194,19 +171,18 @@ void CollisionManager::ColliderCollision(Collider* left, Collider* right)
 	}
 }
 
-bool CollisionManager::RayCast(const Vector3& origin, const Vector3& dir, LAYER_TYPE type, OUT Collision& collision)
+bool CollisionManager::RayCast(const Vector3& origin, const Vector3& dir, bitset<(UINT)LAYER_TYPE::END> layer_mask, OUT Collision& collision)
 {
-	const std::vector<shared_ptr<GameObject>>& objs = GET_SINGLE(SceneManager)->GetActiveScene()->GetLayer(type).GetGameObjects();
+	
 
 	bool ret = false;
 	float len = 1e9;
 	GameObject* target = nullptr;
 
-	for (auto& obj : objs)
-	{
-		auto cols = obj->GetComponents<Collider>();
-
-		for (const auto col : cols)
+	for (int i = 0; i < (int)LAYER_TYPE::END; i++) {
+		if (!layer_mask[i])
+			continue;
+		for (const auto col : _colliders[i])
 		{
 			if (!col->IsTrigger()) {
 				float dist = 1e9;
@@ -214,12 +190,13 @@ bool CollisionManager::RayCast(const Vector3& origin, const Vector3& dir, LAYER_
 				if (hit) {
 					ret = true;
 					if (len > dist) {
-						target = obj.get();
+						target = col->GetOwner();
 						len = dist;
 					}
 				}
 			}
 		}
+
 	}
 	collision.other = target;
 	collision.repulse = dir * len;
