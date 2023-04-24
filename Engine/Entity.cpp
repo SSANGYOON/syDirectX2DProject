@@ -1,13 +1,9 @@
 #include "pch.h"
 #include "Entity.h"
 
-Entity::Entity()
-{
-	static UINT nextID = 1;
-	_ID = nextID++;
-
-}
-
-Entity::~Entity()
-{
+namespace SY {
+	Entity::Entity(entt::entity handle, Scene* scene)
+		: m_EntityHandle(handle), m_Scene(scene)
+	{
+	}
 }

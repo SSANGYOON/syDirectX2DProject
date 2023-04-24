@@ -3,6 +3,8 @@ cbuffer Transform : register(b0)
     row_major matrix world;
     row_major matrix view;
     row_major matrix projection;
+    int entity;
+    float3 padding;
 }
 
 cbuffer Sprite : register(b1)
@@ -12,6 +14,9 @@ cbuffer Sprite : register(b1)
     float2 sourceSheetSize;
     float2 targetOffset;
     float2 targetSizeRatio;
+    uint textured;
+    uint lighted;
+    float4 spritecolor;
 }
 
 cbuffer MaterialData : register(b2)

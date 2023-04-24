@@ -1,18 +1,12 @@
-﻿// Engine.cpp : 정적 라이브러리를 위한 함수를 정의합니다.
-//
+﻿
 
 #include "pch.h"
 #include "Engine.h"
 #include "PipelineStates.h"
 #include "Resources.h"
-#include "SceneManager.h"
-#include "CollisionManager.h"
+
 #include "Material.h"
 #include "Texture.h"
-
-#include "Input.h"
-#include "Timer.h"
-// TODO: 라이브러리 함수의 예제입니다.
 
 HRESULT Engine::Init(const WindowInfo& info)
 {
@@ -48,7 +42,7 @@ HRESULT Engine::Init(const WindowInfo& info)
 	GET_SINGLE(Resources)->CreateDefaultResource();
 
 	
-	CreateRenderTarget();
+	CreateRenderTargetGroup();
 
 
 	RECT rt = { 0, 0, (LONG)info.width , (LONG)info.height };
@@ -58,7 +52,6 @@ HRESULT Engine::Init(const WindowInfo& info)
 	UpdateWindow(info.hwnd);
 
 	_viewPort = { 0.0f, 0.0f, (float)_window.width, (float)_window.height, 0.0f, 1.0f };
-	SetOriginalRenderTarget();
 
 	SetUpState();
 	
@@ -77,39 +70,8 @@ HRESULT Engine::Init(const WindowInfo& info)
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT]->Init(Constantbuffer_Type::LIGHT, sizeof(LightCB));
-	
-	GET_SINGLE(CollisionManager)->Initialize();
-	GET_SINGLE(SceneManager)->LoadScene(L"TestScene");
 
 	return S_OK;
-}
-
-void Engine::Update()
-{
-	GET_SINGLE(Timer)->Update();
-	GET_SINGLE(Input)->Update();
-	GET_SINGLE(SceneManager)->Update();
-	GET_SINGLE(CollisionManager)->Update();
-}
-
-void Engine::Render()
-{
-	FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	ClearRenderTarget(backgroundColor);
-	_context->ClearDepthStencilView(_depthStencilBuffer->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-	GET_SINGLE(SceneManager)->Render();
-	
-}
-
-void Engine::Present()
-{
-	_swapChain->Present(0,0);
-}
-
-void Engine::SetOriginalRenderTarget()
-{
-	_context->RSSetViewports(1, &_viewPort);
-	_context->OMSetRenderTargets(1, _renderTarget->GetRTVRef(), _depthStencilBuffer->GetDSV());
 }
 
 void Engine::SetWindow(WindowInfo info)
@@ -118,27 +80,61 @@ void Engine::SetWindow(WindowInfo info)
 	_swapChain->ResizeBuffers(0, info.width, info.height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 }
 
-HRESULT Engine::CreateRenderTarget()
+void Engine::SetViewport(UINT left, UINT right, UINT width, UINT height)
 {
-	_renderTarget = make_shared<Texture>();
-	_renderTarget->Create(_window.width, _window.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
+	_viewPort.TopLeftX = (float)left;
+	_viewPort.TopLeftY = (float)right;
+	_viewPort.Width = (float)width;
+	_viewPort.Height = (float)height;
 
-	_depthStencilBuffer = make_shared<Texture>();
-	_depthStencilBuffer->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
-	
-	SetOriginalRenderTarget();
-	return S_OK;
+	CONTEXT->RSSetViewports(1, &_viewPort);
 }
 
-HRESULT Engine::CleanUpRenderTarget()
+void Engine::BindSwapChain()
 {
-	_renderTarget = nullptr;
-	_depthStencilBuffer = nullptr;
-
-	return S_OK;
+	CONTEXT->OMSetRenderTargets(1, _rtv.GetAddressOf(), _depth->GetDSV());
 }
 
-void Engine::ClearRenderTarget(const float* color)
+void Engine::ClearSwapChain()
 {
-	_context->ClearRenderTargetView(_renderTarget->GetRTV(), color);
+	float clearColor[4] = { 0.1f,0.1f,0.1f,1.f };
+	CONTEXT->ClearRenderTargetView(_rtv.Get(), clearColor);
+
+	CONTEXT->ClearDepthStencilView(_depth->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+}
+
+void Engine::BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
+{
+	_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->OMSetRenderTargets();
+}
+
+void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
+{
+	_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->ClearRenderTargets();
+}
+
+HRESULT Engine::CreateRenderTargetGroup()
+{
+	_swapChain->GetBuffer(0, IID_PPV_ARGS(_renderTarget.GetAddressOf()));
+	_device->CreateRenderTargetView(_renderTarget.Get(), nullptr, _rtv.GetAddressOf());
+	_depth = make_shared<Texture>();
+	_depth->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
+	{
+		vector<RenderTarget> rtVec(RENDER_TARGET_EDITOR_GROUP_MEMBER_COUNT);
+
+		rtVec[0].target = make_shared<Texture>();
+		rtVec[0].target->Create(_window.width, _window.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+
+		rtVec[1].target = make_shared<Texture>();
+		rtVec[1].target->Create(_window.width, _window.height, DXGI_FORMAT_R32_SINT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
+		rtVec[1].clearColor[0] = -1.f;
+
+		shared_ptr<Texture> dsTexture = make_shared<Texture>();
+		dsTexture->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)] = make_shared<RenderTargetGroup>();
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->Create(RENDER_TARGET_GROUP_TYPE::EDITOR, rtVec, dsTexture);
+	}
+	return S_OK;
 }

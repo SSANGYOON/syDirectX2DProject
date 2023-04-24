@@ -14,6 +14,8 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix world;
 	Matrix view;
 	Matrix projection;
+	int entity;
+	Vector3 padding;
 };
 
 CBUFFER(SpriteCB, CBSLOT_SPRITE)
@@ -23,6 +25,9 @@ CBUFFER(SpriteCB, CBSLOT_SPRITE)
 	Vector2 sourceSheetSize;
 	Vector2 targetOffset;
 	Vector2 targetSizeRatio;
+	UINT textured;
+	UINT lighted;
+	Vector4 color;
 };
 
 CBUFFER(GridCB, CBSLOT_GRID)

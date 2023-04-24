@@ -1,13 +1,13 @@
 #pragma once
 #include <wrl.h>
 
-class Transform;
 struct WindowInfo
 {
 	HWND hwnd;
 	unsigned int width;
 	unsigned int height;
 	bool windowed;
+	bool VSync;
 };
 
 enum class ShaderStage : UINT8

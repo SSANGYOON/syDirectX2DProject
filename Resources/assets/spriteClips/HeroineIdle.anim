@@ -1,0 +1,44 @@
+Animations:
+  - Key: IDLE
+    OriginalOffset: [ 2.0, 15.0 ]
+    SpriteSize: [ 31.0, 50.0 ]
+    Step: [ 31.0, 53.0 ]
+    Columns: 21
+    Frames: 56
+    Duration: 1.5
+  - Key: IDLE2RUN
+    OriginalOffset: [ 2.0, 189.0 ]
+    SpriteSize: [ 31.0, 50.0 ]
+    Step: [ 36.0, 53.0 ]
+    Columns: 21
+    Frames: 2
+    Duration: 0.1
+    Loop: false
+    nextKey: RUN
+  - Key: RUN
+    OriginalOffset: [ 2.0, 256.0 ]
+    SpriteSize: [ 30.0, 50.0 ]
+    Step: [ 33.0, 53.0 ]
+    Columns: 21
+    Frames: 8
+    Duration: 0.75
+    Loop: true
+  - Key: RUN2IDLE
+    OriginalOffset: [ 2.0, 322.0 ]
+    SpriteSize: [ 26.0, 50.0 ]
+    Step: [ 30.0, 53.0 ]
+    Columns: 21
+    Frames: 4
+    Duration: 0.2
+    Loop: false
+    nextKey: IDLE
+  - Key: JUMP
+    OriginalOffset: [ 2.0, 634.0 ]
+    SpriteSize: [ 27.0, 50.0 ]
+    TargetOffset: [ -4.0, 0.0 ]
+    Step: [ 32.0, 53.0 ]
+    Columns: 21
+    Frames: 5
+    Duration: 0.5
+    Loop: false
+

@@ -12,7 +12,7 @@ Mesh::~Mesh()
 {
 }
 
-HRESULT Mesh::Load(const std::wstring& path)
+HRESULT Mesh::Load(const std::wstring& path, bool stockObject)
 {
     return E_NOTIMPL;
 }

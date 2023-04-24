@@ -21,7 +21,7 @@ public:
 
 		return nullptr;
 	}
-
+	
 	template <typename T>
 	std::shared_ptr<T> Load(const std::wstring& key, const std::wstring& path)
 	{

@@ -42,7 +42,7 @@ public :
 	virtual ~Material();
 
 public:
-	virtual HRESULT Load(const std::wstring& path) override;
+	virtual HRESULT Load(const std::wstring& path, bool stockObject) override;
 
 	void SetUInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }

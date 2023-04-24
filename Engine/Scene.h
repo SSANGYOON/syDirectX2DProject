@@ -1,44 +1,82 @@
 #pragma once
-#include "Entity.h"
-#include "Light.h"
 
-class Layer;
-class GameObject;
-class Camera;
-class Light;
-class Scene : public Entity
-{
-public:
-	Scene();
-	virtual ~Scene();
+#include "EditorCamera.h"
+#include "entt.hpp"
+#include "UUID.h"
 
-	virtual void Start();
+class b2World;
 
-	void Update();
-	void FinalUpdate();
-	void Render();
+namespace SY {
 
-	void AddGameObject(shared_ptr<GameObject> GameObject, LAYER_TYPE type, string tag = "");
-	void RemoveGameObject(shared_ptr<GameObject> gameObject);
+	class Entity;
 
-	void AddLight(Light* light);
+	class Scene
+	{
+	public:
+		Scene();
+		~Scene();
 
-	void SetSceneSize(Vector2 sceneSize) { _sceneSize = sceneSize; }
-	const Vector2& GetSceneSize() { return _sceneSize; }
+		static shared_ptr<Scene> Copy(shared_ptr<Scene> other);
 
-	GameObject* FindGameObject(string tag);
-	vector<shared_ptr<GameObject>>& GetObjects() { return _gameObjects; }
-	Camera* GetMainCamera();
+		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
+		void DestroyEntity(Entity entity);
 
-private:
-	void hiearchy();
-	void PushLightData();
+		void OnRuntimeStart();
+		void OnRuntimeStop();
 
-	vector<class Light*> _lights;
-	vector<shared_ptr<GameObject>> _gameObjects;
-	unordered_map<string, shared_ptr<GameObject>> _tags;
-	vector<class Camera*> _cameras;
+		void OnSimulationStart();
+		void OnSimulationStop();
 
-	Vector2 _sceneSize;
-};
+		void OnUpdateRuntime(float ts);
+		void OnUpdateSimulation(float ts, EditorCamera& camera);
+		void OnUpdateEditor(float ts, EditorCamera& camera);
+		void OnViewportResize(uint32_t width, uint32_t height);
 
+		void UpdateTransform();
+
+		Entity DuplicateEntity(Entity entity);
+
+		Entity FindEntityByName(std::string_view name);
+		Entity GetEntityByUUID(UUID uuid);
+
+		Entity GetPrimaryCameraEntity();
+
+		bool IsRunning() const { return m_IsRunning; }
+		bool IsPaused() const { return m_IsPaused; }
+
+		void SetPaused(bool paused) { m_IsPaused = paused; }
+
+		void Step(int frames = 1);
+
+		template<typename... Components>
+		auto GetAllEntitiesWith()
+		{
+			return m_Registry.view<Components...>();
+		}
+	private:
+		template<typename T>
+		void OnComponentAdded(Entity entity, T& component);
+
+		void OnPhysics2DStart();
+		void OnPhysics2DStop();
+		void OnPhysicsUpdate(float timeStep);
+		void RenderScene(EditorCamera& camera);
+	private:
+		entt::registry m_Registry;
+		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+		bool m_IsRunning = false;
+		bool m_IsPaused = false;
+		int m_StepFrames = 0;
+
+		b2World* m_PhysicsWorld = nullptr;
+
+		std::unordered_map<UUID, entt::entity> m_EntityMap;
+
+		friend class Entity;
+		friend class SceneSerializer;
+		friend class SceneHierarchyPanel;
+		friend class ParentManager;
+	};
+
+}

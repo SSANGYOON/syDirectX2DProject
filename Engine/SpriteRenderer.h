@@ -21,7 +21,7 @@ public:
 private:
 	void BindSpriteBuffer();
 
-	shared_ptr<Texture> _spriteSheet;
+	shared_ptr<Texture> Texture;
 	SpriteCB spCB;
 };
 

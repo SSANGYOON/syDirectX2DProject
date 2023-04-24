@@ -1,20 +1,19 @@
 #pragma once
-class Scene;
-class GameObject;
-class SceneManager
-{
-	DECLARE_SINGLE(SceneManager)
 
-public:
-	void Update();
-	void Render();
-	void LoadScene(const wstring& SceneName);
 
-public:
-	Scene* GetActiveScene() { return _activeScene.get(); }
-	GameObject* Instantiate(LAYER_TYPE type);
+namespace SY {
+	class Scene;
+	class SceneManager
+	{
+	public:
+		static shared_ptr<Scene>& GetActiveScene();
+		static void ChanegeScene(string name);
 
-private:
-	shared_ptr<Scene> _activeScene;
-};
+		static void AddScene(string tag, shared_ptr<Scene> scene);
+		static void RemoveScene(string tag);
+	private:
+		static shared_ptr<Scene> currentScene;
+		static map<string , shared_ptr<Scene>> _scenes;
+	};
+}
 

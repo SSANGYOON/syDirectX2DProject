@@ -1,723 +1,497 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="LibraryCode">
-      <UniqueIdentifier>{1c60c7e4-2aaf-4f9b-ac3d-6bfc8491dc63}</UniqueIdentifier>
+    <Filter Include="Event">
+      <UniqueIdentifier>{a746cf09-a0a9-41ef-bb5d-4f8d0722622d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Utils">
-      <UniqueIdentifier>{c9c0a995-394d-41ee-9424-48a45c8707c1}</UniqueIdentifier>
+    <Filter Include="Layer">
+      <UniqueIdentifier>{c5c806fc-5e77-43a3-8f52-37e850675eb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Time">
-      <UniqueIdentifier>{22dae2df-34fc-45c8-8dd2-43bc380a3aae}</UniqueIdentifier>
+    <Filter Include="Panels">
+      <UniqueIdentifier>{3b00d5d4-e1f0-47a3-8dcc-8d79c917b1d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Scene">
-      <UniqueIdentifier>{3828c2e1-b862-413d-8dd8-5598d19187cc}</UniqueIdentifier>
+    <Filter Include="Project">
+      <UniqueIdentifier>{5f9ed776-e85b-495a-9ae6-e2d8c13b6be3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource">
-      <UniqueIdentifier>{4c087bd6-56b3-4f9d-9251-949fb1cdf883}</UniqueIdentifier>
+    <Filter Include="Project\ProjectSerializer">
+      <UniqueIdentifier>{68c78601-26e2-4c51-88df-7250d994c6a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource\Texture">
-      <UniqueIdentifier>{a3d03b6b-e4e3-4265-b683-72335cd7120d}</UniqueIdentifier>
+    <Filter Include="Application">
+      <UniqueIdentifier>{d03604b0-ff22-46f8-af80-d4c664621382}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource\Mesh">
-      <UniqueIdentifier>{c9939028-2cb1-42f0-bac7-416a5608af3e}</UniqueIdentifier>
+    <Filter Include="Win32Window">
+      <UniqueIdentifier>{5213f596-dee2-428b-a6f8-c5c6a72f665f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource\Shader">
-      <UniqueIdentifier>{4701b854-61d1-4211-a7a6-a8211929d178}</UniqueIdentifier>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{1b772e5d-f55a-4589-970d-0e2bc22093ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Resource\Material">
-      <UniqueIdentifier>{0afcedaf-0d68-4fc4-993d-8734656d1fe7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Resource\Animation">
-      <UniqueIdentifier>{6578e5ca-32fa-4f85-a3f7-0fb556eeb0c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\PiplelineStates">
-      <UniqueIdentifier>{d931dae7-eb6a-40d2-9419-b868c63ec9c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Manager">
-      <UniqueIdentifier>{1232eef4-1f31-4573-8686-485af0b52721}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Input">
-      <UniqueIdentifier>{97c8f2b4-6d4f-4bff-be0b-88c4f755f0c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\High Level Interface">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="LibraryCode\Graphics">
-      <UniqueIdentifier>{034e50b2-f380-43b7-a61c-28e4381d863d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\GameObject">
-      <UniqueIdentifier>{05568205-f21c-4fd9-9508-7b55bb689e11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Component">
+    <Filter Include="Component">
       <UniqueIdentifier>{424cd6a8-3f75-4daa-804e-550ebf8e90b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\Camera">
-      <UniqueIdentifier>{7f566ea8-711b-48a5-9528-52a029765e33}</UniqueIdentifier>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{5b0309c5-7db6-4bf8-bd8b-4ddd8c2d2250}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\Transfrom">
-      <UniqueIdentifier>{e881b6c0-a502-4a27-b85d-b4ec25aba5c2}</UniqueIdentifier>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{42e2aadf-e71f-44e0-b808-1e121ec2b59b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\Renderer">
-      <UniqueIdentifier>{e357760d-e087-46c7-a658-de4a35587ba4}</UniqueIdentifier>
+    <Filter Include="Camera\SceneCamera">
+      <UniqueIdentifier>{fddf4885-be3f-4a4b-a185-5d446f6de4e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\Colider">
-      <UniqueIdentifier>{23c00a51-bc5f-4a41-90f0-aadd04579d3a}</UniqueIdentifier>
+    <Filter Include="Camera\EditorCamera">
+      <UniqueIdentifier>{e9fdabc0-3ebb-4536-9e52-14d808d0b0e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\Animator">
-      <UniqueIdentifier>{96bd12ac-4457-4f4d-b522-29841de28e4b}</UniqueIdentifier>
+    <Filter Include="Layer\EditorLayer">
+      <UniqueIdentifier>{cd6db916-ba18-4c65-8d30-d98c99f47aac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\RigidBody">
-      <UniqueIdentifier>{b0f1d489-2655-43ab-9538-e22b2dab5774}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Component\Grid">
-      <UniqueIdentifier>{befde438-bd6f-4302-aba5-37fc4ddcab69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Component\Script">
-      <UniqueIdentifier>{a93606a0-05c2-49a3-b70f-408ac75fb5e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting">
-      <UniqueIdentifier>{766c4beb-3625-4d66-9649-a0f1adb69f49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player">
-      <UniqueIdentifier>{21820f8f-68a2-4336-a14e-17996242b721}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates">
-      <UniqueIdentifier>{6b4ebfa3-3f61-4cb1-a9c1-6de8f5280005}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates\SuperStates">
-      <UniqueIdentifier>{4894ecc8-e664-4d68-bdfc-10f8e2b65898}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates\SubStates">
-      <UniqueIdentifier>{c905c00a-709d-4674-ac06-4161c0699e70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\FSM">
-      <UniqueIdentifier>{ad2c51ca-a1e3-463e-9454-cb55b9006c76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\Weapon">
-      <UniqueIdentifier>{d4702d33-d7f6-4c0d-8c1b-c1d6664c21ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates\SubStates\PlayerActive">
-      <UniqueIdentifier>{bfaf13ce-8767-4fbf-9425-a7a21f894e6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates\SubStates\PlayerNormal">
-      <UniqueIdentifier>{7bd9133a-33fa-4298-b6be-40b58322eb4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerStates\SubStates\PlayerPassive">
-      <UniqueIdentifier>{3d6d87e7-3bda-4314-9c00-8bf9c9d4ea6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\Skill">
-      <UniqueIdentifier>{c6eaa6e7-86c2-4427-ba07-41c1b383152e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Utils\Math">
-      <UniqueIdentifier>{c0f08d10-3fe2-44b2-aefa-106cef114521}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Utils\Pch">
-      <UniqueIdentifier>{3b91a8a1-10b6-4f0d-b164-59032ee8ebd1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerAnims">
-      <UniqueIdentifier>{fc3aac16-3023-4567-aae0-427fc6f89fed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\Weapon\Traill">
-      <UniqueIdentifier>{dcc60c49-3281-470e-8f82-83c69720d9ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Resource\ComputeShader">
-      <UniqueIdentifier>{68969fc8-a1a0-4203-93e4-d8afcd997263}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady">
-      <UniqueIdentifier>{4aafaea2-6d67-431c-ab32-459647b1d6b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerMaterial">
-      <UniqueIdentifier>{b4bc995e-e82b-4fb7-86e6-c5bc18c11695}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Player\PlayerMaterial\WeaponShader">
-      <UniqueIdentifier>{f55db709-7908-4d17-a5bb-292e6b96f0c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyAnims">
-      <UniqueIdentifier>{89436b6e-80f8-469a-8f13-cce3e884826f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Component\ParticleSystem">
-      <UniqueIdentifier>{369fed0f-b83d-44c5-83b4-f439c8541f99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LibraryCode\Component\Light">
-      <UniqueIdentifier>{e7240095-705a-493c-8cb1-2a10f97c72b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyMaterial">
-      <UniqueIdentifier>{5f24e171-a846-45b4-aaaa-c99a53e5cba0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyPart">
-      <UniqueIdentifier>{d0b83967-0da9-477c-9451-6c48ac2aebb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyWing">
-      <UniqueIdentifier>{e28a1c2b-7a86-4b58-8a98-97e3d9b204d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye">
-      <UniqueIdentifier>{abd89642-11bc-4880-8c62-f669cf9582f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser">
-      <UniqueIdentifier>{2884148b-05f8-495c-94de-b0d3e774458d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\DarkLady\DarkLadyPart\DarkLadyEye\bullet">
-      <UniqueIdentifier>{cfb115e1-0822-4845-a832-12a77e33ce53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripting\Camera">
-      <UniqueIdentifier>{91773927-0e45-4a9e-bec1-9a3e74bd3a8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor">
-      <UniqueIdentifier>{0c7bb7ea-2057-4ea0-98b3-701410757cae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Editor\ImGui">
+    <Filter Include="ImGui">
       <UniqueIdentifier>{36054642-d05d-4ab2-8db6-7711f3d3bc23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\UI">
-      <UniqueIdentifier>{be8cbecf-42cf-40d3-bdc7-51d292db34eb}</UniqueIdentifier>
+    <Filter Include="Layer\ImGuiLayer">
+      <UniqueIdentifier>{c7c2ea06-a73e-468c-b8a9-e584dfcf0468}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LibraryCode\Component\UI\Panel">
-      <UniqueIdentifier>{dd4f7f61-107f-4da7-9ba7-70010847b081}</UniqueIdentifier>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{034e50b2-f380-43b7-a61c-28e4381d863d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{5faeb5f0-7adb-4b97-bc6e-ec11b051f4af}</UniqueIdentifier>
+    <Filter Include="Graphics\RenderTargetGroup">
+      <UniqueIdentifier>{6fa7cc54-e47f-44a2-af5e-e2b759940dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Buffer">
+      <UniqueIdentifier>{ca3368fb-91b8-4d1a-86aa-40fa2899f0ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\PiplelineStates">
+      <UniqueIdentifier>{d931dae7-eb6a-40d2-9419-b868c63ec9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{4c087bd6-56b3-4f9d-9251-949fb1cdf883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Texture">
+      <UniqueIdentifier>{a3d03b6b-e4e3-4265-b683-72335cd7120d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{c9939028-2cb1-42f0-bac7-416a5608af3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Shader">
+      <UniqueIdentifier>{4701b854-61d1-4211-a7a6-a8211929d178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\ComputeShader">
+      <UniqueIdentifier>{68969fc8-a1a0-4203-93e4-d8afcd997263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{3828c2e1-b862-413d-8dd8-5598d19187cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneSerializer">
+      <UniqueIdentifier>{c1af8e60-027a-4715-9d74-a38ea3abcdd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{c9c0a995-394d-41ee-9424-48a45c8707c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Math">
+      <UniqueIdentifier>{c0f08d10-3fe2-44b2-aefa-106cef114521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Pch">
+      <UniqueIdentifier>{3b91a8a1-10b6-4f0d-b164-59032ee8ebd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\UUID">
+      <UniqueIdentifier>{6d8f83cf-063b-4e62-8ee4-c15ea195cc84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Physics">
+      <UniqueIdentifier>{6d33ffda-d59a-482d-8ce6-1932b282c434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\EditorUtils">
+      <UniqueIdentifier>{b73b4408-f279-42bf-81d8-63308cd52915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\EditorUtils\FileDialog">
+      <UniqueIdentifier>{faed5afb-8469-4ac0-a5db-3eac6a323d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Input">
+      <UniqueIdentifier>{97c8f2b4-6d4f-4bff-be0b-88c4f755f0c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Time">
+      <UniqueIdentifier>{22dae2df-34fc-45c8-8dd2-43bc380a3aae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{9b07c630-bb2c-43ed-97c4-07722164d47c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\ParentManager">
+      <UniqueIdentifier>{8fe6b6d8-7a3f-4227-a743-6d3f5514619f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SceneManager">
+      <UniqueIdentifier>{902f33bf-f1fc-40d8-9a69-3cc2b0f46424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\CollisionManager">
+      <UniqueIdentifier>{4ac68440-1c4c-49b5-85aa-c2496da0e4fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{28e423f7-b6a6-4f64-863e-a7d3020fc178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{944ee6e6-ab77-45e1-823d-3dcb796e9c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{a3788bfa-e9be-4116-a7ff-e1f69cfca0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{c59979fa-fbdf-4791-b6b8-bc032dc00c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serializer">
+      <UniqueIdentifier>{0bdd4fe1-1bfd-40e9-af2c-7ef4b2720f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Animation">
+      <UniqueIdentifier>{20aec0d3-f54f-4dcb-87e7-cf52a50b0ba7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
-      <Filter>LibraryCode\High Level Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="SwapChain.cpp">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantBuffer.cpp">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>LibraryCode\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Resource.cpp">
-      <Filter>LibraryCode\Resource</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>LibraryCode\Resource\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>LibraryCode\Resource\Material</Filter>
+      <Filter>Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>LibraryCode\Resource\Shader</Filter>
+      <Filter>Resource\Shader</Filter>
     </ClCompile>
     <ClCompile Include="PipelineStates.cpp">
-      <Filter>LibraryCode\PiplelineStates</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>LibraryCode\Manager</Filter>
+      <Filter>Graphics\PiplelineStates</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>LibraryCode\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>LibraryCode\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>LibraryCode\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>LibraryCode\Component\Transfrom</Filter>
-    </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>LibraryCode\Component\Script</Filter>
+      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
-      <Filter>LibraryCode\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>LibraryCode\Component\Renderer</Filter>
+      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>LibraryCode\Input</Filter>
+      <Filter>Utils\Input</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>LibraryCode\Time</Filter>
+      <Filter>Utils\Time</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>LibraryCode\Resource\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>LibraryCode\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>LibraryCode\Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseRenderer.cpp">
-      <Filter>LibraryCode\Component\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>LibraryCode\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>LibraryCode\Component\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidBody.cpp">
-      <Filter>LibraryCode\Component\RigidBody</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>LibraryCode\Component\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="FSM.cpp">
-      <Filter>Scripting\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Scripting\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Scripting\Player\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectState.cpp">
-      <Filter>Scripting\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerNormalState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActiveState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerPassiveState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerState.cpp">
-      <Filter>Scripting\Player\PlayerStates</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRollState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttackState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCrouchState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerIdleState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMoveState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAttacked.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerGuarded.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerDeadState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerJumpState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerFallingState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClCompile>
-    <ClCompile Include="Skill.cpp">
-      <Filter>Scripting\Player\Skill</Filter>
+      <Filter>Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
-      <Filter>LibraryCode\Utils\Math</Filter>
+      <Filter>Utils\Math</Filter>
     </ClCompile>
     <ClCompile Include="EnginePch.cpp">
-      <Filter>LibraryCode\Utils\Pch</Filter>
+      <Filter>Utils\Pch</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>LibraryCode\Utils\Pch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\External\jsoncpp.cpp">
-      <Filter>LibraryCode\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Trail.cpp">
-      <Filter>Scripting\Player\Weapon\Traill</Filter>
+      <Filter>Utils\Pch</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
-      <Filter>LibraryCode\Resource\ComputeShader</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerSummonState.cpp">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClCompile>
-    <ClCompile Include="DarkLady.cpp">
-      <Filter>Scripting\DarkLady</Filter>
-    </ClCompile>
-    <ClCompile Include="StructuredBuffer.cpp">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>LibraryCode\Component\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>LibraryCode\Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Halo.cpp">
-      <Filter>LibraryCode\Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="DarkLadyWing.cpp">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyWing</Filter>
-    </ClCompile>
-    <ClCompile Include="DarkLadyEye.cpp">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye</Filter>
-    </ClCompile>
-    <ClCompile Include="RectCollider.cpp">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraController.cpp">
-      <Filter>Scripting\Camera</Filter>
+      <Filter>Resource\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_demo.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_draw.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_impl_dx11.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_impl_win32.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_stdlib.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_tables.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\External\ImGui\imgui_widgets.cpp">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>LibraryCode\Component\UI</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="UIChild.cpp">
-      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    <ClCompile Include="UUID.cpp">
+      <Filter>Utils\UUID</Filter>
     </ClCompile>
-    <ClCompile Include="UIImage.cpp">
-      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsBrowserPanel.cpp">
+      <Filter>Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Project</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectSerializer.cpp">
+      <Filter>Project\ProjectSerializer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneHierarchyPanel.cpp">
+      <Filter>Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SyWindow.cpp">
+      <Filter>Win32Window</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerStack.cpp">
+      <Filter>Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorLayer.cpp">
+      <Filter>Layer\EditorLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneSerializer.cpp">
+      <Filter>Scene\SceneSerializer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCamera.cpp">
+      <Filter>Camera\SceneCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="FileDialogs.cpp">
+      <Filter>Utils\EditorUtils\FileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetGroup.cpp">
+      <Filter>Graphics\RenderTargetGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\imgui\ImGuizmo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\imgui\ImSequencer.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorCamera.cpp">
+      <Filter>Camera\EditorCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="imGuiLayer.cpp">
+      <Filter>Layer\ImGuiLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="StructuredBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ParentManager.cpp">
+      <Filter>Manager\ParentManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEngine.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptGlue.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Resource\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>LibraryCode\High Level Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Struct.h">
-      <Filter>LibraryCode\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="SwapChain.h">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>LibraryCode\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>LibraryCode\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>LibraryCode\Resource\Material</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>LibraryCode\Resource\Mesh</Filter>
+      <Filter>Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>LibraryCode\Resource\Shader</Filter>
+      <Filter>Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="PipelineStates.h">
-      <Filter>LibraryCode\PiplelineStates</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>LibraryCode\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>LibraryCode\GameObject</Filter>
+      <Filter>Graphics\PiplelineStates</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>LibraryCode\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>LibraryCode\Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>LibraryCode\Component\Transfrom</Filter>
-    </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>LibraryCode\Component\Script</Filter>
+      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
-      <Filter>LibraryCode\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>LibraryCode\Component\Renderer</Filter>
+      <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>LibraryCode\Input</Filter>
+      <Filter>Utils\Input</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>LibraryCode\Time</Filter>
+      <Filter>Utils\Time</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>LibraryCode\Resource\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>LibraryCode\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>LibraryCode\Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseRenderer.h">
-      <Filter>LibraryCode\Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>LibraryCode\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>LibraryCode\Component\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>LibraryCode\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>LibraryCode\Component\RigidBody</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>LibraryCode\Component\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="FSM.h">
-      <Filter>Scripting\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Scripting\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Scripting\Player\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectState.h">
-      <Filter>Scripting\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerNormalState.h">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActiveState.h">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerPassiveState.h">
-      <Filter>Scripting\Player\PlayerStates\SuperStates</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerState.h">
-      <Filter>Scripting\Player\PlayerStates</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRollState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttackState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCrouchState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerIdleState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMoveState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAttacked.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerGuarded.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerDeadState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerPassive</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerJumpState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFallingState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerNormal</Filter>
-    </ClInclude>
-    <ClInclude Include="Skill.h">
-      <Filter>Scripting\Player\Skill</Filter>
+      <Filter>Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
-      <Filter>LibraryCode\Utils\Math</Filter>
+      <Filter>Utils\Math</Filter>
     </ClInclude>
     <ClInclude Include="EnginePch.h">
-      <Filter>LibraryCode\Utils\Pch</Filter>
+      <Filter>Utils\Pch</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>LibraryCode\Utils\Pch</Filter>
-    </ClInclude>
-    <ClInclude Include="Trail.h">
-      <Filter>Scripting\Player\Weapon\Traill</Filter>
+      <Filter>Utils\Pch</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
-      <Filter>LibraryCode\Resource\ComputeShader</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerSummonState.h">
-      <Filter>Scripting\Player\PlayerStates\SubStates\PlayerActive</Filter>
-    </ClInclude>
-    <ClInclude Include="DarkLady.h">
-      <Filter>Scripting\DarkLady</Filter>
-    </ClInclude>
-    <ClInclude Include="StructuredBuffer.h">
-      <Filter>LibraryCode\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>LibraryCode\Component\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>LibraryCode\Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Halo.h">
-      <Filter>LibraryCode\Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="DarkLadyWing.h">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyWing</Filter>
-    </ClInclude>
-    <ClInclude Include="DarkLadyEye.h">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye</Filter>
-    </ClInclude>
-    <ClInclude Include="RectCollider.h">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleCollider.h">
-      <Filter>LibraryCode\Component\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Scripting\DarkLady\DarkLadyPart\DarkLadyEye\Laser</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraController.h">
-      <Filter>Scripting\Camera</Filter>
+      <Filter>Resource\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imconfig.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imgui.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imgui_impl_dx11.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imgui_impl_win32.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imgui_internal.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imgui_stdlib.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imstb_rectpack.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imstb_textedit.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\External\ImGui\imstb_truetype.h">
-      <Filter>Editor\ImGui</Filter>
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="UUID.h">
+      <Filter>Utils\UUID</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics2D.h">
+      <Filter>Utils\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentBrowserPanel.h">
+      <Filter>Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Project</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectSerializer.h">
+      <Filter>Project\ProjectSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneHierarchyPanel.h">
+      <Filter>Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerStack.h">
+      <Filter>Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorLayer.h">
+      <Filter>Layer\EditorLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneSerializer.h">
+      <Filter>Scene\SceneSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCamera.h">
+      <Filter>Camera\SceneCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="FileDialogs.h">
+      <Filter>Utils\EditorUtils\FileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTargetGroup.h">
+      <Filter>Graphics\RenderTargetGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="SyWindow.h">
+      <Filter>Win32Window</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptableEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\imgui\ImGuizmo.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\imgui\ImSequencer.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorCamera.h">
+      <Filter>Camera\EditorCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="imGuiLayer.h">
+      <Filter>Layer\ImGuiLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="StructuredBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentManager.h">
+      <Filter>Manager\ParentManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEngine.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptGlue.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
-      <Filter>LibraryCode\Component\UI</Filter>
+      <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UIChild.h">
-      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    <ClInclude Include="SerializerUtils.h">
+      <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="UIImage.h">
-      <Filter>LibraryCode\Component\UI\Panel</Filter>
+    <ClInclude Include="Animation.h">
+      <Filter>Resource\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
-      <Filter>LibraryCode\Utils\Math</Filter>
-    </None>
-    <None Include="..\Resources\Heroine_clips.json">
-      <Filter>Scripting\Player\PlayerAnims</Filter>
-    </None>
-    <None Include="..\Resources\Heroine_RenderPath.json">
-      <Filter>Scripting\Player\PlayerMaterial</Filter>
-    </None>
-    <None Include="..\Resources\OneHandShader.json">
-      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
-    </None>
-    <None Include="..\Resources\PlayerWeapon.json">
-      <Filter>Scripting\Player\PlayerAnims</Filter>
-    </None>
-    <None Include="..\Resources\DaggerShader.json">
-      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
-    </None>
-    <None Include="..\Resources\DaggerTrail.json">
-      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
-    </None>
-    <None Include="..\Resources\OneHandTrail.json">
-      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
-    </None>
-    <None Include="..\Resources\SummonSwordShader.json">
-      <Filter>Scripting\Player\PlayerMaterial\WeaponShader</Filter>
-    </None>
-    <None Include="..\Resources\SummonSword.json">
-      <Filter>Scripting\Player\PlayerAnims</Filter>
-    </None>
-    <None Include="..\Resources\The_Dark_Lady_clips.json">
-      <Filter>Scripting\DarkLady\DarkLadyAnims</Filter>
-    </None>
-    <None Include="..\Resources\The_Dark_Lady_Material.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
-    </None>
-    <None Include="..\Resources\The_Dark_Lady_Eye.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
-    </None>
-    <None Include="..\Resources\The_Dark_Lady_particle.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
-    </None>
-    <None Include="..\Resources\Halo.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
-    </None>
-    <None Include="..\Resources\BrightWing.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
-    </None>
-    <None Include="..\Resources\Laser.json">
-      <Filter>Scripting\DarkLady\DarkLadyMaterial</Filter>
+      <Filter>Utils\Math</Filter>
     </None>
   </ItemGroup>
 </Project>

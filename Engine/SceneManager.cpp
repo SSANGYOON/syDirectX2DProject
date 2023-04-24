@@ -1,42 +1,34 @@
 #include "pch.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "Layer.h"
-#include "Engine.h"
-#include "GameObject.h"
-#include "SpriteRenderer.h"
-#include "Resources.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "Camera.h"
-#include "Collider.h"
-#include "CollisionManager.h"
-#include "TitleScene.h"
-void SceneManager::Update()
-{
-	if (_activeScene == nullptr)
-		return;
 
-	_activeScene->Update();
-	_activeScene->FinalUpdate();
-}
 
-void SceneManager::Render()
-{
-	if (_activeScene != nullptr)
-		_activeScene->Render();
-}
+namespace SY {
+    shared_ptr<Scene> SceneManager::currentScene = nullptr;
+    map<string, shared_ptr<Scene>> SceneManager::_scenes = {};
 
-void SceneManager::LoadScene(const wstring& SceneName)
-{
-	_activeScene = make_shared<TitleScene>();
-	_activeScene->Start();
-}
+    shared_ptr<Scene>& SceneManager::GetActiveScene()
+    {
+        return currentScene;
+    }
 
-GameObject* SceneManager::Instantiate(LAYER_TYPE type)
-{
-	shared_ptr<GameObject> obj = make_shared<GameObject>();
-	obj->SetGameObjectState(GameObject::ACTIVE);
-	_activeScene->AddGameObject(obj,type);
-	return obj.get();
+    void SceneManager::ChanegeScene(string name)
+    {
+        assert(_scenes.find(name) != _scenes.end());
+        currentScene = _scenes[name];
+    }
+
+    void SceneManager::RemoveScene(string tag)
+    {
+        auto it = _scenes.find(tag);
+        if (it != _scenes.end())
+            _scenes.erase(tag);
+    }
+
+    void SceneManager::AddScene(string tag, shared_ptr<Scene> scene)
+    {
+        _scenes[tag] = scene;
+        if (currentScene == nullptr)
+            currentScene = scene;
+    }
 }

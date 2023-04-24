@@ -3,7 +3,6 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Material.h"
 #include "ComputeShader.h"
 
 void Resources::CreateDefaultResource()
@@ -53,13 +52,13 @@ void Resources::CreateDefaultResource()
 	mesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
 
-#pragma region DebugRect
+#pragma region OutlinedRect
 
-	shared_ptr<Mesh> debugmesh = std::make_shared<Mesh>();
-	Resources::Insert<Mesh>(L"DebugMesh", debugmesh);
-	debugmesh->CreateVertexBuffer(vertexes, 4);
+	shared_ptr<Mesh> outlinedRect = std::make_shared<Mesh>();
+	Resources::Insert<Mesh>(L"OutlinedRect", outlinedRect);
+	outlinedRect->CreateVertexBuffer(vertexes, 4);
 
-	debugmesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
+	outlinedRect->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
 
 #pragma region DebugCircle
@@ -95,12 +94,13 @@ void Resources::CreateDefaultResource()
 		for (size_t i = 0; i < iSlice; i++)
 		{
 			circleIndexes.push_back(i + 1);
+			circleIndexes.push_back(i + 1);
 		}
 		circleIndexes.push_back(1);
 
 		std::shared_ptr<Mesh> cirlceMesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"CircleMesh", cirlceMesh);
-		cirlceMesh->CreateVertexBuffer(circleVertexes.data(), (UINT)circleVertexes.size());
+		cirlceMesh->CreateVertexBuffer(circleVertexes.data(), circleVertexes.size());
 		cirlceMesh->CreateIndexBuffer(circleIndexes.data(), circleIndexes.size());
 	}
 #pragma endregion
@@ -125,8 +125,8 @@ void Resources::CreateDefaultResource()
 			Vertex vtx = {};
 			vtx.pos = Vector4
 			(
-				fRadius * cosf(fTheta * (float)i)
-				, fRadius * sinf(fTheta * (float)i)
+				fRadius * cosf(fTheta * (float)i) / 2.f
+				, fRadius * sinf(fTheta * (float)i) / 2.f
 				, 0.1f, 1.0f
 			);
 			vtx.color = center.color;
@@ -135,12 +135,11 @@ void Resources::CreateDefaultResource()
 		}
 
 		vector<UINT> circleIndexes;
-		for (size_t i = 0; i < iSlice; i++)
+		for (size_t i = 1; i <= iSlice; i++)
 		{
-			circleIndexes.push_back(0);
-			circleIndexes.push_back(1 + i);
-			circleIndexes.push_back(1 + (i + 1) % iSlice);
+			circleIndexes.push_back(i);
 		}
+		circleIndexes.push_back(1);
 
 		std::shared_ptr<Mesh> cirlceMesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"Circle2D", cirlceMesh);
@@ -162,8 +161,6 @@ void Resources::CreateDefaultResource()
 	_entry.VS = true;
 	_entry.PS = true;
 	shader->CreateShader(_info, _entry, L"Default.hlsl");
-	shared_ptr<Material> material = make_shared<Material>();
-	material->SetShader(shader);
 #pragma endregion
 {
 #pragma region TrailShader
@@ -193,9 +190,6 @@ void Resources::CreateDefaultResource()
 	_entry.VS = true;
 	_entry.PS = true;
 	debugShader->CreateShader(_info, _entry, L"DebugShader.hlsl");
-	shared_ptr<Material> debugMaterial = make_shared<Material>();
-	debugMaterial->SetShader(debugShader);
-	Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 #pragma endregion
 
 #pragma region GridMaterial

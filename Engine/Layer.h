@@ -1,24 +1,24 @@
 #pragma once
-class GameObject;
 
+#include "Event.h"
 
+namespace SY {
 
-class Layer
-{
-public:
-	Layer();
-	~Layer();
+	class Layer
+	{
+	public:
+		Layer(const std::string& name = "Layer");
+		virtual ~Layer() = default;
 
-	void Start();
-	void Update();
-	void hiearchy();
-	void FinalUpdate();
-	void Render();
-	void AddGameObject(shared_ptr<GameObject> gameObject);
-	void RemoveGameObject(shared_ptr<GameObject> gameObject);
-	const vector<shared_ptr<GameObject>>& GetGameObjects() { return _gameObjects; }
+		virtual void OnAttach() {}
+		virtual void OnDetach() {}
+		virtual void OnUpdate(float ts) {}
+		virtual void OnImGuiRender() {}
+		virtual void OnEvent(Event& event) {}
 
-private:
-	vector<shared_ptr<GameObject>> _gameObjects;
-};
+		const std::string& GetName() const { return m_DebugName; }
+	protected:
+		std::string m_DebugName;
+	};
 
+}

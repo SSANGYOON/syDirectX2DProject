@@ -9,9 +9,20 @@ enum class KEY_TYPE : UINT8
 	SPACE = VK_SPACE,
 	Q = 'Q', W = 'W', E = 'E', R = 'R', T = 'T', Y = 'Y', U = 'U', I = 'I', O = 'O', P = 'P',
 	A = 'A', S = 'S', D = 'D', F = 'F', G = 'G', H = 'H', J = 'J', K = 'K', L = 'L',
-	Z = 'Z', X = 'X', C = 'C' ,V = 'V', B = 'B', N = 'N', M = 'M',
+	Z = 'Z', X = 'X', C = 'C', V = 'V', B = 'B', N = 'N', M = 'M',
+
+	DELETEKEY = VK_DELETE,
+	LALT = VK_LMENU,
+	RALT = VK_RMENU,
+
+	LCTRL = VK_LCONTROL,
+	RCTRL = VK_RCONTROL,
+
+	LSHIFT = VK_LSHIFT,
+	RSHIFT = VK_RSHIFT,
 
 	LBUTTON = VK_LBUTTON,
+	MBUTTON = VK_MBUTTON,
 	RBUTTON = VK_RBUTTON
 };
 
@@ -37,6 +48,7 @@ class Input
 public:
 
 	void Init(HWND hwnd);
+	POINT GetMousePos() { return _mousePos; }
 	void Update();
 
 	KEY_STATE GetKeyState(KEY_TYPE type) { return _states[(UINT)type]; }
