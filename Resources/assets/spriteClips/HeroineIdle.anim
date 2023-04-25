@@ -1,12 +1,13 @@
 Animations:
-  - Key: IDLE
+  - Key: Idle
     OriginalOffset: [ 2.0, 15.0 ]
     SpriteSize: [ 31.0, 50.0 ]
     Step: [ 31.0, 53.0 ]
     Columns: 21
     Frames: 56
     Duration: 1.5
-  - Key: IDLE2RUN
+    Loop: true
+  - Key: Idle2Run
     OriginalOffset: [ 2.0, 189.0 ]
     SpriteSize: [ 31.0, 50.0 ]
     Step: [ 36.0, 53.0 ]
@@ -14,8 +15,9 @@ Animations:
     Frames: 2
     Duration: 0.1
     Loop: false
-    nextKey: RUN
-  - Key: RUN
+    nextKey: Run
+
+  - Key: Run
     OriginalOffset: [ 2.0, 256.0 ]
     SpriteSize: [ 30.0, 50.0 ]
     Step: [ 33.0, 53.0 ]
@@ -23,7 +25,8 @@ Animations:
     Frames: 8
     Duration: 0.75
     Loop: true
-  - Key: RUN2IDLE
+
+  - Key: Run2Idle
     OriginalOffset: [ 2.0, 322.0 ]
     SpriteSize: [ 26.0, 50.0 ]
     Step: [ 30.0, 53.0 ]
@@ -31,8 +34,9 @@ Animations:
     Frames: 4
     Duration: 0.2
     Loop: false
-    nextKey: IDLE
-  - Key: JUMP
+    nextKey: Idle
+
+  - Key: Jump
     OriginalOffset: [ 2.0, 634.0 ]
     SpriteSize: [ 27.0, 50.0 ]
     TargetOffset: [ -4.0, 0.0 ]
@@ -41,4 +45,112 @@ Animations:
     Frames: 5
     Duration: 0.5
     Loop: false
+    
+  - Key: Falling
+    OriginalOffset: [ 2.0, 702.0 ]
+    SpriteSize: [ 30.0, 52.0 ]
+    Step: [ 30.0, 53.0 ]
+    Columns: 21
+    Frames: 3
+    Duration: 0.25
+    Loop: false
+    
+  - Key: Landing
+    OriginalOffset: [ 5.0, 771.0 ]
+    SpriteSize: [ 32.0, 45.0 ]
+    Step: [ 37.0, 53.0 ]
+    Columns: 21
+    Frames: 3
+    Duration: 0.2
+    Loop: false
+    nextKey: Idle
+    
+  - Key: Crouch
+    OriginalOffset: [ 3.0, 390.0 ]
+    SpriteSize: [ 32.0, 44.0 ]
+    Step: [ 34.0, 53.0 ]
+    TargetOffset: [ 0.0, -2.0 ]
+    Columns: 21
+    Frames: 4
+    Duration: 0.2
+    Loop: false
+    nextKey: Crouching
+    
+  - Key: Crouching
+    OriginalOffset: [ 3.0, 453.0 ]
+    SpriteSize: [ 28.0, 37.0 ]
+    Step: [ 30.0, 53.0 ]
+    TargetOffset: [ 0.0, 4.0 ]
+    Columns: 21
+    Frames: 1
+    Duration: 0.1
+    Loop: true
+    
+  - Key: Crouching2Idle
+    OriginalOffset: [ 3.0, 507.0 ]
+    SpriteSize: [ 28.0, 47.0 ]
+    Step: [ 34.0, 53.0 ]
+    Columns: 21
+    Frames: 1
+    Duration: 0.1
+    Loop: false
+    nextKey: Idle
+    
+  - Key: Roll
+    OriginalOffset: [ 4.0, 573.0 ]
+    SpriteSize: [ 41.0, 43.0 ]
+    Step: [ 45.0, 53.0 ]
+    Columns: 21
+    Frames: 9
+    Duration: 1.0
+    Loop: false
+    nextKey: Idle
 
+  - Key: Attacked
+    OriginalOffset: [ 2.0, 2607.0 ]
+    SpriteSize: [ 30.0, 45.0 ]
+    Step: [ 30.0, 53.0 ]
+    Columns: 21
+    Frames: 1
+    Duration: 0.5
+    Loop: false
+    
+  - Key: AttackOneHandStanding
+    OriginalOffset: [ 2.0, 1026.0 ]
+    SpriteSize: [ 35.0, 48.0 ]
+    Step: [ 33.0, 53.0 ]
+    Columns: 19
+    TargetOffset: [ 2.0, 0.0 ]
+    Frames: 19
+    Duration: 1.0
+    Loop: false
+
+  - Key: AttackOneHandAerial
+    OriginalOffset: [ 1.0, 1153.0 ]
+    SpriteSize: [ 33.0, 48.0 ]
+    Step: [ 31.0, 53.0 ]
+    Columns: 19
+    TargetOffset: [ 3.0, 0.0 ]
+    Frames: 19
+    Duration: 1.0
+    Loop: false
+
+  - Key: AttackOneHandCrouching
+    OriginalOffset: [ 2.0, 1095.0 ]
+    SpriteSize: [ 33.0, 38.0 ]
+    Step: [ 32.0, 53.0 ]
+    Columns: 19
+    TargetOffset: [ 2.0, 4.0 ]
+    Frames: 19
+    Duration: 1.0
+    Loop: false
+
+  - Key: AttackDaggerStanding
+    OriginalOffset: [ 2.0, 836.0 ]
+    SpriteSize: [ 32.0, 48.0 ]
+    Step: [ 33.0, 53.0 ]
+    Columns: 19
+    TargetOffset: [ 2.0, 0.0 ]
+    Frames: 15
+    Duration: 0.8
+    Loop: false

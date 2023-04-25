@@ -1,4 +1,5 @@
 #pragma once
+#include "Entity.h"
 
 namespace SY {
 	class Scene;
@@ -16,4 +17,5 @@ namespace SY {
 		shared_ptr<Scene> m_Scene;
 	};
 
+	void SerializeEntity(YAML::Emitter& out, Entity entity);
 }

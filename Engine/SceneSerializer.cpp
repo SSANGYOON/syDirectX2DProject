@@ -72,7 +72,7 @@ namespace SY {
 	{
 	}
 
-	static void SerializeEntity(YAML::Emitter& out, Entity entity)
+	void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		assert(entity.HasComponent<IDComponent>());
 
@@ -236,7 +236,7 @@ namespace SY {
 			out << YAML::Key << "Friction" << YAML::Value << bc2dComponent.Friction;
 			out << YAML::Key << "Restitution" << YAML::Value << bc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dComponent.RestitutionThreshold;
-
+			out << YAML::Key << "IsSensor" << YAML::Value << bc2dComponent.isSensor;
 			out << YAML::EndMap; // BoxCollider2DComponent
 		}
 
@@ -252,6 +252,7 @@ namespace SY {
 			out << YAML::Key << "Friction" << YAML::Value << cc2dComponent.Friction;
 			out << YAML::Key << "Restitution" << YAML::Value << cc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << cc2dComponent.RestitutionThreshold;
+			out << YAML::Key << "IsSensor" << YAML::Value << cc2dComponent.isSensor;
 
 			out << YAML::EndMap; // CircleCollider2DComponent
 		}
@@ -265,8 +266,29 @@ namespace SY {
 			if(animator.clips.size())
 				out << YAML::Key << "ClipPath" << YAML::Value << wtos(animator.clips.begin()->second->GetPath());
 
+			out << YAML::Key << "StartEvents";
+			out << YAML::BeginSeq;
+			for (auto event : animator._startEvent)
+			{
+				out << YAML::BeginMap;
+				out << YAML::Key << "key" << YAML::Value << event.first;
+				out << YAML::Key << "function" << YAML::Value << event.second;
+				out << YAML::EndMap;
+			}
+			out << YAML::EndSeq;
 
-			out << YAML::EndMap; // CircleCollider2DComponent
+			out << YAML::Key << "EndEvents";
+			out << YAML::BeginSeq;
+			for (auto event : animator._endEvent)
+			{
+				out << YAML::BeginMap;
+				out << YAML::Key << "key" << YAML::Value << event.first;
+				out << YAML::Key << "function" << YAML::Value << event.second;
+				out << YAML::EndMap;
+			}
+			out << YAML::EndSeq;	
+
+			out << YAML::EndMap;
 		}
 
 		out << YAML::EndMap; // Entity
@@ -406,7 +428,6 @@ namespace SY {
 							}
 						}
 					}
-
 				}
 
 				auto cameraComponent = entity["CameraComponent"];
@@ -453,14 +474,9 @@ namespace SY {
 					animator._currentTime = 0.f;
 					animator._lastTime = -1.f;
 					animator._endedAt = 0.f;
-					animator._transitionTime = 0.f;
-					animator._transitionElapsed = 0.f;
-					animator._prevClip = nullptr;
 					animator._currentClip = nullptr;
 
 					auto clipPath = animatorComponent["ClipPath"];
-
-					
 
 					if (clipPath) {
 						YAML::Node data;
@@ -494,7 +510,8 @@ namespace SY {
 							auto Columns = clip["Columns"];
 							auto Frames = clip["Frames"];
 							auto Duration = clip["Duration"];
-
+							auto nextKey = clip["nextKey"];
+							auto loop = clip["Loop"];
 							string key;
 							key = Key.as<string>();
 							shared_ptr<Animation> clipRef;
@@ -508,20 +525,37 @@ namespace SY {
 								UINT columns = Columns.as<UINT>();
 								UINT frame = Frames.as<UINT>();
 								float duration = Duration.as<float>();
-
+								bool bloop = loop.as<bool>();
 								Vector2 targetOffset = Vector2::Zero;
 								if (clip["TargetOffset"])
 									targetOffset = clip["TargetOffset"].as<Vector2>();
+
+								string nextClipKey = "";
+								if (nextKey)
+									nextClipKey = nextKey.as<string>();
 								clipRef = make_shared<Animation>();
-								clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key);
+								clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key, bloop,nextClipKey);
 								clipRef->SetPath(stow(relativePath));
 								GET_SINGLE(Resources)->Insert(stow(key), clipRef);
 							}
-
-
-
 							animator.clips[key] = clipRef;
 						}
+					}
+					auto startEvents = animatorComponent["StartEvents"];
+					for (auto event : startEvents)
+					{
+						string key = event["key"].as<string>();
+						string function = event["function"].as<string>();
+
+						animator._startEvent[key] = function;
+					}
+					auto endEvents = animatorComponent["EndEvents"];
+					for (auto event : endEvents)
+					{
+						string key = event["key"].as<string>();
+						string function = event["function"].as<string>();
+
+						animator._endEvent[key] = function;
 					}
 				}
 
@@ -543,6 +577,7 @@ namespace SY {
 					bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
 					bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
 					bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
+					bc2d.isSensor = boxCollider2DComponent["IsSensor"].as<bool>();
 				}
 
 				auto circleCollider2DComponent = entity["CircleCollider2DComponent"];
@@ -555,6 +590,7 @@ namespace SY {
 					cc2d.Friction = circleCollider2DComponent["Friction"].as<float>();
 					cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
 					cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
+					cc2d.isSensor = circleCollider2DComponent["IsSensor"].as<bool>();
 				}
 			}
 		}

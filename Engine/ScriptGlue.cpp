@@ -11,7 +11,13 @@
 
 #include "mono/metadata/object.h"
 #include "mono/metadata/reflection.h"
+
+#include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_circle_shape.h"
+#include "box2d/b2_contact.h"
 #include "CollisionManager.h"
 
 namespace SY {
@@ -93,6 +99,26 @@ namespace SY {
 		entity.GetComponent<TransformComponent>().translation = *translation;
 	}
 
+	static void TransformComponent_GetScale(UUID entityID, Vector3* outScale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		*outScale = entity.GetComponent<TransformComponent>().scale;
+	}
+
+	static void TransformComponent_SetScale(UUID entityID, Vector3* scale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		entity.GetComponent<TransformComponent>().scale = *scale;
+	}
+
 	static void Rigidbody2DComponent_ApplyLinearImpulse(UUID entityID, Vector2* impulse, Vector2* point, bool wake)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -166,6 +192,77 @@ namespace SY {
 		body->SetType(Utils::Rigidbody2DTypeToBox2DBody(bodyType));
 	}
 
+	static void BoxColliderComponent_GetOffset(UUID entityID, Vector2* offset)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+		*offset = bc2d.Offset;
+	}
+
+	static void BoxColliderComponent_SetOffset(UUID entityID, Vector2* offset)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+		bc2d.Offset = *offset;
+	}
+
+	static void BoxColliderComponent_GetSize(UUID entityID, Vector2* size)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+		*size = bc2d.Size;
+	}
+
+	static void BoxColliderComponent_SetSize(UUID entityID, Vector2* size)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+		auto& rb = entity.GetComponent<Rigidbody2DComponent>();
+		auto& tr = entity.GetComponent<TransformComponent>();
+
+		bc2d.Size = *size;
+
+		b2Body* body = (b2Body*)rb.RuntimeBody;
+		body->DestroyFixture(body->GetFixtureList());
+
+		b2PolygonShape boxShape;
+		boxShape.SetAsBox(bc2d.Size.x * abs(tr.scale.x), bc2d.Size.y * tr.scale.y);
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &boxShape;
+		fixtureDef.density = bc2d.Density;
+		fixtureDef.friction = bc2d.Friction;
+		fixtureDef.restitution = bc2d.Restitution;
+		fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
+		fixtureDef.isSensor = bc2d.isSensor;
+		fixtureDef.filter.categoryBits = bc2d.categoryBits;
+		fixtureDef.filter.maskBits = bc2d.maskBits;
+
+		auto userData = b2FixtureUserData();
+		userData.pointer = (uintptr_t)(UINT)entity;
+		fixtureDef.userData = userData;
+
+		Vector2 bodyPos = Vector2(tr.translation.x, tr.translation.y) + Vector2::Transform(bc2d.Offset, Matrix::CreateRotationZ(tr.rotation.z));
+		body->SetTransform({ bodyPos.x,bodyPos.y }, tr.rotation.z);
+		body->CreateFixture(&fixtureDef);
+	}
+
 	static bool SpriteAnimatorComponent_Play(UUID entityID, MonoString* str)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -179,6 +276,7 @@ namespace SY {
 			return false;
 		else {
 			animator._currentClip = animator.clips.find(clipKey)->second;
+			animator._currentTime = 0.f;
 			return true;
 		}
 	}
@@ -237,12 +335,21 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
 
+		HZ_ADD_INTERNAL_CALL(TransformComponent_GetScale);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_SetScale);
+
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetLinearVelocity);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetLinearVelocity);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetType);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetType);
+
+		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetOffset);
+		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetOffset);
+		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetSize);
+		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetSize);
+
 		HZ_ADD_INTERNAL_CALL(SpriteAnimatorComponent_Play);
 
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);

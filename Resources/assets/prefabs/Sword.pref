@@ -1,0 +1,15 @@
+Entities:
+  -
+    - Entity: 9168515184704376500
+      TagComponent:
+        Tag: Holy Sword
+      TransformComponent:
+        Translation: [0, 0, 0]
+        Rotation: [0, 0, 0]
+        Scale: [1, 1, 1]
+      SpriteRendererComponent:
+        Color: [1, 0, 1, 1]
+        TexturePath: textures\HolySword.png
+        SourceOffset: [0, 0]
+        SourceSize: [16, 80]
+        SourceSheetSize: [16, 80]

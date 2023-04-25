@@ -436,6 +436,18 @@ namespace SY {
 		}
 	}
 
+	void ScriptEngine::OnEvent(Entity entity, const string& functionName)
+	{
+		UUID entityUUID = entity.GetUUID();
+		if (s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end())
+		{
+			shared_ptr<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
+			MonoString* monstr = mono_string_new(s_Data->AppDomain, functionName.c_str());
+			instance->InvokeOnNamedEvent(monstr);
+			//mono_free(monstr);
+		}
+	}
+
 	Scene* ScriptEngine::GetSceneContext()
 	{
 		return s_Data->SceneContext;
@@ -598,6 +610,7 @@ namespace SY {
 		m_OnTriggerEnterMethod = scriptClass->GetMethod("OnTriggerEnter", 1);
 		m_OnTriggerStayMethod = scriptClass->GetMethod("OnTriggerStay", 1);
 		m_OnTriggerExitMethod = scriptClass->GetMethod("OnTriggerExit", 1);
+		m_OnNamedEvent = scriptClass->GetMethod("OnNamedEvent", 1);
 		// Call Entity constructor
 		{
 			UUID entityID = entity.GetUUID();
@@ -679,6 +692,15 @@ namespace SY {
 		{
 			void* param = collision;
 			m_ScriptClass->InvokeMethod(m_Instance, m_OnTriggerExitMethod, &param);
+		}
+	}
+
+	void ScriptInstance::InvokeOnNamedEvent(MonoString* monostr)
+	{
+		if (m_OnNamedEvent)
+		{
+			void* param = monostr;
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnNamedEvent, &param);
 		}
 	}
 

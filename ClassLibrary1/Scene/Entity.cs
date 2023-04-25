@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace SY
 {
@@ -6,7 +7,7 @@ namespace SY
     {
         protected Entity() { ID = 0; }
 
-        internal Entity(ulong id)
+        public Entity(ulong id)
         {
             ID = id;
         }
@@ -25,6 +26,20 @@ namespace SY
                 InternalCalls.TransformComponent_SetTranslation(ID, ref value);
             }
         }
+
+        public Vector3 Scale
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetScale(ID, out Vector3 result);
+                return result;
+            }
+            set
+            {
+                InternalCalls.TransformComponent_SetScale(ID, ref value);
+            }
+        }
+
 
         public bool HasComponent<T>() where T : Component, new()
         {

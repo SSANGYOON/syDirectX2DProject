@@ -13,6 +13,10 @@
 #include "Animation.h"
 #include "Resources.h"
 #include "SerializerUtils.h"
+#include "SceneSerializer.h"
+#include "Scene.h"
+#include "FileDialogs.h"
+
 namespace SY {
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const shared_ptr<Scene>& context)
@@ -97,6 +101,37 @@ namespace SY {
 			if (entity.HasComponent<Parent>())
 				if (ImGui::MenuItem("Set Independent"))
 					entity.RemoveComponent<Parent>();
+			if (ImGui::MenuItem("Save as prefab")){
+				string filepath = FileDialogs::SaveFile("SY Prefab (*.pref)\0*.pref\0");
+
+				YAML::Emitter out;
+				out << YAML::BeginMap;
+				out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
+				bool hasparent = entity.HasComponent<Parent>();
+				UUID parentID;
+				if (hasparent) {
+					parentID = entity.GetComponent<Parent>().parentHandle;
+					entity.RemoveComponent<Parent>();
+				}
+				SerializeEntity(out, entity);
+				Scene* context = entity.GetContext();
+				for (auto child : ParentManager::GetChildren(entity))
+				{
+					Entity childEntity = { (entt::entity)child, context };
+					SerializeEntity(out, childEntity);
+				}
+				out << YAML::EndSeq;
+				out << YAML::EndMap;
+
+				std::ofstream fout(filepath);
+				fout << out.c_str();
+
+				if (hasparent)
+				{
+					auto& parent = entity.AddComponent<Parent>();
+					parent.parentHandle = parentID;
+				}
+			}
 
 			ImGui::EndPopup();
 		}
@@ -105,13 +140,13 @@ namespace SY {
 		if (ImGui::BeginDragDropSource())
 		{
 			UUID uuid = entity.GetUUID();
-			ImGui::SetDragDropPayload("Entity Child", &uuid, sizeof(UUID));
+			ImGui::SetDragDropPayload("Entity data", &uuid, sizeof(UUID));
 			ImGui::EndDragDropSource();
 		}
 
 		if (ImGui::BeginDragDropTarget())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity Child"))
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity data"))
 			{
 				UUID uuid = *(UUID*)payload->Data;
 				Entity child = m_Context->GetEntityByUUID(uuid);
@@ -261,10 +296,28 @@ namespace SY {
 			{
 				tag = std::string(buffer);
 			}
+
+			
 		}
 
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
+
+		const char* states[] = { "Active", "Pause", "Dead" };
+
+		auto& state = entity.GetComponent<StateComponent>().state;
+		if (ImGui::BeginCombo("State", states[(int)state]))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				bool is_selected = (int)state == i;
+				if(ImGui::Selectable(states[i], is_selected))
+					state = (EntityState)i;
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
 
 		if (ImGui::Button("Add Component"))
 			ImGui::OpenPopup("AddComponent");
@@ -278,6 +331,7 @@ namespace SY {
 			DisplayAddComponentEntry<CircleCollider2DComponent>("Circle Collider 2D");
 			DisplayAddComponentEntry<ScriptComponent>("C# Script");
 			DisplayAddComponentEntry<SpriteAnimatorComponent>("SpriteAnimator");
+			DisplayAddComponentEntry<TransformAnimatorComponent>("TransformAnimator");
 			ImGui::EndPopup();
 		}
 
@@ -582,6 +636,7 @@ namespace SY {
 				{
 					component.maskBits += maskBits[i] * (1 << i);
 				}
+				ImGui::Checkbox("Box Collider : trigger", &component.isSensor);
 			});
 
 		DrawComponent<CircleCollider2DComponent>("Circle Collider 2D", entity, [](auto& component) 
@@ -633,7 +688,10 @@ namespace SY {
 				{
 					component.maskBits += maskBits[i] * (1 << i);
 				}
+				ImGui::Checkbox("Circle Collider : trigger", &component.isSensor);
 			});
+
+		DrawComponent<TransformAnimatorComponent>("TransformAnimator", entity, [] (auto& component){});
 
 		DrawComponent<SpriteAnimatorComponent>("SpriteAnimator", entity, [this](auto& component)
 			{
@@ -643,23 +701,63 @@ namespace SY {
 
 				for (string& key : animations)
 				{
-					if(ImGui::Button(key.c_str()))
+					ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+					if(ImGui::TreeNodeEx(key.c_str(), flags))
 					{
 						shared_ptr<Animation> clip = component.clips[key];
 
 						SpriteRendererComponent& sr = this->GetSelectedEntity().GetComponent<SpriteRendererComponent>();
 						sr.spCB.sourceOffset = clip->GetOffset();
 						sr.spCB.sourceSize = clip->GetSize();
+
+						if (component._startEvent.find(key) != component._startEvent.end())
+						{
+							char buffer[64];
+							strcpy_s(buffer,64, component._startEvent[key].c_str());
+							ImGui::InputText("StartEvent",buffer, sizeof(buffer));
+							bool erased;
+							if(erased = ImGui::Button("Remove Start Event"))
+								component._startEvent.erase(key);
+							if (!erased)
+								component._startEvent[key] = string(buffer);
+						}
+						else
+						{
+							if(ImGui::Button("Set Start Event"))
+								component._startEvent[key] = "";
+						}
+
+						if (component._endEvent.find(key) != component._endEvent.end())
+						{
+							char buffer[64];
+							strcpy_s(buffer, 64, component._endEvent[key].c_str());
+							ImGui::InputText("EndEvent", buffer, sizeof(buffer));
+							bool erased;
+							if (erased = ImGui::Button("Remove End Event"))
+								component._endEvent.erase(key);
+							if (!erased)
+								component._endEvent[key] = string(buffer);
+						}
+						else
+						{
+							if (ImGui::Button("Set End Event"))
+								component._endEvent[key] = "";
+						}
+
+						if (ImGui::BeginPopupContextWindow(key.c_str()))
+						{
+							if (ImGui::MenuItem("Delete clip"))
+							{
+								component.clips.erase(component.clips.find(key));
+							}
+							ImGui::EndPopup();
+						}
+						ImGui::TreePop();
+
+						
 					}
 
-					if(ImGui::BeginPopupContextWindow(key.c_str()))
-					{
-						if (ImGui::MenuItem("Delete clip"))
-						{
-							component.clips.erase(component.clips.find(key));
-						}
-						ImGui::EndPopup();
-					}
+					
 				}
 				ImGui::Text("Drag new clips here", ImVec2(100.0f, 0.0f));
 				if (ImGui::BeginDragDropTarget())
@@ -696,12 +794,15 @@ namespace SY {
 							auto Columns = clip["Columns"];
 							auto Frames = clip["Frames"];
 							auto Duration = clip["Duration"];
+							auto Loop = clip["Loop"];
+							auto nextKey = clip["nextKey"];
 
 							string key;
 							key = Key.as<string>();
 							shared_ptr<Animation> clipRef;
 							if (clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key)))
 							{
+
 							}
 							else {
 								Vector2 offset = OriginalOffset.as<Vector2>();
@@ -710,12 +811,15 @@ namespace SY {
 								UINT columns = Columns.as<UINT>();
 								UINT frame = Frames.as<UINT>();
 								float duration = Duration.as<float>();
-
+								bool loop = Loop.as<bool>();
+								string nextClipKey = "";
+								if (nextKey)
+									nextClipKey = nextKey.as<string>();
 								Vector2 targetOffset = Vector2::Zero;
 								if (clip["TargetOffset"])
 									targetOffset = clip["TargetOffset"].as<Vector2>();
 								clipRef = make_shared<Animation>();
-								clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key);
+								clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key,loop, nextClipKey);
 								GET_SINGLE(Resources)->Insert(stow(key), clipRef);
 							}
 

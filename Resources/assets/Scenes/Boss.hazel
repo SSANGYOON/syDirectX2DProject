@@ -1,100 +1,25 @@
 Scene: Untitled
 Entities:
-  - Entity: 12478953743042838488
+  - Entity: 8226798221886528208
     TagComponent:
-      Tag: Player
+      Tag: ground10
     TransformComponent:
-      Translation: [-186.100006, 145.899994, 0]
+      Translation: [128, -16, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ScriptComponent:
-      ClassName: Sandbox.Player
-      ScriptFields:
-        - Name: Speed
-          Type: Float
-          Data: 30
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [34, 39]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
-    AnimatorComponent:
-      {}
-  - Entity: 2304726580564669817
-    TagComponent:
-      Tag: Left Ground
-    TransformComponent:
-      Translation: [-146, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, -209]
-      Size: [208, 209]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
-  - Entity: 13301083487158817121
-    TagComponent:
-      Tag: camera
-    TransformComponent:
-      Translation: [78.0999985, 57.7000008, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 0.785398185
-        Near: 0.00999999978
-        Far: 1000
-        OrthographicSize: 500
-      Primary: true
-      FixedAspectRatio: true
-  - Entity: 11479685075772526261
-    TagComponent:
-      Tag: ground3
-    TransformComponent:
-      Translation: [-96, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [-1, 1, 1]
     Parent:
       ParentID: 2304726580564669817
     SpriteRendererComponent:
       Color: [1, 0, 1, 1]
-      TexturePath: textures\LastTop\LastTop3.png
+      TexturePath: textures\LastTop\LastTopCorner0.png
       SourceOffset: [0, 0]
-      SourceSize: [32, 64]
-      SourceSheetSize: [32, 64]
-  - Entity: 3367827374350018405
+      SourceSize: [48, 48]
+      SourceSheetSize: [48, 48]
+  - Entity: 9027343797863574252
     TagComponent:
-      Tag: ground2
+      Tag: ground9
     TransformComponent:
-      Translation: [-128, 0.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 2304726580564669817
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-      TexturePath: textures\LastTop\LastTop5.png
-      SourceOffset: [0, 0]
-      SourceSize: [32, 64]
-      SourceSheetSize: [32, 64]
-  - Entity: 2864703536021558218
-    TagComponent:
-      Tag: ground1
-    TransformComponent:
-      Translation: [-160, 0, 0]
+      Translation: [96, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -105,11 +30,41 @@ Entities:
       SourceOffset: [0, 0]
       SourceSize: [32, 64]
       SourceSheetSize: [32, 64]
-  - Entity: 8577361516813097413
+  - Entity: 17222061555356074648
     TagComponent:
-      Tag: ground4
+      Tag: ground8
     TransformComponent:
-      Translation: [-64, 0, 0]
+      Translation: [64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      TexturePath: textures\LastTop\LastTop1.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      SourceSheetSize: [32, 64]
+  - Entity: 8009990795152453680
+    TagComponent:
+      Tag: ground7
+    TransformComponent:
+      Translation: [32, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      TexturePath: textures\LastTop\LastTop2.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      SourceSheetSize: [32, 64]
+  - Entity: 15169012466703801464
+    TagComponent:
+      Tag: ground6
+    TransformComponent:
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -135,11 +90,11 @@ Entities:
       SourceOffset: [0, 0]
       SourceSize: [32, 64]
       SourceSheetSize: [32, 64]
-  - Entity: 15169012466703801464
+  - Entity: 8577361516813097413
     TagComponent:
-      Tag: ground6
+      Tag: ground4
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [-64, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -150,26 +105,11 @@ Entities:
       SourceOffset: [0, 0]
       SourceSize: [32, 64]
       SourceSheetSize: [32, 64]
-  - Entity: 8009990795152453680
+  - Entity: 2864703536021558218
     TagComponent:
-      Tag: ground7
+      Tag: ground1
     TransformComponent:
-      Translation: [32, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 2304726580564669817
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-      TexturePath: textures\LastTop\LastTop2.png
-      SourceOffset: [0, 0]
-      SourceSize: [32, 64]
-      SourceSheetSize: [32, 64]
-  - Entity: 17222061555356074648
-    TagComponent:
-      Tag: ground8
-    TransformComponent:
-      Translation: [64, 0, 0]
+      Translation: [-160, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -180,33 +120,135 @@ Entities:
       SourceOffset: [0, 0]
       SourceSize: [32, 64]
       SourceSheetSize: [32, 64]
-  - Entity: 9027343797863574252
+  - Entity: 3367827374350018405
     TagComponent:
-      Tag: ground9
+      Tag: ground2
     TransformComponent:
-      Translation: [96, 0, 0]
+      Translation: [-128, 0.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 2304726580564669817
     SpriteRendererComponent:
       Color: [1, 0, 1, 1]
-      TexturePath: textures\LastTop\LastTop1.png
+      TexturePath: textures\LastTop\LastTop5.png
       SourceOffset: [0, 0]
       SourceSize: [32, 64]
       SourceSheetSize: [32, 64]
-  - Entity: 8226798221886528208
+  - Entity: 11479685075772526261
     TagComponent:
-      Tag: ground10
+      Tag: ground3
     TransformComponent:
-      Translation: [128, -16, 0]
+      Translation: [-96, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [-1, 1, 1]
+      Scale: [1, 1, 1]
     Parent:
       ParentID: 2304726580564669817
     SpriteRendererComponent:
       Color: [1, 0, 1, 1]
-      TexturePath: textures\LastTop\LastTopCorner0.png
+      TexturePath: textures\LastTop\LastTop3.png
       SourceOffset: [0, 0]
-      SourceSize: [48, 48]
-      SourceSheetSize: [48, 48]
+      SourceSize: [32, 64]
+      SourceSheetSize: [32, 64]
+  - Entity: 13301083487158817121
+    TagComponent:
+      Tag: camera
+    TransformComponent:
+      Translation: [78.0999985, 57.7000008, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 0.00999999978
+        Far: 1000
+        OrthographicSize: 500
+      Primary: true
+      FixedAspectRatio: true
+  - Entity: 2304726580564669817
+    TagComponent:
+      Tag: Left Ground
+    TransformComponent:
+      Translation: [-146, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, -209]
+      Size: [208, 209]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+  - Entity: 12478953743042838488
+    TagComponent:
+      Tag: Player
+    TransformComponent:
+      Translation: [-186.100006, 145.899994, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Player
+      ScriptFields:
+        - Name: Speed
+          Type: Float
+          Data: 100
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      TexturePath: textures\Heroine Maid.png
+      SourceOffset: [2, 15]
+      SourceSize: [31, 50]
+      SourceSheetSize: [652, 2719]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: true
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [11, 24]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\HeroineIdle.anim
+      StartEvents:
+        - key: Idle
+          function: SetInvisible
+      EndEvents:
+        - key: Idle
+          function: SetVulnerable
+  - Entity: 9168515184704376500
+    TagComponent:
+      Tag: Holy Sword
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12478953743042838488
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      TexturePath: textures\HolySword.png
+      SourceOffset: [0, 0]
+      SourceSize: [16, 80]
+      SourceSheetSize: [16, 80]
+  - Entity: 14780726754139089470
+    TagComponent:
+      Tag: Holy Dagger
+    TransformComponent:
+      Translation: [50, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12478953743042838488
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      TexturePath: textures\HolyDagger.png
+      SourceOffset: [0, 0]
+      SourceSize: [16, 40]
+      SourceSheetSize: [16, 40]

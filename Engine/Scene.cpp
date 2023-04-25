@@ -107,6 +107,8 @@ namespace SY {
 		Entity entity = { m_Registry.create(), this };
 		entity.AddComponent<IDComponent>(uuid);
 		entity.AddComponent<TransformComponent>();
+		auto& state = entity.AddComponent<StateComponent>();
+		state.state = EntityState::Active;
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
 
@@ -172,6 +174,52 @@ namespace SY {
 			}
 
 			OnPhysicsUpdate(timeStep);	
+		}
+
+		{
+			m_Registry.view<SpriteAnimatorComponent, SpriteRendererComponent>().each([timeStep, this](entt::entity e, SpriteAnimatorComponent& animator, SpriteRendererComponent& sr)
+				{
+					
+					if (animator._currentClip == nullptr)
+						return;
+
+					auto clip = animator._currentClip;
+					animator._lastTime = animator._currentTime;
+					animator._currentTime += timeStep;
+					
+					UINT frames = clip->GetFrames();
+					UINT columns = clip->GetColumns();
+					float duration = clip->GetDuration();
+					const Vector2& offset = clip->GetOffset();
+					const Vector2& size = clip->GetSize();
+					const Vector2& step = clip->GetStep();
+					const Vector2& targetOffset = clip->GetTargetOffset();
+					const string& nextKey = clip->GetNextKey();
+					bool loop = clip->IsLoop();
+					float epsilon = 1e-5;
+
+					
+
+					UINT curFrame = UINT(min(animator._currentTime, duration - epsilon) * clip->GetFrames() / clip->GetDuration());
+					Vector2 LT = offset + Vector2((curFrame % columns) * step.x, (curFrame / columns) * step.y);
+
+					sr.spCB.sourceOffset = LT;
+					sr.spCB.sourceSize = size;
+					sr.spCB.targetOffset = targetOffset;
+
+					if (animator._currentTime > duration)
+					{
+						if (animator._endEvent.find(clip->GetKey()) != animator._endEvent.end())
+							ScriptEngine::OnEvent({ e, this }, animator._endEvent[clip->GetKey()]);
+						if (loop) 
+							animator._currentTime -= duration;
+						else if (!nextKey.empty()) {
+							animator._currentTime = 0;
+							animator._currentClip = animator.clips[nextKey];
+						}
+					}
+				});
+		
 		}
 
 		CameraComponent* mainCamera = nullptr;
@@ -309,7 +357,7 @@ namespace SY {
 
 	void Scene::OnPhysics2DStart()
 	{
-		m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
+		m_PhysicsWorld = new b2World({ 0.0f, -700.f });
 
 		m_PhysicsWorld->SetContactListener(new CollisionListener());
 
@@ -377,8 +425,6 @@ namespace SY {
 				userData.pointer = (uintptr_t)e;
 				fixtureDef.userData = userData;
 
-				Vector2 bodyPos = Vector2(transform.translation.x, transform.translation.y) + Vector2::Transform(cc2d.Offset, Matrix::CreateRotationZ(transform.rotation.z));
-				body->SetTransform({ bodyPos.x,bodyPos.y }, transform.rotation.z);
 				body->CreateFixture(&fixtureDef);
 			}
 		}
@@ -538,6 +584,11 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<Parent>(Entity entity, Parent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<StateComponent>(Entity entity, StateComponent& component)
 	{
 	}
 }

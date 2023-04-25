@@ -16,7 +16,7 @@ HRESULT Animation::Load(const std::wstring& path, bool stockObject)
     return E_NOTIMPL;
 }
 
-HRESULT Animation::Load(const Vector2 offset, const Vector2 size, const Vector2 step, const Vector2 targetOffset, UINT columns, UINT frame, float duration, string key)
+HRESULT Animation::Load(const Vector2 offset, const Vector2 size, const Vector2 step, const Vector2 targetOffset, UINT columns, UINT frame, float duration, string key, bool loop, string nextKey)
 {
     _offset = offset;
     _size = size;
@@ -26,10 +26,22 @@ HRESULT Animation::Load(const Vector2 offset, const Vector2 size, const Vector2 
     _frame = frame;
     _duration = duration;
     _key = key;
+    _loop = loop;
+    _nextKey = nextKey;
 
     return S_OK;
 }
 
-void Animation::Progress()
+TransformAnimation::TransformAnimation()
+    :Resource(RESOURCE_TYPE::SPRITEANIMATION_CLIP)
 {
+}
+
+TransformAnimation::~TransformAnimation()
+{
+}
+
+HRESULT TransformAnimation::Load(const std::wstring& path, bool stockObject)
+{
+    return E_NOTIMPL;
 }

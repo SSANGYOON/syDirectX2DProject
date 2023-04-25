@@ -14,6 +14,7 @@ extern "C" {
 	typedef struct _MonoAssembly MonoAssembly;
 	typedef struct _MonoImage MonoImage;
 	typedef struct _MonoClassField MonoClassField;
+	typedef struct _MonoString MonoString;
 }
 
 namespace SY {
@@ -89,7 +90,7 @@ namespace SY {
 
 		friend class ScriptEngine;
 	};
-
+	
 	class ScriptInstance
 	{
 	public:
@@ -104,6 +105,7 @@ namespace SY {
 		void InvokeOnTriggerEnter(Collision* collision);
 		void InvokeOnTriggerStay(Collision* collision);
 		void InvokeOnTriggerExit(Collision* collision);
+		void InvokeOnNamedEvent(MonoString* monostr);
 
 		std::shared_ptr<ScriptClass> GetScriptClass() { return m_ScriptClass; }
 
@@ -145,7 +147,7 @@ namespace SY {
 		MonoMethod* m_OnTriggerEnterMethod = nullptr;
 		MonoMethod* m_OnTriggerStayMethod = nullptr;
 		MonoMethod* m_OnTriggerExitMethod = nullptr;
-
+		MonoMethod* m_OnNamedEvent = nullptr;
 		inline static char s_FieldValueBuffer[16];
 
 		friend class ScriptEngine;
@@ -176,6 +178,9 @@ namespace SY {
 		static void OnTriggerEnter(Entity entity, Collision* collision);
 		static void OnTriggerStay(Entity entity, Collision* collision);
 		static void OnTriggerExit(Entity entity, Collision* collision);
+		
+		static void OnEvent(Entity entity, const string& functionName);
+
 		static Scene* GetSceneContext();
 		static std::shared_ptr<ScriptInstance> GetEntityScriptInstance(UUID entityID);
 

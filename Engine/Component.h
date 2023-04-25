@@ -9,6 +9,7 @@
 
 using namespace DirectX;
 class Animation;
+class TransformAnimation;
 namespace SY {
 
 	struct IDComponent
@@ -29,6 +30,16 @@ namespace SY {
 		TagComponent(const TagComponent&) = default;
 		TagComponent(const std::string& tag)
 			: Tag(tag) {}
+	};
+	enum class EntityState : UINT8
+	{
+		Active,
+		Pause,
+		Dead
+	};
+	struct StateComponent
+	{
+		EntityState state = EntityState::Active;
 	};
 
 	struct TransformComponent
@@ -165,11 +176,21 @@ namespace SY {
 		float _currentTime = 0.f;
 		float _lastTime = -1.f;
 		float _endedAt = 0.f;
-		float _transitionTime = 0.f;
-		float _transitionElapsed = 0.f;
-		shared_ptr<Animation> _prevClip;
 		shared_ptr<Animation> _currentClip;
 		map<string, shared_ptr<Animation>> clips;
+		map<string, string> _startEvent;
+		map<string, string> _endEvent;
+	};
+
+	struct TransformAnimatorComponent
+	{
+		float _currentTime = 0.f;
+		float _lastTime = -1.f;
+		float _endedAt = 0.f;
+		float _transitionTime = 0.f;
+		float _transitionElapsed = 0.f;
+		shared_ptr<TransformAnimation> _currentClip;
+		map<string, shared_ptr<TransformAnimation>> clips;
 	};
 
 	template<typename... Component>
@@ -178,8 +199,8 @@ namespace SY {
 	};
 
 	using AllComponents =
-		ComponentGroup<TransformComponent, SpriteRendererComponent,
-		CameraComponent, ScriptComponent, SpriteAnimatorComponent, Parent,
+		ComponentGroup<StateComponent, TransformComponent, SpriteRendererComponent,
+		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, Parent,
 		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent,
 		CircleCollider2DComponent>;
 

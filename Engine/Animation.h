@@ -7,12 +7,19 @@ public:
 	virtual ~Animation();
 
 	virtual HRESULT Load(const std::wstring& path, bool stockObject = false) override;
-	virtual HRESULT Load(const Vector2 offset, const Vector2 size, const Vector2 step, const Vector2 targetOffset, UINT columns, UINT frame, float duration, string key);
+	virtual HRESULT Load(const Vector2 offset, const Vector2 size, const Vector2 step, const Vector2 targetOffset, UINT columns, UINT frame, float duration, string key, bool loop, string nextKey = "");
 
-	void Progress();
+	float GetDuration() { return _duration; }
+	const Vector2& GetOffset() { return _offset; }
+	const Vector2& GetStep() { return _step; }
+	const Vector2& GetSize() { return _size; }
+	const Vector2& GetTargetOffset() { return _targetOffset; }
+	const string& GetNextKey() { return _nextKey; }
+	UINT GetColumns() { return _columns; }
+	UINT GetFrames() { return _frame; }
+	bool IsLoop() { return _loop; }
+
 	string GetKey() { return _key; }
-	Vector2 GetOffset() { return _offset; }
-	Vector2 GetSize() { return _size; }
 private:
 	Vector2 _offset;
 	Vector2 _size;
@@ -22,5 +29,32 @@ private:
 	UINT _frame;
 	float _duration;
 	string _key;
+	bool _loop;
+	string _nextKey;
+};
+
+struct TransformFrame
+{
+	Vector3 position;
+	float angle;
+};
+class TransformAnimation : public Resource
+{
+public:
+	TransformAnimation();
+	virtual ~TransformAnimation();
+
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = false) override;
+
+	float GetDuration() { return _duration; }
+	const vector<TransformFrame>& GetFrames() { return _frames; }
+
+	bool IsLoop() { return _loop; }
+	string GetKey() { return _key; }
+private:
+	vector<TransformFrame> _frames;
+	float _duration;
+	string _key;
+	bool _loop;
 };
 

@@ -23,6 +23,20 @@ namespace SY
                 InternalCalls.TransformComponent_SetTranslation(Entity.ID, ref value);
             }
         }
+
+        public Vector3 Scale
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetScale(Entity.ID, out Vector3 scale);
+                return scale;
+            }
+            set
+            {
+                InternalCalls.TransformComponent_SetScale(Entity.ID, ref value);
+            }
+
+        }
     }
 
     public class Rigidbody2DComponent : Component
@@ -54,11 +68,6 @@ namespace SY
         {
             InternalCalls.Rigidbody2DComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
         }
-
-        public void SetLinearVelocity(Vector2 velocity, bool wake) 
-        {
-            
-        }
     }
 
     public class SpriteAnimatorComponent : Component
@@ -69,7 +78,26 @@ namespace SY
         }
     }
 
-    public class ColliderComponent : Component {
-        
+    public class BoxCollider2DComponent : Component
+    { 
+        public Vector2 Offset
+        {
+            get
+            {
+                InternalCalls.BoxColliderComponent_GetOffset(Entity.ID, out Vector2 offset);
+                return offset;
+            }
+            set => InternalCalls.BoxColliderComponent_SetOffset(Entity.ID, ref value);
+        }
+
+        public Vector2 Size
+        {
+            get
+            {
+                InternalCalls.BoxColliderComponent_GetSize(Entity.ID, out Vector2 size);
+                return size;
+            }
+            set => InternalCalls.BoxColliderComponent_SetSize(Entity.ID, ref value);
+        }
     }
 }

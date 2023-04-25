@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,16 +30,21 @@ namespace Sandbox
         private TransformComponent m_Transform;
         private Rigidbody2DComponent m_Rigidbody;
         private SpriteAnimatorComponent m_Animator;
+        private BoxCollider2DComponent m_BoxCollider;
         private PlayerState m_State;
 
         public float Speed = 10.0f;
-        public float Time = 0.0f;
+        public float stateTime = 0.0f;
 
         private Weapon weapon = null;
         private Skill skill = null;
 
         private bool isGrounded = false;
         private bool isFalling = false;
+        private bool flip = false;
+        private bool invisible = false;
+        private const float evadeTime = 1.0f;
+        private const float evadeSpeed = 150.0f;
         public PlayerState State
         {
             get { return m_State; }
@@ -55,15 +61,20 @@ namespace Sandbox
                         else if (prevState == PlayerState.Run)
                             m_Animator.Play("Run2Idle");
                         else if (prevState == PlayerState.Crouching)
+                        {
+                            Vector2 size = m_BoxCollider.Size;
+                            size.Y = 24.0f;
+                            m_BoxCollider.Size = size;
                             m_Animator.Play("Crouching2Idle");
-                        else
-                            m_Animator.Play("IDLE");
+                        }
+                        else if (prevState != PlayerState.Idle)
+                            m_Animator.Play("Idle");
                         break;
 
                     case PlayerState.Run:
                         if (prevState == PlayerState.Idle)
                             m_Animator.Play("Idle2Run");
-                        else
+                        else if(prevState != PlayerState.Run)
                             m_Animator.Play("Run");
                         break;
 
@@ -75,7 +86,12 @@ namespace Sandbox
                         break;
 
                     case PlayerState.Crouching:
-                        m_Animator.Play("Crouch");
+                        {
+                            m_Animator.Play("Crouch");
+                            Vector2 size = m_BoxCollider.Size;
+                            size.Y = 19.0f;
+                            m_BoxCollider.Size = size;
+                        }
                         break;
 
                     case PlayerState.Roll:
@@ -84,8 +100,9 @@ namespace Sandbox
 
                     case PlayerState.Attack:
                         if (weapon == null)
-                            m_State = prevState;
-                        else {
+                            return;
+                        else
+                        {
                             string Pose;
                             if (isGrounded && Input.IsKeyDown(KeyCode.Down))
                                 Pose = "Crouching";
@@ -100,7 +117,7 @@ namespace Sandbox
 
                     case PlayerState.Casting:
                         if (weapon == null)
-                            m_State = prevState;
+                            return;
                         else
                         {
                             string Pose;
@@ -123,6 +140,7 @@ namespace Sandbox
                     default:
                         break;
                 }
+                stateTime = 0;
             }
         }
 
@@ -133,62 +151,134 @@ namespace Sandbox
             m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigidbody2DComponent>();
             m_Animator = GetComponent<SpriteAnimatorComponent>();
+            m_BoxCollider = GetComponent<BoxCollider2DComponent>();
             m_State = PlayerState.Idle;
         }
 
         void OnUpdate(float ts)
         {
-
+            stateTime += ts;
             UpdateState();
-
             if (m_State == PlayerState.Idle || m_State == PlayerState.Run || m_State == PlayerState.Aerial)
             {
-                Vector2 velocity = Vector2.Zero;
-                if(Input.IsKeyDown(KeyCode.Right))
-                    velocity.X += 1;
-                if(Input.IsKeyDown(KeyCode.Left))
-                    velocity.X -= 1;
+                Vector2 velocity = m_Rigidbody.LinearVelocity;
+                velocity.X = 0;
+                if (Input.IsKeyDown(KeyCode.Right))
+                    velocity.X += 1 * Speed;
+                if (Input.IsKeyDown(KeyCode.Left))
+                    velocity.X -= 1 * Speed;
 
-                m_Rigidbody.SetLinearVelocity(velocity * Speed, true);
+                m_Rigidbody.LinearVelocity = velocity;
+
+                if (Input.IsKeyDown(KeyCode.Space) && (m_State == PlayerState.Idle || m_State == PlayerState.Run))
+                    m_Rigidbody.ApplyLinearImpulse(new Vector2(0, 1000 * m_BoxCollider.Size.Y * m_BoxCollider.Size.X), true);
+                if (velocity.X < 0 && !flip || velocity.X > 0 && flip)
+                {
+                    Vector3 scale = Scale;
+                    scale.X = -scale.X;
+                    Scale = scale;
+                    flip = !flip;
+                }
+            }
+            if (m_State == PlayerState.Roll)
+            {
+                float delta = stateTime / evadeTime;
+                float targetSpeed = (1.0f - delta) * (evadeSpeed) + delta * Speed / 2.0f;
+                if (flip)
+                    m_Rigidbody.LinearVelocity = new Vector2(-targetSpeed, m_Rigidbody.LinearVelocity.Y);
+                else
+                    m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
             }
         }
 
         private void UpdateState()
         {
+            if (m_Rigidbody.LinearVelocity.Y < 0)
+            {
+                if (isFalling == false && State == PlayerState.Aerial)
+                    m_Animator.Play("Falling");
+                isFalling = true;
+            }
+            else
+            {
+                isFalling = false;
+            }
+                
             switch (State) {
                 case PlayerState.Idle:
                 case PlayerState.Run:
                 case PlayerState.Aerial:
                 case PlayerState.Crouching:
                     if (isGrounded == false)
+                    {
                         if (State != PlayerState.Aerial)
-                            State = PlayerState.Aerial;
-                    else if (State == PlayerState.Idle && Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
-                        State = PlayerState.Run;
-                    else if (State == PlayerState.Run && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
-                        State = PlayerState.Idle;
-                    else if (Input.IsKeyDown(KeyCode.Down))
-                        if(State != PlayerState.Crouching)
-                            State = PlayerState.Crouching;
+                            State = PlayerState.Aerial; 
+                    }
+                    else {
+                        if (Input.IsKeyDown(KeyCode.Down) == false && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
+                            State = PlayerState.Idle;
+                        else if (State == PlayerState.Idle && Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
+                            State = PlayerState.Run;
+                        else if (Input.IsKeyDown(KeyCode.Down))
+                        {
+                            if (State != PlayerState.Crouching)
+                                State = PlayerState.Crouching;
+                        }
+
+                        if (Input.IsKeyDown(KeyCode.C) && m_State != PlayerState.Crouching)
+                            State = PlayerState.Roll;
+                    
+                    }
+                              
                     if (Input.IsKeyDown(KeyCode.Z))
                         State = PlayerState.Attack;
                     if (Input.IsKeyDown(KeyCode.A))
                         State = PlayerState.Casting;
                     break;
+                case PlayerState.Roll:
+                    if (stateTime > evadeTime)
+                        State = PlayerState.Idle;
+                    break;
                 default: break;
             }
         }
-        void OnTriggerEnter(ref Collision2D collsion) 
-        { }
-        void OnTriggerStay(ref Collision2D collision)
-        { }
-        void OnTriggerExit(ref Collision2D collision) 
-        { }
-
-        void OnCollisionStay(ref Collision2D collision)
+        void OnCollisionStay(ref Collision2D collsion)
         {
-            Console.WriteLine($"Collsion {collision.CollisionLayer}");
+            if ((collsion.CollisionLayer & (1 << 0)) > 0)
+            {
+                Entity ground = new Entity(collsion.EntityID);
+                
+                if (ground.Translation.Y < Translation.Y)
+                    isGrounded = true;    
+            }
         }
 
+        void OnCollisionExit(ref Collision2D collsion)
+        {
+            if ((collsion.CollisionLayer & (1 << 0)) > 0)
+            {
+                Entity ground = new Entity(collsion.EntityID);
+
+                if (ground.Translation.Y < Translation.Y)
+                    isGrounded = false;
+            }
+        }
+
+        public void OnNamedEvent(string funcName)
+        {
+            String name = funcName;
+            Type type = this.GetType();
+            MethodInfo myClass_FunCallme = type.GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
+            myClass_FunCallme.Invoke(this, null);
+        }
+
+        void SetInvisible()
+        {
+            invisible = true;
+        }
+        void SetVulnerable()
+        {
+            invisible = false;
+        }
     }
 }

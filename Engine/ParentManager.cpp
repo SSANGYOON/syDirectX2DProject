@@ -8,7 +8,7 @@
 #include <queue>
 
 namespace SY {
-	std::unordered_map<UINT, vector<UINT>> ParentManager::childMap = {};
+	std::unordered_map<UINT32, vector<UINT>> ParentManager::childMap = {};
 
 	void ParentManager::CreateToWorld(Scene* scene)
 	{
