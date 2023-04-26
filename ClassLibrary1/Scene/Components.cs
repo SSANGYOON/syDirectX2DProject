@@ -78,6 +78,15 @@ namespace SY
         }
     }
 
+    public class TransformAnimatorComponent : Component 
+    {
+        public bool Play(string clipName)
+        { 
+            return InternalCalls.TransformAnimatorComponent_Play(Entity.ID, clipName);
+        }
+    
+    }
+
     public class BoxCollider2DComponent : Component
     { 
         public Vector2 Offset

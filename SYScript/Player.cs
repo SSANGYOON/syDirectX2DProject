@@ -89,7 +89,7 @@ namespace Sandbox
                         {
                             m_Animator.Play("Crouch");
                             Vector2 size = m_BoxCollider.Size;
-                            size.Y = 19.0f;
+                            size.Y = 15.0f;
                             m_BoxCollider.Size = size;
                         }
                         break;
@@ -146,13 +146,12 @@ namespace Sandbox
 
         void OnCreate()
         {
-            Console.WriteLine($"Player.OnCreate - {ID}");
 
             m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigidbody2DComponent>();
             m_Animator = GetComponent<SpriteAnimatorComponent>();
             m_BoxCollider = GetComponent<BoxCollider2DComponent>();
-            m_State = PlayerState.Idle;
+            m_State = PlayerState.Idle;      
         }
 
         void OnUpdate(float ts)
@@ -188,6 +187,20 @@ namespace Sandbox
                     m_Rigidbody.LinearVelocity = new Vector2(-targetSpeed, m_Rigidbody.LinearVelocity.Y);
                 else
                     m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
+            }
+
+            if (weapon != null)
+                Console.WriteLine($"Weapon Type{ Enum.GetName(typeof(Weapon.WeaponType), weapon.weaponType) }!");
+            else
+            {
+                Entity wea= FindEntityByName("Weapon");
+                if (wea == null)
+                    Console.WriteLine("No weapon");
+                else
+                {
+                    Console.WriteLine("Found");
+                    weapon = wea.As<Weapon>();                   
+                }
             }
         }
 
@@ -238,6 +251,21 @@ namespace Sandbox
                 case PlayerState.Roll:
                     if (stateTime > evadeTime)
                         State = PlayerState.Idle;
+                    break;
+
+                case PlayerState.Attack:
+                    if (stateTime > weapon.duration)
+                    {
+                        if (isGrounded)
+                        {
+                            if (Input.IsKeyDown(KeyCode.Down))
+                                State = PlayerState.Crouching;
+                            else
+                                State = PlayerState.Idle;
+                        }
+                        else
+                            State = PlayerState.Aerial;
+                    }
                     break;
                 default: break;
             }

@@ -42,6 +42,8 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool SpriteAnimatorComponent_Play(ulong entityID, string clipName);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool TransformAnimatorComponent_Play(ulong entityID, string clipName);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_GetOffset(ulong entityID, out Vector2 offset);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_SetOffset(ulong entityID, ref Vector2 offset);

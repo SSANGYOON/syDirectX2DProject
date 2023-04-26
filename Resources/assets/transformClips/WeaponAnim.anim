@@ -1,9 +1,8 @@
-    
-    - ClipName: ONEHAND
-      Frames: 15
+Animations:
+    - ClipName: OneHand
       Duration: 0.8333333
       Loop: false
-      Frame Transform: 
+      Frames: 
         - Frame: 0
           Offset: [ -1.24, -0.14, 0 ]
           Angle: 45
@@ -68,11 +67,10 @@
           Offset: [ 1.48, -0.79, 0 ]
           Angle: -117.06
     
-    - ClipName: DAGGER
-      Frames: 11
+    - ClipName: Dagger
       Duration: 0.5
       Loop: false
-      Frame Transform:
+      Frames:
         - Frame: 0
           Offset: [ -0.35, -0.3, 0 ]
           Angle: -95

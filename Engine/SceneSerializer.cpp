@@ -291,6 +291,18 @@ namespace SY {
 			out << YAML::EndMap;
 		}
 
+		if (entity.HasComponent<TransformAnimatorComponent>())
+		{
+			out << YAML::Key << "TransfromAnimatorComponent";
+			out << YAML::BeginMap;
+
+			auto& animator = entity.GetComponent<TransformAnimatorComponent>();
+			if (animator.clips.size())
+				out << YAML::Key << "ClipPath" << YAML::Value << wtos(animator.clips.begin()->second->GetPath());
+
+			out << YAML::EndMap;
+		}
+
 		out << YAML::EndMap; // Entity
 	}
 
@@ -556,6 +568,72 @@ namespace SY {
 						string function = event["function"].as<string>();
 
 						animator._endEvent[key] = function;
+					}
+				}
+
+				auto transformanimatorComponent = entity["TransfromAnimatorComponent"];
+				if (transformanimatorComponent)
+				{
+					auto& animator = deserializedEntity.AddComponent<TransformAnimatorComponent>();
+
+					animator._currentTime = 0.f;
+					animator._lastTime = -1.f;
+					animator._endedAt = 0.f;
+					animator._currentClip = nullptr;
+
+					auto clipPath = transformanimatorComponent["ClipPath"];
+
+					if (clipPath) {
+						YAML::Node data;
+
+						string relativePath = clipPath.as<string>();
+
+						std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+						auto resourcedir = parentPath / "Resources";
+
+						auto fullPath = resourcedir / relativePath;
+
+						try
+						{
+							data = YAML::LoadFile(fullPath.string());
+						}
+						catch (YAML::ParserException e)
+						{
+							assert(false);
+						}
+
+						if (!data["Animations"])
+							return S_FALSE;
+						auto clips = data["Animations"];
+
+						for (auto clip : clips)
+						{
+							auto Key = clip["ClipName"];
+							auto Frames = clip["Frames"];
+							auto Duration = clip["Duration"];
+							auto Loop = clip["Loop"];
+
+							string key;
+							key = Key.as<string>();
+							shared_ptr<TransformAnimation> clipRef = GET_SINGLE(Resources)->Find<TransformAnimation>(stow(key));
+							if (clipRef == nullptr) {
+								clipRef = make_shared<TransformAnimation>();
+								vector<TransformFrame> frames;
+								for (auto frame : Frames)
+								{
+									TransformFrame tf;
+									tf.position = frame["Offset"].as<Vector3>();
+									tf.angle = frame["Angle"].as<float>();
+									frames.push_back(tf);
+								}
+								clipRef->Load(key, Duration.as<float>(), Loop.as<bool>(), frames);
+							}
+
+							std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+							auto resourcedir = parentPath / "Resources";
+							clipRef->SetPath(filesystem::relative(fullPath, resourcedir).wstring());
+							animator.clips[key] = clipRef;
+						}
 					}
 				}
 

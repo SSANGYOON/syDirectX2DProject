@@ -53,7 +53,7 @@ Animations:
     Columns: 21
     Frames: 3
     Duration: 0.25
-    Loop: false
+    Loop: true
     
   - Key: Landing
     OriginalOffset: [ 5.0, 771.0 ]

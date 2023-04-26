@@ -691,7 +691,89 @@ namespace SY {
 				ImGui::Checkbox("Circle Collider : trigger", &component.isSensor);
 			});
 
-		DrawComponent<TransformAnimatorComponent>("TransformAnimator", entity, [] (auto& component){});
+		DrawComponent<TransformAnimatorComponent>("TransformAnimator", entity, [] (auto& component){
+			
+			vector<string> animations;
+			for (auto anim : component.clips)
+				animations.push_back(anim.first);
+
+			for (string& key : animations)
+			{
+				ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+				if (ImGui::TreeNodeEx(key.c_str(), flags))
+				{
+					shared_ptr<TransformAnimation> clip = component.clips[key];
+
+					if (ImGui::BeginPopupContextWindow(key.c_str()))
+					{
+						if (ImGui::MenuItem("Delete clip"))
+						{
+							component.clips.erase(component.clips.find(key));
+						}
+						ImGui::EndPopup();
+					}
+					ImGui::TreePop();
+				}
+			}
+
+			ImGui::Text("Drag new clips here", ImVec2(100.0f, 0.0f));
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+				{
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					std::filesystem::path animPath(path);
+
+					YAML::Node data;
+
+
+					wstring fullPath = path;
+
+					try
+					{
+						data = YAML::LoadFile(wtos(path));
+					}
+					catch (YAML::ParserException e)
+					{
+						assert(false);
+					}
+
+					if (!data["Animations"])
+						return S_FALSE;
+					auto clips = data["Animations"];
+
+					for (auto clip : clips)
+					{
+						auto Key = clip["ClipName"];
+						auto Frames = clip["Frames"];
+						auto Duration = clip["Duration"];
+						auto Loop = clip["Loop"];
+
+						string key;
+						key = Key.as<string>();
+						shared_ptr<TransformAnimation> clipRef = GET_SINGLE(Resources)->Find<TransformAnimation>(stow(key));
+						if (clipRef == nullptr){
+							clipRef = make_shared<TransformAnimation>();
+							vector<TransformFrame> frames;
+							for (auto frame : Frames)
+							{
+								TransformFrame tf;
+								tf.position = frame["Offset"].as<Vector3>();
+								tf.angle = frame["Angle"].as<float>();
+								frames.push_back(tf);
+							}
+							clipRef->Load(key, Duration.as<float>(), Loop.as<bool>(), frames);
+						}
+						
+						std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+						auto resourcedir = parentPath / "Resources";
+						clipRef->SetPath(filesystem::relative(fullPath, resourcedir).wstring());
+						component.clips[key] = clipRef;
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
+			});
 
 		DrawComponent<SpriteAnimatorComponent>("SpriteAnimator", entity, [this](auto& component)
 			{

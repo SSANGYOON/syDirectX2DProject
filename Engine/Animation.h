@@ -38,6 +38,7 @@ struct TransformFrame
 	Vector3 position;
 	float angle;
 };
+
 class TransformAnimation : public Resource
 {
 public:
@@ -45,7 +46,7 @@ public:
 	virtual ~TransformAnimation();
 
 	virtual HRESULT Load(const std::wstring& path, bool stockObject = false) override;
-
+	HRESULT Load(const std::string& key, float duration, bool loop, const vector<TransformFrame>& frames) { _key = key, _duration = duration, _loop = loop, _frames = frames; return S_OK; }
 	float GetDuration() { return _duration; }
 	const vector<TransformFrame>& GetFrames() { return _frames; }
 

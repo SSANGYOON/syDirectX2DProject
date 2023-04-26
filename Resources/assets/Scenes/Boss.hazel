@@ -222,33 +222,23 @@ Entities:
       EndEvents:
         - key: Idle
           function: SetVulnerable
-  - Entity: 9168515184704376500
+  - Entity: 7867849393405942140
     TagComponent:
-      Tag: Holy Sword
+      Tag: Weapon
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12478953743042838488
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-      TexturePath: textures\HolySword.png
-      SourceOffset: [0, 0]
-      SourceSize: [16, 80]
-      SourceSheetSize: [16, 80]
-  - Entity: 14780726754139089470
+    ScriptComponent:
+      ClassName: Sandbox.Weapon
+      ScriptFields:
+        []
+    TransfromAnimatorComponent:
+      ClipPath: assets\transformClips\WeaponAnim.anim
+  - Entity: 13242662447460144456
     TagComponent:
-      Tag: Holy Dagger
+      Tag: ObjectManager
     TransformComponent:
-      Translation: [50, 0, 0]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12478953743042838488
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-      TexturePath: textures\HolyDagger.png
-      SourceOffset: [0, 0]
-      SourceSize: [16, 40]
-      SourceSheetSize: [16, 40]
