@@ -8,6 +8,7 @@ enum class RESOURCE_TYPE
 	COMPUTE_SHADER,
 	SPRITEANIMATION_CLIP,
 	MATERIAL,
+	PREFAB
 };
 
 class Resource

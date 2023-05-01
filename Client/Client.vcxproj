@@ -145,10 +145,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="clientpch.h" />
+    <ClInclude Include="Hazelnut.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

@@ -21,7 +21,7 @@ namespace SY
                 InternalCalls.TransformComponent_GetTranslation(ID, out Vector3 result);
                 return result;
             }
-            set
+            protected set
             {
                 InternalCalls.TransformComponent_SetTranslation(ID, ref value);
             }
@@ -34,7 +34,7 @@ namespace SY
                 InternalCalls.TransformComponent_GetScale(ID, out Vector3 result);
                 return result;
             }
-            set
+            protected set
             {
                 InternalCalls.TransformComponent_SetScale(ID, ref value);
             }

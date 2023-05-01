@@ -1,26 +1,11 @@
 ﻿#include "clientpch.h"
-#include "EntryPoint.h"
-#include "EditorLayer.h"
+#include "Hazelnut.h"
 
-namespace SY {
+int main(int argc, char** argv)
+{
+	auto app = SY::CreateApplication({ argc, argv });
 
-	class Hazelnut : public Application
-	{
-	public:
-		Hazelnut(const ApplicationSpecification& spec)
-			: Application(spec)
-		{
-			PushLayer(new EditorLayer());
-		}
-	};
+	app->Run();
 
-	Application* CreateApplication(ApplicationCommandLineArgs args)
-	{
-		ApplicationSpecification spec;
-		spec.Name = L"Hazelnut";
-		spec.CommandLineArgs = args;
-
-		return new Hazelnut(spec);
-	}
-
+	delete app;
 }

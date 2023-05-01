@@ -1,4 +1,10 @@
 #include "pch.h"
+#include "Engine.h"
+#include "Resources.h"
+
+#include "Mesh.h"
+#include "Shader.h"
+
 #include "Scene.h"
 #include "Entity.h"
 
@@ -19,7 +25,6 @@
 #include "box2d/b2_contact.h"
 
 #include "ScriptEngine.h"
-
 #include "Animation.h"
 namespace SY {
 
@@ -178,8 +183,7 @@ namespace SY {
 
 		{
 			m_Registry.view<SpriteAnimatorComponent, SpriteRendererComponent>().each([timeStep, this](entt::entity e, SpriteAnimatorComponent& animator, SpriteRendererComponent& sr)
-				{
-					
+				{	
 					if (animator._currentClip == nullptr)
 						return;
 
@@ -196,9 +200,7 @@ namespace SY {
 					const Vector2& targetOffset = clip->GetTargetOffset();
 					const string& nextKey = clip->GetNextKey();
 					bool loop = clip->IsLoop();
-					float epsilon = 1e-5;
-
-					
+					float epsilon = 1e-5f;
 
 					UINT curFrame = UINT(min(animator._currentTime, duration - epsilon) * clip->GetFrames() / clip->GetDuration());
 					Vector2 LT = offset + Vector2((curFrame % columns) * step.x, (curFrame / columns) * step.y);
@@ -214,7 +216,7 @@ namespace SY {
 						if (loop) 
 							animator._currentTime -= duration;
 						else if (!nextKey.empty()) {
-							animator._currentTime = 0;
+							animator._currentTime = 0.f;
 							animator._currentClip = animator.clips[nextKey];
 						}
 					}
@@ -244,14 +246,59 @@ namespace SY {
 		{
 			Renderer::Begin(mainCamera->Camera, cameraTransform);
 			{
-				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
 				for (auto entity : group)
 				{
 					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
 					sprite.spCB.color = sprite.Color;
-					if(mainCamera->LayerBit & sprite.LayerBit)
+					if (mainCamera->LayerBit & sprite.LayerBit)
 						Renderer::DrawSprite(transform.localToWorld, sprite.spCB, entity, sprite.Texture);
+				}
+
+				auto uiShader = GET_SINGLE(Resources)->Find<Shader>(L"UIShader");
+				auto pointMesh = GET_SINGLE(Resources)->Find<Mesh>(L"PointMesh");
+				auto group2 = m_Registry.group<PanelComponent>(entt::get<TransformComponent>);
+
+				for (auto entity : group2)
+				{
+					auto [transform, panel] = group2.get<TransformComponent, PanelComponent>(entity);
+					auto buffer = GEngine->GetConstantBuffer(Constantbuffer_Type::PANEL);
+
+					if (panel.texture == nullptr)
+						continue;
+					PanelCB pCB = {};
+					pCB.size = { transform.scale.x,  transform.scale.y };
+					pCB.originalSize = panel.texture->GetSize();
+					pCB.offset = panel.offset;
+
+					buffer->SetData(&pCB);
+					buffer->SetPipline(ShaderStage::GS);
+
+					Renderer::DrawMesh(transform.localToWorld, entity, uiShader, pointMesh, panel.texture);
+				}
+
+				auto gaugeShader = GET_SINGLE(Resources)->Find<Shader>(L"GaugeShader");
+				auto rectMesh = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
+				auto group3 = m_Registry.group<SliderComponent>(entt::get<TransformComponent>);
+				for (auto entity : group3)
+				{
+					auto [transform, slider] = group3.get<TransformComponent, SliderComponent>(entity);
+					auto buffer = GEngine->GetConstantBuffer(Constantbuffer_Type::SLIDER);
+
+					if (slider.bar == nullptr || slider.gauge == nullptr)
+						continue;
+					SliderCB sCB = {};
+					sCB.barSize = slider.bar->GetSize();
+					sCB.gaugeSize = slider.gauge->GetSize();
+					sCB.currentValue = slider.currentValue;
+					sCB.maxValue = slider.maxValue;
+
+					buffer->SetData(&sCB);
+					buffer->SetPipline(ShaderStage::VS);
+					buffer->SetPipline(ShaderStage::PS);
+
+					Renderer::DrawMesh(transform.localToWorld, entity, gaugeShader, rectMesh, slider.bar, slider.gauge);
 				}
 			}
 			Renderer::End();
@@ -589,6 +636,21 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<StateComponent>(Entity entity, StateComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<PanelComponent>(Entity entity, PanelComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<SliderComponent>(Entity entity, SliderComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<SlotComponent>(Entity entity, SlotComponent& component)
 	{
 	}
 }

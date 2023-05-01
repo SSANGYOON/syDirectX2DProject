@@ -52,5 +52,10 @@ namespace SY
         internal extern static void BoxColliderComponent_GetSize(ulong entityID, out Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_SetSize(ulong entityID, ref Vector2 size);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_GetOrthographicSize(ulong entityID, out Vector2 size);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_SetOrthographicSize(ulong entityID, ref Vector2 size);
     }
 }

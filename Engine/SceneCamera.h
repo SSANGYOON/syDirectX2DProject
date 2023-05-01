@@ -27,6 +27,9 @@ namespace SY {
 		void SetOrthographicSize(float orthographicSize) { m_OrthographicSize = orthographicSize; RecalculateProjection(); }
 		float GetOrthographicSize() const { return m_OrthographicSize; }
 
+		void SetAspectRatio(float ratio) { m_AspectRatio = ratio; }
+		float GetAspectRatio() { return m_AspectRatio; }
+
 		ProjectionType GetProjectionType() const { return m_ProjectionType; }
 		void SetProjectionType(ProjectionType type) { m_ProjectionType = type; RecalculateProjection(); }
 	private:

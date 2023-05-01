@@ -6,6 +6,7 @@
 #include "FileDialogs.h"
 #include "ImGuizmo.h"
 #include "Resources.h"
+#include "Prefab.h"
 #include "Application.h"
 #include "Project.h"
 #include "Renderer.h"
@@ -209,37 +210,35 @@ namespace SY {
 				ImGui::EndMenu();
 			}
 
+			if (ImGui::BeginMenu("Edit"))
+			{
+				ImGui::MenuItem("Show Imgui Panels", NULL, &m_ShowImguiPanels);
+				ImGui::EndMenu();
+			}
 			ImGui::EndMenuBar();
 		}
+		if (m_ShowImguiPanels) {
+			m_SceneHierarchyPanel.OnImGuiRender();
+			m_ContentBrowserPanel->OnImGuiRender();
 
-		m_SceneHierarchyPanel.OnImGuiRender();
-		m_ContentBrowserPanel->OnImGuiRender();
+			ImGui::Begin("Stats");
 
-		ImGui::Begin("Stats");
+			auto stats = Renderer::GetStats();
+			ImGui::Text("Renderer2D Stats:");
+			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+			ImGui::Text("Used Instanced : %d", stats.Instanced);
 
-#if 0
-		std::string name = "None";
-		if (m_HoveredEntity)
-			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
-		ImGui::Text("Hovered Entity: %s", name.c_str());
-#endif
+			ImGui::End();
 
-		auto stats = Renderer::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Used Instanced : %d", stats.Instanced);
+			ImGui::Begin("Settings");
+			ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
+			ImGui::DragFloat("CameraSpeed", &CameraSpeed, 0.1f, 0.1f, 3.0f);
+			ImGui::DragFloat("MouseWheelStep", &CameraWheelStep, 0.1f, 0.1f, 3.0f);
 
-		ImGui::End();
+			ImGui::DragInt("CollistionLayers", &CollisionLayers, 1, 1, 16);
 
-		ImGui::Begin("Settings");
-		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
-		ImGui::DragFloat("CameraSpeed", &CameraSpeed, 0.1f, 0.1f, 3.0f);
-		ImGui::DragFloat("MouseWheelStep", &CameraWheelStep, 0.1f, 0.1f, 3.0f);
-
-		ImGui::DragInt("CollistionLayers", &CollisionLayers, 1, 1, 16);
-
-		ImGui::End();
-
+			ImGui::End();
+		}
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
@@ -263,6 +262,13 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				OpenScene(path);
+			}
+
+			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Prefab"))
+			{
+				const wchar_t* path = (const wchar_t*)payload->Data;
+				shared_ptr<Prefab> prefab= GET_SINGLE(Resources)->Load<Prefab>(path, path);
+				prefab->Instantiate(m_EditorScene.get());
 			}
 			ImGui::EndDragDropTarget();
 		}

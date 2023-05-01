@@ -10,11 +10,9 @@ namespace Sandbox
 {
     public class Camera : Entity
     {
-        public Entity OtherEntity;
-
-        public float DistanceFromPlayer = 5.0f;
-
-        private Entity m_Player;
+        public  float DistanceFromPlayer = 5.0f;
+        public Vector2 CameraRange = new Vector2(640, 360);
+        private  Entity m_Player;
 
         void OnCreate()
         {
@@ -23,27 +21,18 @@ namespace Sandbox
 
         void OnUpdate(float ts)
         {
-            if (m_Player != null)
-                Translation = new Vector3(m_Player.Translation.XY, DistanceFromPlayer);
+            if (m_Player == null)
+                return;
 
-            float speed = 1.0f;
-            Vector3 velocity = Vector3.Zero;
+            Vector3 playerPos = m_Player.Translation;
+            Vector2 targetPos = playerPos.XY;
 
-            if (Input.IsKeyDown(KeyCode.Up))
-                velocity.Y = 1.0f;
-            else if (Input.IsKeyDown(KeyCode.Down))
-                velocity.Y = -1.0f;
+            Vector2 cameraSize = GetComponent<CameraComponent>().OrthographicSize;
+            Vector2 minPos = cameraSize / 2.0f - CameraRange / 2.0f;
+            Vector2 maxPos = CameraRange / 2.0f - cameraSize / 2.0f;
+            Vector2 nextPos = targetPos.clamp(minPos, maxPos);
 
-            if (Input.IsKeyDown(KeyCode.Left))
-                velocity.X = -1.0f;
-            else if (Input.IsKeyDown(KeyCode.Right))
-                velocity.X = 1.0f;
-
-            velocity *= speed;
-
-            Vector3 translation = Translation;
-            translation += velocity * ts;
-            Translation = translation;
+            Translation = new Vector3(nextPos, DistanceFromPlayer);
         }
 
     }

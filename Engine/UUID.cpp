@@ -12,13 +12,18 @@ namespace SY {
 	static std::uniform_int_distribution<uint64_t> s_UniformDistribution;
 
 	UUID::UUID()
-		: m_UUID(s_UniformDistribution(s_Engine))
+		: m_UUID(GetRandomNumber())
 	{
 	}
 
 	UUID::UUID(uint64_t uuid)
 		: m_UUID(uuid)
 	{
+	}
+
+	uint64_t GetRandomNumber()
+	{
+		return s_UniformDistribution(s_Engine);
 	}
 
 }

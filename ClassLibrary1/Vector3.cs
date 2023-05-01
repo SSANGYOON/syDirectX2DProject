@@ -1,4 +1,6 @@
-﻿namespace SY
+﻿using System;
+
+namespace SY
 {
     public struct Vector3
     {
@@ -35,6 +37,21 @@
                 X = value.X;
                 Y = value.Y;
             }
+        }
+
+        public Vector3 min(Vector3 other)
+        {
+            return new Vector3(Math.Min(this.X, other.X), Math.Min(this.Y, other.Y), Math.Min(this.Z, other.Z));
+        }
+
+        public Vector3 max(Vector3 other)
+        {
+            return new Vector3(Math.Max(this.X, other.X), Math.Max(this.Y, other.Y), Math.Max(this.Z, other.Z));
+        }
+
+        public Vector3 clamp(Vector3 min, Vector3 max)
+        {
+            return this.max(min).min(max);
         }
 
         public static Vector3 operator +(Vector3 a, Vector3 b)

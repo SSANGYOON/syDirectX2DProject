@@ -5,7 +5,9 @@ enum class Constantbuffer_Type : UINT8
 	SPRITE,
 	MATERIAL,
 	LIGHT,
-	GRID,
+	PANEL,
+	SLIDER,
+	SLOT,
 	END
 };
 
@@ -30,11 +32,21 @@ CBUFFER(SpriteCB, CBSLOT_SPRITE)
 	Vector4 color;
 };
 
-CBUFFER(GridCB, CBSLOT_GRID)
+CBUFFER(PanelCB, CBSLOT_PANEL)
 {
-	Vector4 cameraPosition;
-	Vector2 cameraScale;
-	Vector2 resolution;
+	Vector2 size;
+	Vector2 originalSize;
+	Vector2 offset;
+	Vector2 padding;
+};
+
+CBUFFER(SliderCB, CBSLOT_SLIDER)
+{
+	Vector2 barSize;
+	Vector2 gaugeSize;
+	float currentValue;
+	float maxValue;
+	Vector2 padding;
 };
 
 struct LightInfo

@@ -64,7 +64,9 @@ public:								\
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_SPRITE 2
 #define CBSLOT_LIGHT 3
-#define CBSLOT_GRID 4
+#define CBSLOT_PANEL 4
+#define CBSLOT_SLIDER 5
+#define CBSLOT_SLOT 6
 
 struct Vertex
 {

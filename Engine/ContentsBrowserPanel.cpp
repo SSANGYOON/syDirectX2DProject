@@ -52,7 +52,11 @@ namespace SY {
 			{
 				std::filesystem::path relativePath(path);
 				const wchar_t* itemPath = relativePath.c_str();
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+				string ext = relativePath.extension().string();
+				if(std::strcmp(ext.c_str(), ".pref") == 0)
+					ImGui::SetDragDropPayload("Prefab", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+				else
+					ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
 				ImGui::EndDragDropSource();
 			}
 

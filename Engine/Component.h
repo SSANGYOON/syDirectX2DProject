@@ -193,6 +193,29 @@ namespace SY {
 		map<string, shared_ptr<TransformAnimation>> clips;
 	};
 
+	struct PanelComponent
+	{
+		Vector2 offset;
+		shared_ptr<Texture> texture;
+	};
+
+	struct SliderComponent
+	{
+		bool showNumeric;
+		float currentValue;
+		float maxValue;
+		shared_ptr<Texture> bar;
+		shared_ptr<Texture> gauge;
+	};
+
+	struct SlotComponent
+	{
+		Vector2 itemSizeRatio;
+		Vector2 itemOffset;
+		shared_ptr<Texture> slot;
+		shared_ptr<Texture> item;
+	};
+
 	template<typename... Component>
 	struct ComponentGroup
 	{
@@ -201,7 +224,7 @@ namespace SY {
 	using AllComponents =
 		ComponentGroup<StateComponent, TransformComponent, SpriteRendererComponent,
 		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, Parent,
-		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent,
+		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent, PanelComponent, SliderComponent, SlotComponent,
 		CircleCollider2DComponent>;
 
 }

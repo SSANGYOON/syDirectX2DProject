@@ -2,6 +2,8 @@
 
 namespace SY {
 
+	uint64_t GetRandomNumber();
+
 	class UUID
 	{
 	public:

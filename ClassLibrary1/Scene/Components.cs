@@ -109,4 +109,17 @@ namespace SY
             set => InternalCalls.BoxColliderComponent_SetSize(Entity.ID, ref value);
         }
     }
+
+    public class CameraComponent : Component
+    {
+        public Vector2 OrthographicSize
+        {
+            get
+            {
+                InternalCalls.CameraComponent_GetOrthographicSize(Entity.ID, out Vector2 orthographicSize);
+                return orthographicSize;
+            }
+            set => InternalCalls.CameraComponent_SetOrthographicSize(Entity.ID, ref value);
+        }
+    }
 }

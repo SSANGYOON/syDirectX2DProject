@@ -40,6 +40,7 @@ namespace SY {
 		cb->SetData(&trCB);
 		cb->SetPipline(ShaderStage::VS);
 		cb->SetPipline(ShaderStage::PS);
+		cb->SetPipline(ShaderStage::GS);
 
 		rect->BindBuffer();
 		rect->Render();
@@ -59,6 +60,7 @@ namespace SY {
 		cb->SetData(&trCB);
 		cb->SetPipline(ShaderStage::VS);
 		cb->SetPipline(ShaderStage::PS);
+		cb->SetPipline(ShaderStage::GS);
 
 		circle->BindBuffer();
 		circle->Render();
@@ -82,6 +84,7 @@ namespace SY {
 		cb->SetData(&trCB);
 		cb->SetPipline(ShaderStage::VS);
 		cb->SetPipline(ShaderStage::PS);
+		cb->SetPipline(ShaderStage::GS);
 
 		shared_ptr<ConstantBuffer> spcb = GEngine->GetConstantBuffer(Constantbuffer_Type::SPRITE);
 
@@ -117,6 +120,38 @@ namespace SY {
 
 		if (lighted)
 			lighted->ClearSRV(ShaderStage::PS, 1);
+	}
+
+	void Renderer::DrawMesh(const Matrix& transform, const entt::entity& entity, shared_ptr<Shader> shader, shared_ptr<Mesh> mesh, shared_ptr<Texture> diffuse, shared_ptr<Texture> additional1, shared_ptr<Texture> additional2)
+	{
+		stats.DrawCalls++;
+		shader->BindShader();
+
+		trCB.world = transform;
+		trCB.entity = (int)entity;
+
+		shared_ptr<ConstantBuffer> cb = GEngine->GetConstantBuffer(Constantbuffer_Type::TRANSFORM);
+		cb->SetData(&trCB);
+		cb->SetPipline(ShaderStage::VS);
+		cb->SetPipline(ShaderStage::PS);
+		cb->SetPipline(ShaderStage::GS);
+
+		if(diffuse)
+			diffuse->BindSRV(ShaderStage::PS, 0);
+		if (additional1)
+			additional1->BindSRV(ShaderStage::PS, 1);
+		if (additional2)
+			additional2->BindSRV(ShaderStage::PS, 2);
+
+		mesh->BindBuffer();
+		mesh->Render();
+
+		if (diffuse)
+			diffuse->ClearSRV(ShaderStage::PS, 0);
+		if (additional1)
+			additional1->ClearSRV(ShaderStage::PS, 1);
+		if (additional2)
+			additional2->ClearSRV(ShaderStage::PS, 2);
 	}
 
 	void Renderer::End()

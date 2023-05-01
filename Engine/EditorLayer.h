@@ -74,6 +74,7 @@ namespace SY {
 
 		int m_GizmoType = -1;
 		bool m_ShowPhysicsColliders = false;
+		bool m_ShowImguiPanels = true;
 
 		float CameraSpeed = 0.1f;
 		float CameraWheelStep = 1.f;

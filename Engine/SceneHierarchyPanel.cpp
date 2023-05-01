@@ -113,12 +113,12 @@ namespace SY {
 					parentID = entity.GetComponent<Parent>().parentHandle;
 					entity.RemoveComponent<Parent>();
 				}
-				SerializeEntity(out, entity);
+				SceneSerializer::SerializeEntity(out, entity);
 				Scene* context = entity.GetContext();
 				for (auto child : ParentManager::GetChildren(entity))
 				{
 					Entity childEntity = { (entt::entity)child, context };
-					SerializeEntity(out, childEntity);
+					SceneSerializer::SerializeEntity(out, childEntity);
 				}
 				out << YAML::EndSeq;
 				out << YAML::EndMap;
@@ -332,6 +332,9 @@ namespace SY {
 			DisplayAddComponentEntry<ScriptComponent>("C# Script");
 			DisplayAddComponentEntry<SpriteAnimatorComponent>("SpriteAnimator");
 			DisplayAddComponentEntry<TransformAnimatorComponent>("TransformAnimator");
+			DisplayAddComponentEntry<PanelComponent>("Panel");
+			DisplayAddComponentEntry<SliderComponent>("Slider");
+			DisplayAddComponentEntry<SlotComponent>("Slot");
 			ImGui::EndPopup();
 		}
 
@@ -459,6 +462,15 @@ namespace SY {
 									scriptInstance->SetFieldValue(name, data);
 								}
 							}
+
+							if (field.Type == ScriptFieldType::Vector2)
+							{
+								Vector2 data = scriptInstance->GetFieldValue<Vector2>(name);
+								if (ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(&data)))
+								{
+									scriptInstance->SetFieldValue(name, data);
+								}
+							}
 						}
 					}
 				}
@@ -484,6 +496,13 @@ namespace SY {
 									if (ImGui::DragFloat(name.c_str(), &data))
 										scriptField.SetValue(data);
 								}
+
+								if (field.Type == ScriptFieldType::Vector2)
+								{
+									Vector2 data = scriptField.GetValue<Vector2>();
+									if (ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(&data)))
+										scriptField.SetValue(data);
+								}
 							}
 							else
 							{
@@ -492,6 +511,17 @@ namespace SY {
 								{
 									float data = 0.0f;
 									if (ImGui::DragFloat(name.c_str(), &data))
+									{
+										ScriptFieldInstance& fieldInstance = entityFields[name];
+										fieldInstance.Field = field;
+										fieldInstance.SetValue(data);
+									}
+								}
+
+								if (field.Type == ScriptFieldType::Vector2)
+								{
+									Vector2 data = Vector2::Zero;
+									if (ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(&data)))
 									{
 										ScriptFieldInstance& fieldInstance = entityFields[name];
 										fieldInstance.Field = field;
@@ -919,6 +949,138 @@ namespace SY {
 				}
 			});
 
+			DrawComponent<PanelComponent>("Panel", entity, [](auto& component)
+				{
+					ImGui::DragFloat2("Offset", reinterpret_cast<float*>(&component.offset));
+
+					ImGui::Text("Texture", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.texture = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.texture) {
+						ImGui::Text(wtos(component.texture->GetPath()).c_str());
+
+						if (ImGui::Button("Remove"))
+						{
+							component.texture = nullptr;
+						}
+					}
+				});
+
+			DrawComponent<SliderComponent>("Slider", entity, [](auto& component)
+				{
+					ImGui::DragFloat("currentValue", &component.currentValue);
+					ImGui::DragFloat("maxValue", &component.maxValue);
+
+					ImGui::Text("BarTexture", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.bar = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.bar) {
+						ImGui::Text(wtos(component.bar->GetPath()).c_str());
+
+						if (ImGui::Button("Remove"))
+						{
+							component.bar = nullptr;
+						}
+					}
+
+					ImGui::Text("GaugeTexture", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.gauge = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.gauge) {
+						ImGui::Text(wtos(component.gauge->GetPath()).c_str());
+
+						if (ImGui::Button("Remove"))
+						{
+							component.gauge = nullptr;
+						}
+					}
+				});
+
+			DrawComponent<SlotComponent>("Slot", entity, [](auto& component)
+				{
+					ImGui::DragFloat2("itemSizeRatio", reinterpret_cast<float*>(&component.itemSizeRatio));
+					ImGui::DragFloat2("itemOffset", reinterpret_cast<float*>(&component.itemOffset));
+
+					ImGui::Text("Slot", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.slot = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.slot) {
+						ImGui::Text(wtos(component.slot->GetPath()).c_str());
+
+						if (ImGui::Button("Remove"))
+							component.slot = nullptr;
+					}
+
+					ImGui::Text("Item", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.item = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.item) {
+						ImGui::Text(wtos(component.item->GetPath()).c_str());
+
+						if (ImGui::Button("Remove"))
+							component.item = nullptr;
+					}
+				});
 	}
 
 	template<typename T>

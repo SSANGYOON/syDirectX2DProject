@@ -189,7 +189,7 @@ namespace Sandbox
                     m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
             }
 
-            if (weapon != null)
+            /*if (weapon != null)
                 Console.WriteLine($"Weapon Type{ Enum.GetName(typeof(Weapon.WeaponType), weapon.weaponType) }!");
             else
             {
@@ -201,7 +201,7 @@ namespace Sandbox
                     Console.WriteLine("Found");
                     weapon = wea.As<Weapon>();                   
                 }
-            }
+            }*/
         }
 
         private void UpdateState()

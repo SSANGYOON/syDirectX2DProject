@@ -71,6 +71,12 @@ HRESULT Engine::Init(const WindowInfo& info)
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT]->Init(Constantbuffer_Type::LIGHT, sizeof(LightCB));
 
+	_constantBuffers[(UINT8)Constantbuffer_Type::PANEL] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::PANEL]->Init(Constantbuffer_Type::PANEL, sizeof(PanelCB));
+
+	_constantBuffers[(UINT8)Constantbuffer_Type::SLIDER] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::SLIDER]->Init(Constantbuffer_Type::SLIDER, sizeof(SliderCB));
+
 	return S_OK;
 }
 

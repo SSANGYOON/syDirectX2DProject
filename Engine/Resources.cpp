@@ -227,4 +227,39 @@ void Resources::CreateDefaultResource()
 		spriteShader->CreateShader(_info, _entry, L"Sprite.hlsl");
 	}
 #pragma endregion
+
+#pragma region UIShader
+	{
+		shared_ptr<Shader> uiShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"UIShader", uiShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		_entry.GS = true;
+		uiShader->CreateShader(_info, _entry, L"UIShader.hlsl");
+	}
+#pragma endregion
+
+#pragma region GaugeShader
+	{
+		shared_ptr<Shader> GaugeShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"GaugeShader", GaugeShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		GaugeShader->CreateShader(_info, _entry, L"GaugeShader.hlsl");
+	}
+#pragma endregion
 }

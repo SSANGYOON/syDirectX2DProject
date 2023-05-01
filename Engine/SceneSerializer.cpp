@@ -72,7 +72,7 @@ namespace SY {
 	{
 	}
 
-	void SerializeEntity(YAML::Emitter& out, Entity entity)
+	void SceneSerializer::SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		assert(entity.HasComponent<IDComponent>());
 
@@ -303,6 +303,63 @@ namespace SY {
 			out << YAML::EndMap;
 		}
 
+		if (entity.HasComponent<PanelComponent>())
+		{
+			out << YAML::Key << "PanelComponent";
+			out << YAML::BeginMap; // PanelComponent
+
+			auto& panel = entity.GetComponent<PanelComponent>();
+			if (panel.texture) {
+				wstring wpath = panel.texture->GetPath();
+
+				out << YAML::Key << "TexturePath" << YAML::Value << wtos(wpath);
+				
+			}
+			out << YAML::Key << "panelOffset" << YAML::Value << panel.offset;
+			out << YAML::EndMap; // PanelComponent
+		}
+
+		if (entity.HasComponent<SliderComponent>())
+		{
+			out << YAML::Key << "SliderComponent";
+			out << YAML::BeginMap; // SliderComponent
+
+			auto& slider = entity.GetComponent<SliderComponent>();
+			if (slider.bar && slider.gauge) {
+				wstring barPath = slider.bar->GetPath();
+				wstring gaugePath = slider.gauge->GetPath();
+				out << YAML::Key << "barPath" << YAML::Value << wtos(barPath);
+				out << YAML::Key << "gaugePath" << YAML::Value << wtos(gaugePath);
+				
+			}
+
+			out << YAML::Key << "showNumeric" << YAML::Value << slider.showNumeric;
+			out << YAML::Key << "currentValue" << YAML::Value << slider.currentValue;
+			out << YAML::Key << "maxValue" << YAML::Value << slider.maxValue;
+			out << YAML::EndMap; // SliderComponent
+		}
+
+		if (entity.HasComponent<SlotComponent>())
+		{
+			out << YAML::Key << "SlotComponent";
+			out << YAML::BeginMap; // SlotComponent
+
+			auto& slot = entity.GetComponent<SlotComponent>();
+			if (slot.slot) {
+				wstring slotPath = slot.slot->GetPath();
+				out << YAML::Key << "slotPath" << YAML::Value << wtos(slotPath);
+			}
+			if (slot.item) {
+				wstring itemPath = slot.item->GetPath();
+				out << YAML::Key << "itemPath" << YAML::Value << wtos(itemPath);
+			}
+
+			out << YAML::Key << "itemSizeRatio" << YAML::Value << slot.itemSizeRatio;
+			out << YAML::Key << "itemOffset" << YAML::Value << slot.itemOffset;
+
+			out << YAML::EndMap; // SlotComponent
+		}
+
 		out << YAML::EndMap; // Entity
 	}
 
@@ -359,328 +416,388 @@ namespace SY {
 		{
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["Entity"].as<uint64_t>();
-
-				std::string name;
-				auto tagComponent = entity["TagComponent"];
-				if (tagComponent)
-					name = tagComponent["Tag"].as<std::string>();
-
-				//HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
-
-				Entity deserializedEntity = m_Scene->CreateEntityWithUUID(uuid, name);
-
-				auto transformComponent = entity["TransformComponent"];
-				if (transformComponent)
-				{
-					// Entities always have transforms
-					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
-					tc.translation = transformComponent["Translation"].as<Vector3>();
-					tc.rotation = transformComponent["Rotation"].as<Vector3>();
-					tc.scale = transformComponent["Scale"].as<Vector3>();
-				}
-
-				auto parent = entity["Parent"];
-				if (parent)
-				{
-					auto& pc = deserializedEntity.AddComponent<Parent>();
-					pc.parentHandle = parent["ParentID"].as<uint64_t>();
-				}
-
-				auto scriptComponent = entity["ScriptComponent"];
-				if (scriptComponent)
-				{
-					auto& sc = deserializedEntity.AddComponent<ScriptComponent>();
-					sc.ClassName = scriptComponent["ClassName"].as<std::string>();
-
-					auto scriptFields = scriptComponent["ScriptFields"];
-					if (scriptFields)
-					{
-						shared_ptr<ScriptClass> entityClass = ScriptEngine::GetEntityClass(sc.ClassName);
-						if (entityClass)
-						{
-							const auto& fields = entityClass->GetFields();
-							auto& entityFields = ScriptEngine::GetScriptFieldMap(deserializedEntity);
-
-							for (auto scriptField : scriptFields)
-							{
-								std::string name = scriptField["Name"].as<std::string>();
-								std::string typeString = scriptField["Type"].as<std::string>();
-								ScriptFieldType type = Utils::ScriptFieldTypeFromString(typeString);
-
-								ScriptFieldInstance& fieldInstance = entityFields[name];
-
-								// TODO(Yan): turn this assert into Hazelnut log warning
-								assert(fields.find(name) != fields.end());
-
-								if (fields.find(name) == fields.end())
-									continue;
-
-								fieldInstance.Field = fields.at(name);
-
-								switch (type)
-								{
-									READ_SCRIPT_FIELD(Float, float);
-									READ_SCRIPT_FIELD(Double, double);
-									READ_SCRIPT_FIELD(Bool, bool);
-									READ_SCRIPT_FIELD(Char, char);
-									READ_SCRIPT_FIELD(Byte, int8_t);
-									READ_SCRIPT_FIELD(Short, int16_t);
-									READ_SCRIPT_FIELD(Int, int32_t);
-									READ_SCRIPT_FIELD(Long, int64_t);
-									READ_SCRIPT_FIELD(UByte, uint8_t);
-									READ_SCRIPT_FIELD(UShort, uint16_t);
-									READ_SCRIPT_FIELD(UInt, uint32_t);
-									READ_SCRIPT_FIELD(ULong, uint64_t);
-									READ_SCRIPT_FIELD(Vector2, Vector2);
-									READ_SCRIPT_FIELD(Vector3, Vector3);
-									READ_SCRIPT_FIELD(Vector4, Vector4);
-									READ_SCRIPT_FIELD(Entity, UUID);
-								}
-							}
-						}
-					}
-				}
-
-				auto cameraComponent = entity["CameraComponent"];
-				if (cameraComponent)
-				{
-					auto& cc = deserializedEntity.AddComponent<CameraComponent>();
-
-					auto cameraProps = cameraComponent["Camera"];
-					cc.Camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
-
-					cc.Camera.SetPerspectiveVerticalFOV(cameraProps["PerspectiveFOV"].as<float>());
-					cc.Camera.SetNearClip(cameraProps["Near"].as<float>());
-					cc.Camera.SetFarClip(cameraProps["Far"].as<float>());
-
-					cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
-
-					cc.Primary = cameraComponent["Primary"].as<bool>();
-					cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
-				}
-
-				auto spriteRendererComponent = entity["SpriteRendererComponent"];
-				if (spriteRendererComponent)
-				{
-					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
-					src.Color = spriteRendererComponent["Color"].as<Vector4>();
-					if (spriteRendererComponent["TexturePath"])
-					{
-						std::string texturePath = spriteRendererComponent["TexturePath"].as<std::string>();
-						auto path = Project::GetAssetFileSystemPath(texturePath);
-						src.Texture = make_shared<Texture>();
-						src.Texture->Load(path.wstring(), false);
-
-						src.spCB.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
-						src.spCB.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
-						src.spCB.sourceSheetSize = spriteRendererComponent["SourceSheetSize"].as<Vector2>();
-					}
-				}
-
-				auto animatorComponent = entity["AnimatorComponent"];
-				if (animatorComponent)
-				{
-					auto& animator = deserializedEntity.AddComponent<SpriteAnimatorComponent>();
-
-					animator._currentTime = 0.f;
-					animator._lastTime = -1.f;
-					animator._endedAt = 0.f;
-					animator._currentClip = nullptr;
-
-					auto clipPath = animatorComponent["ClipPath"];
-
-					if (clipPath) {
-						YAML::Node data;
-
-						string relativePath = clipPath.as<string>();
-
-						std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-						auto resourcedir = parentPath / "Resources";
-
-						auto fullPath = resourcedir / relativePath;
-
-						try
-						{
-							data = YAML::LoadFile(fullPath.string());
-						}
-						catch (YAML::ParserException e)
-						{
-							assert(false);
-						}
-
-						if (!data["Animations"])
-							return S_FALSE;
-						auto clips = data["Animations"];
-
-						for (auto clip : clips)
-						{
-							auto Key = clip["Key"];
-							auto OriginalOffset = clip["OriginalOffset"];
-							auto SpriteSize = clip["SpriteSize"];
-							auto Step = clip["Step"];
-							auto Columns = clip["Columns"];
-							auto Frames = clip["Frames"];
-							auto Duration = clip["Duration"];
-							auto nextKey = clip["nextKey"];
-							auto loop = clip["Loop"];
-							string key;
-							key = Key.as<string>();
-							shared_ptr<Animation> clipRef;
-							if (clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key)))
-							{
-							}
-							else {
-								Vector2 offset = OriginalOffset.as<Vector2>();
-								Vector2 size = SpriteSize.as<Vector2>();
-								Vector2 step = Step.as<Vector2>();
-								UINT columns = Columns.as<UINT>();
-								UINT frame = Frames.as<UINT>();
-								float duration = Duration.as<float>();
-								bool bloop = loop.as<bool>();
-								Vector2 targetOffset = Vector2::Zero;
-								if (clip["TargetOffset"])
-									targetOffset = clip["TargetOffset"].as<Vector2>();
-
-								string nextClipKey = "";
-								if (nextKey)
-									nextClipKey = nextKey.as<string>();
-								clipRef = make_shared<Animation>();
-								clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key, bloop,nextClipKey);
-								clipRef->SetPath(stow(relativePath));
-								GET_SINGLE(Resources)->Insert(stow(key), clipRef);
-							}
-							animator.clips[key] = clipRef;
-						}
-					}
-					auto startEvents = animatorComponent["StartEvents"];
-					for (auto event : startEvents)
-					{
-						string key = event["key"].as<string>();
-						string function = event["function"].as<string>();
-
-						animator._startEvent[key] = function;
-					}
-					auto endEvents = animatorComponent["EndEvents"];
-					for (auto event : endEvents)
-					{
-						string key = event["key"].as<string>();
-						string function = event["function"].as<string>();
-
-						animator._endEvent[key] = function;
-					}
-				}
-
-				auto transformanimatorComponent = entity["TransfromAnimatorComponent"];
-				if (transformanimatorComponent)
-				{
-					auto& animator = deserializedEntity.AddComponent<TransformAnimatorComponent>();
-
-					animator._currentTime = 0.f;
-					animator._lastTime = -1.f;
-					animator._endedAt = 0.f;
-					animator._currentClip = nullptr;
-
-					auto clipPath = transformanimatorComponent["ClipPath"];
-
-					if (clipPath) {
-						YAML::Node data;
-
-						string relativePath = clipPath.as<string>();
-
-						std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-						auto resourcedir = parentPath / "Resources";
-
-						auto fullPath = resourcedir / relativePath;
-
-						try
-						{
-							data = YAML::LoadFile(fullPath.string());
-						}
-						catch (YAML::ParserException e)
-						{
-							assert(false);
-						}
-
-						if (!data["Animations"])
-							return S_FALSE;
-						auto clips = data["Animations"];
-
-						for (auto clip : clips)
-						{
-							auto Key = clip["ClipName"];
-							auto Frames = clip["Frames"];
-							auto Duration = clip["Duration"];
-							auto Loop = clip["Loop"];
-
-							string key;
-							key = Key.as<string>();
-							shared_ptr<TransformAnimation> clipRef = GET_SINGLE(Resources)->Find<TransformAnimation>(stow(key));
-							if (clipRef == nullptr) {
-								clipRef = make_shared<TransformAnimation>();
-								vector<TransformFrame> frames;
-								for (auto frame : Frames)
-								{
-									TransformFrame tf;
-									tf.position = frame["Offset"].as<Vector3>();
-									tf.angle = frame["Angle"].as<float>();
-									frames.push_back(tf);
-								}
-								clipRef->Load(key, Duration.as<float>(), Loop.as<bool>(), frames);
-							}
-
-							std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-							auto resourcedir = parentPath / "Resources";
-							clipRef->SetPath(filesystem::relative(fullPath, resourcedir).wstring());
-							animator.clips[key] = clipRef;
-						}
-					}
-				}
-
-				auto rigidbody2DComponent = entity["Rigidbody2DComponent"];
-				if (rigidbody2DComponent)
-				{
-					auto& rb2d = deserializedEntity.AddComponent<Rigidbody2DComponent>();
-					rb2d.Type = RigidBody2DBodyTypeFromString(rigidbody2DComponent["BodyType"].as<std::string>());
-					rb2d.FixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
-				}
-
-				auto boxCollider2DComponent = entity["BoxCollider2DComponent"];
-				if (boxCollider2DComponent)
-				{
-					auto& bc2d = deserializedEntity.AddComponent<BoxCollider2DComponent>();
-					bc2d.Offset = boxCollider2DComponent["Offset"].as<Vector2>();
-					bc2d.Size = boxCollider2DComponent["Size"].as<Vector2>();
-					bc2d.Density = boxCollider2DComponent["Density"].as<float>();
-					bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
-					bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
-					bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
-					bc2d.isSensor = boxCollider2DComponent["IsSensor"].as<bool>();
-				}
-
-				auto circleCollider2DComponent = entity["CircleCollider2DComponent"];
-				if (circleCollider2DComponent)
-				{
-					auto& cc2d = deserializedEntity.AddComponent<CircleCollider2DComponent>();
-					cc2d.Offset = circleCollider2DComponent["Offset"].as<Vector2>();
-					cc2d.Radius = circleCollider2DComponent["Radius"].as<float>();
-					cc2d.Density = circleCollider2DComponent["Density"].as<float>();
-					cc2d.Friction = circleCollider2DComponent["Friction"].as<float>();
-					cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
-					cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
-					cc2d.isSensor = circleCollider2DComponent["IsSensor"].as<bool>();
-				}
+				DeserializeEntity(m_Scene.get(), entity);
 			}
 		}
 
 		return true;
 	}
 
-	bool SceneSerializer::DeserializeRuntime(const std::string& filepath)
+	Entity SceneSerializer::DeserializeEntity(Scene* scene, YAML::Node& entity)
 	{
-		// Not implemented
-		assert(false);
-		return false;
-	}
+		uint64_t uuid = entity["Entity"].as<uint64_t>();
 
+		std::string name;
+		auto tagComponent = entity["TagComponent"];
+		if (tagComponent)
+			name = tagComponent["Tag"].as<std::string>();
+
+		//HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
+
+		Entity deserializedEntity = scene->CreateEntityWithUUID(uuid, name);
+
+		auto transformComponent = entity["TransformComponent"];
+		if (transformComponent)
+		{
+			// Entities always have transforms
+			auto& tc = deserializedEntity.GetComponent<TransformComponent>();
+			tc.translation = transformComponent["Translation"].as<Vector3>();
+			tc.rotation = transformComponent["Rotation"].as<Vector3>();
+			tc.scale = transformComponent["Scale"].as<Vector3>();
+		}
+
+		auto parent = entity["Parent"];
+		if (parent)
+		{
+			auto& pc = deserializedEntity.AddComponent<Parent>();
+			pc.parentHandle = parent["ParentID"].as<uint64_t>();
+		}
+
+		auto scriptComponent = entity["ScriptComponent"];
+		if (scriptComponent)
+		{
+			auto& sc = deserializedEntity.AddComponent<ScriptComponent>();
+			sc.ClassName = scriptComponent["ClassName"].as<std::string>();
+
+			auto scriptFields = scriptComponent["ScriptFields"];
+			if (scriptFields)
+			{
+				shared_ptr<ScriptClass> entityClass = ScriptEngine::GetEntityClass(sc.ClassName);
+				if (entityClass)
+				{
+					const auto& fields = entityClass->GetFields();
+					auto& entityFields = ScriptEngine::GetScriptFieldMap(deserializedEntity);
+
+					for (auto scriptField : scriptFields)
+					{
+						std::string name = scriptField["Name"].as<std::string>();
+						std::string typeString = scriptField["Type"].as<std::string>();
+						ScriptFieldType type = Utils::ScriptFieldTypeFromString(typeString);
+
+						ScriptFieldInstance& fieldInstance = entityFields[name];
+
+						// TODO(Yan): turn this assert into Hazelnut log warning
+						assert(fields.find(name) != fields.end());
+
+						if (fields.find(name) == fields.end())
+							continue;
+
+						fieldInstance.Field = fields.at(name);
+
+						switch (type)
+						{
+							READ_SCRIPT_FIELD(Float, float);
+							READ_SCRIPT_FIELD(Double, double);
+							READ_SCRIPT_FIELD(Bool, bool);
+							READ_SCRIPT_FIELD(Char, char);
+							READ_SCRIPT_FIELD(Byte, int8_t);
+							READ_SCRIPT_FIELD(Short, int16_t);
+							READ_SCRIPT_FIELD(Int, int32_t);
+							READ_SCRIPT_FIELD(Long, int64_t);
+							READ_SCRIPT_FIELD(UByte, uint8_t);
+							READ_SCRIPT_FIELD(UShort, uint16_t);
+							READ_SCRIPT_FIELD(UInt, uint32_t);
+							READ_SCRIPT_FIELD(ULong, uint64_t);
+							READ_SCRIPT_FIELD(Vector2, Vector2);
+							READ_SCRIPT_FIELD(Vector3, Vector3);
+							READ_SCRIPT_FIELD(Vector4, Vector4);
+							READ_SCRIPT_FIELD(Entity, UUID);
+						}
+					}
+				}
+			}
+		}
+
+		auto cameraComponent = entity["CameraComponent"];
+		if (cameraComponent)
+		{
+			auto& cc = deserializedEntity.AddComponent<CameraComponent>();
+
+			auto cameraProps = cameraComponent["Camera"];
+			cc.Camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
+
+			cc.Camera.SetPerspectiveVerticalFOV(cameraProps["PerspectiveFOV"].as<float>());
+			cc.Camera.SetNearClip(cameraProps["Near"].as<float>());
+			cc.Camera.SetFarClip(cameraProps["Far"].as<float>());
+
+			cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
+
+			cc.Primary = cameraComponent["Primary"].as<bool>();
+			cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
+		}
+
+		auto spriteRendererComponent = entity["SpriteRendererComponent"];
+		if (spriteRendererComponent)
+		{
+			auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
+			src.Color = spriteRendererComponent["Color"].as<Vector4>();
+			if (spriteRendererComponent["TexturePath"])
+			{
+				std::string texturePath = spriteRendererComponent["TexturePath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				src.Texture = make_shared<Texture>();
+				src.Texture->Load(path.wstring(), false);
+
+				src.spCB.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
+				src.spCB.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
+				src.spCB.sourceSheetSize = spriteRendererComponent["SourceSheetSize"].as<Vector2>();
+			}
+		}
+
+		auto animatorComponent = entity["AnimatorComponent"];
+		if (animatorComponent)
+		{
+			auto& animator = deserializedEntity.AddComponent<SpriteAnimatorComponent>();
+
+			animator._currentTime = 0.f;
+			animator._lastTime = -1.f;
+			animator._endedAt = 0.f;
+			animator._currentClip = nullptr;
+
+			auto clipPath = animatorComponent["ClipPath"];
+
+			if (clipPath) {
+				YAML::Node data;
+
+				string relativePath = clipPath.as<string>();
+
+				std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+				auto resourcedir = parentPath / "Resources";
+
+				auto fullPath = resourcedir / relativePath;
+
+				try
+				{
+					data = YAML::LoadFile(fullPath.string());
+				}
+				catch (YAML::ParserException e)
+				{
+					assert(false);
+				}
+
+				assert(data["Animations"]);
+
+				auto clips = data["Animations"];
+
+				for (auto clip : clips)
+				{
+					auto Key = clip["Key"];
+					auto OriginalOffset = clip["OriginalOffset"];
+					auto SpriteSize = clip["SpriteSize"];
+					auto Step = clip["Step"];
+					auto Columns = clip["Columns"];
+					auto Frames = clip["Frames"];
+					auto Duration = clip["Duration"];
+					auto nextKey = clip["nextKey"];
+					auto loop = clip["Loop"];
+					string key;
+					key = Key.as<string>();
+					shared_ptr<Animation> clipRef;
+					if (clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key)))
+					{
+					}
+					else {
+						Vector2 offset = OriginalOffset.as<Vector2>();
+						Vector2 size = SpriteSize.as<Vector2>();
+						Vector2 step = Step.as<Vector2>();
+						UINT columns = Columns.as<UINT>();
+						UINT frame = Frames.as<UINT>();
+						float duration = Duration.as<float>();
+						bool bloop = loop.as<bool>();
+						Vector2 targetOffset = Vector2::Zero;
+						if (clip["TargetOffset"])
+							targetOffset = clip["TargetOffset"].as<Vector2>();
+
+						string nextClipKey = "";
+						if (nextKey)
+							nextClipKey = nextKey.as<string>();
+						clipRef = make_shared<Animation>();
+						clipRef->Load(offset, size, step, targetOffset, columns, frame, duration, key, bloop, nextClipKey);
+						clipRef->SetPath(stow(relativePath));
+						GET_SINGLE(Resources)->Insert(stow(key), clipRef);
+					}
+					animator.clips[key] = clipRef;
+				}
+			}
+			auto startEvents = animatorComponent["StartEvents"];
+			for (auto event : startEvents)
+			{
+				string key = event["key"].as<string>();
+				string function = event["function"].as<string>();
+
+				animator._startEvent[key] = function;
+			}
+			auto endEvents = animatorComponent["EndEvents"];
+			for (auto event : endEvents)
+			{
+				string key = event["key"].as<string>();
+				string function = event["function"].as<string>();
+
+				animator._endEvent[key] = function;
+			}
+		}
+
+		auto transformanimatorComponent = entity["TransfromAnimatorComponent"];
+		if (transformanimatorComponent)
+		{
+			auto& animator = deserializedEntity.AddComponent<TransformAnimatorComponent>();
+
+			animator._currentTime = 0.f;
+			animator._lastTime = -1.f;
+			animator._endedAt = 0.f;
+			animator._currentClip = nullptr;
+
+			auto clipPath = transformanimatorComponent["ClipPath"];
+
+			if (clipPath) {
+				YAML::Node data;
+
+				string relativePath = clipPath.as<string>();
+
+				std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+				auto resourcedir = parentPath / "Resources";
+
+				auto fullPath = resourcedir / relativePath;
+
+				try
+				{
+					data = YAML::LoadFile(fullPath.string());
+				}
+				catch (YAML::ParserException e)
+				{
+					assert(false);
+				}
+
+				assert(data["Animations"]);
+				auto clips = data["Animations"];
+
+				for (auto clip : clips)
+				{
+					auto Key = clip["ClipName"];
+					auto Frames = clip["Frames"];
+					auto Duration = clip["Duration"];
+					auto Loop = clip["Loop"];
+
+					string key;
+					key = Key.as<string>();
+					shared_ptr<TransformAnimation> clipRef = GET_SINGLE(Resources)->Find<TransformAnimation>(stow(key));
+					if (clipRef == nullptr) {
+						clipRef = make_shared<TransformAnimation>();
+						vector<TransformFrame> frames;
+						for (auto frame : Frames)
+						{
+							TransformFrame tf;
+							tf.position = frame["Offset"].as<Vector3>();
+							tf.angle = frame["Angle"].as<float>();
+							frames.push_back(tf);
+						}
+						clipRef->Load(key, Duration.as<float>(), Loop.as<bool>(), frames);
+					}
+
+					std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+					auto resourcedir = parentPath / "Resources";
+					clipRef->SetPath(filesystem::relative(fullPath, resourcedir).wstring());
+					animator.clips[key] = clipRef;
+				}
+			}
+		}
+
+		auto rigidbody2DComponent = entity["Rigidbody2DComponent"];
+		if (rigidbody2DComponent)
+		{
+			auto& rb2d = deserializedEntity.AddComponent<Rigidbody2DComponent>();
+			rb2d.Type = RigidBody2DBodyTypeFromString(rigidbody2DComponent["BodyType"].as<std::string>());
+			rb2d.FixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
+		}
+
+		auto boxCollider2DComponent = entity["BoxCollider2DComponent"];
+		if (boxCollider2DComponent)
+		{
+			auto& bc2d = deserializedEntity.AddComponent<BoxCollider2DComponent>();
+			bc2d.Offset = boxCollider2DComponent["Offset"].as<Vector2>();
+			bc2d.Size = boxCollider2DComponent["Size"].as<Vector2>();
+			bc2d.Density = boxCollider2DComponent["Density"].as<float>();
+			bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
+			bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
+			bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
+			bc2d.isSensor = boxCollider2DComponent["IsSensor"].as<bool>();
+		}
+
+		auto circleCollider2DComponent = entity["CircleCollider2DComponent"];
+		if (circleCollider2DComponent)
+		{
+			auto& cc2d = deserializedEntity.AddComponent<CircleCollider2DComponent>();
+			cc2d.Offset = circleCollider2DComponent["Offset"].as<Vector2>();
+			cc2d.Radius = circleCollider2DComponent["Radius"].as<float>();
+			cc2d.Density = circleCollider2DComponent["Density"].as<float>();
+			cc2d.Friction = circleCollider2DComponent["Friction"].as<float>();
+			cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
+			cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
+			cc2d.isSensor = circleCollider2DComponent["IsSensor"].as<bool>();
+		}
+
+		auto panelComponent = entity["PanelComponent"];
+		if (panelComponent)
+		{
+			auto& panel = deserializedEntity.AddComponent<PanelComponent>();
+			if (panelComponent["TexturePath"])
+			{
+				std::string texturePath = spriteRendererComponent["TexturePath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				panel.texture = make_shared<Texture>();
+				panel.texture->Load(path.wstring(), false);
+			}
+			panel.offset = panelComponent["panelOffset"].as<Vector2>();
+		}
+
+		auto sliderComponent = entity["SliderComponent"];
+		if (sliderComponent)
+		{
+			auto& slider = deserializedEntity.AddComponent<SliderComponent>();
+			if (sliderComponent["barPath"])
+			{
+				std::string texturePath = sliderComponent["barPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				slider.bar = make_shared<Texture>();
+				slider.bar->Load(path.wstring(), false);
+			}
+
+			if (sliderComponent["gaugePath"])
+			{
+				std::string texturePath = sliderComponent["gaugePath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				slider.gauge = make_shared<Texture>();
+				slider.gauge->Load(path.wstring(), false);
+			}
+
+			slider.showNumeric = sliderComponent["showNumeric"].as<bool>();
+			slider.currentValue = sliderComponent["currentValue"].as<float>();
+			slider.maxValue = sliderComponent["maxValue"].as<float>();
+		}
+
+		auto slotComponent = entity["SlotComponent"];
+		if (slotComponent)
+		{
+			auto& slot = deserializedEntity.AddComponent<SlotComponent>();
+			if (slotComponent["slotPath"])
+			{
+				std::string texturePath = slotComponent["slotPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				slot.slot = make_shared<Texture>();
+				slot.slot->Load(path.wstring(), false);
+			}
+			if (slotComponent["itemPath"])
+			{
+				std::string texturePath = slotComponent["itemPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				slot.item = make_shared<Texture>();
+				slot.item->Load(path.wstring(), false);
+			}
+
+			slot.itemSizeRatio = slotComponent["itemSizeRatio"].as<Vector2>();
+			slot.itemOffset = slotComponent["itemOffset"].as<Vector2>();
+
+		}
+		return deserializedEntity;
+	}
 }

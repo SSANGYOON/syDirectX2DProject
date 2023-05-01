@@ -287,6 +287,37 @@ namespace SY {
 		return result;
 	}
 
+	static void CameraComponent_GetOrthographicSize(UUID entityID, Vector2* OrthographicSize)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		assert(entity.HasComponent<CameraComponent>());
+
+		CameraComponent& cam = entity.GetComponent<CameraComponent>();
+		float size = cam.Camera.GetOrthographicSize();
+		float aspectRatio = cam.Camera.GetAspectRatio();
+		Vector2 camSize(aspectRatio * size, size);
+		*OrthographicSize = camSize;
+	}
+
+	static void CameraComponent_SetOrthographicSize(UUID entityID, Vector3* targetSize)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		assert(entity.HasComponent<CameraComponent>());
+
+		CameraComponent& cam = entity.GetComponent<CameraComponent>();
+
+		cam.Camera.SetAspectRatio(targetSize->x / targetSize->y);
+		cam.Camera.SetOrthographicSize(targetSize->y);
+	}
+
 	
 
 	template<typename... Component>
@@ -353,6 +384,9 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(SpriteAnimatorComponent_Play);
 
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);
+
+		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
+		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
 	}
 
 }

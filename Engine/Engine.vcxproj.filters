@@ -124,12 +124,6 @@
     <Filter Include="Scripting">
       <UniqueIdentifier>{28e423f7-b6a6-4f64-863e-a7d3020fc178}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Buffer">
-      <UniqueIdentifier>{944ee6e6-ab77-45e1-823d-3dcb796e9c82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileSystem">
-      <UniqueIdentifier>{a3788bfa-e9be-4116-a7ff-e1f69cfca0fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{c59979fa-fbdf-4791-b6b8-bc032dc00c01}</UniqueIdentifier>
     </Filter>
@@ -138,6 +132,15 @@
     </Filter>
     <Filter Include="Resource\Animation">
       <UniqueIdentifier>{20aec0d3-f54f-4dcb-87e7-cf52a50b0ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{8c8537e3-7583-49e6-aa11-4619cfa07281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{83d67c12-007e-40d8-8f69-8041fbb0142a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Prefab">
+      <UniqueIdentifier>{6ad10e62-5f62-4186-acd8-b0a4a953e92b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,12 +291,13 @@
     <ClCompile Include="ScriptGlue.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem.cpp">
-      <Filter>FileSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Resource\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Struct.h">
@@ -470,14 +474,8 @@
     <ClInclude Include="ScriptEngine.h">
       <Filter>Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>Buffer</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptGlue.h">
       <Filter>Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem.h">
-      <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>UI</Filter>
@@ -488,6 +486,13 @@
     <ClInclude Include="Animation.h">
       <Filter>Resource\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefab.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
