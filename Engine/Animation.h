@@ -1,46 +1,61 @@
 #pragma once
 #include "Resource.h"
-class Texture;
-class Animation
+class Animation : public Resource
 {
-	struct Sprite
-	{
-		Vector2 _leftTop;	// 좌측 상단 좌표
-		Vector2 _size;		// 좌측상단부터 잘라낼 가로 세로의 픽셀 길이
-
-		Sprite(Vector2 leftTop, Vector2 size)
-			: _leftTop(leftTop)
-			, _size(size)
-		{
-
-		}
-	};
-
 public:
 	Animation();
-	~Animation();
+	virtual ~Animation();
 
-	void Update();
-	void Render();
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = false) override;
+	virtual HRESULT Load(const Vector2 offset, const Vector2 size, const Vector2 step, const Vector2 targetOffset, UINT columns, UINT frame, float duration, string key, bool loop, string nextKey = "");
 
-	void Create(const wstring& name, shared_ptr<Texture> atlas
-		, Vector2 leftTop, Vector2 size, Vector2 offset
-		, UINT columnLegth, UINT spriteLegth, float duration);
-	void BindShader();
-	void Reset();
-	void Clear();
+	float GetDuration() { return _duration; }
+	const Vector2& GetOffset() { return _offset; }
+	const Vector2& GetStep() { return _step; }
+	const Vector2& GetSize() { return _size; }
+	const Vector2& GetTargetOffset() { return _targetOffset; }
+	const string& GetNextKey() { return _nextKey; }
+	UINT GetColumns() { return _columns; }
+	UINT GetFrames() { return _frame; }
+	bool IsLoop() { return _loop; }
 
-	bool IsComplete() { return _complete; }
-	wstring& GetName() { return _name; }
-
+	string GetKey() { return _key; }
 private:
-	wstring _name;
-	shared_ptr<Texture> _atlas;
-	vector<Sprite> _spriteSheet;
-	Vector2 _offset;		// 렌더링 위치 조정하기위한 좌표
-	int _index;
-	float _time;
+	Vector2 _offset;
+	Vector2 _size;
+	Vector2 _step;
+	Vector2 _targetOffset;
+	UINT _columns;
+	UINT _frame;
 	float _duration;
-	bool _complete;
+	string _key;
+	bool _loop;
+	string _nextKey;
+};
+
+struct TransformFrame
+{
+	Vector3 position;
+	float angle;
+};
+
+class TransformAnimation : public Resource
+{
+public:
+	TransformAnimation();
+	virtual ~TransformAnimation();
+
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = false) override;
+	HRESULT Load(const std::string& key, float duration, bool loop, const vector<TransformFrame>& frames) { _key = key, _duration = duration, _loop = loop, _frames = frames; return S_OK; }
+	float GetDuration() { return _duration; }
+	const vector<TransformFrame>& GetFrames() { return _frames; }
+
+	bool IsLoop() { return _loop; }
+	string GetKey() { return _key; }
+private:
+	vector<TransformFrame> _frames;
+	float _duration;
+	string _key;
+	bool _loop;
 };
 

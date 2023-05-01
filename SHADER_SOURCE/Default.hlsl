@@ -14,6 +14,12 @@ struct VSOut
     float2 UV : TEXCOORD;
 };
 
+struct PSOut
+{
+    float4 color : SV_Target0;
+    int entity : SV_Target1;
+};
+
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
@@ -29,10 +35,12 @@ VSOut VS_MAIN(VSIn In)
     return Out;
 }
 
-float4 PS_MAIN(VSOut In) : SV_TARGET
+PSOut PS_MAIN(VSOut In)
 {
-    float4 color = (float)0.0f;
-    color = In.Color;
+    PSOut Out= (PSOut)0.f;
+    Out.color = In.Color;
+    
+    Out.entity = entity;
 
-    return color;
+    return Out;
 }

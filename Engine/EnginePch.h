@@ -1,9 +1,8 @@
 #pragma once
 
-// std::byte 사용하지 않음
 #define _HAS_STD_BYTE 0
+#define NOMINMAX
 
-// 각종 include
 #include <windows.h>
 #include <tchar.h>
 #include <memory>
@@ -21,11 +20,11 @@ using namespace std;
 namespace fs = std::filesystem;
 
 #include <wrl.h>
+#include <DirectXMath.h>
 #include "SimpleMath.h"
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
-
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
@@ -36,9 +35,8 @@ using namespace Microsoft::WRL;
 
 using namespace DirectX::SimpleMath;
 #include "Struct.h"
-#include "json/json.h"
 
-#include "imgui.h"
+#include "yaml-cpp/yaml.h"
 
 extern unique_ptr<class Engine> GEngine;
 
@@ -59,8 +57,6 @@ public:								\
 
 #define GET_SINGLE(type)	type::GetInstance()
 
-
-
 #define CB_GETBINDSLOT(name) __CBUFFERBINDSLOT__##name##__
 #define CBUFFER(name, slot) static const int CB_GETBINDSLOT(name) = slot; struct alignas(16) name
 
@@ -68,9 +64,9 @@ public:								\
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_SPRITE 2
 #define CBSLOT_LIGHT 3
-#define CBSLOT_GRID 4
-
-#define EPSILON 1e-5
+#define CBSLOT_PANEL 4
+#define CBSLOT_SLIDER 5
+#define CBSLOT_SLOT 6
 
 struct Vertex
 {

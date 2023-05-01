@@ -1,55 +1,231 @@
 #pragma once
-#include "Entity.h"
 
-enum class Component_Type
-{
-	None,
-	Transform,
-	Camera,
-	Light,
-	Collider,
-	RigidBody,
-	Animator,
-	Renderer,
-	Particle,
-	UI,
-	GRID,
-	Script,
-	End,
-};
+#include "SceneCamera.h"
+#include "Texture.h"
+#include "UUID.h"
+#include "ConstantBuffer.h"
+#include <DirectXMath.h>
+#include "SimpleMath.h"
 
-class GameObject;
-struct Collision;
-class Component : public Entity
-{
-public:
-	Component(Component_Type type, GameObject* owner);
-	virtual ~Component();
+using namespace DirectX;
+class Animation;
+class TransformAnimation;
+namespace SY {
 
-	virtual void Start() ;
-	virtual void Update();
-	virtual void LateUpdate();
-	virtual void FinalUpdate();
-	virtual void Render();
+	struct IDComponent
+	{
+		UUID ID;
 
-	virtual void OntriggerEnter(const Collision& collision);
-	virtual void OntriggerStay(const Collision& collision);
-	virtual void OntriggerExit(const Collision& collision);
+		IDComponent() = default;
+		IDComponent(const IDComponent&) = default;
+		IDComponent(UUID id)
+			: ID(id) {}
+	};
 
-	virtual void OnCollisionEnter(const Collision& collision);
-	virtual void OnCollisionStay(const Collision& collision);
-	virtual void OnCollisionExit(const Collision& collision);
+	struct TagComponent
+	{
+		std::string Tag;
 
-	GameObject* GetOwner() { return _owner; }
-	Component_Type GetType() { return _type; }
-	void SetOwner(GameObject* owner) { _owner = owner; }
+		TagComponent() = default;
+		TagComponent(const TagComponent&) = default;
+		TagComponent(const std::string& tag)
+			: Tag(tag) {}
+	};
+	enum class EntityState : UINT8
+	{
+		Active,
+		Pause,
+		Dead
+	};
+	struct StateComponent
+	{
+		EntityState state = EntityState::Active;
+	};
 
-protected:
+	struct TransformComponent
+	{
+		Vector3 translation;
+		Vector3 scale;
+		Vector3 rotation;
+		Matrix localToParent;
+		Matrix localToWorld;
+	public:
+
+		TransformComponent() : scale(Vector3::One), rotation(Vector3::Zero), translation(Vector3::Zero) {}
+		TransformComponent(const TransformComponent&) = default;
+
+		void CreateToParent()
+		{
+			Matrix matScale = Matrix::CreateScale(scale);
+			Matrix matRotation = Matrix::CreateFromYawPitchRoll(rotation);
+			Matrix matTranslation = Matrix::CreateTranslation(translation);
+			localToParent = matScale * matRotation * matTranslation;
+		}
+	};
+
+	struct Parent
+	{
+		UUID parentHandle;
+	};
+
+	struct SpriteRendererComponent
+	{
+		shared_ptr<Texture> Texture;
+		SpriteCB spCB;
+		Vector4 Color = Vector4(1.f, 0, 1.f, 1);
+		UINT16 LayerBit = 1;
+		SpriteRendererComponent() = default;
+		SpriteRendererComponent(const SpriteRendererComponent&) = default;
+	};
+
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+		bool Primary = true; // TODO: think about moving to Scene
+		bool FixedAspectRatio = false;
+
+		UINT16 LayerBit = 65535;
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct ScriptComponent
+	{
+		std::string ClassName;
+
+		ScriptComponent() = default;
+		ScriptComponent(const ScriptComponent&) = default;
+	};
+
+	class ScriptableEntity;
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+		}
+	};
+
+	// Physics
+
+	struct Rigidbody2DComponent
+	{
+		enum class BodyType { Static = 0, Dynamic, Kinematic };
+		BodyType Type = BodyType::Static;
+		bool FixedRotation = false;
+
+		// Storage for runtime
+		void* RuntimeBody = nullptr;
+
+		Rigidbody2DComponent() = default;
+		Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
+	};
+
+	struct BoxCollider2DComponent
+	{
+		Vector2 Offset = Vector2::Zero;
+		Vector2 Size = Vector2::One;
+
+		// TODO(Yan): move into physics material in the future maybe
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+		UINT16 categoryBits = 1;
+		UINT16 maskBits = 1;
+		bool isSensor = false;
+
+		// Storage for runtime
+		void* RuntimeFixture = nullptr;
+
+		BoxCollider2DComponent() = default;
+		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+	};
+
+	struct CircleCollider2DComponent
+	{
+		Vector2 Offset = Vector2::Zero;
+		float Radius = 0.5f;
+
+		// TODO(Yan): move into physics material in the future maybe
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+		UINT16 categoryBits = 1;
+		UINT16 maskBits = 1;
+		bool isSensor = false;
+		
+		// Storage for runtime
+		void* RuntimeFixture = nullptr;
+
+		CircleCollider2DComponent() = default;
+		CircleCollider2DComponent(const CircleCollider2DComponent&) = default;
+	};
+
 	
-	GameObject* _owner;
+	struct SpriteAnimatorComponent
+	{
+		float _currentTime = 0.f;
+		float _lastTime = -1.f;
+		float _endedAt = 0.f;
+		shared_ptr<Animation> _currentClip;
+		map<string, shared_ptr<Animation>> clips;
+		map<string, string> _startEvent;
+		map<string, string> _endEvent;
+	};
 
-private:
-	Component_Type _type;
-	
-};
+	struct TransformAnimatorComponent
+	{
+		float _currentTime = 0.f;
+		float _lastTime = -1.f;
+		float _endedAt = 0.f;
+		float _transitionTime = 0.f;
+		float _transitionElapsed = 0.f;
+		shared_ptr<TransformAnimation> _currentClip;
+		map<string, shared_ptr<TransformAnimation>> clips;
+	};
+
+	struct PanelComponent
+	{
+		Vector2 offset;
+		shared_ptr<Texture> texture;
+	};
+
+	struct SliderComponent
+	{
+		bool showNumeric;
+		float currentValue;
+		float maxValue;
+		shared_ptr<Texture> bar;
+		shared_ptr<Texture> gauge;
+	};
+
+	struct SlotComponent
+	{
+		Vector2 itemSizeRatio;
+		Vector2 itemOffset;
+		shared_ptr<Texture> slot;
+		shared_ptr<Texture> item;
+	};
+
+	template<typename... Component>
+	struct ComponentGroup
+	{
+	};
+
+	using AllComponents =
+		ComponentGroup<StateComponent, TransformComponent, SpriteRendererComponent,
+		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, Parent,
+		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent, PanelComponent, SliderComponent, SlotComponent,
+		CircleCollider2DComponent>;
+
+}
 

@@ -15,6 +15,12 @@ struct VSOut
     float2 UV : TEXCOORD;
 };
 
+struct PSOut
+{
+    float4 color : SV_Target0;
+    int entity : SV_Target1;
+};
+
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
@@ -37,19 +43,23 @@ VSOut VS_MAIN(VSIn In)
     return Out;
 }
 
-float4 PS_MAIN(VSOut In) : SV_TARGET
+PSOut PS_MAIN(VSOut In)
 {
 
     float4 color = (float)0.0f;
-    if (sourceSheetSize.x > 0)
+    if (textured > 0)
         color = tex_0.Sample(pointSampler, In.UV);
     else
-        color = float4(0.f, 0.f, 0.f, 1.f);
+        color = spritecolor;
 
-    for(int i =0;i< g_lightCount;i++)
+    for (int i = 0; i < g_lightCount; i++)
         color = color + color * CalculateLight(In.WorldPos, i);
 
     if (color.w == 0.f)
         discard;
-    return color;
+
+    PSOut Out = (PSOut)0.f;
+    Out.color = color;
+    Out.entity = entity;
+    return Out;
 }

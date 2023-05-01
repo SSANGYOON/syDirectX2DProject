@@ -6,7 +6,9 @@ enum class RESOURCE_TYPE
 	TEXTURE,
 	GRAPHIC_SHADER,
 	COMPUTE_SHADER,
+	SPRITEANIMATION_CLIP,
 	MATERIAL,
+	PREFAB
 };
 
 class Resource
@@ -15,7 +17,7 @@ public:
 	Resource(RESOURCE_TYPE type);
 	virtual ~Resource();
 
-	virtual HRESULT Load(const std::wstring& path) = 0;
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = true) = 0;
 
 	void SetKey(const wstring& key) { _key = key; }
 	void SetPath(const wstring& path) { _path = path; }

@@ -16,7 +16,7 @@ ComputeShader::~ComputeShader()
 {
 }
 
-HRESULT ComputeShader::Load(const std::wstring& path)
+HRESULT ComputeShader::Load(const std::wstring& path, bool stockObject)
 {
 	return E_NOTIMPL;
 }

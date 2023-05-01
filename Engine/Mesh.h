@@ -6,7 +6,7 @@ public:
 	Mesh();
 	virtual ~Mesh();
 
-	virtual HRESULT Load(const std::wstring& path) override;
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = true) override;
 
 public:
 	void CreateVertexBuffer(void* data, UINT count, D3D11_USAGE usage = D3D11_USAGE::D3D11_USAGE_DEFAULT);

@@ -13,7 +13,7 @@ Shader::~Shader()
 {
 }
 
-HRESULT Shader::Load(const wstring& path)
+HRESULT Shader::Load(const wstring& path, bool stockObject)
 {
     return E_NOTIMPL;
 }

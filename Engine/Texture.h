@@ -18,14 +18,15 @@ public:
 
 	static void Clear(UINT startSlot);
 
-	virtual HRESULT Load(const std::wstring& path) override;
-	bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
+	virtual HRESULT Load(const std::wstring& path, bool stockObject = true) override;
+	bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag, UINT cpuAccess = 0);
 
 	void BindSRV(ShaderStage stage, UINT slot);
 	void ClearSRV(ShaderStage stage, UINT slot);
 	void BindUAV(UINT slot);
 	void ClearUAV(ShaderStage stage, UINT slot);
 
+	ID3D11ShaderResourceView* GetSRV() { return _SRV.Get(); }
 	const Vector2& GetSize() { return _size; }
 
 	ID3D11DepthStencilView* GetDSV() { return _DSV.Get(); }
@@ -35,6 +36,9 @@ public:
 	ID3D11RenderTargetView** GetRTVRef();
 
 	ID3D11Texture2D* GetD3Texture() { return _texture.Get(); }
+	ID3D11Texture2D** GetD3TextureRef() { return _texture.GetAddressOf(); }
+
+	
 
 private:
 	ScratchImage _image;

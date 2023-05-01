@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 Texture::Texture()
-	:Resource(RESOURCE_TYPE::TEXTURE)
+	:Resource(RESOURCE_TYPE::TEXTURE), mDesc{}
 {
 }
 
@@ -23,10 +23,24 @@ void Texture::Clear(UINT startSlot)
 	CONTEXT->PSSetShaderResources(startSlot, 1, &srv);
 }
 
-HRESULT Texture::Load( const std::wstring& path)
+HRESULT Texture::Load( const std::wstring& path, bool stockObject)
 {
-	std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-	std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
+	std::wstring fullPath;
+	if (stockObject) {
+		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+		fullPath = parentPath.wstring() + L"\\Resources\\" + path;
+
+		
+	}
+	else
+	{
+		fullPath = path;
+
+		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+		auto resourcedir = parentPath / "Resources/assets";
+		SetPath(filesystem::relative(fullPath, resourcedir).wstring());
+	}
+	
 
 	wchar_t szExtension[256] = {};
 	_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256);
@@ -57,6 +71,7 @@ HRESULT Texture::Load( const std::wstring& path)
 		_image.GetMetadata(),
 		_SRV.GetAddressOf()
 	);
+	std::filesystem::path pathObj = std::filesystem::path(fullPath);
 
 	_SRV->GetResource((ID3D11Resource**)_texture.GetAddressOf());
 	D3D11_TEXTURE2D_DESC desc;
@@ -65,27 +80,22 @@ HRESULT Texture::Load( const std::wstring& path)
 	return S_OK;
 }
 
-bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
+bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag, UINT cpuAccess)
 {
 	//Depth stencil texture
 	_size.x = width;
 	_size.y = height;
-
-	if (bindFlag  ==  D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
-	{
-		SWAPCHAIN->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)_texture.GetAddressOf());
-
-		return !FAILED(DEVICE->CreateRenderTargetView(_texture.Get(), nullptr, _RTV.GetAddressOf()));
-	}
-
-	mDesc.BindFlags = bindFlag;
-	mDesc.Usage = D3D11_USAGE_DEFAULT;
-	mDesc.CPUAccessFlags = 0;
+	
+	mDesc.CPUAccessFlags = cpuAccess;
+	if(cpuAccess == D3D11_CPU_ACCESS_READ)
+		mDesc.Usage = D3D11_USAGE_STAGING;
+	else
+		mDesc.Usage = D3D11_USAGE_DEFAULT;
 	mDesc.Format = format;
 	mDesc.Width = width;
 	mDesc.Height = height;
 	mDesc.ArraySize = 1;
-
+	mDesc.BindFlags = bindFlag;
 	mDesc.SampleDesc.Count = 1;
 	mDesc.SampleDesc.Quality = 0;
 
@@ -97,7 +107,10 @@ bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 
 	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 	{
-		if (FAILED(DEVICE->CreateRenderTargetView(_texture.Get(), nullptr, _RTV.GetAddressOf())))
+		D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc = {};
+		renderTargetViewDesc.Format = format;
+		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		if (FAILED(DEVICE->CreateRenderTargetView(_texture.Get(), &renderTargetViewDesc, _RTV.GetAddressOf())))
 			return false;
 	}
 
@@ -109,24 +122,24 @@ bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 
 	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 	{
-		D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
-		tSRVDesc.Format = format;
-		tSRVDesc.Texture2D.MipLevels = 1;
-		tSRVDesc.Texture2D.MostDetailedMip = 0;
-		tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+		SRVDesc.Format = format;
+		SRVDesc.Texture2D.MipLevels = 1;
+		SRVDesc.Texture2D.MostDetailedMip = 0;
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
 
-		if (FAILED(DEVICE->CreateShaderResourceView(_texture.Get(), nullptr, _SRV.GetAddressOf())))
+		if (FAILED(DEVICE->CreateShaderResourceView(_texture.Get(), &SRVDesc, _SRV.GetAddressOf())))
 			return false;
 	}
 
 	if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 	{
-		D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-		tUAVDesc.Format = format;
-		tUAVDesc.Texture2D.MipSlice = 0;
-		tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
+		D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+		UAVDesc.Format = format;
+		UAVDesc.Texture2D.MipSlice = 0;
+		UAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
 
-		if (FAILED(DEVICE->CreateUnorderedAccessView(_texture.Get(), nullptr, _UAV.GetAddressOf())))
+		if (FAILED(DEVICE->CreateUnorderedAccessView(_texture.Get(), &UAVDesc, _UAV.GetAddressOf())))
 			return false;
 	}
 

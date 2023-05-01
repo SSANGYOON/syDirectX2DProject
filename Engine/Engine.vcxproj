@@ -72,13 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)EngineOutput\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\ImGui;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)External;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)External\Include;$(SolutionDir)External;$(SolutionDir)External\ImGui;$(MONO_PATH)\include\mono-2.0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External;$(MONO_PATH)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)EngineOutput\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)External;$(SolutionDir)External\ImGui;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)External;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)External\Include;$(SolutionDir)External;$(SolutionDir)External\ImGui;$(MONO_PATH)\include\mono-2.0;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External;$(MONO_PATH)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -122,7 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -140,7 +140,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -153,88 +153,76 @@
   <ItemGroup>
     <ClInclude Include="..\External\ImGui\imconfig.h" />
     <ClInclude Include="..\External\ImGui\imgui.h" />
+    <ClInclude Include="..\External\imgui\ImGuizmo.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="..\External\ImGui\imgui_impl_win32.h" />
     <ClInclude Include="..\External\ImGui\imgui_internal.h" />
     <ClInclude Include="..\External\ImGui\imgui_stdlib.h" />
+    <ClInclude Include="..\External\imgui\ImSequencer.h" />
     <ClInclude Include="..\External\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\External\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\External\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="BaseRenderer.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="ApplicationEvent.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraController.h" />
-    <ClInclude Include="CircleCollider.h" />
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="DarkLady.h" />
-    <ClInclude Include="DarkLadyEye.h" />
-    <ClInclude Include="DarkLadyWing.h" />
-    <ClInclude Include="Device.h" />
+    <ClInclude Include="ContentBrowserPanel.h" />
+    <ClInclude Include="EditorCamera.h" />
+    <ClInclude Include="EditorLayer.h" />
     <ClInclude Include="EnginePch.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="EventManager.h" />
-    <ClInclude Include="FSM.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Halo.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="FileDialogs.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="imGuiLayer.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Laser.h" />
+    <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="Layer.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
+    <ClInclude Include="LayerStack.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="ObjectState.h" />
-    <ClInclude Include="UIChild.h" />
-    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="MouseEvent.h" />
+    <ClInclude Include="ParentManager.h" />
+    <ClInclude Include="Physics2D.h" />
+    <ClInclude Include="Prefab.h" />
+    <ClInclude Include="Project.h" />
+    <ClInclude Include="ProjectSerializer.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderTargetGroup.h" />
+    <ClInclude Include="SceneCamera.h" />
+    <ClInclude Include="SceneHierarchyPanel.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneSerializer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="PipelineStates.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerActiveState.h" />
-    <ClInclude Include="PlayerAttacked.h" />
-    <ClInclude Include="PlayerAttackState.h" />
-    <ClInclude Include="PlayerCrouchState.h" />
-    <ClInclude Include="PlayerDeadState.h" />
-    <ClInclude Include="PlayerFallingState.h" />
-    <ClInclude Include="PlayerGuarded.h" />
-    <ClInclude Include="PlayerJumpState.h" />
-    <ClInclude Include="PlayerMoveState.h" />
-    <ClInclude Include="PlayerNormalState.h" />
-    <ClInclude Include="PlayerIdleState.h" />
-    <ClInclude Include="PlayerPassiveState.h" />
-    <ClInclude Include="PlayerRollState.h" />
-    <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="PlayerSummonState.h" />
-    <ClInclude Include="RectCollider.h" />
-    <ClInclude Include="RigidBody.h" />
-    <ClInclude Include="Skill.h" />
-    <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="ScriptableEntity.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Script.h" />
+    <ClInclude Include="ScriptEngine.h" />
+    <ClInclude Include="ScriptGlue.h" />
+    <ClInclude Include="SerializerUtils.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="StructuredBuffer.h" />
-    <ClInclude Include="SwapChain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="Trail.h" />
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="UI.h" />
-    <ClInclude Include="UIImage.h" />
-    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="UUID.h" />
+    <ClInclude Include="SyWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\External\ImGui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\External\imgui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -266,42 +254,41 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\External\jsoncpp.cpp">
+    <ClCompile Include="..\External\imgui\ImSequencer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="BaseRenderer.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraController.cpp" />
-    <ClCompile Include="CircleCollider.cpp" />
-    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="DarkLady.cpp" />
-    <ClCompile Include="DarkLadyEye.cpp" />
-    <ClCompile Include="DarkLadyWing.cpp" />
-    <ClCompile Include="Device.cpp" />
+    <ClCompile Include="ContentsBrowserPanel.cpp" />
+    <ClCompile Include="EditorCamera.cpp" />
+    <ClCompile Include="EditorLayer.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EnginePch.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="FSM.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="Halo.cpp" />
+    <ClCompile Include="FileDialogs.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="imGuiLayer.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Layer.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="LayerStack.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
-    <ClCompile Include="ObjectState.cpp" />
-    <ClCompile Include="UIChild.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParentManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Prefab.cpp" />
+    <ClCompile Include="Project.cpp" />
+    <ClCompile Include="ProjectSerializer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderTargetGroup.cpp" />
+    <ClCompile Include="SceneCamera.cpp" />
+    <ClCompile Include="SceneHierarchyPanel.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneSerializer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -309,61 +296,20 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PipelineStates.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerActiveState.cpp" />
-    <ClCompile Include="PlayerAttacked.cpp" />
-    <ClCompile Include="PlayerAttackState.cpp" />
-    <ClCompile Include="PlayerCrouchState.cpp" />
-    <ClCompile Include="PlayerDeadState.cpp" />
-    <ClCompile Include="PlayerFallingState.cpp" />
-    <ClCompile Include="PlayerGuarded.cpp" />
-    <ClCompile Include="PlayerJumpState.cpp" />
-    <ClCompile Include="PlayerMoveState.cpp" />
-    <ClCompile Include="PlayerNormalState.cpp" />
-    <ClCompile Include="PlayerIdleState.cpp" />
-    <ClCompile Include="PlayerPassiveState.cpp" />
-    <ClCompile Include="PlayerRollState.cpp" />
-    <ClCompile Include="PlayerState.cpp" />
-    <ClCompile Include="PlayerSummonState.cpp" />
-    <ClCompile Include="RectCollider.cpp" />
-    <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="Skill.cpp" />
-    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="ScriptEngine.cpp" />
+    <ClCompile Include="ScriptGlue.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="StructuredBuffer.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="Trail.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UI.cpp" />
-    <ClCompile Include="UIImage.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="UUID.cpp" />
+    <ClCompile Include="SyWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\BrightWing.json" />
-    <None Include="..\Resources\DaggerShader.json" />
-    <None Include="..\Resources\DaggerTrail.json" />
-    <None Include="..\Resources\Halo.json" />
-    <None Include="..\Resources\Laser.json" />
-    <None Include="..\Resources\OneHandShader.json" />
-    <None Include="..\Resources\Heroine_clips.json" />
-    <None Include="..\Resources\Heroine_RenderPath.json" />
-    <None Include="..\Resources\OneHandTrail.json" />
-    <None Include="..\Resources\PlayerWeapon.json" />
-    <None Include="..\Resources\SummonSword.json" />
-    <None Include="..\Resources\SummonSwordShader.json" />
-    <None Include="..\Resources\The_Dark_Lady_clips.json" />
-    <None Include="..\Resources\The_Dark_Lady_Eye.json" />
-    <None Include="..\Resources\The_Dark_Lady_Material.json" />
-    <None Include="..\Resources\The_Dark_Lady_particle.json" />
     <None Include="SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

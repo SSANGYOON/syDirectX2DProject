@@ -6,7 +6,7 @@ public:
 	ComputeShader();
 	~ComputeShader();
 
-	virtual HRESULT Load(const std::wstring& path) override;
+	virtual HRESULT Load(const std::wstring& path, bool stockObject) override;
 
 	bool Create(const std::wstring& file);
 	void Dispatch();
