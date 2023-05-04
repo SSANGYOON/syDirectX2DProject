@@ -34,6 +34,7 @@ namespace SY {
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		void UpdateTransform();
+		void CreateHierarchy();
 
 		Entity DuplicateEntity(Entity entity);
 

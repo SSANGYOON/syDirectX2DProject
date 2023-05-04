@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ScriptableObject.cs" />
     <Compile Include="Collision2D.cs" />
     <Compile Include="InternalCalls.cs" />
     <Compile Include="Input.cs" />

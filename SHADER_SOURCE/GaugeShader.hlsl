@@ -15,18 +15,13 @@ struct VSOut
     float2 gaugeUV : TEXCOORD1;
 };
 
-cbuffer barBuffer : register(b5)
-{
-    float2 barSize;
-    float2 gaugeSize;
-    float curValue;
-    float maxVaule;
-    float2 paddingbar;
-}
-
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
+
+    float2 barSize = g_vec2_0;
+    float2 gaugeSize = g_vec2_1;
+
 
     In.Pos.xy = In.Pos.xy * barSize;
     float4 worldPosition = mul(In.Pos, world);
@@ -42,6 +37,9 @@ VSOut VS_MAIN(VSIn In)
 
 float4 PS_MAIN(VSOut In) : SV_Target0
 {
+    float curValue = g_float_0;
+    float maxVaule = g_float_1;
+
     float frac = curValue / maxVaule;
 
     float4 color = (float)0.0f;

@@ -7,19 +7,7 @@ cbuffer Transform : register(b0)
     float3 padding;
 }
 
-cbuffer Sprite : register(b1)
-{
-    float2 sourceOffset;
-    float2 sourceSize;
-    float2 sourceSheetSize;
-    float2 targetOffset;
-    float2 targetSizeRatio;
-    uint textured;
-    uint lighted;
-    float4 spritecolor;
-}
-
-cbuffer MaterialData : register(b2)
+cbuffer MaterialData : register(b1)
 {
     int     g_int_0;
     int     g_int_1;

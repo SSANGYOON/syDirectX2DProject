@@ -1,10 +1,10 @@
 #pragma once
 #include "Resource.h"
-#include "Texture.h"
 
 class Mesh;
 class Shader;
 class ComputeShader;
+class Texture;
 enum : UINT8
 {
 	MATERIAL_ARG_COUNT = 4,
@@ -58,6 +58,7 @@ public:
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
 
 	void Bind();
+	void Clear();
 	void Dispatch();
 
 private:

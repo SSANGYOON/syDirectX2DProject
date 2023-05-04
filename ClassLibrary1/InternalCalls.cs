@@ -40,6 +40,8 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Input_IsKeyDown(KeyCode keycode);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Input_IsKeyPressed(KeyCode keycode);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool SpriteAnimatorComponent_Play(ulong entityID, string clipName);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool TransformAnimatorComponent_Play(ulong entityID, string clipName);
@@ -57,5 +59,10 @@ namespace SY
         internal extern static void CameraComponent_GetOrthographicSize(ulong entityID, out Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CameraComponent_SetOrthographicSize(ulong entityID, ref Vector2 size);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static StateComponent.EntityState StateComponent_GetState(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void StateComponent_SetState(ulong entityID, StateComponent.EntityState type);
     }
 }

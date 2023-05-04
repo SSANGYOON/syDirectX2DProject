@@ -1,4 +1,5 @@
 ﻿using SY;
+using SYScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,25 +18,14 @@ namespace Sandbox
             private set { _duration = value; }
         }
         private TransformAnimatorComponent m_Animator;
-        public enum WeaponType
-        {
-            TwoHand,
-            OneHand,
-            Dagger,
-        }
 
-        protected WeaponType m_Type = WeaponType.OneHand;
 
-        public WeaponType weaponType
-        {
-            get { return m_Type; }
-            private set { m_Type = value; }
-        }
+        public WeaponData weaponData;
 
         public void Attack()
         { 
             if(m_Animator != null)
-                m_Animator.Play(Enum.GetName(typeof(WeaponType), m_Type));
+                m_Animator.Play(Enum.GetName(typeof(WeaponData.weaponType), weaponData.Type));
         }
     }
 }

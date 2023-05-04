@@ -99,7 +99,7 @@ namespace SY {
 		}
 		}
 
-		auto [mx, my] = ImGui::GetMousePos();
+		/* auto [mx, my] = ImGui::GetMousePos();
 		int mouseX = (int)mx;
 		int mouseY = (int)my;
 		Vector2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
@@ -109,10 +109,10 @@ namespace SY {
 			D3D11_BOX srcBox = {};
 
 			Vector2 pixelPos = (Vector2(mx, my) - m_ViewportBounds[0]) / (m_ViewportBounds[1] - m_ViewportBounds[0]) * Vector2(1920.f, 1080.f);
-			srcBox.left = pixelPos.x;
-			srcBox.right = pixelPos.x + 1;
-			srcBox.bottom = pixelPos.y + 1;
-			srcBox.top = pixelPos.y;
+			srcBox.left = (UINT)pixelPos.x;
+			srcBox.right = (UINT)pixelPos.x + 1;
+			srcBox.bottom = (UINT)pixelPos.y + 1;
+			srcBox.top = (UINT)pixelPos.y;
 			srcBox.front = 0;
 			srcBox.back = 1;
 
@@ -128,7 +128,7 @@ namespace SY {
 			CONTEXT->Unmap(m_EntityTex->GetD3Texture(), 0);
 
 			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
-		}
+		}*/
 
 		OnOverlayRender();
 	}

@@ -283,6 +283,12 @@ namespace SY {
 
 	static bool Input_IsKeyDown(KEY_TYPE keycode)
 	{
+		bool result = INPUT->GetKeyState(keycode) == KEY_STATE::DOWN;
+		return result;
+	}
+
+	static bool Input_IsKeyPressed(KEY_TYPE keycode)
+	{
 		bool result = INPUT->GetKeyState(keycode) == KEY_STATE::PRESS;
 		return result;
 	}
@@ -318,6 +324,27 @@ namespace SY {
 		cam.Camera.SetOrthographicSize(targetSize->y);
 	}
 
+	static EntityState StateComponent_GetState(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		return entity.GetComponent<StateComponent>().state;
+
+	}
+
+	static void StateComponent_SetState(UUID entityID, EntityState state)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& Sc = entity.GetComponent<StateComponent>();
+		Sc.state = state;
+	}
 	
 
 	template<typename... Component>
@@ -384,9 +411,13 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(SpriteAnimatorComponent_Play);
 
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);
+		HZ_ADD_INTERNAL_CALL(Input_IsKeyPressed);
 
 		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
+
+		HZ_ADD_INTERNAL_CALL(StateComponent_GetState);
+		HZ_ADD_INTERNAL_CALL(StateComponent_SetState);
 	}
 
 }

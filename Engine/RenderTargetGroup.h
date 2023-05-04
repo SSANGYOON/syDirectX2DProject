@@ -39,7 +39,6 @@ public:
 	void Create(RENDER_TARGET_GROUP_TYPE groupType, vector<RenderTarget>& rtVec, shared_ptr<Texture> dsTexture);
 
 	void OMSetRenderTargets();
-	void OMSetRenderTargets(UINT index);
 	void ClearRenderTargets();
 
 	shared_ptr<Texture> GetRTTexture(UINT index) { return _rtVec[index].target; }

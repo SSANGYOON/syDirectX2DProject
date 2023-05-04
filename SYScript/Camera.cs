@@ -12,6 +12,7 @@ namespace Sandbox
     {
         public  float DistanceFromPlayer = 5.0f;
         public Vector2 CameraRange = new Vector2(640, 360);
+
         private  Entity m_Player;
 
         void OnCreate()
@@ -32,7 +33,7 @@ namespace Sandbox
             Vector2 maxPos = CameraRange / 2.0f - cameraSize / 2.0f;
             Vector2 nextPos = targetPos.clamp(minPos, maxPos);
 
-            Translation = new Vector3(nextPos, DistanceFromPlayer);
+            Translation = new Vector3(nextPos, playerPos .Z - DistanceFromPlayer);
         }
 
     }

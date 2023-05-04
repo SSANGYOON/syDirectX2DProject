@@ -1,10 +1,10 @@
 #pragma once
 #include "entt.hpp"
 
-class Texture;
-class Shader;
+
 class Entity;
 class Mesh;
+class Material;
 struct SpriteCB;
 struct TransformCB;
 
@@ -24,13 +24,16 @@ namespace SY {
 		static void Begin(const EditorCamera& camera);
 		static void DrawRectOutline(const Matrix& transform, const Vector4& color, const entt::entity & entity);
 		static void DrawCircleOutline(const Matrix& transform, const Vector4& color, const entt::entity& entity);
-		static void DrawSprite(const Matrix& transform, SpriteCB& spCB, const entt::entity& entity, shared_ptr<Texture> diffuse = nullptr, shared_ptr<Texture> light = nullptr, shared_ptr<Shader> customShader = nullptr);
-		static void DrawMesh(const Matrix& transform, const entt::entity& entity, shared_ptr<Shader> shader, shared_ptr<Mesh> mesh, shared_ptr<Texture> diffuse, shared_ptr<Texture> additional1 = nullptr, shared_ptr<Texture>additional2 = nullptr);
+		static void DrawRect(const Matrix& transform, shared_ptr<Material>& material, const entt::entity& entity);
+		static void DrawPoint(const Matrix& transform, shared_ptr<Material>& material, const entt::entity& entity);
+		static void DrawMesh(const Matrix& transform, shared_ptr<Material>& material, shared_ptr<Mesh>& mesh, const entt::entity& entity);
 
 		static const RenderrerStat& GetStats() { return stats; }
 		static void ResetStats() { stats = {}; }
 		static void End();
 
+		static shared_ptr<Mesh> rect;
+		static shared_ptr<Mesh> point;
 		static TransformCB trCB;
 		static RenderrerStat stats;
 	};

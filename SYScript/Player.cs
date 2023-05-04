@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using SY;
+using SYScript;
 
 namespace Sandbox
 {
@@ -111,7 +112,7 @@ namespace Sandbox
                             else
                                 Pose = "Aerial";
 
-                            m_Animator.Play("Attack" + Enum.GetName(typeof(Weapon.WeaponType), weapon.weaponType) + Pose);
+                            m_Animator.Play("Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.weaponData.Type) + Pose);
                         }
                         break;
 
@@ -162,9 +163,9 @@ namespace Sandbox
             {
                 Vector2 velocity = m_Rigidbody.LinearVelocity;
                 velocity.X = 0;
-                if (Input.IsKeyDown(KeyCode.Right))
+                if (Input.IsKeyPressed(KeyCode.Right))
                     velocity.X += 1 * Speed;
-                if (Input.IsKeyDown(KeyCode.Left))
+                if (Input.IsKeyPressed(KeyCode.Left))
                     velocity.X -= 1 * Speed;
 
                 m_Rigidbody.LinearVelocity = velocity;
@@ -189,19 +190,20 @@ namespace Sandbox
                     m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
             }
 
-            /*if (weapon != null)
-                Console.WriteLine($"Weapon Type{ Enum.GetName(typeof(Weapon.WeaponType), weapon.weaponType) }!");
-            else
+            if (State != PlayerState.Dead && Input.IsKeyDown(KeyCode.Tab))
             {
-                Entity wea= FindEntityByName("Weapon");
-                if (wea == null)
-                    Console.WriteLine("No weapon");
+                Entity inven = FindEntityByName("Panel");
+                if (inven != null)
+                {
+                    Console.WriteLine("Panel Found");
+                    inven.GetComponent<StateComponent>().State = inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ? 
+                        StateComponent.EntityState.Active : StateComponent.EntityState.Pause;
+                }
                 else
                 {
-                    Console.WriteLine("Found");
-                    weapon = wea.As<Weapon>();                   
+                    Console.WriteLine("Panel Not Found");
                 }
-            }*/
+            }
         }
 
         private void UpdateState()
@@ -228,11 +230,11 @@ namespace Sandbox
                             State = PlayerState.Aerial; 
                     }
                     else {
-                        if (Input.IsKeyDown(KeyCode.Down) == false && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
+                        if (Input.IsKeyPressed(KeyCode.Down) == false && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
                             State = PlayerState.Idle;
                         else if (State == PlayerState.Idle && Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
                             State = PlayerState.Run;
-                        else if (Input.IsKeyDown(KeyCode.Down))
+                        else if (Input.IsKeyPressed(KeyCode.Down))
                         {
                             if (State != PlayerState.Crouching)
                                 State = PlayerState.Crouching;
@@ -258,7 +260,7 @@ namespace Sandbox
                     {
                         if (isGrounded)
                         {
-                            if (Input.IsKeyDown(KeyCode.Down))
+                            if (Input.IsKeyPressed(KeyCode.Down))
                                 State = PlayerState.Crouching;
                             else
                                 State = PlayerState.Idle;

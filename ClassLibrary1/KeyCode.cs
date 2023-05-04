@@ -62,7 +62,7 @@
         /* Function keys */
         Escape = 256,
         Enter = 257,
-        Tab = 258,
+        Tab = 0x09,
         Backspace = 259,
         Insert = 260,
         Delete = 261,

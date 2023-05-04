@@ -9,6 +9,7 @@
 
 #include "SerializerUtils.h"
 #include "Animation.h"
+#include "Texture.h"
 namespace YAML
 {
 	template<>
@@ -200,13 +201,14 @@ namespace SY {
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
-			if (spriteRendererComponent.Texture) {
-				wstring wpath = spriteRendererComponent.Texture->GetPath();
+			if (spriteRendererComponent.Diffuse) {
+				wstring wpath = spriteRendererComponent.Diffuse->GetPath();
 
-				out << YAML::Key << "TexturePath" << YAML::Value << wtos(wpath);
-				out << YAML::Key << "SourceOffset" << YAML::Value << spriteRendererComponent.spCB.sourceOffset;
-				out << YAML::Key << "SourceSize" << YAML::Value << spriteRendererComponent.spCB.sourceSize;
-				out << YAML::Key << "SourceSheetSize" << YAML::Value << spriteRendererComponent.spCB.sourceSheetSize;
+				out << YAML::Key << "DiffusePath" << YAML::Value << wtos(wpath);
+				out << YAML::Key << "SourceOffset" << YAML::Value << spriteRendererComponent.sourceOffset;
+				out << YAML::Key << "SourceSize" << YAML::Value << spriteRendererComponent.sourceSize;
+				out << YAML::Key << "TargetOffset" << YAML::Value << spriteRendererComponent.targetOffset;
+				out << YAML::Key << "Fixed" << YAML::Value << spriteRendererComponent.fixed;
 			}
 
 			out << YAML::EndMap; // SpriteRendererComponent
@@ -309,13 +311,15 @@ namespace SY {
 			out << YAML::BeginMap; // PanelComponent
 
 			auto& panel = entity.GetComponent<PanelComponent>();
-			if (panel.texture) {
-				wstring wpath = panel.texture->GetPath();
+			if (panel.panel) {
+				wstring wpath = panel.panel->GetPath();
 
-				out << YAML::Key << "TexturePath" << YAML::Value << wtos(wpath);
+				out << YAML::Key << "PanelPath" << YAML::Value << wtos(wpath);
 				
 			}
 			out << YAML::Key << "panelOffset" << YAML::Value << panel.offset;
+			out << YAML::Key << "tineColor" << YAML::Value << panel.color;
+			out << YAML::Key << "tineRange" << YAML::Value << panel.tintOffset;
 			out << YAML::EndMap; // PanelComponent
 		}
 
@@ -345,17 +349,22 @@ namespace SY {
 			out << YAML::BeginMap; // SlotComponent
 
 			auto& slot = entity.GetComponent<SlotComponent>();
+
+			out << YAML::Key << "Rotation" << YAML::Value << slot.rotation;
+			out << YAML::Key << "ItemSize" << YAML::Value << slot.itemSize;
+			
 			if (slot.slot) {
 				wstring slotPath = slot.slot->GetPath();
 				out << YAML::Key << "slotPath" << YAML::Value << wtos(slotPath);
+			}
+			if (slot.slotMask) {
+				wstring itemPath = slot.slotMask->GetPath();
+				out << YAML::Key << "maskPath" << YAML::Value << wtos(itemPath);
 			}
 			if (slot.item) {
 				wstring itemPath = slot.item->GetPath();
 				out << YAML::Key << "itemPath" << YAML::Value << wtos(itemPath);
 			}
-
-			out << YAML::Key << "itemSizeRatio" << YAML::Value << slot.itemSizeRatio;
-			out << YAML::Key << "itemOffset" << YAML::Value << slot.itemOffset;
 
 			out << YAML::EndMap; // SlotComponent
 		}
@@ -423,9 +432,11 @@ namespace SY {
 		return true;
 	}
 
-	Entity SceneSerializer::DeserializeEntity(Scene* scene, YAML::Node& entity)
+	Entity SceneSerializer::DeserializeEntity(Scene* scene, YAML::Node& entity, const map<uint64_t, uint64_t>& uuidMap)
 	{
 		uint64_t uuid = entity["Entity"].as<uint64_t>();
+		if (uuidMap.size() > 0)
+			uuid = uuidMap.find(uuid)->second;
 
 		std::string name;
 		auto tagComponent = entity["TagComponent"];
@@ -451,6 +462,8 @@ namespace SY {
 		{
 			auto& pc = deserializedEntity.AddComponent<Parent>();
 			pc.parentHandle = parent["ParentID"].as<uint64_t>();
+			if (uuidMap.size() > 0)
+				pc.parentHandle = uuidMap.find(pc.parentHandle)->second;
 		}
 
 		auto scriptComponent = entity["ScriptComponent"];
@@ -531,16 +544,16 @@ namespace SY {
 		{
 			auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 			src.Color = spriteRendererComponent["Color"].as<Vector4>();
-			if (spriteRendererComponent["TexturePath"])
+			if (spriteRendererComponent["DiffusePath"])
 			{
-				std::string texturePath = spriteRendererComponent["TexturePath"].as<std::string>();
+				std::string texturePath = spriteRendererComponent["DiffusePath"].as<std::string>();
 				auto path = Project::GetAssetFileSystemPath(texturePath);
-				src.Texture = make_shared<Texture>();
-				src.Texture->Load(path.wstring(), false);
-
-				src.spCB.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
-				src.spCB.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
-				src.spCB.sourceSheetSize = spriteRendererComponent["SourceSheetSize"].as<Vector2>();
+				src.Diffuse = make_shared<Texture>();
+				src.Diffuse->Load(path.wstring(), false);
+				src.fixed = spriteRendererComponent["Fixed"].as<bool>();
+				src.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
+				src.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
+				//src.targetOffset = spriteRendererComponent["TargetOffset"].as<Vector2>();
 			}
 		}
 
@@ -740,14 +753,16 @@ namespace SY {
 		if (panelComponent)
 		{
 			auto& panel = deserializedEntity.AddComponent<PanelComponent>();
-			if (panelComponent["TexturePath"])
+			if (panelComponent["PanelPath"])
 			{
-				std::string texturePath = spriteRendererComponent["TexturePath"].as<std::string>();
+				std::string texturePath = panelComponent["PanelPath"].as<std::string>();
 				auto path = Project::GetAssetFileSystemPath(texturePath);
-				panel.texture = make_shared<Texture>();
-				panel.texture->Load(path.wstring(), false);
+				panel.panel = make_shared<Texture>();
+				panel.panel->Load(path.wstring(), false);
 			}
 			panel.offset = panelComponent["panelOffset"].as<Vector2>();
+			panel.color = panelComponent["tineColor"].as<Vector4>();
+			panel.tintOffset = panelComponent["tineRange"].as<Vector2>();
 		}
 
 		auto sliderComponent = entity["SliderComponent"];
@@ -779,12 +794,22 @@ namespace SY {
 		if (slotComponent)
 		{
 			auto& slot = deserializedEntity.AddComponent<SlotComponent>();
+
+			slot.rotation = slotComponent["Rotation"].as<float>();
+			slot.itemSize = slotComponent["ItemSize"].as<Vector2>();
 			if (slotComponent["slotPath"])
 			{
 				std::string texturePath = slotComponent["slotPath"].as<std::string>();
 				auto path = Project::GetAssetFileSystemPath(texturePath);
 				slot.slot = make_shared<Texture>();
 				slot.slot->Load(path.wstring(), false);
+			}
+			if (slotComponent["maskPath"])
+			{
+				std::string texturePath = slotComponent["maskPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				slot.slotMask = make_shared<Texture>();
+				slot.slotMask->Load(path.wstring(), false);
 			}
 			if (slotComponent["itemPath"])
 			{
@@ -793,10 +818,6 @@ namespace SY {
 				slot.item = make_shared<Texture>();
 				slot.item->Load(path.wstring(), false);
 			}
-
-			slot.itemSizeRatio = slotComponent["itemSizeRatio"].as<Vector2>();
-			slot.itemOffset = slotComponent["itemOffset"].as<Vector2>();
-
 		}
 		return deserializedEntity;
 	}

@@ -184,6 +184,7 @@
     <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="LayerStack.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="ParentManager.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="PipelineStates.h" />
-    <ClInclude Include="ScriptableEntity.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
@@ -275,6 +275,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="LayerStack.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ParentManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

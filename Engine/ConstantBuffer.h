@@ -2,12 +2,8 @@
 enum class Constantbuffer_Type : UINT8
 {
 	TRANSFORM,
-	SPRITE,
 	MATERIAL,
 	LIGHT,
-	PANEL,
-	SLIDER,
-	SLOT,
 	END
 };
 
@@ -18,35 +14,6 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Matrix projection;
 	int entity;
 	Vector3 padding;
-};
-
-CBUFFER(SpriteCB, CBSLOT_SPRITE)
-{
-	Vector2 sourceOffset;
-	Vector2 sourceSize;
-	Vector2 sourceSheetSize;
-	Vector2 targetOffset;
-	Vector2 targetSizeRatio;
-	UINT textured;
-	UINT lighted;
-	Vector4 color;
-};
-
-CBUFFER(PanelCB, CBSLOT_PANEL)
-{
-	Vector2 size;
-	Vector2 originalSize;
-	Vector2 offset;
-	Vector2 padding;
-};
-
-CBUFFER(SliderCB, CBSLOT_SLIDER)
-{
-	Vector2 barSize;
-	Vector2 gaugeSize;
-	float currentValue;
-	float maxValue;
-	Vector2 padding;
 };
 
 struct LightInfo

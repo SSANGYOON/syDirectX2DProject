@@ -70,6 +70,18 @@ namespace SY
         }
     }
 
+    public class StateComponent : Component
+    {
+        public enum EntityState { Active = 0, Pause, Dead }
+
+
+        public EntityState State
+        {
+            get => InternalCalls.StateComponent_GetState(Entity.ID);
+            set => InternalCalls.StateComponent_SetState(Entity.ID, value);
+        }
+    }
+
     public class SpriteAnimatorComponent : Component
     {
         public bool Play(string clipName)

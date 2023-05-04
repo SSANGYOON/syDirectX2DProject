@@ -5,8 +5,8 @@ namespace SY {
 	class ParentManager
 	{
 	public:
+		static void CreateHierarchy(Scene* scene);
 		static void CreateToWorld(Scene* scene);
-
 		static vector<UINT32>& GetChildren(UINT handle) { return childMap[handle]; }
 		static UINT32 GetChild(UINT handle, int index);
 

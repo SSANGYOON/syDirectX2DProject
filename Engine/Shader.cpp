@@ -36,7 +36,7 @@ void Shader::CreateShader(const ShaderInfo& info, const ShaderEntry& entry, cons
 		if (_ErrorBlob)
 		{
 				OutputDebugStringA((char*)_ErrorBlob->GetBufferPointer());
-				_ErrorBlob->Release();
+				//_ErrorBlob->Release();
 		}
 
 		DEVICE->CreateVertexShader(_VSBlob->GetBufferPointer()

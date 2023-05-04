@@ -53,24 +53,27 @@ void SetUpState()
 	D3D11_RASTERIZER_DESC rsDesc = {};
 	rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
-
+	rsDesc.DepthClipEnable = true;
 	DEVICE->CreateRasterizerState(&rsDesc
 		, rasterizerStates[(UINT)RSType::SolidBack].GetAddressOf());
 
 	rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_FRONT;
+	rsDesc.DepthClipEnable = true;
 
 	DEVICE->CreateRasterizerState(&rsDesc
 		, rasterizerStates[(UINT)RSType::SolidFront].GetAddressOf());
 
 	rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+	rsDesc.DepthClipEnable = true;
 
 	DEVICE->CreateRasterizerState(&rsDesc
 		, rasterizerStates[(UINT)RSType::SolidNone].GetAddressOf());
 
 	rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 	rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+	rsDesc.DepthClipEnable = true;
 
 	DEVICE->CreateRasterizerState(&rsDesc
 		, rasterizerStates[(UINT)RSType::WireframeNone].GetAddressOf());

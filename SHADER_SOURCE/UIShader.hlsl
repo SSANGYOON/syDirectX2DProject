@@ -24,17 +24,8 @@ struct PSOut
     int entity : SV_Target1;
 };
 
-cbuffer uibuffer : register(b4)
-{
-    float2 size;
-    float2 originalSize;
-    float2 offset;
-    float2 uipadding;
-}
-
 VSOut VS_MAIN(VSIn In)
 {
-
     float4 worldPosition = mul(In.Pos, world);
 
     VSOut output = (VSOut)0.f;
@@ -55,6 +46,11 @@ void GS_MAIN(point VSOut viewPos[1], inout TriangleStream<GSOut> outputStream)
         uint y = i / 4;
 
         output[i].Pos = viewPos[0].Pos;
+
+        float2 size = mul(float4(1.f, 1.f, 0.f, 0.f), world).xy;
+        float2 originalSize = g_vec2_0;
+        float2 offset = g_vec2_1;
+
 
         float right = 1.f;
         if (x < 2)
@@ -99,10 +95,18 @@ void GS_MAIN(point VSOut viewPos[1], inout TriangleStream<GSOut> outputStream)
 }
 PSOut PS_MAIN(GSOut In)
 {
-    float4 color = tex_0.Sample(pointSampler, In.UV);
+    float2 originalSize = g_vec2_0;
+    float2 offset = g_vec2_1;
+    float2 tintRange = g_vec2_2 / g_vec2_0;
+    float4 tintColor = g_vec4_0;
+
+    float4 color = tex_0.Sample(anisotropicSampler, In.UV);
 
     PSOut Out = (PSOut)0.f;
-    Out.color = color;
+    if (color.w > 0.5f)
+        Out.color = color;
+    else if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y)
+        Out.color = tintColor;
     Out.entity = entity;
     return Out;
 }

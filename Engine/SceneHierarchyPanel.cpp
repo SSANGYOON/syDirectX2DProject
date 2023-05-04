@@ -539,7 +539,7 @@ namespace SY {
 			{
 				ImGui::ColorEdit4("Color", reinterpret_cast<float*>(&component.Color));
 
-				ImGui::Text("Texture", ImVec2(100.0f, 0.0f));
+				ImGui::Text("Diffuse", ImVec2(100.0f, 0.0f));
 				if (ImGui::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -549,26 +549,25 @@ namespace SY {
 						shared_ptr<Texture> texture = make_shared<Texture>();
 						texture->Load(texturePath.wstring(),false);
 						assert(texture->GetD3Texture());
-						component.Texture = texture;
-						component.spCB.sourceSheetSize = texture->GetSize();
+						component.Diffuse = texture;
 					}
 					ImGui::EndDragDropTarget();
 				}
 				
 
 
-				if (component.Texture) {
-					ImGui::Text(wtos(component.Texture->GetPath()).c_str());
+				if (component.Diffuse) {
+					ImGui::Text(wtos(component.Diffuse->GetPath()).c_str());
 
 					if(ImGui::Button("Remove"))
 					{
-						component.Texture = nullptr;
+						component.Diffuse = nullptr;
 					}
 				}
 
-				ImGui::InputFloat2("SourceOffset", reinterpret_cast<float*>(&component.spCB.sourceOffset));
-				ImGui::InputFloat2("SourceSize", reinterpret_cast<float*>(&component.spCB.sourceSize));
-				ImGui::InputFloat2("SourceSheetSize", reinterpret_cast<float*>(&component.spCB.sourceSheetSize));
+				ImGui::InputFloat2("SourceOffset", reinterpret_cast<float*>(&component.sourceOffset));
+				ImGui::InputFloat2("SourceSize", reinterpret_cast<float*>(&component.sourceSize));
+				ImGui::Checkbox("Fixed", &component.fixed);
 
 				bool layerBits[8];
 				int category = component.LayerBit;
@@ -819,8 +818,8 @@ namespace SY {
 						shared_ptr<Animation> clip = component.clips[key];
 
 						SpriteRendererComponent& sr = this->GetSelectedEntity().GetComponent<SpriteRendererComponent>();
-						sr.spCB.sourceOffset = clip->GetOffset();
-						sr.spCB.sourceSize = clip->GetSize();
+						sr.sourceOffset = clip->GetOffset();
+						sr.sourceSize = clip->GetSize();
 
 						if (component._startEvent.find(key) != component._startEvent.end())
 						{
@@ -952,8 +951,10 @@ namespace SY {
 			DrawComponent<PanelComponent>("Panel", entity, [](auto& component)
 				{
 					ImGui::DragFloat2("Offset", reinterpret_cast<float*>(&component.offset));
-
-					ImGui::Text("Texture", ImVec2(100.0f, 0.0f));
+					ImGui::DragFloat2("TintRange", reinterpret_cast<float*>(&component.tintOffset));
+					ImGui::DragFloat2("ResizeTexture", reinterpret_cast<float*>(&component.resizeTexture));
+					ImGui::ColorEdit4("TintColor", reinterpret_cast<float*>(&component.color));
+					ImGui::Text("Panel", ImVec2(100.0f, 0.0f));
 					if (ImGui::BeginDragDropTarget())
 					{
 						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -963,17 +964,17 @@ namespace SY {
 							shared_ptr<Texture> texture = make_shared<Texture>();
 							texture->Load(texturePath.wstring(), false);
 							assert(texture->GetD3Texture());
-							component.texture = texture;
+							component.panel = texture;
 						}
 						ImGui::EndDragDropTarget();
 					}
 
-					if (component.texture) {
-						ImGui::Text(wtos(component.texture->GetPath()).c_str());
+					if (component.panel) {
+						ImGui::Text(wtos(component.panel->GetPath()).c_str());
 
 						if (ImGui::Button("Remove"))
 						{
-							component.texture = nullptr;
+							component.panel = nullptr;
 						}
 					}
 				});
@@ -1001,7 +1002,7 @@ namespace SY {
 					if (component.bar) {
 						ImGui::Text(wtos(component.bar->GetPath()).c_str());
 
-						if (ImGui::Button("Remove"))
+						if (ImGui::Button("Remove bar"))
 						{
 							component.bar = nullptr;
 						}
@@ -1025,7 +1026,7 @@ namespace SY {
 					if (component.gauge) {
 						ImGui::Text(wtos(component.gauge->GetPath()).c_str());
 
-						if (ImGui::Button("Remove"))
+						if (ImGui::Button("Remove gauge"))
 						{
 							component.gauge = nullptr;
 						}
@@ -1034,9 +1035,12 @@ namespace SY {
 
 			DrawComponent<SlotComponent>("Slot", entity, [](auto& component)
 				{
-					ImGui::DragFloat2("itemSizeRatio", reinterpret_cast<float*>(&component.itemSizeRatio));
-					ImGui::DragFloat2("itemOffset", reinterpret_cast<float*>(&component.itemOffset));
+					float rotation = component.rotation * 180.f / XM_PI;
+					ImGui::DragFloat("Rotation", &rotation);
+					component.rotation = rotation / 180.f * XM_PI;
 
+					ImGui::DragFloat2("ItemSize", reinterpret_cast<float*>(&component.itemSize));
+					
 					ImGui::Text("Slot", ImVec2(100.0f, 0.0f));
 					if (ImGui::BeginDragDropTarget())
 					{
@@ -1055,8 +1059,30 @@ namespace SY {
 					if (component.slot) {
 						ImGui::Text(wtos(component.slot->GetPath()).c_str());
 
-						if (ImGui::Button("Remove"))
+						if (ImGui::Button("Remove slot"))
 							component.slot = nullptr;
+					}
+
+					ImGui::Text("SlotMask", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path texturePath(path);
+							shared_ptr<Texture> texture = make_shared<Texture>();
+							texture->Load(texturePath.wstring(), false);
+							assert(texture->GetD3Texture());
+							component.slotMask = texture;
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					if (component.slotMask) {
+						ImGui::Text(wtos(component.slotMask->GetPath()).c_str());
+
+						if (ImGui::Button("Remove slotmask"))
+							component.slotMask = nullptr;
 					}
 
 					ImGui::Text("Item", ImVec2(100.0f, 0.0f));
@@ -1077,7 +1103,7 @@ namespace SY {
 					if (component.item) {
 						ImGui::Text(wtos(component.item->GetPath()).c_str());
 
-						if (ImGui::Button("Remove"))
+						if (ImGui::Button("Remove item"))
 							component.item = nullptr;
 					}
 				});

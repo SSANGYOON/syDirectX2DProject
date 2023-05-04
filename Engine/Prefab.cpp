@@ -41,15 +41,11 @@ HRESULT Prefab::Load(const std::wstring& path, bool stockObject)
 		 uuidMap[uuid] = SY::GetRandomNumber();
 	 }
 
-	 for (auto&& entity : data["Entities"]) {
+	 for (auto entity : data["Entities"]) {
 		 uint64_t uuid = entity["Entity"].as<uint64_t>();
 		 entity.force_insert("Entity", uuidMap[uuid]);
-		 if (entity["Parent"]) {
-			 uint64_t parentId = entity["Parent"].as<uint64_t>();
-			 entity.force_insert("Parent", uuidMap[parentId]);
-		 }
 		 
-		 return SY::SceneSerializer::DeserializeEntity(scene, entity);
+		 return SY::SceneSerializer::DeserializeEntity(scene, entity,uuidMap);
 	 }
 
 	 

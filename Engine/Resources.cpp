@@ -149,18 +149,9 @@ void Resources::CreateDefaultResource()
 #pragma endregion
 
 #pragma region DefaultShader
-	shared_ptr<Shader> shader = std::make_shared<Shader>();
-	Resources::Insert<Shader>(L"DefaultShader", shader);
 	ShaderInfo _info;
 	ShaderEntry _entry;
-	_info.bst = BSType::AlphaBlend;
-	_info.dst = DSType::Less;
-	_info.rst = RSType::SolidNone;
-	_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	_entry = {};
-	_entry.VS = true;
-	_entry.PS = true;
-	shader->CreateShader(_info, _entry, L"Default.hlsl");
+
 #pragma endregion
 {
 #pragma region TrailShader
@@ -260,6 +251,23 @@ void Resources::CreateDefaultResource()
 		_entry.VS = true;
 		_entry.PS = true;
 		GaugeShader->CreateShader(_info, _entry, L"GaugeShader.hlsl");
+	}
+#pragma endregion
+
+#pragma region SlotShader
+	{
+		shared_ptr<Shader> SlotShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"SlotShader", SlotShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		SlotShader->CreateShader(_info, _entry, L"SlotShader.hlsl");
 	}
 #pragma endregion
 }

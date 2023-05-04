@@ -61,21 +61,11 @@ HRESULT Engine::Init(const WindowInfo& info)
 	//_constantBuffers[(UINT8)Constantbuffer_Type::GRID] = make_shared<ConstantBuffer>();
 	//_constantBuffers[(UINT8)Constantbuffer_Type::GRID]->Init(Constantbuffer_Type::GRID, sizeof(GridCB));
 
-
-	_constantBuffers[(UINT8)Constantbuffer_Type::SPRITE] = make_shared<ConstantBuffer>();
-	_constantBuffers[(UINT8)Constantbuffer_Type::SPRITE]->Init(Constantbuffer_Type::SPRITE, sizeof(SpriteCB));
-
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL]->Init(Constantbuffer_Type::MATERIAL, sizeof(MaterialCB));
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT]->Init(Constantbuffer_Type::LIGHT, sizeof(LightCB));
-
-	_constantBuffers[(UINT8)Constantbuffer_Type::PANEL] = make_shared<ConstantBuffer>();
-	_constantBuffers[(UINT8)Constantbuffer_Type::PANEL]->Init(Constantbuffer_Type::PANEL, sizeof(PanelCB));
-
-	_constantBuffers[(UINT8)Constantbuffer_Type::SLIDER] = make_shared<ConstantBuffer>();
-	_constantBuffers[(UINT8)Constantbuffer_Type::SLIDER]->Init(Constantbuffer_Type::SLIDER, sizeof(SliderCB));
 
 	return S_OK;
 }
@@ -111,12 +101,13 @@ void Engine::ClearSwapChain()
 
 void Engine::BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
 {
-	_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->OMSetRenderTargets();
+	_rtGroups[(UINT)group]->OMSetRenderTargets();
+	CONTEXT->RSSetViewports(1,&_viewPort);
 }
 
 void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
 {
-	_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->ClearRenderTargets();
+	_rtGroups[(UINT)group]->ClearRenderTargets();
 }
 
 HRESULT Engine::CreateRenderTargetGroup()

@@ -3,6 +3,9 @@
 #include "Resources.h"
 
 #include "Mesh.h"
+
+#include "Material.h"
+#include "Texture.h"
 #include "Shader.h"
 
 #include "Scene.h"
@@ -169,6 +172,7 @@ namespace SY {
 
 	void Scene::OnUpdateRuntime(float timeStep)
 	{
+		ParentManager::CreateHierarchy(this);
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
 			auto view = m_Registry.view<ScriptComponent>();
@@ -205,9 +209,9 @@ namespace SY {
 					UINT curFrame = UINT(min(animator._currentTime, duration - epsilon) * clip->GetFrames() / clip->GetDuration());
 					Vector2 LT = offset + Vector2((curFrame % columns) * step.x, (curFrame / columns) * step.y);
 
-					sr.spCB.sourceOffset = LT;
-					sr.spCB.sourceSize = size;
-					sr.spCB.targetOffset = targetOffset;
+					sr.sourceOffset = LT;
+					sr.sourceSize = size;
+					sr.targetOffset = targetOffset;
 
 					if (animator._currentTime > duration)
 					{
@@ -221,7 +225,6 @@ namespace SY {
 						}
 					}
 				});
-		
 		}
 
 		CameraComponent* mainCamera = nullptr;
@@ -246,59 +249,44 @@ namespace SY {
 		{
 			Renderer::Begin(mainCamera->Camera, cameraTransform);
 			{
-				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
+				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent, StateComponent>);
 				for (auto entity : group)
 				{
-					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-
-					sprite.spCB.color = sprite.Color;
-					if (mainCamera->LayerBit & sprite.LayerBit)
-						Renderer::DrawSprite(transform.localToWorld, sprite.spCB, entity, sprite.Texture);
+					auto [transform, sprite, state] = group.get<TransformComponent, SpriteRendererComponent, StateComponent>(entity);
+					if (state.currentState == EntityState::Active) {
+						sprite.SetMaterial();
+						Renderer::DrawRect(transform.localToWorld, sprite.material, entity);
+					}
 				}
 
-				auto uiShader = GET_SINGLE(Resources)->Find<Shader>(L"UIShader");
-				auto pointMesh = GET_SINGLE(Resources)->Find<Mesh>(L"PointMesh");
-				auto group2 = m_Registry.group<PanelComponent>(entt::get<TransformComponent>);
-
+				auto group2 = m_Registry.group<PanelComponent>(entt::get<TransformComponent, StateComponent>);
 				for (auto entity : group2)
 				{
-					auto [transform, panel] = group2.get<TransformComponent, PanelComponent>(entity);
-					auto buffer = GEngine->GetConstantBuffer(Constantbuffer_Type::PANEL);
-
-					if (panel.texture == nullptr)
-						continue;
-					PanelCB pCB = {};
-					pCB.size = { transform.scale.x,  transform.scale.y };
-					pCB.originalSize = panel.texture->GetSize();
-					pCB.offset = panel.offset;
-
-					buffer->SetData(&pCB);
-					buffer->SetPipline(ShaderStage::GS);
-
-					Renderer::DrawMesh(transform.localToWorld, entity, uiShader, pointMesh, panel.texture);
+					auto [transform, panel,state] = group2.get<TransformComponent, PanelComponent, StateComponent>(entity);
+					if (state.currentState == EntityState::Active) {
+						panel.SetMaterial();
+						Renderer::DrawPoint(transform.localToWorld, panel.material, entity);
+					}
 				}
 
-				auto gaugeShader = GET_SINGLE(Resources)->Find<Shader>(L"GaugeShader");
-				auto rectMesh = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
-				auto group3 = m_Registry.group<SliderComponent>(entt::get<TransformComponent>);
+				auto group3 = m_Registry.group<SliderComponent>(entt::get<TransformComponent, StateComponent>);
 				for (auto entity : group3)
 				{
-					auto [transform, slider] = group3.get<TransformComponent, SliderComponent>(entity);
-					auto buffer = GEngine->GetConstantBuffer(Constantbuffer_Type::SLIDER);
+					auto [transform, slider, state] = group3.get<TransformComponent, SliderComponent, StateComponent>(entity);
+					if (state.currentState == EntityState::Active) {
+						slider.SetMaterial();
+						Renderer::DrawRect(transform.localToWorld, slider.material, entity);
+					}
+				}
 
-					if (slider.bar == nullptr || slider.gauge == nullptr)
-						continue;
-					SliderCB sCB = {};
-					sCB.barSize = slider.bar->GetSize();
-					sCB.gaugeSize = slider.gauge->GetSize();
-					sCB.currentValue = slider.currentValue;
-					sCB.maxValue = slider.maxValue;
-
-					buffer->SetData(&sCB);
-					buffer->SetPipline(ShaderStage::VS);
-					buffer->SetPipline(ShaderStage::PS);
-
-					Renderer::DrawMesh(transform.localToWorld, entity, gaugeShader, rectMesh, slider.bar, slider.gauge);
+				auto group4 = m_Registry.group<SlotComponent>(entt::get<TransformComponent, StateComponent>);
+				for (auto entity : group4)
+				{
+					auto [transform, slot, state] = group4.get<TransformComponent, SlotComponent, StateComponent>(entity);
+					if (state.currentState == EntityState::Active) {
+						slot.SetMaterial();
+						Renderer::DrawRect(transform.localToWorld, slot.material, entity);
+					}
 				}
 			}
 			Renderer::End();
@@ -308,6 +296,7 @@ namespace SY {
 
 	void Scene::OnUpdateSimulation(float timeStep, EditorCamera& camera)
 	{
+		ParentManager::CreateHierarchy(this);
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
 			OnPhysicsUpdate(timeStep);
@@ -318,6 +307,7 @@ namespace SY {
 
 	void Scene::OnUpdateEditor(float timeStep, EditorCamera& camera)
 	{
+		ParentManager::CreateHierarchy(this);
 		auto view = m_Registry.view<TransformComponent>();
 
 		UpdateTransform();
@@ -355,6 +345,10 @@ namespace SY {
 		}
 
 		ParentManager::CreateToWorld(this);
+	}
+
+	void Scene::CreateHierarchy()
+	{
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
@@ -423,7 +417,6 @@ namespace SY {
 			b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
 			body->SetFixedRotation(rb2d.FixedRotation);
 			rb2d.RuntimeBody = body;
-
 			if (entity.HasComponent<BoxCollider2DComponent>())
 			{
 				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
@@ -566,12 +559,12 @@ namespace SY {
 	{
 		Renderer::Begin(camera);
 		{
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>);
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				sprite.spCB.color = sprite.Color;
-				Renderer::DrawSprite(transform.localToWorld, sprite.spCB, entity, sprite.Texture);
+				sprite.SetMaterial();
+				Renderer::DrawRect(transform.localToWorld, sprite.material, entity);
 			}
 		}
 
@@ -597,20 +590,12 @@ namespace SY {
 	template<>
 	void Scene::OnComponentAdded<SpriteAnimatorComponent>(Entity entity, SpriteAnimatorComponent& component)
 	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
-	{
+		if (!entity.HasComponent<SpriteRendererComponent>())
+			entity.AddComponent<SpriteRendererComponent>();
 	}
 
 	template<>
 	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
 	{
 	}
 
@@ -636,21 +621,6 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<StateComponent>(Entity entity, StateComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<PanelComponent>(Entity entity, PanelComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<SliderComponent>(Entity entity, SliderComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<SlotComponent>(Entity entity, SlotComponent& component)
 	{
 	}
 }
