@@ -100,7 +100,7 @@ PSOut PS_MAIN(GSOut In)
     float2 tintRange = g_vec2_2 / g_vec2_0;
     float4 tintColor = g_vec4_0;
 
-    float4 color = tex_0.Sample(anisotropicSampler, In.UV);
+    float4 color = tex_0.Sample(linearSampler, In.UV);
 
     PSOut Out = (PSOut)0.f;
     if (color.w > 0.5f)

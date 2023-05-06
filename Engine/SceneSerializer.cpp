@@ -91,17 +91,23 @@ namespace SY {
 			out << YAML::EndMap; // TagComponent
 		}
 
+		if (entity.HasComponent<StateComponent>())
+		{
+			auto& state = entity.GetComponent<StateComponent>();
+			out << YAML::Key << "State";
+			out << YAML::Value << (UINT)state.state;
+		}
+
 		if (entity.HasComponent<TransformComponent>())
 		{
-			out << YAML::Key << "TransformComponent";
-			out << YAML::BeginMap; // TransformComponent
-
 			auto& tc = entity.GetComponent<TransformComponent>();
-			out << YAML::Key << "Translation" << YAML::Value << tc.translation;
-			out << YAML::Key << "Rotation" << YAML::Value << tc.rotation;
-			out << YAML::Key << "Scale" << YAML::Value << tc.scale;
+			tc.Serialize(out);
+		}
 
-			out << YAML::EndMap; // TransformComponent
+		if (entity.HasComponent<RectTransformComponent>())
+		{
+			auto& tc = entity.GetComponent<RectTransformComponent>();
+			tc.Serialize(out);
 		}
 
 		if (entity.HasComponent<Parent>())
@@ -137,6 +143,13 @@ namespace SY {
 			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 
 			out << YAML::EndMap; // CameraComponent
+		}
+
+		if (entity.HasComponent<BackGroundColorComponent>())
+		{
+			auto& background = entity.GetComponent<BackGroundColorComponent>();
+			out << YAML::Key << "BackGroundColorComponent";
+			out << YAML::Value << background.color;
 		}
 
 		if (entity.HasComponent<ScriptComponent>())
@@ -317,6 +330,7 @@ namespace SY {
 				out << YAML::Key << "PanelPath" << YAML::Value << wtos(wpath);
 				
 			}
+			out << YAML::Key << "resizeTexture" << YAML::Value << panel.resizeTexture;
 			out << YAML::Key << "panelOffset" << YAML::Value << panel.offset;
 			out << YAML::Key << "tineColor" << YAML::Value << panel.color;
 			out << YAML::Key << "tineRange" << YAML::Value << panel.tintOffset;
@@ -364,6 +378,23 @@ namespace SY {
 			if (slot.item) {
 				wstring itemPath = slot.item->GetPath();
 				out << YAML::Key << "itemPath" << YAML::Value << wtos(itemPath);
+			}
+
+			out << YAML::EndMap; // SlotComponent
+		}
+
+		if (entity.HasComponent<IconComponent>())
+		{
+			out << YAML::Key << "IconComponent";
+			out << YAML::BeginMap;
+
+			auto& icon = entity.GetComponent<IconComponent>();
+
+			out << YAML::Key << "tint" << YAML::Value << icon.tint;
+
+			if (icon.icon) {
+				wstring iconPath = icon.icon->GetPath();
+				out << YAML::Key << "iconPath" << YAML::Value << wtos(iconPath);
 			}
 
 			out << YAML::EndMap; // SlotComponent
@@ -443,18 +474,27 @@ namespace SY {
 		if (tagComponent)
 			name = tagComponent["Tag"].as<std::string>();
 
-		//HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
-
 		Entity deserializedEntity = scene->CreateEntityWithUUID(uuid, name);
+
+		auto stateComponent = entity["State"];
+		if(stateComponent)
+		{
+			auto& state = deserializedEntity.GetComponent<StateComponent>();
+			state.state = (EntityState)stateComponent.as<UINT>();
+		}
 
 		auto transformComponent = entity["TransformComponent"];
 		if (transformComponent)
 		{
-			// Entities always have transforms
-			auto& tc = deserializedEntity.GetComponent<TransformComponent>();
-			tc.translation = transformComponent["Translation"].as<Vector3>();
-			tc.rotation = transformComponent["Rotation"].as<Vector3>();
-			tc.scale = transformComponent["Scale"].as<Vector3>();
+			auto& tc = deserializedEntity.AddComponent<TransformComponent>();
+			tc.Deserialize(transformComponent);
+		}
+
+		auto rectTransformComponent = entity["RectTransformComponent"];
+		if (rectTransformComponent)
+		{
+			auto& tc = deserializedEntity.AddComponent<RectTransformComponent>();
+			tc.Deserialize(rectTransformComponent);
 		}
 
 		auto parent = entity["Parent"];
@@ -539,6 +579,13 @@ namespace SY {
 			cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
 		}
 
+		auto backgroundcolorComponent = entity["BackGroundColorComponent"];
+		if (backgroundcolorComponent)
+		{
+			auto& background = deserializedEntity.AddComponent<BackGroundColorComponent>();
+			background.color = backgroundcolorComponent.as<Vector4>();
+		}
+
 		auto spriteRendererComponent = entity["SpriteRendererComponent"];
 		if (spriteRendererComponent)
 		{
@@ -553,7 +600,7 @@ namespace SY {
 				src.fixed = spriteRendererComponent["Fixed"].as<bool>();
 				src.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
 				src.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
-				//src.targetOffset = spriteRendererComponent["TargetOffset"].as<Vector2>();
+				src.targetOffset = spriteRendererComponent["TargetOffset"].as<Vector2>();
 			}
 		}
 
@@ -760,6 +807,7 @@ namespace SY {
 				panel.panel = make_shared<Texture>();
 				panel.panel->Load(path.wstring(), false);
 			}
+			panel.resizeTexture = panelComponent["resizeTexture"].as<Vector2>();
 			panel.offset = panelComponent["panelOffset"].as<Vector2>();
 			panel.color = panelComponent["tineColor"].as<Vector4>();
 			panel.tintOffset = panelComponent["tineRange"].as<Vector2>();
@@ -818,6 +866,24 @@ namespace SY {
 				slot.item = make_shared<Texture>();
 				slot.item->Load(path.wstring(), false);
 			}
+		}
+
+		auto iconComponent = entity["IconComponent"];
+		if (iconComponent)
+		{
+			auto& icon = deserializedEntity.AddComponent<IconComponent>();
+			if (iconComponent["iconPath"])
+			{
+				std::string texturePath = iconComponent["iconPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				icon.icon = make_shared<Texture>();
+				icon.icon->Load(path.wstring(), false);
+			}
+			if (iconComponent["tint"])
+			{
+				icon.tint = iconComponent["tint"].as<Vector4>();
+			}
+			
 		}
 		return deserializedEntity;
 	}

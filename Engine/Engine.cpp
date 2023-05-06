@@ -105,9 +105,9 @@ void Engine::BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
 	CONTEXT->RSSetViewports(1,&_viewPort);
 }
 
-void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group)
+void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group, float* color)
 {
-	_rtGroups[(UINT)group]->ClearRenderTargets();
+	_rtGroups[(UINT)group]->ClearRenderTargets(color);
 }
 
 HRESULT Engine::CreateRenderTargetGroup()

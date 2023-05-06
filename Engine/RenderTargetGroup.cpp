@@ -22,11 +22,14 @@ void RenderTargetGroup::OMSetRenderTargets()
 	CONTEXT->OMSetRenderTargets(_rtVec.size(), (ID3D11RenderTargetView**)_vec.data(), _dsTexture->GetDSV());
 }
 
-void RenderTargetGroup::ClearRenderTargets()
+void RenderTargetGroup::ClearRenderTargets(float* color)
 {
 	for (auto renderTarget : _rtVec)
 	{
-		CONTEXT->ClearRenderTargetView(renderTarget.target->GetRTV(), renderTarget.clearColor);
+		if(color == nullptr)
+			CONTEXT->ClearRenderTargetView(renderTarget.target->GetRTV(), renderTarget.clearColor);
+		else
+			CONTEXT->ClearRenderTargetView(renderTarget.target->GetRTV(), color);
 	}
 
 	CONTEXT->ClearDepthStencilView(_dsTexture->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);

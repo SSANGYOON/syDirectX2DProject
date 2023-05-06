@@ -56,10 +56,11 @@ namespace SY {
 							sc.currentState = EntityState::Dead;
 						else
 							sc.currentState = EntityState::Pause;
+						break;
 					}
 					default:
 					{
-						sc.currentState = sc.currentState;
+						sc.currentState = sc.state;
 						break;
 					}
 				}
@@ -94,6 +95,32 @@ namespace SY {
 
 			tr.localToWorld = tr.localToParent * parentTr.localToWorld;
 
+			for (auto e : childMap[(UINT)entity])
+			{
+				updatequeue.push((UINT)e);
+			}
+		}
+
+		scene->m_Registry.view<RectTransformComponent>(entt::exclude<Parent>).each([&updatequeue](entt::entity entity, RectTransformComponent& tr) {
+			tr.worldTranslation = tr.translation;
+			tr.CreatToWorld();
+			for (auto e : childMap[(UINT)entity])
+			{
+				updatequeue.push((UINT)e);
+			}
+			});
+
+		while (!updatequeue.empty())
+		{
+			Entity entity = { (entt::entity)(updatequeue.front()),scene };
+			updatequeue.pop();
+			auto& tr = entity.GetComponent<RectTransformComponent>();
+			UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
+			auto parent = scene->GetEntityByUUID(parenUUID);
+			auto& parentTr = parent.GetComponent<RectTransformComponent>();
+
+			tr.worldTranslation = parentTr.worldTranslation + tr.translation;
+			tr.CreatToWorld();
 			for (auto e : childMap[(UINT)entity])
 			{
 				updatequeue.push((UINT)e);

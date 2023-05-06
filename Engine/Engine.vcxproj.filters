@@ -31,15 +31,6 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{5b0309c5-7db6-4bf8-bd8b-4ddd8c2d2250}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{42e2aadf-e71f-44e0-b808-1e121ec2b59b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Camera\SceneCamera">
-      <UniqueIdentifier>{fddf4885-be3f-4a4b-a185-5d446f6de4e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Camera\EditorCamera">
-      <UniqueIdentifier>{e9fdabc0-3ebb-4536-9e52-14d808d0b0e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Layer\EditorLayer">
       <UniqueIdentifier>{cd6db916-ba18-4c65-8d30-d98c99f47aac}</UniqueIdentifier>
     </Filter>
@@ -145,6 +136,30 @@
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{52b35746-70ce-42c8-b350-ba2f7ff30eef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\ID">
+      <UniqueIdentifier>{ec477148-c805-4183-ab05-e9544c37540a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Transform">
+      <UniqueIdentifier>{bdf33ea7-5073-4294-93a2-abc969970dc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\RigidBody">
+      <UniqueIdentifier>{9b0b038e-d418-4671-886f-838f0d63d174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{8009d62b-7aca-4770-be95-4e2a28183039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Camera">
+      <UniqueIdentifier>{42e2aadf-e71f-44e0-b808-1e121ec2b59b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Camera\SceneCamera">
+      <UniqueIdentifier>{fddf4885-be3f-4a4b-a185-5d446f6de4e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Camera\EditorCamera">
+      <UniqueIdentifier>{e9fdabc0-3ebb-4536-9e52-14d808d0b0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Drawable">
+      <UniqueIdentifier>{e89db91e-38b7-4b69-93d9-0e48eab842d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource.cpp">
@@ -244,7 +259,7 @@
       <Filter>Scene\SceneSerializer</Filter>
     </ClCompile>
     <ClCompile Include="SceneCamera.cpp">
-      <Filter>Camera\SceneCamera</Filter>
+      <Filter>Component\Camera\SceneCamera</Filter>
     </ClCompile>
     <ClCompile Include="FileDialogs.cpp">
       <Filter>Utils\EditorUtils\FileDialog</Filter>
@@ -262,7 +277,7 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="EditorCamera.cpp">
-      <Filter>Camera\EditorCamera</Filter>
+      <Filter>Component\Camera\EditorCamera</Filter>
     </ClCompile>
     <ClCompile Include="imGuiLayer.cpp">
       <Filter>Layer\ImGuiLayer</Filter>
@@ -306,6 +321,22 @@
     <ClCompile Include="Prefab.cpp">
       <Filter>Resource\Prefab</Filter>
     </ClCompile>
+    <ClCompile Include="IDComponent.cpp">
+      <Filter>Component\ID</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp">
+      <Filter>Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Component\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Struct.h">
@@ -322,9 +353,6 @@
     </ClInclude>
     <ClInclude Include="PipelineStates.h">
       <Filter>Graphics\PiplelineStates</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Utils\Input</Filter>
@@ -423,7 +451,7 @@
       <Filter>Scene\SceneSerializer</Filter>
     </ClInclude>
     <ClInclude Include="SceneCamera.h">
-      <Filter>Camera\SceneCamera</Filter>
+      <Filter>Component\Camera\SceneCamera</Filter>
     </ClInclude>
     <ClInclude Include="FileDialogs.h">
       <Filter>Utils\EditorUtils\FileDialog</Filter>
@@ -438,7 +466,7 @@
       <Filter>Win32Window</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Camera</Filter>
+      <Filter>Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\External\imgui\ImGuizmo.h">
       <Filter>ImGui</Filter>
@@ -447,7 +475,7 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="EditorCamera.h">
-      <Filter>Camera\EditorCamera</Filter>
+      <Filter>Component\Camera\EditorCamera</Filter>
     </ClInclude>
     <ClInclude Include="imGuiLayer.h">
       <Filter>Layer\ImGuiLayer</Filter>
@@ -502,6 +530,25 @@
     </ClInclude>
     <ClInclude Include="Prefab.h">
       <Filter>Resource\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="IDComponent.h">
+      <Filter>Component\ID</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyComponent.h">
+      <Filter>Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="Drawable.h">
+      <Filter>Component\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

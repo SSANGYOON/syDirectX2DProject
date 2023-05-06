@@ -192,16 +192,11 @@ namespace Sandbox
 
             if (State != PlayerState.Dead && Input.IsKeyDown(KeyCode.Tab))
             {
-                Entity inven = FindEntityByName("Panel");
+                Entity inven = FindEntityByName("InventoryPanel");
                 if (inven != null)
                 {
-                    Console.WriteLine("Panel Found");
                     inven.GetComponent<StateComponent>().State = inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ? 
                         StateComponent.EntityState.Active : StateComponent.EntityState.Pause;
-                }
-                else
-                {
-                    Console.WriteLine("Panel Not Found");
                 }
             }
         }

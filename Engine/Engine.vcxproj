@@ -163,15 +163,18 @@
     <ClInclude Include="..\External\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\External\ImGui\imstb_truetype.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="ApplicationEvent.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ContentBrowserPanel.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="EditorCamera.h" />
     <ClInclude Include="EditorLayer.h" />
     <ClInclude Include="EnginePch.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="FileDialogs.h" />
     <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="IDComponent.h" />
     <ClInclude Include="imGuiLayer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="KeyEvent.h" />
@@ -194,6 +198,7 @@
     <ClInclude Include="ProjectSerializer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderTargetGroup.h" />
+    <ClInclude Include="RigidBodyComponent.h" />
     <ClInclude Include="SceneCamera.h" />
     <ClInclude Include="SceneHierarchyPanel.h" />
     <ClInclude Include="SceneManager.h" />
@@ -213,6 +218,7 @@
     <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="UUID.h" />
     <ClInclude Include="SyWindow.h" />
@@ -259,11 +265,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="ContentsBrowserPanel.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="EditorLayer.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -271,6 +280,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FileDialogs.cpp" />
     <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="IDComponent.cpp" />
     <ClCompile Include="imGuiLayer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
@@ -286,6 +296,7 @@
     <ClCompile Include="ProjectSerializer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderTargetGroup.cpp" />
+    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="SceneCamera.cpp" />
     <ClCompile Include="SceneHierarchyPanel.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -307,6 +318,7 @@
     <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UUID.cpp" />
     <ClCompile Include="SyWindow.cpp" />
   </ItemGroup>

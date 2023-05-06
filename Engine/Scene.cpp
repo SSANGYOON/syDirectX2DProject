@@ -114,7 +114,6 @@ namespace SY {
 	{
 		Entity entity = { m_Registry.create(), this };
 		entity.AddComponent<IDComponent>(uuid);
-		entity.AddComponent<TransformComponent>();
 		auto& state = entity.AddComponent<StateComponent>();
 		state.state = EntityState::Active;
 		auto& tag = entity.AddComponent<TagComponent>();
@@ -227,6 +226,13 @@ namespace SY {
 				});
 		}
 
+		auto view = m_Registry.view<BackGroundColorComponent>();
+		for (auto entity : view)
+		{
+			auto& [backGround] = view.get<BackGroundColorComponent>(entity);
+			GEngine->ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::EDITOR, reinterpret_cast<float*>(&backGround));
+		}
+
 		CameraComponent* mainCamera = nullptr;
 		Matrix cameraTransform;
 		Matrix cameraProjection;
@@ -259,33 +265,43 @@ namespace SY {
 					}
 				}
 
-				auto group2 = m_Registry.group<PanelComponent>(entt::get<TransformComponent, StateComponent>);
+				auto group2 = m_Registry.group<PanelComponent>(entt::get<RectTransformComponent, StateComponent>);
 				for (auto entity : group2)
 				{
-					auto [transform, panel,state] = group2.get<TransformComponent, PanelComponent, StateComponent>(entity);
+					auto [transform, panel,state] = group2.get<RectTransformComponent, PanelComponent, StateComponent>(entity);
 					if (state.currentState == EntityState::Active) {
 						panel.SetMaterial();
 						Renderer::DrawPoint(transform.localToWorld, panel.material, entity);
 					}
 				}
 
-				auto group3 = m_Registry.group<SliderComponent>(entt::get<TransformComponent, StateComponent>);
+				auto group3 = m_Registry.group<SliderComponent>(entt::get<RectTransformComponent, StateComponent>);
 				for (auto entity : group3)
 				{
-					auto [transform, slider, state] = group3.get<TransformComponent, SliderComponent, StateComponent>(entity);
+					auto [transform, slider, state] = group3.get<RectTransformComponent, SliderComponent, StateComponent>(entity);
 					if (state.currentState == EntityState::Active) {
 						slider.SetMaterial();
 						Renderer::DrawRect(transform.localToWorld, slider.material, entity);
 					}
 				}
 
-				auto group4 = m_Registry.group<SlotComponent>(entt::get<TransformComponent, StateComponent>);
+				auto group4 = m_Registry.group<SlotComponent>(entt::get<RectTransformComponent, StateComponent>);
 				for (auto entity : group4)
 				{
-					auto [transform, slot, state] = group4.get<TransformComponent, SlotComponent, StateComponent>(entity);
+					auto [transform, slot, state] = group4.get<RectTransformComponent, SlotComponent, StateComponent>(entity);
 					if (state.currentState == EntityState::Active) {
 						slot.SetMaterial();
 						Renderer::DrawRect(transform.localToWorld, slot.material, entity);
+					}
+				}
+
+				auto group5 = m_Registry.group<IconComponent>(entt::get<RectTransformComponent, StateComponent>);
+				for (auto entity : group5)
+				{
+					auto [transform, Icon, state] = group5.get<RectTransformComponent, IconComponent, StateComponent>(entity);
+					if (state.currentState == EntityState::Active) {
+						Icon.SetMaterial();
+						Renderer::DrawRect(transform.localToWorld, Icon.material, entity);
 					}
 				}
 			}
@@ -621,6 +637,11 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<StateComponent>(Entity entity, StateComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<RectTransformComponent>(Entity entity, RectTransformComponent& component)
 	{
 	}
 }

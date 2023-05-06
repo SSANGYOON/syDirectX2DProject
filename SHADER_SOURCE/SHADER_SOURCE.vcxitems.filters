@@ -14,6 +14,7 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)GaugeShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)UIShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)SlotShader.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)IconShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

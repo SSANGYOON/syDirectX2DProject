@@ -38,10 +38,7 @@ namespace SY {
 		{
 			m_Context->m_Registry.each([&](auto entityID)
 				{
-
 					Entity entity{ entityID , m_Context.get() };
-
-					TransformComponent tr = m_Context->m_Registry.get<TransformComponent>(entityID);
 					if (!entity.HasComponent<Parent>())
 						DrawEntityNode(entity);
 				});
@@ -176,7 +173,7 @@ namespace SY {
 		}
 	}
 
-	static void DrawVec3Control(const std::string& label, Vector3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
+	void DrawVec3Control(const std::string& label, Vector3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		auto boldFont = io.Fonts->Fonts[0];
@@ -324,6 +321,7 @@ namespace SY {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
+			DisplayAddComponentEntry<RectTransformComponent>("RectTransform");
 			DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer");
 			DisplayAddComponentEntry<Rigidbody2DComponent>("Rigidbody 2D");
@@ -335,19 +333,16 @@ namespace SY {
 			DisplayAddComponentEntry<PanelComponent>("Panel");
 			DisplayAddComponentEntry<SliderComponent>("Slider");
 			DisplayAddComponentEntry<SlotComponent>("Slot");
+			DisplayAddComponentEntry<IconComponent>("Icon");
+			DisplayAddComponentEntry<BackGroundColorComponent>("BackGroundColor");
 			ImGui::EndPopup();
 		}
 
 		ImGui::PopItemWidth();
 
-		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
-			{
-				DrawVec3Control("Translation", component.translation);
-				Vector3 rotation = component.rotation * 180.f / XM_PI;
-				DrawVec3Control("Rotation", rotation);
-				component.rotation = rotation / 180.f * XM_PI;
-				DrawVec3Control("Scale", component.scale, 1.0f);
-			});
+		DrawComponent<TransformComponent>("Transform", entity, &TransformComponent::DrawImGui);
+
+		DrawComponent<RectTransformComponent>("RectTransform", entity, &RectTransformComponent::DrawImGui);
 
 		DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
 			{
@@ -444,7 +439,6 @@ namespace SY {
 					return;
 				}
 
-				// Fields
 				bool sceneRunning = scene->IsRunning();
 				if (sceneRunning)
 				{
@@ -534,192 +528,10 @@ namespace SY {
 				}
 			});
 
-
-		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
-			{
-				ImGui::ColorEdit4("Color", reinterpret_cast<float*>(&component.Color));
-
-				ImGui::Text("Diffuse", ImVec2(100.0f, 0.0f));
-				if (ImGui::BeginDragDropTarget())
-				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-					{
-						const wchar_t* path = (const wchar_t*)payload->Data;
-						std::filesystem::path texturePath(path);
-						shared_ptr<Texture> texture = make_shared<Texture>();
-						texture->Load(texturePath.wstring(),false);
-						assert(texture->GetD3Texture());
-						component.Diffuse = texture;
-					}
-					ImGui::EndDragDropTarget();
-				}
-				
-
-
-				if (component.Diffuse) {
-					ImGui::Text(wtos(component.Diffuse->GetPath()).c_str());
-
-					if(ImGui::Button("Remove"))
-					{
-						component.Diffuse = nullptr;
-					}
-				}
-
-				ImGui::InputFloat2("SourceOffset", reinterpret_cast<float*>(&component.sourceOffset));
-				ImGui::InputFloat2("SourceSize", reinterpret_cast<float*>(&component.sourceSize));
-				ImGui::Checkbox("Fixed", &component.fixed);
-
-				bool layerBits[8];
-				int category = component.LayerBit;
-				for (int i = 0; i < 8; i++)
-				{
-					layerBits[i] = category % 2;
-					category /= 2;
-				}
-
-				ImGui::Text("Layer");
-				for (int i = 0; i < 8; i++) {
-					ImGui::Checkbox(( to_string(i)).c_str(), &layerBits[i]);
-					if (i < 7)
-						ImGui::SameLine();
-				}
-
-				component.LayerBit = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					component.LayerBit += layerBits[i] * (1 << i);
-				}
-			});
-
-		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, [](auto& component)
-			{
-				const char* bodyTypeStrings[] = { "Static", "Dynamic", "Kinematic" };
-				const char* currentBodyTypeString = bodyTypeStrings[(int)component.Type];
-				if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
-				{
-					for (int i = 0; i < 2; i++)
-					{
-						bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
-						if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
-						{
-							currentBodyTypeString = bodyTypeStrings[i];
-							component.Type = (Rigidbody2DComponent::BodyType)i;
-						}
-
-						if (isSelected)
-							ImGui::SetItemDefaultFocus();
-					}
-
-					ImGui::EndCombo();
-				}
-
-				ImGui::Checkbox("Fixed Rotation", &component.FixedRotation);
-			});
-
-		DrawComponent<BoxCollider2DComponent>("Box Collider 2D", entity, [](auto& component)
-			{
-				ImGui::DragFloat2("Offset", reinterpret_cast<float*>(&component.Offset));
-				ImGui::DragFloat2("Size", reinterpret_cast<float*>(&component.Size));
-				ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
-				
-				bool categoryBits[8];
-				int category = component.categoryBits;
-				for (int i = 0; i < 8; i++)
-				{
-					categoryBits[i] = category % 2;
-					category /= 2;
-				}
-
-				bool maskBits[8];
-				int mask = component.maskBits;
-				for (int i = 0; i < 8; i++)
-				{
-					maskBits[i] = mask % 2;
-					mask /= 2;
-				}
-
-				ImGui::Text("Category");
-				for (int i = 0; i < 8; i++) {
-					ImGui::Checkbox(("C" + to_string(i)).c_str(), &categoryBits[i]);
-					if (i < 7)
-						ImGui::SameLine();
-				}
-
-				ImGui::Text("maskBits");
-				for (int i = 0; i < 8; i++) {
-					ImGui::Checkbox(("M" + to_string(i)).c_str(), &maskBits[i]);
-					if (i < 7)
-						ImGui::SameLine();
-				}
-	
-				component.categoryBits = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					component.categoryBits += categoryBits[i] * (1 << i);
-				}
-				component.maskBits = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					component.maskBits += maskBits[i] * (1 << i);
-				}
-				ImGui::Checkbox("Box Collider : trigger", &component.isSensor);
-			});
-
-		DrawComponent<CircleCollider2DComponent>("Circle Collider 2D", entity, [](auto& component) 
-			{
-				ImGui::DragFloat2("Offset", reinterpret_cast<float*>(&component.Offset));
-				ImGui::DragFloat("Radius", &component.Radius);
-				ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
-				ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
-
-				bool categoryBits[8];
-				int category = component.categoryBits;
-				for (int i = 0; i < 8; i++)
-				{
-					categoryBits[i] = category % 2;
-					category /= 2;
-				}
-
-				bool maskBits[8];
-				int mask = component.maskBits;
-				for (int i = 0; i < 8; i++)
-				{
-					maskBits[i] = mask % 2;
-					mask /= 2;
-				}
-
-				ImGui::Text("Category");
-				for (int i = 0; i < 8; i++) {
-					ImGui::Checkbox(to_string(i).c_str(), &categoryBits[i]);
-					if (i < 7)
-						ImGui::SameLine();
-				}
-
-				ImGui::Text("maskBits");
-				for (int i = 0; i < 8; i++) {
-					ImGui::Checkbox(to_string(i).c_str(), &maskBits[i]);
-					if (i < 7)
-						ImGui::SameLine();
-				}
-
-				component.categoryBits = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					component.categoryBits += categoryBits[i] * (1 << i);
-				}
-				component.maskBits = 0;
-				for (int i = 0; i < 8; i++)
-				{
-					component.maskBits += maskBits[i] * (1 << i);
-				}
-				ImGui::Checkbox("Circle Collider : trigger", &component.isSensor);
-			});
-
+		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, &SpriteRendererComponent::DrawImGui);
+		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, &Rigidbody2DComponent::DrawImGui);
+		DrawComponent<BoxCollider2DComponent>("Box Collider 2D", entity, &BoxCollider2DComponent::DrawImGui);
+		DrawComponent<CircleCollider2DComponent>("Circle Collider 2D", entity, &CircleCollider2DComponent::DrawImGui);
 		DrawComponent<TransformAnimatorComponent>("TransformAnimator", entity, [] (auto& component){
 			
 			vector<string> animations;
@@ -754,8 +566,6 @@ namespace SY {
 					std::filesystem::path animPath(path);
 
 					YAML::Node data;
-
-
 					wstring fullPath = path;
 
 					try
@@ -864,12 +674,9 @@ namespace SY {
 							ImGui::EndPopup();
 						}
 						ImGui::TreePop();
-
-						
-					}
-
-					
+					}		
 				}
+
 				ImGui::Text("Drag new clips here", ImVec2(100.0f, 0.0f));
 				if (ImGui::BeginDragDropTarget())
 				{
@@ -879,8 +686,6 @@ namespace SY {
 						std::filesystem::path animPath(path);
 						
 						YAML::Node data;
-
-
 						wstring fullPath = path;
 						
 						try
@@ -913,7 +718,6 @@ namespace SY {
 							shared_ptr<Animation> clipRef;
 							if (clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key)))
 							{
-
 							}
 							else {
 								Vector2 offset = OriginalOffset.as<Vector2>();
@@ -940,173 +744,21 @@ namespace SY {
 
 							component.clips[key] = clipRef;
 						}
-
-						
-
 					}
 					ImGui::EndDragDropTarget();
 				}
 			});
 
-			DrawComponent<PanelComponent>("Panel", entity, [](auto& component)
+			DrawComponent<PanelComponent>("Panel", entity, &PanelComponent::DrawImGui);
+			DrawComponent<SliderComponent>("Slider", entity, &SliderComponent::DrawImGui);
+			DrawComponent<SlotComponent>("Slot", entity, &SlotComponent::DrawImGui);
+			DrawComponent<IconComponent>("Icon", entity, &IconComponent::DrawImGui);
+
+			DrawComponent<BackGroundColorComponent>("BackGroundColor", entity, [](auto& component)
 				{
-					ImGui::DragFloat2("Offset", reinterpret_cast<float*>(&component.offset));
-					ImGui::DragFloat2("TintRange", reinterpret_cast<float*>(&component.tintOffset));
-					ImGui::DragFloat2("ResizeTexture", reinterpret_cast<float*>(&component.resizeTexture));
-					ImGui::ColorEdit4("TintColor", reinterpret_cast<float*>(&component.color));
-					ImGui::Text("Panel", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.panel = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.panel) {
-						ImGui::Text(wtos(component.panel->GetPath()).c_str());
-
-						if (ImGui::Button("Remove"))
-						{
-							component.panel = nullptr;
-						}
-					}
-				});
-
-			DrawComponent<SliderComponent>("Slider", entity, [](auto& component)
-				{
-					ImGui::DragFloat("currentValue", &component.currentValue);
-					ImGui::DragFloat("maxValue", &component.maxValue);
-
-					ImGui::Text("BarTexture", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.bar = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.bar) {
-						ImGui::Text(wtos(component.bar->GetPath()).c_str());
-
-						if (ImGui::Button("Remove bar"))
-						{
-							component.bar = nullptr;
-						}
-					}
-
-					ImGui::Text("GaugeTexture", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.gauge = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.gauge) {
-						ImGui::Text(wtos(component.gauge->GetPath()).c_str());
-
-						if (ImGui::Button("Remove gauge"))
-						{
-							component.gauge = nullptr;
-						}
-					}
-				});
-
-			DrawComponent<SlotComponent>("Slot", entity, [](auto& component)
-				{
-					float rotation = component.rotation * 180.f / XM_PI;
-					ImGui::DragFloat("Rotation", &rotation);
-					component.rotation = rotation / 180.f * XM_PI;
-
-					ImGui::DragFloat2("ItemSize", reinterpret_cast<float*>(&component.itemSize));
-					
-					ImGui::Text("Slot", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.slot = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.slot) {
-						ImGui::Text(wtos(component.slot->GetPath()).c_str());
-
-						if (ImGui::Button("Remove slot"))
-							component.slot = nullptr;
-					}
-
-					ImGui::Text("SlotMask", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.slotMask = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.slotMask) {
-						ImGui::Text(wtos(component.slotMask->GetPath()).c_str());
-
-						if (ImGui::Button("Remove slotmask"))
-							component.slotMask = nullptr;
-					}
-
-					ImGui::Text("Item", ImVec2(100.0f, 0.0f));
-					if (ImGui::BeginDragDropTarget())
-					{
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-						{
-							const wchar_t* path = (const wchar_t*)payload->Data;
-							std::filesystem::path texturePath(path);
-							shared_ptr<Texture> texture = make_shared<Texture>();
-							texture->Load(texturePath.wstring(), false);
-							assert(texture->GetD3Texture());
-							component.item = texture;
-						}
-						ImGui::EndDragDropTarget();
-					}
-
-					if (component.item) {
-						ImGui::Text(wtos(component.item->GetPath()).c_str());
-
-						if (ImGui::Button("Remove item"))
-							component.item = nullptr;
-					}
-				});
+					ImGui::ColorEdit4("BackGroundColor", reinterpret_cast<float*>(&component.color));
+				}
+			);
 	}
 
 	template<typename T>

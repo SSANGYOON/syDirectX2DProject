@@ -45,4 +45,15 @@ namespace SY {
 		float m_AspectRatio = 16.f/9.f;
 	};
 
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+		bool Primary = true; // TODO: think about moving to Scene
+		bool FixedAspectRatio = false;
+
+		UINT16 LayerBit = 65535;
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
 }

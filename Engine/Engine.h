@@ -23,7 +23,7 @@ public:
 	void ClearSwapChain();
 
 	void BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group);
-	void ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group);
+	void ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group, float* color = nullptr);
 
 	shared_ptr<Texture> GetRenderTargetTex(RENDER_TARGET_GROUP_TYPE rtType, UINT index) { return _rtGroups[(UINT)rtType]->GetRTTexture(index); }
 

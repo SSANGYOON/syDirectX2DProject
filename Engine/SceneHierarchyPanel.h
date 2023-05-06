@@ -27,5 +27,4 @@ namespace SY {
 		shared_ptr<Scene> m_Context;
 		Entity m_SelectionContext;
 	};
-
 }

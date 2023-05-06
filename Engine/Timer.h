@@ -8,6 +8,7 @@ public:
 	float DeltaTime() { return mDeltaTime; }
 
 	void Init();
+	void SetTimeScale(float timeScale) { mTimeScale = timeScale; };
 	void Update();
 	void Render(HDC hdc);
 
@@ -18,4 +19,5 @@ private:
 
 	float			mDeltaTime = 0.f;
 	float			mOneSecond = 0.f;
+	float			mTimeScale = 1.f;
 };

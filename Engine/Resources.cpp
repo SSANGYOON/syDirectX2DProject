@@ -270,4 +270,21 @@ void Resources::CreateDefaultResource()
 		SlotShader->CreateShader(_info, _entry, L"SlotShader.hlsl");
 	}
 #pragma endregion
+
+#pragma region IconShader
+	{
+		shared_ptr<Shader> IconShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"IconShader", IconShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		IconShader->CreateShader(_info, _entry, L"IconShader.hlsl");
+	}
+#pragma endregion
 }

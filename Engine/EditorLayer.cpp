@@ -71,8 +71,6 @@ namespace SY {
 
 		//m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
-		// Render
-		Renderer::ResetStats();
 		GEngine->BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::EDITOR);
 		GEngine->ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::EDITOR);
 
@@ -99,7 +97,7 @@ namespace SY {
 		}
 		}
 
-		/* auto [mx, my] = ImGui::GetMousePos();
+		auto [mx, my] = ImGui::GetMousePos();
 		int mouseX = (int)mx;
 		int mouseY = (int)my;
 		Vector2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
@@ -128,7 +126,7 @@ namespace SY {
 			CONTEXT->Unmap(m_EntityTex->GetD3Texture(), 0);
 
 			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
-		}*/
+		}
 
 		OnOverlayRender();
 	}
@@ -212,7 +210,7 @@ namespace SY {
 
 			if (ImGui::BeginMenu("Edit"))
 			{
-				ImGui::MenuItem("Show Imgui Panels", NULL, &m_ShowImguiPanels);
+				ImGui::MenuItem("Show Imgui Panels", "Ctrl+P", &m_ShowImguiPanels);
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -223,7 +221,7 @@ namespace SY {
 
 			ImGui::Begin("Stats");
 
-			auto stats = Renderer::GetStats();
+			auto& stats = Renderer::GetStats();
 			ImGui::Text("Renderer2D Stats:");
 			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 			ImGui::Text("Used Instanced : %d", stats.Instanced);
@@ -239,6 +237,7 @@ namespace SY {
 
 			ImGui::End();
 		}
+		Renderer::ResetStats();
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
@@ -286,36 +285,38 @@ namespace SY {
 			Matrix cameraView = m_EditorCamera.GetView();
 
 			// Entity transform
-			auto& tc = selectedEntity.GetComponent<TransformComponent>();
-			Matrix transform = tc.localToWorld;
+			if (selectedEntity.HasComponent<TransformComponent>()) {
+				auto& tc = selectedEntity.GetComponent<TransformComponent>();
+				Matrix transform = tc.localToWorld;
 
-			// Snapping
-			bool snap = INPUT->GetKeyState(KEY_TYPE::LBUTTON) == KEY_STATE::PRESS;
-			float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-			// Snap to 45 degrees for rotation
-			if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-				snapValue = 45.0f;
+				// Snapping
+				bool snap = INPUT->GetKeyState(KEY_TYPE::LBUTTON) == KEY_STATE::PRESS;
+				float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+				// Snap to 45 degrees for rotation
+				if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+					snapValue = 45.0f;
 
-			float snapValues[3] = { snapValue, snapValue, snapValue };
+				float snapValues[3] = { snapValue, snapValue, snapValue };
 
-			ImGuizmo::Manipulate(reinterpret_cast<float*>(& cameraView), reinterpret_cast<const float*>(&cameraProjection),
-				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::WORLD, reinterpret_cast<float*>(&transform),
-				nullptr, snap ? snapValues : nullptr);
+				ImGuizmo::Manipulate(reinterpret_cast<float*>(&cameraView), reinterpret_cast<const float*>(&cameraProjection),
+					(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::WORLD, reinterpret_cast<float*>(&transform),
+					nullptr, snap ? snapValues : nullptr);
 
-			if (ImGuizmo::IsUsing())
-			{
-				Vector3 translation, rotation, scale;
-				Quaternion quat;
-				if (selectedEntity.HasComponent<Parent>())
+				if (ImGuizmo::IsUsing())
 				{
-					transform = transform * m_EditorScene->GetEntityByUUID(selectedEntity.GetComponent<Parent>().parentHandle).GetComponent<TransformComponent>().localToWorld.Invert();
+					Vector3 translation, rotation, scale;
+					Quaternion quat;
+					if (selectedEntity.HasComponent<Parent>())
+					{
+						transform = transform * m_EditorScene->GetEntityByUUID(selectedEntity.GetComponent<Parent>().parentHandle).GetComponent<TransformComponent>().localToWorld.Invert();
+					}
+					assert(transform.Decompose(scale, quat, translation));
+					rotation = quat.ToEuler();
+					Vector3 deltaRotation = rotation - tc.rotation;
+					tc.translation = translation;
+					tc.rotation += deltaRotation;
+					tc.scale = scale;
 				}
-				assert(transform.Decompose(scale, quat, translation));
-				rotation = quat.ToEuler();
-				Vector3 deltaRotation = rotation - tc.rotation;
-				tc.translation = translation;
-				tc.rotation += deltaRotation;
-				tc.scale = scale;
 			}
 		}
 
@@ -458,6 +459,15 @@ namespace SY {
 			break;
 		}
 
+		case KEY_TYPE::P:
+		{
+			if (control)
+			{
+				m_ShowImguiPanels = !m_ShowImguiPanels;
+			}
+			break;
+		}
+
 		case KEY_TYPE::D:
 		{
 			if (control)
@@ -561,12 +571,8 @@ namespace SY {
 			}
 		}
 
-		// Draw selected entity outline 
-		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity())
-		{
-			TransformComponent& transform = selectedEntity.GetComponent<TransformComponent>();
-			Renderer::DrawRectOutline(transform.localToWorld, Vector4(1.0f, 0.5f, 0.0f, 1.0f), selectedEntity);
-		}
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+
 
 		Renderer::End();
 	}

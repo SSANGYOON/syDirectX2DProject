@@ -21,7 +21,6 @@ namespace SY {
 			rect = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
 		if (point == nullptr)
 			point = GET_SINGLE(Resources)->Find<Mesh>(L"PointMesh");
-		stats = {};
 		trCB.view = cameraTrans.Invert();
 		trCB.projection = camera.GetProjection();
 
@@ -33,7 +32,6 @@ namespace SY {
 			rect = GET_SINGLE(Resources)->Find<Mesh>(L"RectMesh");
 		if (point == nullptr)
 			point = GET_SINGLE(Resources)->Find<Mesh>(L"PointMesh");
-		stats = {};
 		trCB.view = camera.GetView();
 		trCB.projection = camera.GetProjection();
 	}

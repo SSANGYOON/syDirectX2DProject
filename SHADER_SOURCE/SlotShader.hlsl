@@ -24,7 +24,7 @@ VSOut VS_MAIN(VSIn In)
 
     VSOut Out = (VSOut)0.f;
 
-    In.Pos.xy = In.Pos.xy * slotSize;
+    In.Pos.xy = In.Pos.xy;
     float4 worldPosition = mul(In.Pos, world);
     float4 ProjPosition = mul(worldPosition, projection);
 
