@@ -1,0 +1,26 @@
+Head: 140128075639298570
+Entities:
+  - Entity: 140128075639298570
+    TagComponent:
+      Tag: ItemPanel
+    State: 0
+    RectTransformComponent:
+      Translation: [-90, 45, -1]
+      Scale: [150, 16, 1]
+    PanelComponent:
+      resizeTexture: [1, 1]
+      panelOffset: [0, 0]
+      tineColor: [1, 1, 1, 0.501960814]
+      tineRange: [0, 0]
+  - Entity: 3334547187596704913
+    TagComponent:
+      Tag: equip slot
+    State: 0
+    RectTransformComponent:
+      Translation: [-64, 0, 0]
+      Scale: [24, 24, 1]
+    Parent:
+      ParentID: 140128075639298570
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\ui\Equipped.png

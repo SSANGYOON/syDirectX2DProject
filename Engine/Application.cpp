@@ -7,6 +7,7 @@
 
 #include "ScriptEngine.h"
 
+
 namespace SY {
 
 	Application* Application::s_Instance = nullptr;
@@ -26,6 +27,7 @@ namespace SY {
 		
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+		
 	}
 
 	Application::~Application()

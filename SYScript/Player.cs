@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 using SY;
 using SYScript;
@@ -22,7 +15,8 @@ namespace Sandbox
             Aerial,
             Crouching,
             Roll,
-            Attack,
+            ZAttack,
+            XAttack,
             Casting,
             Damaged,
             Dead
@@ -32,13 +26,18 @@ namespace Sandbox
         private Rigidbody2DComponent m_Rigidbody;
         private SpriteAnimatorComponent m_Animator;
         private BoxCollider2DComponent m_BoxCollider;
+
         private PlayerState m_State;
 
         public float Speed = 10.0f;
         public float stateTime = 0.0f;
 
-        private Weapon weapon = null;
-        private Skill skill = null;
+        public Weapon zWeapon = null;
+        public Weapon xWeapon = null;
+        private Entity m_Inven = null;
+
+        public Skill aSkill = null;
+        public Skill sSkill = null;
 
         private bool isGrounded = false;
         private bool isFalling = false;
@@ -99,8 +98,9 @@ namespace Sandbox
                         m_Animator.Play("Roll");
                         break;
 
-                    case PlayerState.Attack:
-                        if (weapon == null)
+                    case PlayerState.ZAttack:
+                    case PlayerState.XAttack:
+                        if (m_State == PlayerState.ZAttack && zWeapon == null || m_State == PlayerState.XAttack && xWeapon == null)
                             return;
                         else
                         {
@@ -112,23 +112,18 @@ namespace Sandbox
                             else
                                 Pose = "Aerial";
 
-                            m_Animator.Play("Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.weaponData.Type) + Pose);
-                        }
-                        break;
-
-                    case PlayerState.Casting:
-                        if (weapon == null)
-                            return;
-                        else
-                        {
-                            string Pose;
-                            if (isGrounded && Input.IsKeyDown(KeyCode.Down))
-                                Pose = "Crouching";
-                            else if (isGrounded)
-                                Pose = "Standing";
+                            if (m_State == PlayerState.ZAttack)
+                            {
+                                m_Animator.Play("Attack" + Enum.GetName(typeof(WeaponData.weaponType), zWeapon.Data.Type) + Pose);
+                                zWeapon.Activate();
+                                zWeapon.Attack();
+                            }
                             else
-                                Pose = "Aerial";
-                            m_Animator.Play("Casting" + skill.skillType.ToString() + Pose);
+                            {
+                                m_Animator.Play("Attack" + Enum.GetName(typeof(WeaponData.weaponType), xWeapon.Data.Type) + Pose);
+                                xWeapon.Activate();
+                                xWeapon.Attack();
+                            }
                         }
                         break;
 
@@ -147,16 +142,46 @@ namespace Sandbox
 
         void OnCreate()
         {
-
             m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigidbody2DComponent>();
             m_Animator = GetComponent<SpriteAnimatorComponent>();
             m_BoxCollider = GetComponent<BoxCollider2DComponent>();
-            m_State = PlayerState.Idle;      
+            m_State = PlayerState.Idle;
+
+            Vector3 pos = new Vector3(0, 20, -1);
+            DontDestroy(ref pos);
+
+            m_Inven = FindEntityByName("InventoryPanel");
         }
 
         void OnUpdate(float ts)
         {
+
+            if (State != PlayerState.Dead && Input.IsKeyDown(KeyCode.Tab))
+            {
+        
+                if (m_Inven != null)
+                {
+                    m_Inven.GetComponent<StateComponent>().State = m_Inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ? 
+                        StateComponent.EntityState.Active : StateComponent.EntityState.Pause;
+                }
+            }
+
+            if (m_Inven != null)
+            {
+                if (m_Inven.IsValid())
+                {
+                    if (m_Inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Active)
+                        return;
+                }
+            }
+
+            if (xWeapon == null)
+                xWeapon = FindEntityByName("xWeapon").As<Weapon>();
+            if(zWeapon == null)
+                zWeapon = FindEntityByName("zWeapon").As<Weapon>();
+
+
             stateTime += ts;
             UpdateState();
             if (m_State == PlayerState.Idle || m_State == PlayerState.Run || m_State == PlayerState.Aerial)
@@ -190,15 +215,7 @@ namespace Sandbox
                     m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
             }
 
-            if (State != PlayerState.Dead && Input.IsKeyDown(KeyCode.Tab))
-            {
-                Entity inven = FindEntityByName("InventoryPanel");
-                if (inven != null)
-                {
-                    inven.GetComponent<StateComponent>().State = inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ? 
-                        StateComponent.EntityState.Active : StateComponent.EntityState.Pause;
-                }
-            }
+            
         }
 
         private void UpdateState()
@@ -240,19 +257,25 @@ namespace Sandbox
                     
                     }
                               
-                    if (Input.IsKeyDown(KeyCode.Z))
-                        State = PlayerState.Attack;
-                    if (Input.IsKeyDown(KeyCode.A))
-                        State = PlayerState.Casting;
+                    if (Input.IsKeyDown(KeyCode.Z) && zWeapon.Data != null)
+                        State = PlayerState.ZAttack;
+                    if (Input.IsKeyDown(KeyCode.X) && xWeapon.Data != null)
+                        State = PlayerState.XAttack;
                     break;
                 case PlayerState.Roll:
                     if (stateTime > evadeTime)
                         State = PlayerState.Idle;
                     break;
 
-                case PlayerState.Attack:
-                    if (stateTime > weapon.duration)
+                case PlayerState.ZAttack:
+                case PlayerState.XAttack:
+                    if (State == PlayerState.ZAttack && stateTime > zWeapon.Duration ||
+                        State == PlayerState.XAttack && stateTime > xWeapon.Duration)
                     {
+                        if(State == PlayerState.ZAttack)
+                            zWeapon.Pause();
+                        else
+                            xWeapon.Pause();
                         if (isGrounded)
                         {
                             if (Input.IsKeyPressed(KeyCode.Down))
@@ -264,15 +287,16 @@ namespace Sandbox
                             State = PlayerState.Aerial;
                     }
                     break;
+
                 default: break;
             }
         }
         void OnCollisionStay(ref Collision2D collsion)
         {
+            Console.WriteLine("cOLLI");
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
             {
                 Entity ground = new Entity(collsion.EntityID);
-                
                 if (ground.Translation.Y < Translation.Y)
                     isGrounded = true;    
             }
@@ -283,10 +307,13 @@ namespace Sandbox
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
             {
                 Entity ground = new Entity(collsion.EntityID);
-
-                if (ground.Translation.Y < Translation.Y)
-                    isGrounded = false;
+                if (ground.IsValid())
+                {
+                    if (ground.Translation.Y < Translation.Y)
+                        isGrounded = false;
+                }
             }
+            
         }
 
         public void OnNamedEvent(string funcName)
@@ -295,6 +322,8 @@ namespace Sandbox
             Type type = this.GetType();
             MethodInfo myClass_FunCallme = type.GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
             myClass_FunCallme.Invoke(this, null);
+
+            
         }
 
         void SetInvisible()

@@ -6,9 +6,10 @@
 #include "Component.h"
 #include "Entity.h"
 #include <queue>
+#include "ScriptEngine.h"
 
 namespace SY {
-	std::unordered_map<UINT32, vector<UINT>> ParentManager::childMap = {};
+	std::unordered_map<UINT32, vector<UINT>> ParentManager::childMap = std::unordered_map<UINT32, vector<UINT>>();
 
 	void ParentManager::CreateHierarchy(Scene* scene)
 	{
@@ -18,7 +19,7 @@ namespace SY {
 			for (auto e : view)
 			{
 				Entity entity = { e,scene };
-
+				
 				auto parent = scene->GetEntityByUUID(entity.GetComponent<Parent>().parentHandle);
 
 				childMap[(UINT)parent].push_back((UINT)e);
@@ -27,12 +28,26 @@ namespace SY {
 
 		{
 			queue<UINT> updatequeue;
-			scene->m_Registry.view<StateComponent>(entt::exclude<Parent>).each([&updatequeue](entt::entity entity, StateComponent& sc) {
+			scene->m_Registry.view<StateComponent>(entt::exclude<Parent>).each([&updatequeue, scene](entt::entity entity, StateComponent& sc) {
+				Entity ent = { entity,scene };
+
 				sc.currentState = sc.state;
+
+				if (sc.currentState == EntityState::Pause && !ent.HasComponent<Pause>())
+					ent.AddOrReplaceComponent<Pause>();
+				else if (sc.currentState == EntityState::Active && ent.HasComponent<Pause>()) {
+					ent.RemoveComponent<Pause>();
+					ScriptEngine::OnActivated(ent);
+				}
+					
+				
 				for (auto e : childMap[(UINT)entity])
 				{
 					updatequeue.push((UINT)e);
 				}
+
+				if(sc.currentState == EntityState::Dead)
+					ent.AddOrReplaceComponent<Dead>();
 				});
 
 			while (!updatequeue.empty())
@@ -64,6 +79,13 @@ namespace SY {
 						break;
 					}
 				}
+
+				if (sc.currentState == EntityState::Pause && !entity.HasComponent<Pause>())
+					entity.AddOrReplaceComponent<Pause>();
+				else if (sc.currentState == EntityState::Active && entity.HasComponent<Pause>())
+					entity.RemoveComponent<Pause>();
+				if (sc.currentState == EntityState::Dead)
+					entity.AddOrReplaceComponent<Dead>();
 
 				for (auto e : childMap[(UINT)entity])
 				{
@@ -128,9 +150,44 @@ namespace SY {
 		}
 	}
 
-	UINT32 ParentManager::GetChild(UINT handle, int index)
+	void ParentManager::AddHiearchy(Scene* scene, uint64_t childID)
 	{
-		assert(childMap.find(handle) != childMap.end());
-		return childMap[handle][index];
+		auto child = scene->GetEntityByUUID(childID);
+		if (child.HasComponent<Parent>())
+		{
+			
+			auto parent = scene->GetEntityByUUID(child.GetComponent<Parent>().parentHandle);
+
+			childMap[(UINT)parent].push_back((UINT)child);
+		}
+	}
+
+	const vector<UINT32>& ParentManager::GetChildren(UINT handle)
+	{
+		if (childMap.find(handle) == childMap.end())
+		{
+			childMap[handle] = {};
+		}
+
+		return childMap[handle];
+	}
+
+	uint64_t ParentManager::GetChild(UINT64 parentID, string child, Scene* scene)
+	{
+		auto parent = scene->GetEntityByUUID(parentID);
+
+		auto& childmaps = childMap[(UINT)parent];
+		for (auto c : childmaps)
+		{
+			Entity childEntity = { (entt::entity)c, scene };
+
+			auto& tag = childEntity.GetComponent<TagComponent>();
+
+			if (tag.Tag == child)
+			{
+				return childEntity.GetUUID();
+			}
+		}
+		return 0;
 	}
 }

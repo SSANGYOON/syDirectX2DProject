@@ -1,0 +1,1028 @@
+Scene: Untitled
+Entities:
+  - Entity: 1739091278168435187
+    TagComponent:
+      Tag: Left0
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 758479887322780380
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTopCorner1.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 48]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 10141798489009083355
+    TagComponent:
+      Tag: Left1
+    State: 0
+    TransformComponent:
+      Translation: [32, 16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 758479887322780380
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop3.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 16306821666258967785
+    TagComponent:
+      Tag: Left2
+    State: 0
+    TransformComponent:
+      Translation: [64, 16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 758479887322780380
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop5.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 13372724068090531785
+    TagComponent:
+      Tag: Left3
+    State: 0
+    TransformComponent:
+      Translation: [96, 16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 758479887322780380
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop5.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 7408290324250849782
+    TagComponent:
+      Tag: Left4
+    State: 0
+    TransformComponent:
+      Translation: [128, 16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 758479887322780380
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop5.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 11682814882696620260
+    TagComponent:
+      Tag: MiddleGround
+    State: 0
+    TransformComponent:
+      Translation: [0, -192, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [489, 10]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 3
+      CategoryBits: 3
+  - Entity: 10542970238954235847
+    TagComponent:
+      Tag: Vertical7
+    State: 0
+    TransformComponent:
+      Translation: [134, -240.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical1.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 15963411553279716186
+    TagComponent:
+      Tag: Vertical6
+    State: 0
+    TransformComponent:
+      Translation: [133.5, -216.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical2.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 1159133799910630620
+    TagComponent:
+      Tag: Vertical5
+    State: 0
+    TransformComponent:
+      Translation: [133.5, -185, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical4.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 14904888964551560470
+    TagComponent:
+      Tag: Vertical0
+    State: 0
+    TransformComponent:
+      Translation: [135.199997, -45, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical0.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 1473768164082283508
+    TagComponent:
+      Tag: Vertical1
+    State: 0
+    TransformComponent:
+      Translation: [135, -73.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical3.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 4327174007160689774
+    TagComponent:
+      Tag: Vertical2
+    State: 0
+    TransformComponent:
+      Translation: [134, -99, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical5.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 9172088244789479776
+    TagComponent:
+      Tag: Vertical3
+    State: 0
+    TransformComponent:
+      Translation: [133.799988, -122.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical2.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 349345976851992115
+    TagComponent:
+      Tag: Veritcal4
+    State: 0
+    TransformComponent:
+      Translation: [133, -153.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\ShedVertical2.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 32]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 18170043192015724160
+    TagComponent:
+      Tag: MP
+    State: 0
+    RectTransformComponent:
+      Translation: [-183, 112, 0]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SliderComponent:
+      barPath: textures\ui\MpBar.png
+      gaugePath: textures\ui\mp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27
+  - Entity: 15218044699535717829
+    TagComponent:
+      Tag: HP
+    State: 0
+    RectTransformComponent:
+      Translation: [-190, 122, 0]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SliderComponent:
+      barPath: textures\ui\HpBar.png
+      gaugePath: textures\ui\hp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27
+  - Entity: 8628533815128363136
+    TagComponent:
+      Tag: Always Visilble UI
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 0, 1]
+      Scale: [1, 1, 1]
+  - Entity: 14875516704873937622
+    TagComponent:
+      Tag: xWeapon
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12478953743042838488
+    ScriptComponent:
+      ClassName: Sandbox.Weapon
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+    TransfromAnimatorComponent:
+      ClipPath: assets\transformClips\WeaponAnim.anim
+  - Entity: 3021595378019908914
+    TagComponent:
+      Tag: zWeapon
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12478953743042838488
+    ScriptComponent:
+      ClassName: Sandbox.Weapon
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+    TransfromAnimatorComponent:
+      ClipPath: assets\transformClips\WeaponAnim.anim
+  - Entity: 9160509363145347424
+    TagComponent:
+      Tag: WeaponIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-148, 84, -1]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\WeaponIcon.png
+  - Entity: 13124059046011802387
+    TagComponent:
+      Tag: ConsumableIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-76, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\ConsumableIcon.png
+  - Entity: 9878609912585525529
+    TagComponent:
+      Tag: SpellIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-112, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\SpellIcon.png
+  - Entity: 14460692021844907479
+    TagComponent:
+      Tag: Inventory Slider
+    State: 0
+    RectTransformComponent:
+      Translation: [1, 65, -1]
+      Scale: [330, 2, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    PanelComponent:
+      PanelPath: textures\ui\HorizontalBar.png
+      resizeTexture: [1, 0.25]
+      panelOffset: [7, 2]
+      tineColor: [0, 0, 0, 0]
+      tineRange: [0, 0]
+  - Entity: 8226798221886528208
+    TagComponent:
+      Tag: ground10
+    State: 0
+    TransformComponent:
+      Translation: [128, -16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTopCorner0.png
+      SourceOffset: [0, 0]
+      SourceSize: [48, 48]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 9027343797863574252
+    TagComponent:
+      Tag: ground9
+    State: 0
+    TransformComponent:
+      Translation: [96, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop1.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 17222061555356074648
+    TagComponent:
+      Tag: ground8
+    State: 0
+    TransformComponent:
+      Translation: [64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop1.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 8009990795152453680
+    TagComponent:
+      Tag: ground7
+    State: 0
+    TransformComponent:
+      Translation: [32, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop2.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 15169012466703801464
+    TagComponent:
+      Tag: ground6
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop3.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 4958241056153978609
+    TagComponent:
+      Tag: gound5
+    State: 0
+    TransformComponent:
+      Translation: [-32, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop5.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 8577361516813097413
+    TagComponent:
+      Tag: ground4
+    State: 0
+    TransformComponent:
+      Translation: [-64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop3.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 2864703536021558218
+    TagComponent:
+      Tag: ground1
+    State: 0
+    TransformComponent:
+      Translation: [-160, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop1.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 3367827374350018405
+    TagComponent:
+      Tag: ground2
+    State: 0
+    TransformComponent:
+      Translation: [-128, 0.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop5.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 11479685075772526261
+    TagComponent:
+      Tag: ground3
+    State: 0
+    TransformComponent:
+      Translation: [-96, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2304726580564669817
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\LastTop3.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 13301083487158817121
+    TagComponent:
+      Tag: camera
+    State: 0
+    TransformComponent:
+      Translation: [-213.333344, 24.0149956, -20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    RectTransformComponent:
+      Translation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 1
+        Far: 300
+        OrthographicSize: 270
+      Primary: true
+      FixedAspectRatio: true
+      LayerMask: 255
+    BackGroundColorComponent: [0.0823529437, 0.125490203, 0.164705887, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Camera
+      ScriptFields:
+        - Name: CameraRange
+          Type: Vector2
+          Data: [960, 450]
+        - Name: DistanceFromPlayer
+          Type: Float
+          Data: 20
+  - Entity: 2304726580564669817
+    TagComponent:
+      Tag: Left Ground
+    State: 0
+    TransformComponent:
+      Translation: [-320, 0, 18.2999992]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [-48, -209]
+      Size: [193, 209]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 1
+      CategoryBits: 1
+  - Entity: 12478953743042838488
+    TagComponent:
+      Tag: Player
+    State: 0
+    TransformComponent:
+      Translation: [-320, 24.0149956, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Player
+      ScriptFields:
+        - Name: Speed
+          Type: Float
+          Data: 100
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Heroine Maid.png
+      SourceOffset: [64, 121]
+      SourceSize: [31, 50]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: true
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [11, 24]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 1
+      CategoryBits: 3
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\HeroineIdle.anim
+      StartEvents:
+        - key: Idle
+          function: SetInvisible
+      EndEvents:
+        - key: Idle
+          function: SetVulnerable
+  - Entity: 5650525867042847999
+    TagComponent:
+      Tag: InventoryPanel
+    State: 1
+    RectTransformComponent:
+      Translation: [0, 0, 5]
+      Scale: [352, 224, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Inventory
+      ScriptFields:
+        - Name: panalData
+          Type: Entity
+          Data: 140128075639298570
+    PanelComponent:
+      PanelPath: textures\ui\PanelLarge.png
+      resizeTexture: [0.5, 0.5]
+      panelOffset: [70, 70]
+      tineColor: [0, 0, 0, 0.501960814]
+      tineRange: [15, 15]
+  - Entity: 1294482987337403704
+    TagComponent:
+      Tag: EquipmentIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-40, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\EquipmentIcon.png
+  - Entity: 2318846812903059485
+    TagComponent:
+      Tag: ItemPreviewSlot
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 42, 0]
+      Scale: [30, 30, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ItemSlot.png
+      maskPath: textures\ui\ItemSlotMask.png
+  - Entity: 12224989994753449872
+    TagComponent:
+      Tag: xWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [225, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 16421662171679666250
+    TagComponent:
+      Tag: zWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [200, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 2039467479240050669
+    TagComponent:
+      Tag: Middle0
+    State: 0
+    TransformComponent:
+      Translation: [-160, 10, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayCorner.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 15445040840571960245
+    TagComponent:
+      Tag: middle15
+    State: 0
+    TransformComponent:
+      Translation: [320, 9.6000061, 0]
+      Rotation: [0, 0, 0]
+      Scale: [-1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayCorner.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 64]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 7143070194355682851
+    TagComponent:
+      Tag: Portal
+    State: 0
+    TransformComponent:
+      Translation: [493.5, -186.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Portal
+      ScriptFields:
+        []
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [14, 29]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 1
+      CategoryBits: 1
+  - Entity: 8629341076604306841
+    TagComponent:
+      Tag: middle13
+    State: 0
+    TransformComponent:
+      Translation: [256, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 16793009820113918844
+    TagComponent:
+      Tag: middle12
+    State: 0
+    TransformComponent:
+      Translation: [224, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 1249470007919608754
+    TagComponent:
+      Tag: middle11
+    State: 0
+    TransformComponent:
+      Translation: [192, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 15816903099783151896
+    TagComponent:
+      Tag: middle10
+    State: 0
+    TransformComponent:
+      Translation: [160, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 1256565615158245153
+    TagComponent:
+      Tag: middle9
+    State: 0
+    TransformComponent:
+      Translation: [128, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 12667111640616934655
+    TagComponent:
+      Tag: middle8
+    State: 0
+    TransformComponent:
+      Translation: [96, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 11676085965207220126
+    TagComponent:
+      Tag: middle7
+    State: 0
+    TransformComponent:
+      Translation: [64, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 5342333233282329147
+    TagComponent:
+      Tag: middle6
+    State: 0
+    TransformComponent:
+      Translation: [32, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 13845773491425358364
+    TagComponent:
+      Tag: middle5
+    State: 0
+    TransformComponent:
+      Translation: [0, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 17247468589089272428
+    TagComponent:
+      Tag: middle4
+    State: 0
+    TransformComponent:
+      Translation: [-32, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 12742902302856103757
+    TagComponent:
+      Tag: middle3
+    State: 0
+    TransformComponent:
+      Translation: [-64, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 11995309540719904113
+    TagComponent:
+      Tag: middle2
+    State: 0
+    TransformComponent:
+      Translation: [-96, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 7826928754247746689
+    TagComponent:
+      Tag: middle1
+    State: 0
+    TransformComponent:
+      Translation: [-128, -2, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11682814882696620260
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 1
+  - Entity: 758479887322780380
+    TagComponent:
+      Tag: LeftGround
+    State: 0
+    TransformComponent:
+      Translation: [352, -198.800003, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]

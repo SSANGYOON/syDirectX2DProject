@@ -1,0 +1,176 @@
+Scene: Untitled
+Entities:
+  - Entity: 14940211577482490753
+    TagComponent:
+      Tag: Camera
+    State: 0
+    TransformComponent:
+      Translation: [0, -48, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 0.00999999978
+        Far: 1000
+        OrthographicSize: 270
+      Primary: true
+      FixedAspectRatio: false
+    BackGroundColorComponent: [0.0823529437, 0.125490203, 0.164705887, 1]
+    ScriptComponent:
+      ClassName: Sandbox.TitleSceneController
+  - Entity: 5288508120442204467
+    TagComponent:
+      Tag: Sky
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [1, 1233]
+      SourceSize: [640, 360]
+      TargetOffset: [0, 0]
+      Fixed: false
+  - Entity: 2440293689353865675
+    TagComponent:
+      Tag: TitleText
+    State: 0
+    RectTransformComponent:
+      Translation: [-93, 115, 1]
+      Scale: [370, 45.3300018, 1]
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\Title\TitleText.png
+  - Entity: 11773350926024534344
+    TagComponent:
+      Tag: ForeGround
+    State: 0
+    TransformComponent:
+      Translation: [0, -90, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [1, 697]
+      SourceSize: [640, 180]
+      TargetOffset: [0, 0]
+      Fixed: false
+  - Entity: 16837884201097760332
+    TagComponent:
+      Tag: Castle
+    State: 0
+    TransformComponent:
+      Translation: [-51.5, -79, 1]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [1, 892]
+      SourceSize: [480, 235]
+      TargetOffset: [0, 0]
+      Fixed: false
+  - Entity: 18065289701662596453
+    TagComponent:
+      Tag: Ground
+    State: 0
+    TransformComponent:
+      Translation: [0, -93.5, 1.5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [1, 1145]
+      SourceSize: [480, 72]
+      TargetOffset: [0, 0]
+      Fixed: false
+  - Entity: 9173323531570109610
+    TagComponent:
+      Tag: Heroine
+    State: 0
+    TransformComponent:
+      Translation: [160, -112, -0.100000001]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [0, 0]
+      SourceSize: [0, 0]
+      TargetOffset: [0, 0]
+      Fixed: false
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Title.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+  - Entity: 16473843513169332431
+    TagComponent:
+      Tag: Bush
+    State: 0
+    TransformComponent:
+      Translation: [-63, -111, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [0, 0]
+      SourceSize: [0, 0]
+      TargetOffset: [0, 0]
+      Fixed: false
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Title.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+  - Entity: 11527017428739415564
+    TagComponent:
+      Tag: Ropes
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [0, 0]
+      SourceSize: [0, 0]
+      TargetOffset: [0, 0]
+      Fixed: false
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Title.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+  - Entity: 5946988857841158959
+    TagComponent:
+      Tag: Tree
+    State: 0
+    TransformComponent:
+      Translation: [188, 7.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\Title\Lost Ruins Title.png
+      SourceOffset: [0, 0]
+      SourceSize: [0, 0]
+      TargetOffset: [0, 0]
+      Fixed: false
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Title.anim
+      StartEvents:
+        []
+      EndEvents:
+        []

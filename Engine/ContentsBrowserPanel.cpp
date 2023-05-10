@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "Texture.h"
 #include "Project.h"
-
+#include "PrefabManager.h"
 namespace SY {
 
 	ContentBrowserPanel::ContentBrowserPanel()
@@ -53,8 +53,16 @@ namespace SY {
 				std::filesystem::path relativePath(path);
 				const wchar_t* itemPath = relativePath.c_str();
 				string ext = relativePath.extension().string();
-				if(std::strcmp(ext.c_str(), ".pref") == 0)
-					ImGui::SetDragDropPayload("Prefab", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+				if (std::strcmp(ext.c_str(), ".pref") == 0) {
+					string fileName = relativePath.filename().string();
+					string prefabName = fileName.substr(0, fileName.length() - 5);
+					Entity ent = PrefabManager::GetPrefabIdFromName(prefabName);
+
+					if (ent.GetContext()) {
+						uint64_t enttid = ent.GetUUID();
+						ImGui::SetDragDropPayload("Prefab", &enttid, sizeof(uint64_t));
+					}
+				}
 				else
 					ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
 				ImGui::EndDragDropSource();

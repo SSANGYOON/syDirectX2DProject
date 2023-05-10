@@ -194,6 +194,7 @@
     <ClInclude Include="ParentManager.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="Prefab.h" />
+    <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="ProjectSerializer.h" />
     <ClInclude Include="Renderer.h" />
@@ -292,6 +293,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Prefab.cpp" />
+    <ClCompile Include="PrefabManager.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectSerializer.cpp" />
     <ClCompile Include="Renderer.cpp" />

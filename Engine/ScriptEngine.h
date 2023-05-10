@@ -26,7 +26,7 @@ namespace SY {
 		Bool, Char, Byte, Short, Int, Long,
 		UByte, UShort, UInt, ULong,
 		Vector2, Vector3, Vector4,
-		Entity, Collision2D
+		Entity, Collision2D, String
 	};
 
 	struct ScriptField
@@ -60,8 +60,19 @@ namespace SY {
 			static_assert(sizeof(T) <= 16, "Type too large!");
 			memcpy(m_Buffer, &value, sizeof(T));
 		}
+
+		char* GetString()
+		{
+			return (char*)m_Buffer;
+		}
+
+		void SetString(const char* c_str) 
+		{
+			memcpy(m_Buffer, c_str, strlen(c_str) + 1);
+		}
+
 	private:
-		uint8_t m_Buffer[16];
+		uint8_t m_Buffer[256];
 
 		friend class ScriptEngine;
 		friend class ScriptInstance;
@@ -107,6 +118,9 @@ namespace SY {
 		void InvokeOnTriggerExit(Collision* collision);
 		void InvokeOnNamedEvent(MonoString* monostr);
 
+		void InvokeOnPaused();
+		void InvokeOnActivated();
+
 		std::shared_ptr<ScriptClass> GetScriptClass() { return m_ScriptClass; }
 
 		template<typename T>
@@ -148,6 +162,8 @@ namespace SY {
 		MonoMethod* m_OnTriggerStayMethod = nullptr;
 		MonoMethod* m_OnTriggerExitMethod = nullptr;
 		MonoMethod* m_OnNamedEvent = nullptr;
+		MonoMethod* m_OnActivatedEvent = nullptr;
+		MonoMethod* m_OnPausedEvent = nullptr;
 		inline static char s_FieldValueBuffer[16];
 
 		friend class ScriptEngine;
@@ -167,9 +183,11 @@ namespace SY {
 
 		static void OnRuntimeStart(Scene* scene);
 		static void OnRuntimeStop();
+		static void OnRuntimeShift();
 
 		static bool EntityClassExists(const std::string& fullClassName);
 		static void OnCreateEntity(Entity entity);
+		static void OnDeleteEntity(Entity entity);
 		static void OnUpdateEntity(Entity entity, float timestep);
 		static void OnLateUpdateEntity(Entity entity);
 		static void OnCollisionEnter(Entity entity, Collision* collision);
@@ -180,6 +198,8 @@ namespace SY {
 		static void OnTriggerExit(Entity entity, Collision* collision);
 		
 		static void OnEvent(Entity entity, const string& functionName);
+		static void OnPaused(Entity entity);
+		static void OnActivated(Entity entity);
 
 		static Scene* GetSceneContext();
 		static std::shared_ptr<ScriptInstance> GetEntityScriptInstance(UUID entityID);
@@ -226,6 +246,7 @@ namespace SY {
 			case ScriptFieldType::Vector4: return "Vector4";
 			case ScriptFieldType::Entity:  return "Entity";
 			case ScriptFieldType::Collision2D: return "Collision2D";
+			case ScriptFieldType::String: return "String";
 			}
 			assert(false);
 			return "None";
@@ -251,6 +272,7 @@ namespace SY {
 			if (fieldType == "Vector4") return ScriptFieldType::Vector4;
 			if (fieldType == "Entity")  return ScriptFieldType::Entity;
 			if (fieldType == "Collision2D") return ScriptFieldType::Collision2D;
+			if (fieldType == "String") return ScriptFieldType::String;
 
 			assert(false);
 			return ScriptFieldType::None;

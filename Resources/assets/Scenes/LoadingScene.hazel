@@ -1,0 +1,46 @@
+Scene: Untitled
+Entities:
+  - Entity: 13154837667527679248
+    TagComponent:
+      Tag: Camera
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 0.00999999978
+        Far: 1000
+        OrthographicSize: 360
+      Primary: true
+      FixedAspectRatio: false
+      LayerMask: 128
+  - Entity: 2775902960571162810
+    TagComponent:
+      Tag: LoadingIcon
+    State: 0
+    TransformComponent:
+      Translation: [256, -128, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.LoadingSceneController
+      ScriptFields:
+        []
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\sactx-128x128-Uncompressed-Loading-dd4d29fb.png
+      SourceOffset: [0, 0]
+      SourceSize: [0, 0]
+      TargetOffset: [0, 0]
+      Fixed: false
+      Layer: 128
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Loading.anim
+      StartEvents:
+        []
+      EndEvents:
+        []

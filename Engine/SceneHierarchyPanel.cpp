@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneHierarchyPanel.h"
 #include "ParentManager.h"
+#include "PrefabManager.h"
 #include "Component.h"
 #include "ScriptEngine.h"
 
@@ -103,6 +104,7 @@ namespace SY {
 
 				YAML::Emitter out;
 				out << YAML::BeginMap;
+				out << YAML::Key << "Head" << YAML::Value << entity.GetUUID();
 				out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
 				bool hasparent = entity.HasComponent<Parent>();
 				UUID parentID;
@@ -321,6 +323,7 @@ namespace SY {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
+			DisplayAddComponentEntry<TransformComponent>("Transform");
 			DisplayAddComponentEntry<RectTransformComponent>("RectTransform");
 			DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer");
@@ -457,6 +460,8 @@ namespace SY {
 								}
 							}
 
+							
+
 							if (field.Type == ScriptFieldType::Vector2)
 							{
 								Vector2 data = scriptInstance->GetFieldValue<Vector2>(name);
@@ -497,6 +502,39 @@ namespace SY {
 									if (ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(&data)))
 										scriptField.SetValue(data);
 								}
+
+								if (field.Type == ScriptFieldType::ULong)
+								{
+									UINT64 data = scriptField.GetValue<UINT64>();
+									if (ImGui::InputScalar(name.c_str(), ImGuiDataType_U64, &data))
+										scriptField.SetValue(data);
+								}
+
+								if (field.Type == ScriptFieldType::Entity)
+								{
+									UUID data = scriptField.GetValue<UUID>();
+
+									if (data)
+									{
+										ImGui::Text(PrefabManager::GetPrefabName(data).c_str());
+									}
+
+									ImGui::Text((name + " From Prefab").c_str());
+
+									if (ImGui::BeginDragDropTarget()) {
+										if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Prefab")) {
+											uint64_t id = *reinterpret_cast<uint64_t*>(payload->Data);
+											scriptField.SetValue(id);
+										}
+									}
+								}
+
+								if (field.Type == ScriptFieldType::String)
+								{
+									char* data = scriptField.GetString();
+									if (ImGui::InputText("String", data, 256))
+										scriptField.SetString(data);
+								}
 							}
 							else
 							{
@@ -520,6 +558,39 @@ namespace SY {
 										ScriptFieldInstance& fieldInstance = entityFields[name];
 										fieldInstance.Field = field;
 										fieldInstance.SetValue(data);
+									}
+								}
+
+								if (field.Type == ScriptFieldType::ULong)
+								{
+									UINT64 data = 0;
+									if (ImGui::InputScalar(name.c_str(), ImGuiDataType_U64, &data)) {
+										ScriptFieldInstance& fieldInstance = entityFields[name];
+										fieldInstance.Field = field;
+										fieldInstance.SetValue(data);
+									}
+								}
+
+								if (field.Type == ScriptFieldType::Entity)
+								{
+									ImGui::Text((name + " From Prefab").c_str());
+									if (ImGui::BeginDragDropTarget()) {
+										if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Prefab")) {
+											uint64_t id = *reinterpret_cast<uint64_t*>(payload->Data);
+											ScriptFieldInstance& fieldInstance = entityFields[name];
+											fieldInstance.Field = field;
+											fieldInstance.SetValue(id);
+										}
+									}
+								}
+
+								if (field.Type == ScriptFieldType::String)
+								{
+									char empty[256] = "";
+									if (ImGui::InputText(name.c_str(), empty,256)) {
+										ScriptFieldInstance& fieldInstance = entityFields[name];
+										fieldInstance.Field = field;
+										fieldInstance.SetString(const_cast<char*>(empty));
 									}
 								}
 							}

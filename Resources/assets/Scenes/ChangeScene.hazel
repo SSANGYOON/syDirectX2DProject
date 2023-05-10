@@ -1,0 +1,40 @@
+Scene: Untitled
+Entities:
+  - Entity: 16669450722964529229
+    TagComponent:
+      Tag: Camera
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 0.00999999978
+        Far: 1000
+        OrthographicSize: 270
+      Primary: true
+      FixedAspectRatio: true
+  - Entity: 10293687281945089401
+    TagComponent:
+      Tag: Empty Entity
+    State: 0
+    TransformComponent:
+      Translation: [0, -93.3000031, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [1401, 68]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 3
+      CategoryBits: 3

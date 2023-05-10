@@ -14,7 +14,7 @@ namespace SY {
 
 		bool Deserialize(const std::string& filepath);
 
-		static Entity DeserializeEntity(Scene* scene, YAML::Node& entity, const map<uint64_t, uint64_t>& uuidMap = {});
+		static Entity DeserializeEntity(Scene* scene, YAML::Node& entity);
 	private:
 		shared_ptr<Scene> m_Scene;
 	};

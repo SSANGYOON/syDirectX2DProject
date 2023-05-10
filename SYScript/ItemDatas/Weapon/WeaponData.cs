@@ -18,10 +18,9 @@ namespace SYScript
         
         public weaponType Type{ get; set; }
 
-        public int Damage { get; set; }
-
-        public WeaponData() {
-            Type = weaponType.None;
+        public virtual float calculateDamage()
+        {
+            return 2.0f;
         }
     }
 }

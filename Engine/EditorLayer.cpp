@@ -6,7 +6,7 @@
 #include "FileDialogs.h"
 #include "ImGuizmo.h"
 #include "Resources.h"
-#include "Prefab.h"
+#include "PrefabManager.h"
 #include "Application.h"
 #include "Project.h"
 #include "Renderer.h"
@@ -92,7 +92,12 @@ namespace SY {
 		}
 		case SceneState::Play:
 		{
-			m_ActiveScene->OnUpdateRuntime(timeStep);
+			SceneManager::OnUpdate(timeStep);
+
+			if (m_ActiveScene != SceneManager::GetActiveScene()) {
+				m_ActiveScene = SceneManager::GetActiveScene();
+				m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+			}
 			break;
 		}
 		}
@@ -265,9 +270,8 @@ namespace SY {
 
 			else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Prefab"))
 			{
-				const wchar_t* path = (const wchar_t*)payload->Data;
-				shared_ptr<Prefab> prefab= GET_SINGLE(Resources)->Load<Prefab>(path, path);
-				prefab->Instantiate(m_EditorScene.get());
+				uint64_t id = *(uint64_t*)payload->Data;
+				PrefabManager::Instantiate(m_EditorScene.get(), id);
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -587,6 +591,7 @@ namespace SY {
 		if (Project::Load(path))
 		{
 			ScriptEngine::Init();
+			PrefabManager::Init();
 			auto startScenePath = Project::GetAssetFileSystemPath(Project::GetActive()->GetConfig().StartScene);
 			OpenScene(startScenePath);
 			m_ContentBrowserPanel = make_unique<ContentBrowserPanel>();
@@ -690,10 +695,9 @@ namespace SY {
 		m_SceneState = SceneState::Play;
 
 		m_ActiveScene = Scene::Copy(m_EditorScene);
-		m_ActiveScene->OnRuntimeStart();
+		
+		SceneManager::SetStartScene(m_ActiveScene, "start");
 
-		SceneManager::AddScene("Active", m_ActiveScene);
-		SceneManager::ChanegeScene("Active");
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
@@ -715,7 +719,7 @@ namespace SY {
 		assert(m_SceneState == SceneState::Play || m_SceneState == SceneState::Simulate);
 
 		if (m_SceneState == SceneState::Play)
-			m_ActiveScene->OnRuntimeStop();
+			SceneManager::OnStop();
 		else if (m_SceneState == SceneState::Simulate)
 			m_ActiveScene->OnSimulationStop();
 
@@ -731,7 +735,7 @@ namespace SY {
 		if (m_SceneState == SceneState::Edit)
 			return;
 
-		m_ActiveScene->SetPaused(true);
+		SceneManager::GetActiveScene()->SetPaused(true);
 	}
 
 	void EditorLayer::OnDuplicateEntity()

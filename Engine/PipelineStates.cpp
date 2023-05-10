@@ -120,7 +120,7 @@ void SetUpState()
 	blendStates[(UINT)BSType::Default] = nullptr;
 
 	D3D11_BLEND_DESC bsDesc = {};
-	bsDesc.AlphaToCoverageEnable = true;
+	bsDesc.AlphaToCoverageEnable = false;
 	bsDesc.IndependentBlendEnable = true;
 
 	bsDesc.RenderTarget[0].BlendEnable = true;
@@ -129,14 +129,14 @@ void SetUpState()
 	bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	bsDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
 	bsDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	bsDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	bsDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 	bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL; 
 	bsDesc.RenderTarget[1].BlendEnable = false;
 	bsDesc.RenderTarget[1].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	DEVICE->CreateBlendState(&bsDesc, blendStates[(UINT)BSType::AlphaBlend].GetAddressOf());
 
-	bsDesc.AlphaToCoverageEnable = true;
+	bsDesc.AlphaToCoverageEnable = false;
 	bsDesc.IndependentBlendEnable = true;
 
 	bsDesc.RenderTarget[0].BlendEnable = true;

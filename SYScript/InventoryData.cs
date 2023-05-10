@@ -1,4 +1,5 @@
 ﻿using SY;
+using SYScript.ItemDatas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,29 @@ namespace SYScript
 {
     public class InventoryData : ScriptableObject
     {
-        public List<WeaponData> weaponDatas = new List<WeaponData>();
-        public List<CostumeData> coustumeDatas = new List<CostumeData>();
-        public List<AccessoryData> accessoryDatas = new List<AccessoryData>();
-        public List<SpellData> spellDatas = new List<SpellData>();
+        public enum CATEGORY
+        {
+            Weapon = 0,
+            Spell,
+            Consumable,
+            Equipment,
+            END
+        }
+
+        public List<ItemData>[] itemDatas;
+
+        public InventoryData() {
+
+            itemDatas = new List<ItemData>[(int)CATEGORY.END];
+
+            for (int i=0;i< itemDatas.Length;i++)
+            {
+                itemDatas[i] = new List<ItemData> ();
+            }
+
+            itemDatas[(int)CATEGORY.Weapon].Add(new Steeleto());
+            itemDatas[(int)CATEGORY.Weapon].Add(new HolySword());
+            itemDatas[(int)CATEGORY.Weapon].Add(new BestFriend());
+        }
     }
 }

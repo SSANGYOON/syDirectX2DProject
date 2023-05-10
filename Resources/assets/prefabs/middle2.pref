@@ -1,0 +1,17 @@
+Head: 8367074621187847055
+Entities:
+  - Entity: 8367074621187847055
+    TagComponent:
+      Tag: middle2
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 1, 1]
+      DiffusePath: textures\LastTop\SewerBossOneWayTop.png
+      SourceOffset: [0, 0]
+      SourceSize: [32, 40]
+      TargetOffset: [0, 0]
+      Fixed: false

@@ -126,6 +126,18 @@ namespace SY {
 
 	void Scene::DestroyEntity(Entity entity)
 	{
+		if (entity.HasComponent<Rigidbody2DComponent>())
+		{
+			auto& rb = entity.GetComponent< Rigidbody2DComponent>();
+			b2Body* body = (b2Body*)rb.RuntimeBody;
+
+			if(m_PhysicsWorld)
+				m_PhysicsWorld->DestroyBody(body);
+		}
+		if (entity.HasComponent<ScriptComponent>())
+		{
+			ScriptEngine::OnDeleteEntity(entity);
+		}
 		m_EntityMap.erase(entity.GetUUID());
 		m_Registry.destroy(entity);
 	}
@@ -159,6 +171,15 @@ namespace SY {
 		ScriptEngine::OnRuntimeStop();
 	}
 
+	void Scene::OnRuntimeShift()
+	{
+		m_IsRunning = false;
+
+		OnPhysics2DStop();
+
+
+	}
+
 	void Scene::OnSimulationStart()
 	{
 		OnPhysics2DStart();
@@ -171,10 +192,15 @@ namespace SY {
 
 	void Scene::OnUpdateRuntime(float timeStep)
 	{
+		m_Registry.view<Dead>().each([this](entt::entity e, Dead& dead) {
+			Entity ent = { e,this };
+			DestroyEntity(ent);
+			});
+
 		ParentManager::CreateHierarchy(this);
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
-			auto view = m_Registry.view<ScriptComponent>();
+			auto view = m_Registry.view<ScriptComponent>(entt::exclude<Pause>);
 			for (auto e : view)
 			{
 				Entity entity = { e, this };
@@ -226,6 +252,31 @@ namespace SY {
 				});
 		}
 
+		{
+			m_Registry.view<TransformAnimatorComponent, TransformComponent>().each([timeStep, this](entt::entity e, TransformAnimatorComponent& animator, TransformComponent& transform)
+				{
+					if (animator._currentClip == nullptr)
+						return;
+
+					shared_ptr<TransformAnimation> clip = animator._currentClip;
+					animator._lastTime = animator._currentTime;
+					animator._currentTime += timeStep;
+
+					const vector<TransformFrame>& clipFrames = clip->GetFrames();
+					UINT frames = clipFrames.size();
+					float duration = clip->GetDuration();
+					float epsilon = 1e-5f;
+
+					UINT curFrame = UINT(min(animator._currentTime, duration - epsilon) * (frames - 1) / duration);
+					UINT nextFrame = curFrame + 1;
+					float ratio = animator._currentTime / duration * (frames - 1) - curFrame;
+					transform.translation = 10 * Vector3::Lerp(clipFrames[curFrame].position, clipFrames[nextFrame].position, ratio);
+					transform.rotation.z = clipFrames[curFrame].angle * (1 - ratio) + clipFrames[curFrame].angle * (ratio);
+					transform.rotation.z *= XM_PI / 180.f;
+
+				});
+		}
+
 		auto view = m_Registry.view<BackGroundColorComponent>();
 		for (auto entity : view)
 		{
@@ -255,54 +306,46 @@ namespace SY {
 		{
 			Renderer::Begin(mainCamera->Camera, cameraTransform);
 			{
-				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent, StateComponent>);
+				auto group = m_Registry.group<SpriteRendererComponent>(entt::get<TransformComponent>, entt::exclude<Pause>);
 				for (auto entity : group)
 				{
-					auto [transform, sprite, state] = group.get<TransformComponent, SpriteRendererComponent, StateComponent>(entity);
-					if (state.currentState == EntityState::Active) {
-						sprite.SetMaterial();
-						Renderer::DrawRect(transform.localToWorld, sprite.material, entity);
-					}
+					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					if ((mainCamera->LayerBit & sprite.LayerBit) == 0)
+						continue;
+					sprite.SetMaterial();
+					Renderer::DrawRect(transform.localToWorld, sprite.material, entity);
 				}
 
-				auto group2 = m_Registry.group<PanelComponent>(entt::get<RectTransformComponent, StateComponent>);
+				auto group2 = m_Registry.group<PanelComponent>(entt::get<RectTransformComponent>, entt::exclude<Pause>);
 				for (auto entity : group2)
 				{
-					auto [transform, panel,state] = group2.get<RectTransformComponent, PanelComponent, StateComponent>(entity);
-					if (state.currentState == EntityState::Active) {
-						panel.SetMaterial();
-						Renderer::DrawPoint(transform.localToWorld, panel.material, entity);
-					}
+					auto [transform, panel] = group2.get<RectTransformComponent, PanelComponent>(entity);
+					panel.SetMaterial();
+					Renderer::DrawPoint(transform.localToWorld, panel.material, entity);
 				}
 
-				auto group3 = m_Registry.group<SliderComponent>(entt::get<RectTransformComponent, StateComponent>);
+				auto group3 = m_Registry.group<SliderComponent>(entt::get<RectTransformComponent>, entt::exclude<Pause>);
 				for (auto entity : group3)
 				{
-					auto [transform, slider, state] = group3.get<RectTransformComponent, SliderComponent, StateComponent>(entity);
-					if (state.currentState == EntityState::Active) {
-						slider.SetMaterial();
-						Renderer::DrawRect(transform.localToWorld, slider.material, entity);
-					}
+					auto [transform, slider] = group3.get<RectTransformComponent, SliderComponent>(entity);
+					slider.SetMaterial();
+					Renderer::DrawRect(transform.localToWorld, slider.material, entity);
 				}
 
-				auto group4 = m_Registry.group<SlotComponent>(entt::get<RectTransformComponent, StateComponent>);
+				auto group4 = m_Registry.group<SlotComponent>(entt::get<RectTransformComponent>, entt::exclude<Pause>);
 				for (auto entity : group4)
 				{
-					auto [transform, slot, state] = group4.get<RectTransformComponent, SlotComponent, StateComponent>(entity);
-					if (state.currentState == EntityState::Active) {
-						slot.SetMaterial();
-						Renderer::DrawRect(transform.localToWorld, slot.material, entity);
-					}
+					auto [transform, slot] = group4.get<RectTransformComponent, SlotComponent>(entity);
+					slot.SetMaterial();
+					Renderer::DrawRect(transform.localToWorld, slot.material, entity);
 				}
 
-				auto group5 = m_Registry.group<IconComponent>(entt::get<RectTransformComponent, StateComponent>);
+				auto group5 = m_Registry.group<IconComponent>(entt::get<RectTransformComponent>, entt::exclude<Pause>);
 				for (auto entity : group5)
 				{
-					auto [transform, Icon, state] = group5.get<RectTransformComponent, IconComponent, StateComponent>(entity);
-					if (state.currentState == EntityState::Active) {
-						Icon.SetMaterial();
-						Renderer::DrawRect(transform.localToWorld, Icon.material, entity);
-					}
+					auto [transform, Icon] = group5.get<RectTransformComponent, IconComponent>(entity);
+					Icon.SetMaterial();
+					Renderer::DrawRect(transform.localToWorld, Icon.material, entity);
 				}
 			}
 			Renderer::End();
@@ -348,6 +391,19 @@ namespace SY {
 		}
 	}
 
+	vector<Entity> Scene::GetDontDestroys()
+	{
+		vector<Entity> dontDestroys;
+
+		auto view = m_Registry.view<DontDestroy>();
+		for (auto entity : view)
+		{
+			dontDestroys.emplace_back(Entity{ entity, this });
+		}
+		
+		return dontDestroys;
+	}
+
 	void Scene::UpdateTransform()
 	{
 		auto view = m_Registry.view<TransformComponent>();
@@ -361,10 +417,6 @@ namespace SY {
 		}
 
 		ParentManager::CreateToWorld(this);
-	}
-
-	void Scene::CreateHierarchy()
-	{
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
@@ -388,6 +440,16 @@ namespace SY {
 	{
 		std::string name = entity.GetName();
 		Entity newEntity = CreateEntity(name);
+		CopyComponentIfExists(AllComponents{}, newEntity, entity);
+		return newEntity;
+	}
+
+	Entity Scene::LoadDontDestroy(Entity entity)
+	{
+		assert(entity.GetContext() != this);
+
+		std::string name = entity.GetName();
+		Entity newEntity = CreateEntityWithUUID(entity.GetUUID(), name);
 		CopyComponentIfExists(AllComponents{}, newEntity, entity);
 		return newEntity;
 	}
@@ -641,7 +703,25 @@ namespace SY {
 	}
 
 	template<>
+	void Scene::OnComponentAdded<Pause>(Entity entity, Pause& component)
+	{
+		ScriptEngine::OnPaused(entity);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<Dead>(Entity entity, Dead& component)
+	{
+	}
+
+	template<>
 	void Scene::OnComponentAdded<RectTransformComponent>(Entity entity, RectTransformComponent& component)
 	{
+		
+	}
+
+	template<>
+	void Scene::OnComponentAdded<DontDestroy>(Entity entity, DontDestroy& component)
+	{
+
 	}
 }

@@ -25,6 +25,8 @@ namespace SY {
 		void OnRuntimeStart();
 		void OnRuntimeStop();
 
+		void OnRuntimeShift();
+
 		void OnSimulationStart();
 		void OnSimulationStop();
 
@@ -33,11 +35,13 @@ namespace SY {
 		void OnUpdateEditor(float ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
+		vector<Entity> GetDontDestroys();
 		void UpdateTransform();
-		void CreateHierarchy();
+
+		b2World* GetBox2dWorld() { return m_PhysicsWorld; }
 
 		Entity DuplicateEntity(Entity entity);
-
+		Entity LoadDontDestroy(Entity entity);
 		Entity FindEntityByName(std::string_view name);
 		Entity GetEntityByUUID(UUID uuid);
 
@@ -78,6 +82,7 @@ namespace SY {
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 		friend class ParentManager;
+		friend class PrefabManager;
 	};
 
 }

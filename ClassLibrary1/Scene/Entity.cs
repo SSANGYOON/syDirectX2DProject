@@ -14,6 +14,58 @@ namespace SY
 
         public readonly ulong ID;
 
+        public bool IsValid()
+        {
+                return InternalCalls.Entity_IsValid(ID);   
+        }
+
+        public Entity Instantiate(Vector3 position, ulong parentId)
+        {
+            InternalCalls.Entity_Instantiate(ID, ref position, parentId, out ulong instanceID);
+            if (instanceID > 0)
+                return new Entity(instanceID);
+            else
+                return null;
+        }
+
+        public Entity GetChild(string childTag)
+        {
+            InternalCalls.Entity_GetChild(ID, childTag, out ulong childId);
+            if (childId > 0)
+                return new Entity(childId);
+            else
+                return null;
+        }
+
+        public void Destroy()
+        {
+            StateComponent state = GetComponent<StateComponent>();
+            state.State = StateComponent.EntityState.Dead;
+        }
+
+        public void DontDestroy()
+        {
+            Vector3 pos = Vector3.Zero;
+            InternalCalls.Entity_DontDestroy(ID, ref pos);
+        }
+
+        public void DontDestroy(ref Vector3 position)
+        {
+            InternalCalls.Entity_DontDestroy(ID, ref position);
+        }
+
+        public void Pause()
+        {
+            StateComponent state = GetComponent<StateComponent>();
+            state.State = StateComponent.EntityState.Pause;
+        }
+
+        public void Activate()
+        {
+            StateComponent state = GetComponent<StateComponent>();
+            state.State = StateComponent.EntityState.Active;
+        }
+
         public Vector3 Translation
         {
             get

@@ -23,7 +23,7 @@ public:
 	}
 	
 	template <typename T>
-	std::shared_ptr<T> Load(const std::wstring& key, const std::wstring& path)
+	std::shared_ptr<T> Load(const std::wstring& key, const std::wstring& path, bool stockObject = true)
 	{
 		// 키값으로 탐색
 		std::shared_ptr<T> resource = Resources::Find<T>(key);
@@ -35,14 +35,13 @@ public:
 
 		// 해당 키로 로딩된 리소스가 없다.
 		resource = std::make_shared<T>();
-		if (FAILED(resource->Load(path)))
+		if (FAILED(resource->Load(path, stockObject)))
 		{
 			MessageBox(nullptr, L"Image Load Failed!", L"Error", MB_OK);
 			return nullptr;
 		}
 
 		resource->SetKey(key);
-		resource->SetPath(path);
 		_resources.insert(std::make_pair(key, static_pointer_cast<Resource>(resource)));
 
 		return resource;

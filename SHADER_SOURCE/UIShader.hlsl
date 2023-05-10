@@ -40,72 +40,109 @@ void GS_MAIN(point VSOut viewPos[1], inout TriangleStream<GSOut> outputStream)
     GSOut output[16] = { (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f,
                         (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f };
 
-    for (uint i = 0; i < 16; i++)
+    float2 originalSize = g_vec2_0;
+    float2 offset = g_vec2_1;
+
+    if (originalSize.x == 0)
     {
-        uint x = i % 4;
-        uint y = i / 4;
+        output[0].Pos = mul(mul(float4(-0.5f, 0.5f, 0.f, 1.f), world), projection);
+        output[0].UV = float2(0.f, 0.f);
 
-        output[i].Pos = viewPos[0].Pos;
+        output[1].Pos = mul(mul(float4(0.5f, 0.5f, 0.f, 1.f), world), projection);
+        output[1].UV = float2(1.f, 0.f);
 
-        float2 size = mul(float4(1.f, 1.f, 0.f, 0.f), world).xy;
-        float2 originalSize = g_vec2_0;
-        float2 offset = g_vec2_1;
+        output[2].Pos = mul(mul(float4(-0.5f, -0.5f, 0.f, 1.f), world), projection);
+        output[2].UV = float2(0.f, 1.f);
 
+        output[3].Pos = mul(mul(float4(0.5f, -0.5f, 0.f, 1.f), world), projection);
+        output[3].UV = float2(1.f, 1.f);
 
-        float right = 1.f;
-        if (x < 2)
-            right = 0.f;
+        outputStream.Append(output[0]);
+        outputStream.Append(output[1]);
+        outputStream.Append(output[2]);
+        outputStream.RestartStrip();
 
-        float stretch = 0.f;
-        if (x > 0 && x < 3)
-            stretch = 1.f;
-
-        output[i].Pos.x += (right - 0.5f) * (size.x - stretch * offset.x);
-        output[i].UV.x = right - (2 * right - 1.f) * (offset.x * stretch / originalSize.x);
-        
-        float down = 1.f;
-        if (y < 2)
-            down = 0.f;
-
-        stretch = 0.f;
-        if (y > 0 && y < 3)
-            stretch = 1.f;
-
-        output[i].Pos.y += -(down - 0.5f) * (size.y - stretch * offset.y);
-        output[i].UV.y = down - (2 * down - 1.f) * (offset.x * stretch / originalSize.x);
-
-        output[i].Pos = mul(output[i].Pos, projection);
+        outputStream.Append(output[1]);
+        outputStream.Append(output[2]);
+        outputStream.Append(output[3]);
+        outputStream.RestartStrip();
     }
-
-    for (uint i = 0; i < 3; i++)
-    {
-        for (uint j = 0; j < 3; j++)
+    else {
+        for (uint i = 0; i < 16; i++)
         {
-            outputStream.Append(output[4 * i + j]);
-            outputStream.Append(output[4 * i + j + 1]);
-            outputStream.Append(output[4 * (i + 1) + j]);
-            outputStream.RestartStrip();
+            uint x = i % 4;
+            uint y = i / 4;
 
-            outputStream.Append(output[4 * i + j + 1]);
-            outputStream.Append(output[4 * (i + 1) + j]);
-            outputStream.Append(output[4 * (i + 1) + j + 1]);
-            outputStream.RestartStrip();
+            output[i].Pos = viewPos[0].Pos;
+
+            float2 size = mul(float4(1.f, 1.f, 0.f, 0.f), world).xy;
+            
+
+
+            float right = 1.f;
+            if (x < 2)
+                right = 0.f;
+
+            float stretch = 0.f;
+            if (x > 0 && x < 3)
+                stretch = 1.f;
+
+            output[i].Pos.x += (right - 0.5f) * (size.x - stretch * offset.x);
+            output[i].UV.x = right - (2 * right - 1.f) * (offset.x * stretch / originalSize.x);
+
+            float down = 1.f;
+            if (y < 2)
+                down = 0.f;
+
+            stretch = 0.f;
+            if (y > 0 && y < 3)
+                stretch = 1.f;
+
+            output[i].Pos.y += -(down - 0.5f) * (size.y - stretch * offset.y);
+            output[i].UV.y = down - (2 * down - 1.f) * (offset.x * stretch / originalSize.x);
+
+            output[i].Pos = mul(output[i].Pos, projection);
+        }
+
+        for (uint i = 0; i < 3; i++)
+        {
+            for (uint j = 0; j < 3; j++)
+            {
+                outputStream.Append(output[4 * i + j]);
+                outputStream.Append(output[4 * i + j + 1]);
+                outputStream.Append(output[4 * (i + 1) + j]);
+                outputStream.RestartStrip();
+
+                outputStream.Append(output[4 * i + j + 1]);
+                outputStream.Append(output[4 * (i + 1) + j]);
+                outputStream.Append(output[4 * (i + 1) + j + 1]);
+                outputStream.RestartStrip();
+            }
         }
     }
 }
 PSOut PS_MAIN(GSOut In)
 {
+    PSOut Out = (PSOut)0.f;
+
     float2 originalSize = g_vec2_0;
+    float4 tintColor = g_vec4_0;
+
+    if (originalSize.x == 0.f) {
+        Out.color = tintColor;
+        Out.entity = entity;
+        return Out;
+    }
+
     float2 offset = g_vec2_1;
     float2 tintRange = g_vec2_2 / g_vec2_0;
-    float4 tintColor = g_vec4_0;
+    
 
     float4 color = tex_0.Sample(linearSampler, In.UV);
 
-    PSOut Out = (PSOut)0.f;
-    if (color.w > 0.5f)
-        Out.color = color;
-    else if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y)
+    
+    Out.color = color;
+    if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y)
         Out.color = tintColor;
     Out.entity = entity;
     return Out;

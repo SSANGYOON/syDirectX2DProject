@@ -52,8 +52,8 @@ float4 PS_MAIN(VSOut In) : SV_Target0
     color = tex_0.Sample(anisotropicSampler, In.slotUV);
 
 
-    if (In.itemUV.x < 1.f && In.itemUV.x > 0.f && In.itemUV.y > 0.f && In.itemUV.y < 1.f) {
-        float4 itemcolor = tex_1.Sample(anisotropicSampler, In.itemUV) * tex_2.Sample(anisotropicSampler, In.slotUV);
+    if (In.itemUV.x < 1.f && In.itemUV.x > 0.f && In.itemUV.y > 0.f && In.itemUV.y < 1.f && color.w < 0.5f) {
+        float4 itemcolor = tex_1.Sample(pointSampler, In.itemUV) * tex_2.Sample(pointSampler, In.slotUV);
 
         if (itemcolor.w > 0.f)
             color = itemcolor;

@@ -134,4 +134,51 @@ namespace SY
             set => InternalCalls.CameraComponent_SetOrthographicSize(Entity.ID, ref value);
         }
     }
+
+    public class PanelComponent : Component 
+    {
+        public Vector4 TintColor
+        {
+            get
+            {
+                InternalCalls.PanelComponent_GetTintColor(Entity.ID, out Vector4 tintColor);
+                return tintColor;
+            }
+            set => InternalCalls.PanelComponent_SetTintColor(Entity.ID, ref value);
+        }
+    }
+
+    public class IconComponent : Component
+    {
+        public Vector4 TintColor
+        {
+            get
+            {
+                InternalCalls.IconComponent_GetTintColor(Entity.ID, out Vector4 tintColor);
+                return tintColor;
+            }
+            set => InternalCalls.IconComponent_SetTintColor(Entity.ID, ref value);
+        }
+
+        public string Texture
+        {
+            set { InternalCalls.IconComponent_SetTexture(Entity.ID, value); }
+        }
+    }
+
+    public class SlotComponent : Component
+    {
+        public string Texture
+        {
+            set { InternalCalls.SlotComponent_SetItem(Entity.ID, value); }
+        }
+    }
+
+    public class SpriteRendererComponent : Component
+    {
+        public string Texture
+        {
+            set { InternalCalls.SpriteRendererComponent_SetTexture(Entity.ID, value); }
+        }
+    }
 }

@@ -30,8 +30,9 @@ namespace SY {
 		Dead
 	};
 
-	struct Dead {};
-	struct Pause {};
+	struct Dead { int a = 0; };
+	struct Pause { int a = 0; };
+	struct Active { int a = 0; };
 
 	struct StateComponent
 	{
@@ -56,6 +57,11 @@ namespace SY {
 		Vector4 color;
 	};
 
+	struct DontDestroy
+	{
+		Vector3 desiredPos;
+	};
+
 	template<typename... Component>
 	struct ComponentGroup
 	{
@@ -64,7 +70,7 @@ namespace SY {
 	using AllComponents =
 		ComponentGroup<StateComponent, TransformComponent, Parent,
 		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, BackGroundColorComponent,
-		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, SpriteRendererComponent, 
+		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, SpriteRendererComponent, DontDestroy,
 		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent>;
 }
 

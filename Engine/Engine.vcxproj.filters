@@ -160,6 +160,12 @@
     <Filter Include="Component\Drawable">
       <UniqueIdentifier>{e89db91e-38b7-4b69-93d9-0e48eab842d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\PrefabManager">
+      <UniqueIdentifier>{f36b3e43-514b-41bb-87d5-c3be48eecb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{356d8bd4-cc84-419a-ade4-38c8ba3d481b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource.cpp">
@@ -333,9 +339,14 @@
     <ClCompile Include="Collider.cpp">
       <Filter>Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Drawable.cpp">
       <Filter>Component\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="PrefabManager.cpp">
+      <Filter>Manager\PrefabManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -543,12 +554,17 @@
     <ClInclude Include="Collider.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h" />
     <ClInclude Include="Drawable.h">
       <Filter>Component\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabManager.h">
+      <Filter>Manager\PrefabManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

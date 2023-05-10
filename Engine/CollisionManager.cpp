@@ -41,7 +41,7 @@ namespace SY {
 			Collision col = {};
 			col.entityID = entity1.GetUUID();
 			col.CollisionLayer = filter.categoryBits;
-			if (f1->IsSensor())
+			if (f2->IsSensor())
 				ScriptEngine::OnTriggerEnter(entity2, &col);
 			else
 				ScriptEngine::OnCollisionEnter(entity2, &col);

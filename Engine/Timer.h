@@ -5,10 +5,11 @@ class Timer
 DECLARE_SINGLE(Timer);
 
 public:
-	float DeltaTime() { return mDeltaTime; }
+	float DeltaTime() { return mDeltaTime * mTimeScale; }
 
 	void Init();
-	void SetTimeScale(float timeScale) { mTimeScale = timeScale; };
+	float GetTimeScale() { return mTimeScale; }
+	void SetTimeScale(float timeScale) { mTimeScale = timeScale; }
 	void Update();
 	void Render(HDC hdc);
 

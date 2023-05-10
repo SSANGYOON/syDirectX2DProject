@@ -12,19 +12,40 @@ namespace Sandbox
     {
         private float _duration = 1.0f;
 
-        public float duration
+        public float Duration
         {
             get { return _duration; }
-            private set { _duration = value; }
         }
         private TransformAnimatorComponent m_Animator;
 
 
-        public WeaponData weaponData;
+        private WeaponData weaponData = null;
+        private SpriteRendererComponent m_SpriteRenderer;
+
+        public WeaponData Data
+        {
+            get { return weaponData; }
+            set { weaponData = value; 
+                if(weaponData != null)
+                {
+                    if(m_SpriteRenderer == null)
+                        m_SpriteRenderer = GetComponent<SpriteRendererComponent>();
+                    if (m_SpriteRenderer != null)
+                        m_SpriteRenderer.Texture = weaponData.spritePath;
+                    else
+                        m_SpriteRenderer.Texture = null;
+                }
+            }
+        }
+
+        public void OnCreate()
+        {
+            m_Animator = GetComponent<TransformAnimatorComponent>();
+        }
 
         public void Attack()
         { 
-            if(m_Animator != null)
+            if(m_Animator != null && weaponData != null)
                 m_Animator.Play(Enum.GetName(typeof(WeaponData.weaponType), weaponData.Type));
         }
     }

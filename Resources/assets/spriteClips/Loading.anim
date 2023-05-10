@@ -1,0 +1,9 @@
+Animations:
+  - Key: Loading
+    OriginalOffset: [ 0, 27.0 ]
+    SpriteSize: [ 32.0, 46.0 ]
+    Step: [ 31.0, 53.0 ]
+    Columns: 4
+    Frames: 8
+    Duration: 1
+    Loop: true

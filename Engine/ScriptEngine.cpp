@@ -43,6 +43,7 @@ namespace SY {
 
 		{ "SY.Entity", ScriptFieldType::Entity },
 		{ "SY.Collision2D", ScriptFieldType::Collision2D},
+		{ "System.String", ScriptFieldType::String},
 	};
 
 	namespace Utils {
@@ -102,7 +103,6 @@ namespace SY {
 		ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType)
 		{
 			std::string typeName = mono_type_get_name(monoType);
-
 			auto it = s_ScriptFieldTypeMap.find(typeName);
 			if (it == s_ScriptFieldTypeMap.end())
 			{
@@ -301,19 +301,25 @@ namespace SY {
 		{
 			UUID entityID = entity.GetUUID();
 
-			shared_ptr<ScriptInstance> instance = make_shared<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-			s_Data->EntityInstances[entityID] = instance;
+			if (s_Data->EntityInstances.find(entityID) == s_Data->EntityInstances.end() || s_Data->EntityInstances.find(entityID)->second == nullptr) {
+				shared_ptr<ScriptInstance> instance = make_shared<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
+				s_Data->EntityInstances[entityID] = instance;
 
-			// Copy field values
-			if (s_Data->EntityScriptFields.find(entityID) != s_Data->EntityScriptFields.end())
-			{
-				const ScriptFieldMap& fieldMap = s_Data->EntityScriptFields.at(entityID);
-				for (const auto& [name, fieldInstance] : fieldMap)
-					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+				if (s_Data->EntityScriptFields.find(entityID) != s_Data->EntityScriptFields.end())
+				{
+					const ScriptFieldMap& fieldMap = s_Data->EntityScriptFields.at(entityID);
+					for (const auto& [name, fieldInstance] : fieldMap)
+						instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+				}
+
+				instance->InvokeOnCreate();
 			}
-
-			instance->InvokeOnCreate();
 		}
+	}
+
+	void ScriptEngine::OnDeleteEntity(Entity entity)
+	{
+		s_Data->EntityInstances.erase(entity.GetUUID());
 	}
 
 	void ScriptEngine::OnUpdateEntity(Entity entity, float timeStep)
@@ -447,6 +453,25 @@ namespace SY {
 			//mono_free(monstr);
 		}
 	}
+	void ScriptEngine::OnPaused(Entity entity)
+	{
+		UUID entityUUID = entity.GetUUID();
+		if (s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end())
+		{
+			shared_ptr<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
+			instance->InvokeOnPaused();
+		}
+	}
+
+	void ScriptEngine::OnActivated(Entity entity)
+	{
+		UUID entityUUID = entity.GetUUID();
+		if (s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end())
+		{
+			shared_ptr<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
+			instance->InvokeOnActivated();
+		}
+	}
 
 	Scene* ScriptEngine::GetSceneContext()
 	{
@@ -476,6 +501,17 @@ namespace SY {
 		s_Data->SceneContext = nullptr;
 
 		s_Data->EntityInstances.clear();
+	}
+
+	void ScriptEngine::OnRuntimeShift()
+	{
+		for (auto inst : s_Data->EntityInstances)
+		{
+			Entity entity = s_Data->SceneContext->GetEntityByUUID(inst.first);
+			if(!entity.HasComponent<DontDestroy>())
+				inst.second = nullptr;
+		}
+		s_Data->SceneContext = nullptr;
 	}
 
 	std::unordered_map<std::string, shared_ptr<ScriptClass>> ScriptEngine::GetEntityClasses()
@@ -541,7 +577,6 @@ namespace SY {
 					MonoType* type = mono_field_get_type(field);
 					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
 					//HZ_CORE_WARN("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
-
 					scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
 				}
 			}
@@ -610,6 +645,9 @@ namespace SY {
 		m_OnTriggerStayMethod = scriptClass->GetMethod("OnTriggerStay", 1);
 		m_OnTriggerExitMethod = scriptClass->GetMethod("OnTriggerExit", 1);
 		m_OnNamedEvent = scriptClass->GetMethod("OnNamedEvent", 1);
+
+		m_OnActivatedEvent = scriptClass->GetMethod("OnActivated", 0);
+		m_OnPausedEvent = scriptClass->GetMethod("OnPaused", 0);
 		// Call Entity constructor
 		{
 			UUID entityID = entity.GetUUID();
@@ -703,6 +741,18 @@ namespace SY {
 		}
 	}
 
+	void ScriptInstance::InvokeOnPaused()
+	{
+		if (m_OnPausedEvent)
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnPausedEvent);
+	}
+
+	void ScriptInstance::InvokeOnActivated()
+	{
+		if (m_OnActivatedEvent)
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnActivatedEvent);
+	}
+
 	bool ScriptInstance::GetFieldValueInternal(const std::string& name, void* buffer)
 	{
 		const auto& fields = m_ScriptClass->GetFields();
@@ -711,6 +761,23 @@ namespace SY {
 			return false;
 
 		const ScriptField& field = it->second;
+
+		if (field.Type == ScriptFieldType::Entity)
+		{
+			MonoObject* obj = mono_field_get_value_object(s_Data->AppDomain, field.ClassField, m_Instance);
+			uint64_t uuid = *(uint64_t*)mono_object_unbox(obj);
+
+			memcpy(buffer, &uuid, sizeof(uuid));
+		}
+
+		else if (field.Type == ScriptFieldType::String)
+		{
+			MonoString* obj = (MonoString*)mono_field_get_value_object(s_Data->AppDomain, field.ClassField, m_Instance);
+			const char* myValue = mono_string_to_utf8(obj);
+
+			memcpy(buffer, &myValue, strlen(myValue) + 1);
+		}
+
 		mono_field_get_value(m_Instance, field.ClassField, buffer);
 		return true;
 	}
@@ -723,7 +790,29 @@ namespace SY {
 			return false;
 
 		const ScriptField& field = it->second;
-		mono_field_set_value(m_Instance, field.ClassField, (void*)value);
+
+		if (field.Type == ScriptFieldType::Entity)
+		{
+			auto classType = mono_class_from_name(s_Data->CoreAssemblyImage, "SY", "Entity");
+			MonoMethod* constructor = mono_class_get_method_from_name(classType, ".ctor", 1);
+
+			// Create the constructor arguments
+			void* args[1];
+			args[0] = (void*)value;
+
+			// Create the object instance
+			MonoObject* myObject = mono_object_new(s_Data->AppDomain, classType);
+			mono_runtime_invoke(constructor, myObject, args, NULL);
+			mono_field_set_value(m_Instance, field.ClassField, myObject);
+		}
+		else if (field.Type == ScriptFieldType::String)
+		{
+			MonoString* myString = mono_string_new(s_Data->AppDomain, (char*)value);
+			mono_field_set_value(m_Instance, field.ClassField, myString);
+		}
+		else {
+			mono_field_set_value(m_Instance, field.ClassField, (void*)value);
+		}
 		return true;
 	}
 

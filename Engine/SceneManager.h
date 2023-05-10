@@ -1,19 +1,23 @@
 #pragma once
-
+#include <stack>
 
 namespace SY {
 	class Scene;
 	class SceneManager
 	{
 	public:
-		static shared_ptr<Scene>& GetActiveScene();
-		static void ChanegeScene(string name);
+		static void LoadScene(string path);
+		static void LoadSceneAsync(string path);
+		static void SetStartScene(shared_ptr<Scene> scene, string name);
+		static void OnUpdate(float timeStep);
+		static void OnStop();
+		static shared_ptr<Scene> GetActiveScene() { return activeScene; }
 
-		static void AddScene(string tag, shared_ptr<Scene> scene);
-		static void RemoveScene(string tag);
 	private:
-		static shared_ptr<Scene> currentScene;
-		static map<string , shared_ptr<Scene>> _scenes;
+		static shared_ptr<Scene> activeScene;
+		static shared_ptr<Scene> nextScene;
+		static map<string, shared_ptr<Scene>> scenes;
+		static std::stack<thread> loadingThreads;
 	};
 }
 

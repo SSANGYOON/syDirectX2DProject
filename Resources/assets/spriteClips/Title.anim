@@ -1,0 +1,36 @@
+Animations:
+  - Key: Heroine
+    OriginalOffset: [ 3.0, 403.0 ]
+    SpriteSize: [ 70.0, 137.0 ]
+    Step: [ 78.0, 140.0 ]
+    Columns: 24
+    Frames: 48
+    Duration: 1.5
+    Loop: true
+
+  - Key: Bush
+    OriginalOffset: [ 3.0, 1610.0 ]
+    SpriteSize: [ 28.0, 27.0 ]
+    Step: [ 42.0, 27.0 ]
+    Columns: 24
+    Frames: 24
+    Duration: 1.5
+    Loop: true
+
+  - Key: Ropes
+    OriginalOffset: [ 3.0, 1656.0 ]
+    SpriteSize: [ 140.0, 72.0 ]
+    Step: [ 145.0, 80.0 ]
+    Columns: 13
+    Frames: 32
+    Duration: 1.5
+    Loop: true
+
+  - Key: Tree
+    OriginalOffset: [ 5.0, 1906.0 ]
+    SpriteSize: [ 91.0, 121.0 ]
+    Step: [ 97.0, 125.0 ]
+    Columns: 19
+    Frames: 24
+    Duration: 1.5
+    Loop: true

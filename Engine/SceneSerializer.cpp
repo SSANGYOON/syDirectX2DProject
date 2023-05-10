@@ -10,6 +10,8 @@
 #include "SerializerUtils.h"
 #include "Animation.h"
 #include "Texture.h"
+#include <bitset>
+
 namespace YAML
 {
 	template<>
@@ -141,6 +143,7 @@ namespace SY {
 
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
 			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
+			out << YAML::Key << "LayerMask" << YAML::Value << cameraComponent.LayerBit;
 
 			out << YAML::EndMap; // CameraComponent
 		}
@@ -179,7 +182,6 @@ namespace SY {
 
 					out << YAML::Key << "Data" << YAML::Value;
 					ScriptFieldInstance& scriptField = entityFields.at(name);
-
 					switch (field.Type)
 					{
 						WRITE_SCRIPT_FIELD(Float, float);
@@ -198,6 +200,11 @@ namespace SY {
 						WRITE_SCRIPT_FIELD(Vector3, Vector3);
 						WRITE_SCRIPT_FIELD(Vector4, Vector4);
 						WRITE_SCRIPT_FIELD(Entity, UUID);
+						case ScriptFieldType::String:
+						{
+							out << string(scriptField.GetString());
+							break;
+						}
 					}
 					out << YAML::EndMap; // ScriptFields
 				}
@@ -222,6 +229,7 @@ namespace SY {
 				out << YAML::Key << "SourceSize" << YAML::Value << spriteRendererComponent.sourceSize;
 				out << YAML::Key << "TargetOffset" << YAML::Value << spriteRendererComponent.targetOffset;
 				out << YAML::Key << "Fixed" << YAML::Value << spriteRendererComponent.fixed;
+				out << YAML::Key << "Layer" << YAML::Value << spriteRendererComponent.LayerBit;
 			}
 
 			out << YAML::EndMap; // SpriteRendererComponent
@@ -252,6 +260,8 @@ namespace SY {
 			out << YAML::Key << "Restitution" << YAML::Value << bc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dComponent.RestitutionThreshold;
 			out << YAML::Key << "IsSensor" << YAML::Value << bc2dComponent.isSensor;
+			out << YAML::Key << "MaskBits" << YAML::Value << bc2dComponent.maskBits;
+			out << YAML::Key << "CategoryBits" << YAML::Value << bc2dComponent.categoryBits;
 			out << YAML::EndMap; // BoxCollider2DComponent
 		}
 
@@ -268,6 +278,8 @@ namespace SY {
 			out << YAML::Key << "Restitution" << YAML::Value << cc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << cc2dComponent.RestitutionThreshold;
 			out << YAML::Key << "IsSensor" << YAML::Value << cc2dComponent.isSensor;
+			out << YAML::Key << "MaskBits" << YAML::Value << cc2dComponent.maskBits;
+			out << YAML::Key << "CategoryBits" << YAML::Value << cc2dComponent.categoryBits;
 
 			out << YAML::EndMap; // CircleCollider2DComponent
 		}
@@ -463,11 +475,9 @@ namespace SY {
 		return true;
 	}
 
-	Entity SceneSerializer::DeserializeEntity(Scene* scene, YAML::Node& entity, const map<uint64_t, uint64_t>& uuidMap)
+	Entity SceneSerializer::DeserializeEntity(Scene* scene, YAML::Node& entity)
 	{
 		uint64_t uuid = entity["Entity"].as<uint64_t>();
-		if (uuidMap.size() > 0)
-			uuid = uuidMap.find(uuid)->second;
 
 		std::string name;
 		auto tagComponent = entity["TagComponent"];
@@ -502,8 +512,6 @@ namespace SY {
 		{
 			auto& pc = deserializedEntity.AddComponent<Parent>();
 			pc.parentHandle = parent["ParentID"].as<uint64_t>();
-			if (uuidMap.size() > 0)
-				pc.parentHandle = uuidMap.find(pc.parentHandle)->second;
 		}
 
 		auto scriptComponent = entity["ScriptComponent"];
@@ -555,6 +563,12 @@ namespace SY {
 							READ_SCRIPT_FIELD(Vector3, Vector3);
 							READ_SCRIPT_FIELD(Vector4, Vector4);
 							READ_SCRIPT_FIELD(Entity, UUID);
+							case ScriptFieldType::String:
+							{
+								string data = scriptField["Data"].as<string>();
+								fieldInstance.SetString(data.c_str());
+								break;
+							}
 						}
 					}
 				}
@@ -577,6 +591,8 @@ namespace SY {
 
 			cc.Primary = cameraComponent["Primary"].as<bool>();
 			cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
+			if(cameraComponent["LayerMask"])
+				cc.LayerBit  = cameraComponent["LayerMask"].as<UINT16>();
 		}
 
 		auto backgroundcolorComponent = entity["BackGroundColorComponent"];
@@ -601,6 +617,8 @@ namespace SY {
 				src.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
 				src.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
 				src.targetOffset = spriteRendererComponent["TargetOffset"].as<Vector2>();
+				if(spriteRendererComponent["Layer"])
+					src.LayerBit = spriteRendererComponent["Layer"].as<UINT16>();
 			}
 		}
 
@@ -781,6 +799,10 @@ namespace SY {
 			bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
 			bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
 			bc2d.isSensor = boxCollider2DComponent["IsSensor"].as<bool>();
+			if(boxCollider2DComponent["MaskBits"])
+				bc2d.maskBits = boxCollider2DComponent["MaskBits"].as<UINT16>();
+			if (boxCollider2DComponent["CategoryBits"])
+				bc2d.categoryBits = boxCollider2DComponent["CategoryBits"].as<UINT16>();
 		}
 
 		auto circleCollider2DComponent = entity["CircleCollider2DComponent"];
@@ -794,6 +816,10 @@ namespace SY {
 			cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
 			cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
 			cc2d.isSensor = circleCollider2DComponent["IsSensor"].as<bool>();
+			if (circleCollider2DComponent["MaskBits"])
+				cc2d.maskBits = circleCollider2DComponent["MaskBits"].as<UINT16>();
+			if (circleCollider2DComponent["CategoryBits"])
+				cc2d.categoryBits = circleCollider2DComponent["CategoryBits"].as<UINT16>();
 		}
 
 		auto panelComponent = entity["PanelComponent"];

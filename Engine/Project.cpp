@@ -3,6 +3,7 @@
 #include "Project.h"
 
 #include "ProjectSerializer.h"
+#include "PrefabManager.h"
 
 namespace SY {
 
@@ -15,14 +16,15 @@ namespace SY {
 	shared_ptr<Project> Project::Load(const std::filesystem::path& path)
 	{
 		shared_ptr<Project> project = make_shared<Project>();
-
 		ProjectSerializer serializer(project);
 		if (serializer.Deserialize(path))
 		{
 			project->m_ProjectDirectory = path.parent_path();
 			s_ActiveProject = project;
+			
 			return s_ActiveProject;
 		}
+		
 
 		return nullptr;
 	}

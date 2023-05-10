@@ -13,8 +13,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.Diffuse = texture;
 			}
@@ -69,8 +68,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.panel = texture;
 			}
@@ -98,8 +96,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.bar = texture;
 			}
@@ -122,8 +119,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.gauge = texture;
 			}
@@ -154,8 +150,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.slot = texture;
 			}
@@ -176,8 +171,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.slotMask = texture;
 			}
@@ -198,8 +192,7 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.item = texture;
 			}
@@ -222,8 +215,9 @@ namespace SY {
 			{
 				const wchar_t* path = (const wchar_t*)payload->Data;
 				std::filesystem::path texturePath(path);
-				shared_ptr<Texture> texture = make_shared<Texture>();
-				texture->Load(texturePath.wstring(), false);
+
+
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.icon = texture;
 			}

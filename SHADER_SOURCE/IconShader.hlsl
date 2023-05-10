@@ -38,9 +38,9 @@ PSOut PS_MAIN(VSOut In)
 {
     float4 color = (float)0.0f;
     color = tex_0.Sample(linearSampler, In.UV);
+    color *= g_vec4_0;
     if (color.w == 0.f)
         discard;
-    color *= g_vec4_0;
 
     PSOut Out = (PSOut)0.f;
     Out.color = color;

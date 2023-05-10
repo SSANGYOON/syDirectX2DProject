@@ -45,7 +45,7 @@ HRESULT Prefab::Load(const std::wstring& path, bool stockObject)
 		 uint64_t uuid = entity["Entity"].as<uint64_t>();
 		 entity.force_insert("Entity", uuidMap[uuid]);
 		 
-		 return SY::SceneSerializer::DeserializeEntity(scene, entity,uuidMap);
+		 return SY::SceneSerializer::DeserializeEntity(scene, entity);
 	 }
 
 	 

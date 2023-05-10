@@ -19,6 +19,9 @@
 #include "box2d/b2_circle_shape.h"
 #include "box2d/b2_contact.h"
 #include "CollisionManager.h"
+#include "PrefabManager.h"
+#include "ParentManager.h"
+#include "SceneManager.h"
 
 namespace SY {
 
@@ -50,6 +53,15 @@ namespace SY {
 	static MonoObject* GetScriptInstance(UUID entityID)
 	{
 		return ScriptEngine::GetManagedInstance(entityID);
+	}
+
+	static bool Entity_IsValid(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		bool ret = entity.GetContext() != nullptr;
+		return ret;
 	}
 
 	static bool Entity_HasComponent(UUID entityID, MonoReflectionType* componentType)
@@ -84,8 +96,6 @@ namespace SY {
 		Scene* scene = ScriptEngine::GetSceneContext();
 		assert(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
-		assert(entity);
-
 		*outTranslation = entity.GetComponent<TransformComponent>().translation;
 	}
 
@@ -281,6 +291,24 @@ namespace SY {
 		}
 	}
 
+	static bool TransformAnimatorComponent_Play(UUID entityID, MonoString* str)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		char* cStr = mono_string_to_utf8(str);
+		mono_free(cStr);
+		std::string clipKey(cStr);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& animator = entity.GetComponent<TransformAnimatorComponent>();
+
+		if (animator.clips.find(clipKey) == animator.clips.end())
+			return false;
+		else {
+			animator._currentClip = animator.clips.find(clipKey)->second;
+			animator._currentTime = 0.f;
+			return true;
+		}
+	}
+
 	static bool Input_IsKeyDown(KEY_TYPE keycode)
 	{
 		bool result = INPUT->GetKeyState(keycode) == KEY_STATE::DOWN;
@@ -345,7 +373,262 @@ namespace SY {
 		auto& Sc = entity.GetComponent<StateComponent>();
 		Sc.state = state;
 	}
+
+	static void PanelComponent_GetTintColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& panel = entity.GetComponent<PanelComponent>();
+		*color = panel.color;
+	}
+
+	static void PanelComponent_SetTintColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& panel = entity.GetComponent<PanelComponent>();
+		panel.color = *color;
+	}
+
+	static void IconComponent_GetTintColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& icon = entity.GetComponent<IconComponent>();
+		*color = icon.tint;
+	}
+
+	static void IconComponent_SetTintColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& icon = entity.GetComponent<IconComponent>();
+		icon.tint = *color;
+	}
+
+	static void IconComponent_SetTexture(UUID entityID, MonoString* texturePath)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		char* cPath = mono_string_to_utf8(texturePath);
+		mono_free(cPath);
+		std::string path(cPath);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& icon = entity.GetComponent<IconComponent>();
+
+		icon.icon = GET_SINGLE(Resources)->Load<Texture>(stow(path), stow(path));
+	}
+
+	static void SlotComponent_SetItem(UUID entityID, MonoString* itemPath)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		char* cPath = mono_string_to_utf8(itemPath);
+		mono_free(cPath);
+		std::string path(cPath);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& slot = entity.GetComponent<SlotComponent>();
+
+		slot.item = GET_SINGLE(Resources)->Load<Texture>(stow(path), stow(path));
+	}
+
+	static void SpriteRendererComponent_SetTexture(UUID entityID, MonoString* texturePath)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		char* cPath = mono_string_to_utf8(texturePath);
+		mono_free(cPath);
+		std::string path(cPath);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+
+		sp.Diffuse = GET_SINGLE(Resources)->Load<Texture>(stow(path), stow(path), false);
+		sp.sourceSize = sp.Diffuse->GetSize();
+	}
+
+
+	static float Timer_GetTimeScale()
+	{
+		return TIME->GetTimeScale();
+	}
+
+	static void Timer_SetTimeScale(float timeScale)
+	{
+		return TIME->SetTimeScale(timeScale);
+	}
+
+
 	
+	static void Entity_Instantiate(uint64_t id, Vector3* position, uint64_t parentID, uint64_t* instanceId)
+	{
+		Entity instance = PrefabManager::Instantiate(ScriptEngine::GetSceneContext(), id, parentID);
+		
+		if (instance) {
+			UUID uu = instance.GetUUID();
+			if(instance.HasComponent<ScriptComponent>())
+				ScriptEngine::OnCreateEntity(instance);
+			if (instance.HasComponent<Rigidbody2DComponent>())
+			{
+				auto& transform = instance.GetComponent<TransformComponent>();
+				auto& rb2d = instance.GetComponent<Rigidbody2DComponent>();
+
+				b2BodyDef bodyDef;
+				bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
+				bodyDef.position.Set(transform.translation.x, transform.translation.y);
+				bodyDef.angle = transform.rotation.z;
+
+				b2Body* body = ScriptEngine::GetSceneContext()->GetBox2dWorld()->CreateBody(&bodyDef);
+				body->SetFixedRotation(rb2d.FixedRotation);
+				rb2d.RuntimeBody = body;
+				if (instance.HasComponent<BoxCollider2DComponent>())
+				{
+					auto& bc2d = instance.GetComponent<BoxCollider2DComponent>();
+
+					b2PolygonShape boxShape;
+					boxShape.SetAsBox(bc2d.Size.x * transform.scale.x, bc2d.Size.y * transform.scale.y);
+
+					b2FixtureDef fixtureDef;
+					fixtureDef.shape = &boxShape;
+					fixtureDef.density = bc2d.Density;
+					fixtureDef.friction = bc2d.Friction;
+					fixtureDef.restitution = bc2d.Restitution;
+					fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
+					fixtureDef.isSensor = bc2d.isSensor;
+					fixtureDef.filter.categoryBits = bc2d.categoryBits;
+					fixtureDef.filter.maskBits = bc2d.maskBits;
+
+					auto userData = b2FixtureUserData();
+					userData.pointer = (uintptr_t)(uint32)instance;
+					fixtureDef.userData = userData;
+
+					Vector2 bodyPos = Vector2(transform.translation.x, transform.translation.y) + Vector2::Transform(bc2d.Offset, Matrix::CreateRotationZ(transform.rotation.z));
+					body->SetTransform({ bodyPos.x,bodyPos.y }, transform.rotation.z);
+					body->CreateFixture(&fixtureDef);
+				}
+
+				if (instance.HasComponent<CircleCollider2DComponent>())
+				{
+					auto& cc2d = instance.GetComponent<CircleCollider2DComponent>();
+
+					b2CircleShape circleShape;
+					circleShape.m_p.Set(cc2d.Offset.x, cc2d.Offset.y);
+					circleShape.m_radius = transform.scale.x * cc2d.Radius;
+
+					b2FixtureDef fixtureDef;
+					fixtureDef.shape = &circleShape;
+					fixtureDef.density = cc2d.Density;
+					fixtureDef.friction = cc2d.Friction;
+					fixtureDef.restitution = cc2d.Restitution;
+					fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
+					fixtureDef.isSensor = cc2d.isSensor;
+					fixtureDef.filter.categoryBits = cc2d.categoryBits;
+					fixtureDef.filter.maskBits = cc2d.maskBits;
+
+					auto userData = b2FixtureUserData();
+					userData.pointer = (uintptr_t)(uint32)instance;
+					fixtureDef.userData = userData;
+
+					body->CreateFixture(&fixtureDef);
+				}
+			}
+			*instanceId = instance.GetUUID();
+
+			if (instance.HasComponent<TransformComponent>())
+			{
+				auto& tr = instance.GetComponent<TransformComponent>();
+				tr.translation = *position;
+			}
+			else
+			{
+				auto& tr = instance.GetComponent<RectTransformComponent>();
+				tr.translation = *position;
+			}
+			if (parentID)
+			{
+				auto& p = instance.AddOrReplaceComponent<Parent>();
+				p.parentHandle = parentID;
+			}
+		}
+		else
+			*instanceId = 0;
+	}
+
+	static void Entity_GetChild(uint64_t id, MonoString* tag, uint64_t* instanceId)
+	{
+		char* cTag = mono_string_to_utf8(tag);
+		mono_free(cTag);
+		std::string stag(cTag);
+		auto child = ParentManager::GetChild(id, stag, ScriptEngine::GetSceneContext());
+		
+		if (child)
+			*instanceId = child;
+		else
+			*instanceId = 0;
+	}
+
+	static void Entity_Destroy(uint64_t id)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(id);
+		assert(entity);
+
+		auto& state = entity.GetComponent<StateComponent>();
+		state.state = EntityState::Dead;
+	}
+
+	static void Entity_DontDestroy(uint64_t id, Vector3* desiredPos)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(id);
+		assert(entity);
+
+		auto& dontDestroy = entity.AddOrReplaceComponent<DontDestroy>();
+		if (desiredPos == nullptr)
+		{
+			if (entity.HasComponent<TransformComponent>())
+				dontDestroy.desiredPos = entity.GetComponent< TransformComponent>().translation;
+			else
+			{
+				assert(entity.HasComponent<RectTransformComponent>());
+				dontDestroy.desiredPos = entity.GetComponent<RectTransformComponent>().translation;
+			}
+			
+		}
+		else
+		{
+			dontDestroy.desiredPos = *desiredPos;
+		}
+	}
+
+	static void SceneManager_LoadScene(MonoString* monoPath)
+	{
+		char* cPath = mono_string_to_utf8(monoPath);
+		mono_free(cPath);
+		std::string sPath(cPath);
+		SceneManager::LoadScene(sPath);
+	}
+
+	static void SceneManager_LoadSceneAsync(MonoString* monoPath)
+	{
+		char* cPath = mono_string_to_utf8(monoPath);
+		mono_free(cPath);
+		std::string sPath(cPath);
+		SceneManager::LoadScene(sPath);
+	}
 
 	template<typename... Component>
 	static void RegisterComponent()
@@ -387,8 +670,10 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(GetScriptInstance);
 
+		HZ_ADD_INTERNAL_CALL(Entity_IsValid);
 		HZ_ADD_INTERNAL_CALL(Entity_HasComponent);
 		HZ_ADD_INTERNAL_CALL(Entity_FindEntityByName);
+		HZ_ADD_INTERNAL_CALL(Entity_GetChild);
 
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
@@ -409,6 +694,7 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetSize);
 
 		HZ_ADD_INTERNAL_CALL(SpriteAnimatorComponent_Play);
+		HZ_ADD_INTERNAL_CALL(TransformAnimatorComponent_Play);
 
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);
 		HZ_ADD_INTERNAL_CALL(Input_IsKeyPressed);
@@ -418,6 +704,26 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(StateComponent_GetState);
 		HZ_ADD_INTERNAL_CALL(StateComponent_SetState);
+
+		HZ_ADD_INTERNAL_CALL(Timer_GetTimeScale);
+		HZ_ADD_INTERNAL_CALL(Timer_SetTimeScale);
+
+		HZ_ADD_INTERNAL_CALL(Entity_Instantiate);
+		HZ_ADD_INTERNAL_CALL(Entity_Destroy);
+		HZ_ADD_INTERNAL_CALL(Entity_DontDestroy);
+
+		HZ_ADD_INTERNAL_CALL(PanelComponent_GetTintColor);
+		HZ_ADD_INTERNAL_CALL(PanelComponent_SetTintColor);
+
+		HZ_ADD_INTERNAL_CALL(IconComponent_GetTintColor);
+		HZ_ADD_INTERNAL_CALL(IconComponent_SetTintColor);
+
+		HZ_ADD_INTERNAL_CALL(IconComponent_SetTexture);
+		HZ_ADD_INTERNAL_CALL(SlotComponent_SetItem);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetTexture);
+
+		HZ_ADD_INTERNAL_CALL(SceneManager_LoadScene);
+		HZ_ADD_INTERNAL_CALL(SceneManager_LoadSceneAsync);
 	}
 
 }

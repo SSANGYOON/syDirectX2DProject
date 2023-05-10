@@ -6,6 +6,16 @@ namespace SY
     public static class InternalCalls
     {
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Entity_IsValid(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static ulong Entity_Instantiate(ulong entityID, ref Vector3 position, ulong parentID, out ulong id);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Entity_Destroy(ulong entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Entity_DontDestroy(ulong entityID, ref Vector3 desiredPos);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Entity_HasComponent(ulong entityID, Type componentType);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Entity_FindEntityByName(string name);
@@ -64,5 +74,36 @@ namespace SY
         internal extern static StateComponent.EntityState StateComponent_GetState(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void StateComponent_SetState(ulong entityID, StateComponent.EntityState type);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Timer_SetTimeScale(float timeScale);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Timer_GetTimeScale();
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void PanelComponent_GetTintColor(ulong entityID, out Vector4 color);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void PanelComponent_SetTintColor(ulong entityID, ref Vector4 color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void IconComponent_GetTintColor(ulong entityID, out Vector4 color);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void IconComponent_SetTintColor(ulong entityID, ref Vector4 color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void IconComponent_SetTexture(ulong entityID, string color);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SlotComponent_SetItem(ulong entityID, string color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetTexture(ulong entityID, string color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Entity_GetChild(ulong entityID, string childTag, out ulong childID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SceneManager_LoadScene(string nextScenePath);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SceneManager_LoadSceneAsync(string nextScenePath);
     }
 }
