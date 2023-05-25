@@ -113,6 +113,7 @@ namespace SY {
 			auto& tr = entity.GetComponent<TransformComponent>();
 			UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
 			auto parent = scene->GetEntityByUUID(parenUUID);
+
 			auto& parentTr = parent.GetComponent<TransformComponent>();
 
 			tr.localToWorld = tr.localToParent * parentTr.localToWorld;
