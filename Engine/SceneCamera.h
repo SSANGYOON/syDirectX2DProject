@@ -48,8 +48,15 @@ namespace SY {
 	struct CameraComponent
 	{
 		SceneCamera Camera;
-		bool Primary = true; // TODO: think about moving to Scene
+		
+		bool Primary = true;
 		bool FixedAspectRatio = false;
+
+		float oscillationAmp = 0.f;
+		float oscillationFreq = 1.f;
+		float oscillationDamp = 1.f;
+
+		float CalculateDiff(float ts, float accTime);
 
 		UINT16 LayerBit = 65535;
 		CameraComponent() = default;

@@ -16,7 +16,8 @@ public:
 	void SetIndexSize(UINT index) { _indexes = 0; }
 	void BindBuffer();
 	void Render();
-	void RenderIndexed(UINT count);
+	void Render(shared_ptr<class InstancingBuffer>& buffer);
+	void RenderInstanced(UINT count);
 
 private:
 	ComPtr<ID3D11Buffer> _vertexBuffer;

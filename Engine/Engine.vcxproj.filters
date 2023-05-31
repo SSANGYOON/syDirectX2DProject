@@ -10,12 +10,6 @@
     <Filter Include="Panels">
       <UniqueIdentifier>{3b00d5d4-e1f0-47a3-8dcc-8d79c917b1d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Project">
-      <UniqueIdentifier>{5f9ed776-e85b-495a-9ae6-e2d8c13b6be3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Project\ProjectSerializer">
-      <UniqueIdentifier>{68c78601-26e2-4c51-88df-7250d994c6a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application">
       <UniqueIdentifier>{d03604b0-ff22-46f8-af80-d4c664621382}</UniqueIdentifier>
     </Filter>
@@ -166,6 +160,21 @@
     <Filter Include="Component\Animator">
       <UniqueIdentifier>{356d8bd4-cc84-419a-ade4-38c8ba3d481b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\InstancingManager">
+      <UniqueIdentifier>{f00fa87a-05df-49bc-8f55-c2d6cabca088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Light">
+      <UniqueIdentifier>{9e22215f-41f3-4bc4-8e01-6665c2a58f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Project">
+      <UniqueIdentifier>{5f9ed776-e85b-495a-9ae6-e2d8c13b6be3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Project\ProjectSerializer">
+      <UniqueIdentifier>{68c78601-26e2-4c51-88df-7250d994c6a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ParticleSystem">
+      <UniqueIdentifier>{3819bfba-52ce-40da-8b35-6f5e2fac66d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource.cpp">
@@ -241,10 +250,10 @@
       <Filter>Panels</Filter>
     </ClCompile>
     <ClCompile Include="Project.cpp">
-      <Filter>Project</Filter>
+      <Filter>Renderer\Project</Filter>
     </ClCompile>
     <ClCompile Include="ProjectSerializer.cpp">
-      <Filter>Project\ProjectSerializer</Filter>
+      <Filter>Renderer\Project\ProjectSerializer</Filter>
     </ClCompile>
     <ClCompile Include="SceneHierarchyPanel.cpp">
       <Filter>Panels</Filter>
@@ -348,6 +357,18 @@
     <ClCompile Include="PrefabManager.cpp">
       <Filter>Manager\PrefabManager</Filter>
     </ClCompile>
+    <ClCompile Include="InstancingManager.cpp">
+      <Filter>Manager\InstancingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Component\ParticleSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Struct.h">
@@ -441,10 +462,10 @@
       <Filter>Panels</Filter>
     </ClInclude>
     <ClInclude Include="Project.h">
-      <Filter>Project</Filter>
+      <Filter>Renderer\Project</Filter>
     </ClInclude>
     <ClInclude Include="ProjectSerializer.h">
-      <Filter>Project\ProjectSerializer</Filter>
+      <Filter>Renderer\Project\ProjectSerializer</Filter>
     </ClInclude>
     <ClInclude Include="SceneHierarchyPanel.h">
       <Filter>Panels</Filter>
@@ -565,6 +586,18 @@
     </ClInclude>
     <ClInclude Include="PrefabManager.h">
       <Filter>Manager\PrefabManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingManager.h">
+      <Filter>Manager\InstancingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Component\ParticleSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

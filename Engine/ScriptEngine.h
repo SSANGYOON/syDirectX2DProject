@@ -187,6 +187,7 @@ namespace SY {
 
 		static bool EntityClassExists(const std::string& fullClassName);
 		static void OnCreateEntity(Entity entity);
+		static void OnInstantiateEntity(Entity entity, UINT64 prefabID);
 		static void OnDeleteEntity(Entity entity);
 		static void OnUpdateEntity(Entity entity, float timestep);
 		static void OnLateUpdateEntity(Entity entity);

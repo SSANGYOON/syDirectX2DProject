@@ -3,7 +3,6 @@
 struct VSIn
 {
     float4 Pos : POSITION;
-    float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
 
@@ -16,12 +15,6 @@ struct GSOut
 {
     float4 Pos : SV_Position;
     float2 UV : TEXCOORD;
-};
-
-struct PSOut
-{
-    float4 color : SV_Target0;
-    int entity : SV_Target1;
 };
 
 VSOut VS_MAIN(VSIn In)
@@ -40,7 +33,7 @@ void GS_MAIN(point VSOut viewPos[1], inout TriangleStream<GSOut> outputStream)
     GSOut output[16] = { (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f,
                         (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f, (GSOut)0.f };
 
-    float2 originalSize = g_vec2_0;
+    float2 originalSize = g_tex0_size;
     float2 offset = g_vec2_1;
 
     if (originalSize.x == 0)
@@ -121,29 +114,26 @@ void GS_MAIN(point VSOut viewPos[1], inout TriangleStream<GSOut> outputStream)
         }
     }
 }
-PSOut PS_MAIN(GSOut In)
+float4 PS_MAIN(GSOut In) : SV_Target0
 {
-    PSOut Out = (PSOut)0.f;
+    float4 ret = (float4)0.f;
 
     float2 originalSize = g_vec2_0;
     float4 tintColor = g_vec4_0;
 
     if (originalSize.x == 0.f) {
-        Out.color = tintColor;
-        Out.entity = entity;
-        return Out;
+        ret = tintColor;
+        return ret;
     }
 
     float2 offset = g_vec2_1;
     float2 tintRange = g_vec2_2 / g_vec2_0;
     
-
     float4 color = tex_0.Sample(linearSampler, In.UV);
 
-    
-    Out.color = color;
+    ret = color;
     if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y)
-        Out.color = tintColor;
-    Out.entity = entity;
-    return Out;
+        ret = tintColor;
+
+    return ret;
 }

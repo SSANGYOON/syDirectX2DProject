@@ -106,7 +106,6 @@ namespace SY {
 			auto it = s_ScriptFieldTypeMap.find(typeName);
 			if (it == s_ScriptFieldTypeMap.end())
 			{
-				//HZ_CORE_ERROR("Unknown type: {}", typeName);
 				return ScriptFieldType::None;
 			}
 
@@ -143,7 +142,6 @@ namespace SY {
 #else
 		bool EnableDebugging = false;
 #endif
-		// Runtime
 
 		Scene* SceneContext = nullptr;
 	};
@@ -174,7 +172,6 @@ namespace SY {
 		bool status = LoadAssembly("C:/Users/eondr/source/repos/syDirectX2DProject/ClassLibrary1/bin/Debug/ClassLibrary1.dll");
 		if (!status)
 		{
-			//HZ_CORE_ERROR("[ScriptEngine] Could not load Hazel-ScriptCore assembly.");
 			return;
 		}
 
@@ -182,7 +179,6 @@ namespace SY {
 		status = LoadAppAssembly(scriptModulePath);
 		if (!status)
 		{
-			//HZ_CORE_ERROR("[ScriptEngine] Could not load app assembly.");
 			return;
 		}
 
@@ -190,7 +186,6 @@ namespace SY {
 
 		ScriptGlue::RegisterComponents();
 
-		// Retrieve and instantiate class
 		s_Data->EntityClass = ScriptClass("SY", "Entity", true);
 	}
 
@@ -314,6 +309,28 @@ namespace SY {
 
 				instance->InvokeOnCreate();
 			}
+		}
+	}
+
+	void ScriptEngine::OnInstantiateEntity(Entity entity, UINT64 prefabId)
+	{
+		const auto& sc = entity.GetComponent<ScriptComponent>();
+		if (ScriptEngine::EntityClassExists(sc.ClassName))
+		{
+			UUID entityID = entity.GetUUID();
+
+
+			shared_ptr<ScriptInstance> instance = make_shared<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
+			s_Data->EntityInstances[entityID] = instance;
+
+			if (s_Data->EntityScriptFields.find(prefabId) != s_Data->EntityScriptFields.end())
+			{
+				const ScriptFieldMap& fieldMap = s_Data->EntityScriptFields.at(prefabId);
+				for (const auto& [name, fieldInstance] : fieldMap)
+					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+			}
+
+			instance->InvokeOnCreate();
 		}
 	}
 

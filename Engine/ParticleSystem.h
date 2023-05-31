@@ -1,100 +1,81 @@
 #pragma once
-#include "Component.h"
+#include "entt.hpp"
+#include "TransformComponent.h"
+#include "StructuredBuffer.h"
 
+class ComputeShader;
+class Texture;
 class Material;
-class Mesh;
-class StructuredBuffer;
-
-struct ParticleInfo
+class Shader;
+namespace SY
 {
-	Vector3	Position;
-	float	curTime;
-	Vector3	worldDir;
-	float	lifeTime;
-	UINT	alive;
-	UINT padding[3];
-};
 
-struct ComputeSharedInfo
-{
-	UINT addCount;
-	UINT padding[3];
-};
+#pragma pack(1)
+	struct Particle
+	{
+		Vector3 position;
+		float remainLife;
+		Vector2 velocity;
+		Vector2 size;
+		UINT active;
+		Vector3 padding;
+	};
 
-enum ALIVE_ZONE_TYPE {
-	NO_DEAD_ZONE,
-	SPHERE,
-	RECT_ZONE,
-};
+	struct ParticleShared
+	{
+		UINT activeCount;
+		Vector3 padding;
+	};
+#pragma pack()
 
-enum POSVAR_TYPE {
-	NORMALIZED,
-	EMISSION,
-	BOX
-};
+	enum class ParticleState
+	{
+		NORMAL,
+		UpdateOnly,
+		Pause,
+	};
 
-class ParticleSystem : public Component
-{
-public:
-	ParticleSystem(GameObject* owner);
-	virtual ~ParticleSystem();
+	struct ParticleSystem
+	{
+		ParticleSystem();
+		void Init();
 
-public:
-	virtual void Start();
-	virtual void FinalUpdate();
-	virtual void Render();
+		void OnUpdate(float timeStep, TransformComponent& tr);
+		void OnRender(TransformComponent& tr, entt::entity entity);
 
-	void SetGraphicsMaterial(shared_ptr<Material> graphicsMaterial) {_graphicsMaterial = graphicsMaterial;};
-	void setCreateInterval(float interval) { _createInterval = interval; }
+		shared_ptr<ComputeShader> mCustomShader;
+		shared_ptr<Material> mMaterial;
 
-	void SetInitialLocalPosition(Vector2 position) { _localPosition = position; }
-	void SetPositionVarianceFrom(Vector2 posvar) { _posVarFrom = posvar; }
-	void SetPositionVarianceTo(Vector2 posvar) { _posVarTo = posvar; }
+		shared_ptr<StructuredBuffer> mBuffer;
+		shared_ptr<StructuredBuffer> mSharedBuffer;
 
-	void SetInitialDirection(Vector2 dir) { _dir = dir; }
-	void SetDirVariance(Vector2 dirVar) { _dirVar = dirVar; }
+		Vector2 Position;
+		Vector2 PositionVariation;
 
-	void SetForce(Vector2 force) { _force = force; }
+		Vector2 AttachOffset;
 
-	void setColor(Vector4 color) { _color = color; }
-	void setZoffset(float offset) { _zOffset = offset; }
+		Vector2 Velocity, VelocityVariation, VelocityEnd;
+		Vector4 ColorBegin, ColorEnd;
+		Vector4 EmissionBegin, EmissionEnd;
 
-	void SetAliveZone(Vector2 aliveZone) { _aliveZone = aliveZone; }
-	void SetAliveZoneType(ALIVE_ZONE_TYPE type) { _aliveZoneType = type; }
+		int MaxParticles;
+		float Frequency;
 
-	void SetPositionVarienceType(POSVAR_TYPE type) { _posvarType = type; }
-private:
-	shared_ptr<StructuredBuffer> _particleBuffer;
-	shared_ptr<StructuredBuffer> _computeSharedBuffer;
-	UINT _maxParticle = 256;
+		Vector2 SizeBegin, SizeEnd, SizeVariation;
 
-	shared_ptr<Material>		_graphicsMaterial;
-	shared_ptr<Mesh>			_pointMesh;
-	shared_ptr<Material> _computeMaterial;
+		float LifeTime = 0.f;
+		float accTime = 0.f;
 
+		bool PositionPolar = false;
+		bool VelocityPolar = false;
+		bool TextureAttach = false;
 
-	float				_createInterval = 0.005f;
-	float				_accTime = 0.f;
+		shared_ptr<Texture> attachTexture;
+		shared_ptr<Texture> graphicsTexture;
 
-	float				_minLifeTime = 0.5f;
-	float				_maxLifeTime = 1.f;
-	float				_minSpeed = 50;
-	float				_maxSpeed = 100;
-	float				_zOffset = 0.f;
+		ParticleState state = ParticleState::NORMAL;
 
-	Vector2 _localPosition = Vector2::Zero;
-	Vector2 _posVarFrom = Vector2(25.f, 25.f);
-	Vector2 _posVarTo = Vector2(50.f, 50.f);
-	Vector2 _dir = Vector2::Zero;
-	Vector2 _dirVar = Vector2::One;
-	Vector2 _force = Vector2(50,50);
-	Vector2 _aliveZone = Vector2::Zero;
-
-	ALIVE_ZONE_TYPE _aliveZoneType = ALIVE_ZONE_TYPE::NO_DEAD_ZONE;
-	POSVAR_TYPE _posvarType = POSVAR_TYPE::EMISSION;
-
-
-	Vector2 _targetOffset = Vector2::Zero;
-	Vector4 _color = Vector4::Zero;
-};
+		static void DrawImGui(ParticleSystem& component);
+	};
+}
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Mesh.h"
 #include "Engine.h"
+#include "InstancingBuffer.h"
 
 Mesh::Mesh()
     :Resource(RESOURCE_TYPE::MESH)
@@ -70,7 +71,18 @@ void Mesh::Render()
 	CONTEXT->DrawIndexed(_indexes, 0, 0);
 }
 
-void Mesh::RenderIndexed(UINT count)
+void Mesh::Render(shared_ptr<class InstancingBuffer>& buffer)
+{
+	UINT stride[] = { sizeof(Vertex), sizeof(InstancingParams)};
+	UINT offset[] = {0, 0};
+
+	ID3D11Buffer* views[] = { _vertexBuffer.Get(), buffer->GetBuffer() };
+	CONTEXT->IASetVertexBuffers(0, 2, views, stride, offset);
+	CONTEXT->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	CONTEXT->DrawIndexedInstanced(_indexes, buffer->GetCount(), 0, 0, 0);
+}
+
+void Mesh::RenderInstanced(UINT count)
 {
 	CONTEXT->DrawIndexedInstanced(_indexes, count, 0, 0, 0);
 }

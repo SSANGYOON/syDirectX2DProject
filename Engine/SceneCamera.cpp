@@ -42,4 +42,11 @@ namespace SY {
 			m_Projection = Matrix::CreateOrthographicLH(m_OrthographicSize * m_AspectRatio, m_OrthographicSize, m_Near, m_Far);
 	}
 
+	float CameraComponent::CalculateDiff(float ts, float accTime)
+	{
+		oscillationAmp = max(0.f, oscillationAmp - ts * oscillationDamp);
+
+		return oscillationAmp * sinf(XM_PI * 2 * oscillationFreq * accTime);
+	}
+
 }

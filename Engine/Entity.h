@@ -12,6 +12,11 @@ namespace SY {
 		Entity(entt::entity handle, Scene* scene);
 		Entity(const Entity& other) = default;
 
+		bool IsValid()
+		{
+			return m_Scene->m_Registry.valid(m_EntityHandle);
+		}
+
 		template<typename T>
 		bool HasComponent()
 		{
@@ -51,7 +56,7 @@ namespace SY {
 
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator entt::entity() const { return m_EntityHandle; }
-		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
+		operator uint32_t() const { return (uint32_t)m_EntityHandle;}
 
 		UUID GetUUID() { return GetComponent<IDComponent>().ID; }
 		const std::string& GetName() { return GetComponent<TagComponent>().Tag; }

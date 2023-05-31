@@ -1,0 +1,85 @@
+Head: 8224487060667250820
+Entities:
+  - Entity: 8224487060667250820
+    TagComponent:
+      Tag: BossSword
+    State: 0
+    TransformComponent:
+      Translation: [204.5, -4.5, -4]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.BossSword
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: true
+    BoxCollider2DComponent:
+      Offset: [0, -77]
+      Size: [10, 53]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 3
+      CategoryBits: 1
+    ParticleSystem:
+      Position: [0, -50]
+      PositionVariation: [64, 192]
+      Velocity: [0, 5]
+      VelocityVariation: [2, 2]
+      VelocityEnd: [0, 6]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0, 0, 0, 1]
+      ColorEnd: [0, 0, 0, 0]
+      EmissionBegin: [0, 0, 0, 0]
+      EmissionEnd: [0, 0, 0, 0]
+      MaxParticles: 512
+      Frequency: 200
+      LifeTime: 1
+      PositionPolar: false
+      VelocityPolar: false
+      State: 0
+      AttachTexture: textures\BossCastleBigSword.png
+      AttachOffset: [32, 46]
+  - Entity: 2978972136294017447
+    TagComponent:
+      Tag: BossSwordBody
+    State: 0
+    TransformComponent:
+      Translation: [0.5, -50, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 8224487060667250820
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.517647088, 1, 0.278431386, 1]
+      Emission: [1, 0.41568628, 0.188235298, 1]
+      DiffusePath: textures\BossCastleBigSword.png
+      Tile: [64, 192]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\BossCastleBigSwordLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]

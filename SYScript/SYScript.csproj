@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessoryData.cs" />
+    <Compile Include="BossController.cs" />
+    <Compile Include="BossSceneCollisionEvent.cs" />
+    <Compile Include="BossSword.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CostumeData.cs" />
     <Compile Include="Inventory.cs" />
@@ -53,9 +56,9 @@
     <Compile Include="ItemDatas\Weapon\Steeleto.cs" />
     <Compile Include="LoadingSceneController.cs" />
     <Compile Include="Portal.cs" />
-    <Compile Include="ObjectManager.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="SpellData.cs" />
+    <Compile Include="SummonedEye.cs" />
     <Compile Include="TitleSceneController.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Player.cs" />

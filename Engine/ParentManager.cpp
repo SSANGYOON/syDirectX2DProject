@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include <queue>
 #include "ScriptEngine.h"
+#include "box2d/b2_body.h"
 
 namespace SY {
 	std::unordered_map<UINT32, vector<UINT>> ParentManager::childMap = std::unordered_map<UINT32, vector<UINT>>();
@@ -75,17 +76,42 @@ namespace SY {
 					}
 					default:
 					{
+						auto prev = sc.currentState;
 						sc.currentState = sc.state;
 						break;
 					}
 				}
 
-				if (sc.currentState == EntityState::Pause && !entity.HasComponent<Pause>())
+				if (sc.currentState == EntityState::Pause && !entity.HasComponent<Pause>()) {
 					entity.AddOrReplaceComponent<Pause>();
-				else if (sc.currentState == EntityState::Active && entity.HasComponent<Pause>())
+
+					if (entity.HasComponent<Rigidbody2DComponent>())
+					{
+						auto& rb = entity.GetComponent<Rigidbody2DComponent>();
+						b2Body* body = (b2Body*)rb.RuntimeBody;
+
+						if (body)
+							body->SetEnabled(false);
+					}
+				}
+				else if (sc.currentState == EntityState::Active && entity.HasComponent<Pause>()) {
 					entity.RemoveComponent<Pause>();
-				if (sc.currentState == EntityState::Dead)
+
+					if (entity.HasComponent<Rigidbody2DComponent>())
+					{
+						auto& rb = entity.GetComponent<Rigidbody2DComponent>();
+						b2Body* body = (b2Body*)rb.RuntimeBody;
+						auto& tr = entity.GetComponent<TransformComponent>();
+
+						if (body) {
+							body->SetEnabled(true);
+							body->SetTransform({ tr.translation.x,tr.translation.y }, tr.rotation.z);
+						}
+					}
+				}
+				if (sc.currentState == EntityState::Dead) {
 					entity.AddOrReplaceComponent<Dead>();
+				}
 
 				for (auto e : childMap[(UINT)entity])
 				{
@@ -99,7 +125,7 @@ namespace SY {
 	{
 		queue<UINT> updatequeue;
 		scene->m_Registry.view<TransformComponent>(entt::exclude<Parent>).each([&updatequeue](entt::entity entity, TransformComponent& tr) {
-			tr.localToWorld = tr.localToWorld;
+				tr.localToWorld = tr.localToWorld;
 			for (auto e : childMap[(UINT)entity])
 			{
 				updatequeue.push((UINT)e);
@@ -110,11 +136,11 @@ namespace SY {
 		{
 			Entity entity = { (entt::entity)(updatequeue.front()),scene };
 			updatequeue.pop();
-			auto& tr = entity.GetComponent<TransformComponent>();
-			UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
-			auto parent = scene->GetEntityByUUID(parenUUID);
+				auto& tr = entity.GetComponent<TransformComponent>();
+				UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
+				auto parent = scene->GetEntityByUUID(parenUUID);
 
-			auto& parentTr = parent.GetComponent<TransformComponent>();
+				auto& parentTr = parent.GetComponent<TransformComponent>();
 
 			tr.localToWorld = tr.localToParent * parentTr.localToWorld;
 
@@ -140,6 +166,7 @@ namespace SY {
 			auto& tr = entity.GetComponent<RectTransformComponent>();
 			UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
 			auto parent = scene->GetEntityByUUID(parenUUID);
+
 			auto& parentTr = parent.GetComponent<RectTransformComponent>();
 
 			tr.worldTranslation = parentTr.worldTranslation + tr.translation;
@@ -156,8 +183,10 @@ namespace SY {
 		auto child = scene->GetEntityByUUID(childID);
 		if (child.HasComponent<Parent>())
 		{
-			
 			auto parent = scene->GetEntityByUUID(child.GetComponent<Parent>().parentHandle);
+
+			if (childMap.find((UINT)parent) == childMap.end())
+				childMap[(UINT)parent] = vector<UINT>();
 
 			childMap[(UINT)parent].push_back((UINT)child);
 		}

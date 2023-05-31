@@ -8,8 +8,9 @@ namespace SY
 {
     public struct Collision2D
     {
-        public ulong EntityID;
-        public uint padding;
+        public ulong entityID;
+        public Vector2 normal;
+        public Vector2 ContactPoint;
         public uint CollisionLayer;
     }
 }

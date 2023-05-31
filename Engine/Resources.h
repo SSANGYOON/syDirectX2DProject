@@ -1,6 +1,7 @@
 #pragma once
 #include "Resource.h"
 
+class Shader;
 class Resources
 {
 	DECLARE_SINGLE(Resources);
@@ -50,17 +51,13 @@ public:
 	template <typename T>
 	void Insert(const wstring& key, shared_ptr<T> resource)
 	{
+		resource->SetKey(key);
 		_resources.insert(make_pair(key, dynamic_pointer_cast<Resource>(resource)));
 	}
-	void InsertDebug(const DebugAttribute& att)
-	{
-		_toRender.push_back(att);
-	}
-	vector<DebugAttribute>& GetDebugAtts() { return _toRender; }
+
+	vector<shared_ptr<Shader>> GetShaders();
+
 private:
 	map<wstring, shared_ptr<Resource>> _resources;
-
-	friend class _toRender;
-	vector<DebugAttribute> _toRender;
 };
 

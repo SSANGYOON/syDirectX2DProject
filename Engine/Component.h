@@ -7,6 +7,9 @@
 #include "Collider.h"
 #include "Animator.h"
 #include "Drawable.h"
+#include "Light.h"
+#include "ParticleSystem.h"
+
 #include "ConstantBuffer.h"
 #include <DirectXMath.h>
 #include "SimpleMath.h"
@@ -68,9 +71,9 @@ namespace SY {
 	};
 
 	using AllComponents =
-		ComponentGroup<StateComponent, TransformComponent, Parent,
-		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, BackGroundColorComponent,
-		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, SpriteRendererComponent, DontDestroy,
-		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent>;
+		ComponentGroup<StateComponent, TransformComponent, Parent, Light,
+		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, BackGroundColorComponent, Bloom,
+		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, RevoluteJointComponent, DistanceJointComponent, SpriteRendererComponent, CircleRendererComponent, DontDestroy,
+		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent, Eraser, ParticleSystem>;
 }
 

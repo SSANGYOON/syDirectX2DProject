@@ -10,12 +10,6 @@ namespace Sandbox
 {
     public class Weapon : Entity
     {
-        private float _duration = 1.0f;
-
-        public float Duration
-        {
-            get { return _duration; }
-        }
         private TransformAnimatorComponent m_Animator;
 
 
@@ -43,10 +37,10 @@ namespace Sandbox
             m_Animator = GetComponent<TransformAnimatorComponent>();
         }
 
-        public void Attack()
+        public void Attack(float at = 0.0f)
         { 
             if(m_Animator != null && weaponData != null)
-                m_Animator.Play(Enum.GetName(typeof(WeaponData.weaponType), weaponData.Type));
+                m_Animator.Play(Enum.GetName(typeof(WeaponData.weaponType), weaponData.Type), at);
         }
     }
 }

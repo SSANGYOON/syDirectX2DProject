@@ -185,13 +185,17 @@
     <ClInclude Include="IDComponent.h" />
     <ClInclude Include="imGuiLayer.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InstancingBuffer.h" />
+    <ClInclude Include="InstancingManager.h" />
     <ClInclude Include="KeyEvent.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="LayerStack.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MouseEvent.h" />
     <ClInclude Include="ParentManager.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Physics2D.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="PrefabManager.h" />
@@ -284,14 +288,18 @@
     <ClCompile Include="IDComponent.cpp" />
     <ClCompile Include="imGuiLayer.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InstancingBuffer.cpp" />
+    <ClCompile Include="InstancingManager.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="LayerStack.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ParentManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="PrefabManager.cpp" />
     <ClCompile Include="Project.cpp" />

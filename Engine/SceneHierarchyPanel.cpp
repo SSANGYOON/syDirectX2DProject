@@ -17,7 +17,7 @@
 #include "SceneSerializer.h"
 #include "Scene.h"
 #include "FileDialogs.h"
-
+#include <queue>
 namespace SY {
 
 	SceneHierarchyPanel::SceneHierarchyPanel(const shared_ptr<Scene>& context)
@@ -40,8 +40,9 @@ namespace SY {
 			m_Context->m_Registry.each([&](auto entityID)
 				{
 					Entity entity{ entityID , m_Context.get() };
-					if (!entity.HasComponent<Parent>())
-						DrawEntityNode(entity);
+					if(entity.IsValid())
+						if (!entity.HasComponent<Parent>())
+							DrawEntityNode(entity);
 				});
 
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
@@ -83,7 +84,7 @@ namespace SY {
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
 
-		if (ImGui::IsItemClicked())
+		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered())
 		{
 			m_SelectionContext = entity;
 		}
@@ -112,13 +113,25 @@ namespace SY {
 					parentID = entity.GetComponent<Parent>().parentHandle;
 					entity.RemoveComponent<Parent>();
 				}
-				SceneSerializer::SerializeEntity(out, entity);
+
 				Scene* context = entity.GetContext();
-				for (auto child : ParentManager::GetChildren(entity))
+				queue<UINT> childQueue;
+
+				childQueue.push((UINT)entity);
+
+				while (!childQueue.empty())
 				{
-					Entity childEntity = { (entt::entity)child, context };
-					SceneSerializer::SerializeEntity(out, childEntity);
+					Entity ent = { (entt::entity)childQueue.front(), context };
+					childQueue.pop();
+
+					SceneSerializer::SerializeEntity(out, ent);
+
+					for (auto child : ParentManager::GetChildren(ent))
+					{
+						childQueue.push(child);	
+					}
 				}
+				
 				out << YAML::EndSeq;
 				out << YAML::EndMap;
 
@@ -169,9 +182,23 @@ namespace SY {
 
 		if (entityDeleted)
 		{
-			m_Context->DestroyEntity(entity);
-			if (m_SelectionContext == entity)
-				m_SelectionContext = {};
+			queue<UINT> childQueue;
+
+			childQueue.push((UINT)entity);
+			while (!childQueue.empty())
+			{
+				Entity ent = { (entt::entity)childQueue.front(), m_Context.get()};
+				childQueue.pop();
+
+				for (auto child : ParentManager::GetChildren(ent))
+				{
+					childQueue.push(child);
+				}
+
+				m_Context->DestroyEntity(ent);
+				if (m_SelectionContext == ent)
+					m_SelectionContext = {};
+			}			
 		}
 	}
 
@@ -327,9 +354,13 @@ namespace SY {
 			DisplayAddComponentEntry<RectTransformComponent>("RectTransform");
 			DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<SpriteRendererComponent>("Sprite Renderer");
+			DisplayAddComponentEntry<CircleRendererComponent>("Circle Renderer");
+
 			DisplayAddComponentEntry<Rigidbody2DComponent>("Rigidbody 2D");
 			DisplayAddComponentEntry<BoxCollider2DComponent>("Box Collider 2D");
 			DisplayAddComponentEntry<CircleCollider2DComponent>("Circle Collider 2D");
+			DisplayAddComponentEntry<RevoluteJointComponent>("RevoluteJoint");
+			DisplayAddComponentEntry<DistanceJointComponent>("DistanceJoint");
 			DisplayAddComponentEntry<ScriptComponent>("C# Script");
 			DisplayAddComponentEntry<SpriteAnimatorComponent>("SpriteAnimator");
 			DisplayAddComponentEntry<TransformAnimatorComponent>("TransformAnimator");
@@ -337,7 +368,11 @@ namespace SY {
 			DisplayAddComponentEntry<SliderComponent>("Slider");
 			DisplayAddComponentEntry<SlotComponent>("Slot");
 			DisplayAddComponentEntry<IconComponent>("Icon");
+			DisplayAddComponentEntry<Eraser>("Eraser");
+			DisplayAddComponentEntry<ParticleSystem>("ParticleSystem");
 			DisplayAddComponentEntry<BackGroundColorComponent>("BackGroundColor");
+			DisplayAddComponentEntry<Light>("Light");
+			DisplayAddComponentEntry<Bloom>("Bloom");
 			ImGui::EndPopup();
 		}
 
@@ -600,9 +635,14 @@ namespace SY {
 			});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, &SpriteRendererComponent::DrawImGui);
+		DrawComponent<CircleRendererComponent>("Circle Renderer", entity, &CircleRendererComponent::DrawImGui);
+		DrawComponent<Eraser>("Eraser", entity, &Eraser::DrawImGui);
 		DrawComponent<Rigidbody2DComponent>("Rigidbody 2D", entity, &Rigidbody2DComponent::DrawImGui);
 		DrawComponent<BoxCollider2DComponent>("Box Collider 2D", entity, &BoxCollider2DComponent::DrawImGui);
 		DrawComponent<CircleCollider2DComponent>("Circle Collider 2D", entity, &CircleCollider2DComponent::DrawImGui);
+		DrawComponent<RevoluteJointComponent>("RevoluteJoint", entity, &RevoluteJointComponent::DrawImGui);
+		DrawComponent<DistanceJointComponent>("DistanceJoint", entity, &DistanceJointComponent::DrawImGui);
+		DrawComponent<Light>("Light", entity, &Light::DrawImGui);
 		DrawComponent<TransformAnimatorComponent>("TransformAnimator", entity, [] (auto& component){
 			
 			vector<string> animations;
@@ -699,8 +739,8 @@ namespace SY {
 						shared_ptr<Animation> clip = component.clips[key];
 
 						SpriteRendererComponent& sr = this->GetSelectedEntity().GetComponent<SpriteRendererComponent>();
-						sr.sourceOffset = clip->GetOffset();
-						sr.sourceSize = clip->GetSize();
+						sr.Offset = clip->GetOffset();
+						sr.tile = clip->GetSize();
 
 						if (component._startEvent.find(key) != component._startEvent.end())
 						{
@@ -824,6 +864,8 @@ namespace SY {
 			DrawComponent<SliderComponent>("Slider", entity, &SliderComponent::DrawImGui);
 			DrawComponent<SlotComponent>("Slot", entity, &SlotComponent::DrawImGui);
 			DrawComponent<IconComponent>("Icon", entity, &IconComponent::DrawImGui);
+			DrawComponent<ParticleSystem>("ParticleSystem", entity, &ParticleSystem::DrawImGui);
+			DrawComponent<Bloom>("Bloom", entity, &Bloom::DrawImGui);
 
 			DrawComponent<BackGroundColorComponent>("BackGroundColor", entity, [](auto& component)
 				{

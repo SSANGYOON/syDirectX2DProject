@@ -10,6 +10,7 @@ namespace SY {
 
 		virtual ~Camera() = default;
 		const Matrix& GetProjection() const { return m_Projection; }
+
 	protected:
 		Matrix m_Projection = Matrix::Identity;
 	};

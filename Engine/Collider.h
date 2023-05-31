@@ -1,5 +1,5 @@
 #pragma once
-
+#include "UUID.h"
 namespace SY
 {
 	struct BoxCollider2DComponent
@@ -40,5 +40,36 @@ namespace SY
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent&) = default;
 		static void DrawImGui(CircleCollider2DComponent& component);
+	};
+
+	struct RevoluteJointComponent
+	{
+		UUID Opponent = 0;
+		Vector2 LocalAnchor;
+		Vector2 OpponentLocalAnchor;
+		bool EnableLimit;
+		Vector2 AngleRange;
+		
+
+		static void DrawImGui(RevoluteJointComponent& component);
+	};
+
+	struct DistanceJointComponent
+	{
+		UUID Opponent = 0;
+		Vector2 LocalAnchor;
+		Vector2 OpponentLocalAnchor;
+		float minLength = 0.f;
+		float maxLength = FLT_MAX;
+
+		float stiffness = 0.f;
+		float damping = 0.f;
+
+		void* b2Joint;
+
+		float GetCurrentLength();
+		void SetMinLength(float minLength);
+		float GetMinLength();
+		static void DrawImGui(DistanceJointComponent& component);
 	};
 }

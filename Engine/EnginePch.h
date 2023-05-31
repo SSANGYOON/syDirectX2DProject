@@ -62,15 +62,13 @@ public:								\
 
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
-#define CBSLOT_SPRITE 2
+#define CBSLOT_VISUALEFFECT 2
 #define CBSLOT_LIGHT 3
-#define CBSLOT_PANEL 4
-#define CBSLOT_SLIDER 5
-#define CBSLOT_SLOT 6
+#define CBSLOT_PARTICLE 4
+#define CBSLOT_BLOOM 5
 
 struct Vertex
 {
 	Vector4 pos;
-	Vector4 color;
 	Vector2 uv;
 };

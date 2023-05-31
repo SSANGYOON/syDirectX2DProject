@@ -1,0 +1,18 @@
+Animations:
+  - Key: Open
+    OriginalOffset: [ 3.0, 2538.0]
+    SpriteSize: [ 40.0, 40.0 ]
+    Step: [ 45, 45.0 ]
+    Columns: 15
+    Frames: 15
+    Duration: 1
+    Loop: false
+
+  - Key: Close
+    OriginalOffset: [ 678, 2538.0]
+    SpriteSize: [40.0,40.0]
+    Step: [ -45, 45.0 ]
+    Columns: 15
+    Frames: 15
+    Duration: 1
+    Loop: false

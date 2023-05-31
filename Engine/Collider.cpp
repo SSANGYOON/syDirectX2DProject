@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Collider.h"
+#include "Entity.h"
+
+#include "box2d/b2_distance_joint.h"
 
 namespace SY {
 	void BoxCollider2DComponent::DrawImGui(BoxCollider2DComponent& component)
@@ -80,14 +83,14 @@ namespace SY {
 
 		ImGui::Text("Category");
 		for (int i = 0; i < 8; i++) {
-			ImGui::Checkbox(to_string(i).c_str(), &categoryBits[i]);
+			ImGui::Checkbox(("C" + to_string(i)).c_str(), &categoryBits[i]);
 			if (i < 7)
 				ImGui::SameLine();
 		}
 
 		ImGui::Text("maskBits");
 		for (int i = 0; i < 8; i++) {
-			ImGui::Checkbox(to_string(i).c_str(), &maskBits[i]);
+			ImGui::Checkbox(("M" + to_string(i)).c_str(), &maskBits[i]);
 			if (i < 7)
 				ImGui::SameLine();
 		}
@@ -103,5 +106,64 @@ namespace SY {
 			component.maskBits += maskBits[i] * (1 << i);
 		}
 		ImGui::Checkbox("Circle Collider : trigger", &component.isSensor);
+	}
+	void RevoluteJointComponent::DrawImGui(RevoluteJointComponent& component)
+	{
+		ImGui::Text("Opponent");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity data"))
+				component.Opponent = *(UUID*)payload->Data;
+
+			ImGui::EndDragDropTarget();
+		}
+
+		if (component.Opponent)
+			ImGui::Text(to_string(component.Opponent).c_str());
+
+		ImGui::DragFloat2("Local Anchor", reinterpret_cast<float*>(&component.LocalAnchor));
+		ImGui::DragFloat2("Opponent Local Anchor", reinterpret_cast<float*>(&component.OpponentLocalAnchor));
+
+		ImGui::Checkbox("Enable Angle Limit", &component.EnableLimit);
+
+		if (component.EnableLimit)
+			ImGui::DragFloat2("Angle Limit", reinterpret_cast<float*>(&component.AngleRange));
+	}
+	float DistanceJointComponent::GetCurrentLength()
+	{
+		b2DistanceJoint* dj = static_cast<b2DistanceJoint*>(b2Joint);
+		return dj->GetCurrentLength();
+	}
+	void DistanceJointComponent::SetMinLength(float minLength)
+	{
+		b2DistanceJoint* dj = static_cast<b2DistanceJoint*>(b2Joint);
+		dj->SetMinLength(minLength);
+	}
+	float DistanceJointComponent::GetMinLength()
+	{
+		b2DistanceJoint* dj = static_cast<b2DistanceJoint*>(b2Joint);
+		return dj->GetMinLength();
+	}
+	void DistanceJointComponent::DrawImGui(DistanceJointComponent& component)
+	{
+		ImGui::Text("Opponent");
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity data"))
+				component.Opponent = *(UUID*)payload->Data;
+
+			ImGui::EndDragDropTarget();
+		}
+		if (component.Opponent)
+			ImGui::Text(to_string(component.Opponent).c_str());
+
+		ImGui::DragFloat2("Local Anchor", reinterpret_cast<float*>(&component.LocalAnchor));
+		ImGui::DragFloat2("Opponent Local Anchor", reinterpret_cast<float*>(&component.OpponentLocalAnchor));
+
+		ImGui::DragFloat("MinLength", &component.minLength, 0.f);
+		ImGui::DragFloat("MaxLength", &component.maxLength, 0.f);
+
+		ImGui::DragFloat("Stiffness", &component.stiffness, 0.f);
+		ImGui::DragFloat("Damping", &component.damping, 0.f);
 	}
 }

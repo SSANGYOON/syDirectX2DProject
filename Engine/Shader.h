@@ -27,7 +27,7 @@ public:
 
 	virtual HRESULT Load( const wstring& path, bool stockObject = true) override;
 
-	void CreateShader(const ShaderInfo& info,const ShaderEntry& entry, const wstring& file);
+	void CreateShader(const ShaderInfo& info,const ShaderEntry& entry, const wstring& file, bool noInstanceBuffer = false);
 	void BindShader();
 
 private:

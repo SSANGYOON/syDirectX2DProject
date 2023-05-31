@@ -220,17 +220,73 @@ namespace SY {
 			out << YAML::BeginMap; // SpriteRendererComponent
 
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
+
+			if (spriteRendererComponent.shader)
+				out << YAML::Key << "Shader" << YAML::Value << wtos(spriteRendererComponent.shader->GetKey());
+
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
+			out << YAML::Key << "Emission" << YAML::Value << spriteRendererComponent.Emission;
 			if (spriteRendererComponent.Diffuse) {
 				wstring wpath = spriteRendererComponent.Diffuse->GetPath();
 
 				out << YAML::Key << "DiffusePath" << YAML::Value << wtos(wpath);
-				out << YAML::Key << "SourceOffset" << YAML::Value << spriteRendererComponent.sourceOffset;
-				out << YAML::Key << "SourceSize" << YAML::Value << spriteRendererComponent.sourceSize;
-				out << YAML::Key << "TargetOffset" << YAML::Value << spriteRendererComponent.targetOffset;
-				out << YAML::Key << "Fixed" << YAML::Value << spriteRendererComponent.fixed;
+				out << YAML::Key << "Tile" << YAML::Value << spriteRendererComponent.tile;
+				out << YAML::Key << "Offset" << YAML::Value << spriteRendererComponent.Offset;
 				out << YAML::Key << "Layer" << YAML::Value << spriteRendererComponent.LayerBit;
+				out << YAML::Key << "Deffered" << YAML::Value << spriteRendererComponent.Deffered;
 			}
+
+			if (spriteRendererComponent.LightMap)
+			{
+				wstring wpath = spriteRendererComponent.LightMap->GetPath();
+				out << YAML::Key << "LightMapPath" << YAML::Value << wtos(wpath);
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "int" + to_string(i);
+				out << YAML::Key << label << YAML::Value << spriteRendererComponent.material->GetInt(i);
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "float" + to_string(i);
+				out << YAML::Key << label << YAML::Value << spriteRendererComponent.material->GetFloat(i);
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "vec2" + to_string(i);
+				out << YAML::Key << label << YAML::Value << spriteRendererComponent.material->GetVec2(i);
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "vec4" + to_string(i);
+				out << YAML::Key << label << YAML::Value << spriteRendererComponent.material->GetVec4(i);
+			}
+
+			out << YAML::EndMap; // SpriteRendererComponent
+		}
+
+		if (entity.HasComponent<Eraser>())
+		{
+			out << YAML::Key << "Eraser";
+			out << YAML::BeginMap; // Eraser
+
+			out << YAML::EndMap; // Eraser
+		}
+
+		if (entity.HasComponent<Light>())
+		{
+			out << YAML::Key << "Light";
+			out << YAML::BeginMap;
+
+			auto& light = entity.GetComponent<Light>();
+			out << YAML::Key << "Color" << YAML::Value << light.info.color;
+			out << YAML::Key << "Type" << YAML::Value << light.info.type;
+			out << YAML::Key << "Range" << YAML::Value << light.info.range;
+			out << YAML::Key << "Direction" << YAML::Value << light.info.dir;
 
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
@@ -243,6 +299,9 @@ namespace SY {
 			auto& rb2dComponent = entity.GetComponent<Rigidbody2DComponent>();
 			out << YAML::Key << "BodyType" << YAML::Value << RigidBody2DBodyTypeToString(rb2dComponent.Type);
 			out << YAML::Key << "FixedRotation" << YAML::Value << rb2dComponent.FixedRotation;
+			out << YAML::Key << "LinearDamping" << YAML::Value << rb2dComponent.LinearDamping;
+			out << YAML::Key << "AngularDamping" << YAML::Value << rb2dComponent.AngularDamping;
+			out << YAML::Key << "DisableGravity" << YAML::Value << rb2dComponent.DisableGravity;
 
 			out << YAML::EndMap; // Rigidbody2DComponent
 		}
@@ -282,6 +341,49 @@ namespace SY {
 			out << YAML::Key << "CategoryBits" << YAML::Value << cc2dComponent.categoryBits;
 
 			out << YAML::EndMap; // CircleCollider2DComponent
+		}
+
+		if (entity.HasComponent<CircleRendererComponent>())
+		{
+			out << YAML::Key << "CircleRendererComponent";
+			out << YAML::BeginMap; // CircleRendererComponent
+
+			auto& cr = entity.GetComponent<CircleRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << cr.Color;
+			out << YAML::EndMap; // CircleRendererComponent
+		}
+
+		if (entity.HasComponent<RevoluteJointComponent>())
+		{
+			out << YAML::Key << "RevoluteJointComponent";
+			out << YAML::BeginMap; // RevoluteJointComponent
+
+			auto& joint = entity.GetComponent<RevoluteJointComponent>();
+			out << YAML::Key << "Opponent" << YAML::Value << joint.Opponent;
+			out << YAML::Key << "LocalAnchor" << YAML::Value << joint.LocalAnchor;
+			out << YAML::Key << "OpponentLocalAnchor" << YAML::Value << joint.OpponentLocalAnchor;
+			out << YAML::Key << "EnableLimit" << YAML::Value << joint.EnableLimit;
+			out << YAML::Key << "AngleRange" << YAML::Value << joint.AngleRange;
+
+			out << YAML::EndMap; // RevoluteJointComponent
+		}
+
+		if (entity.HasComponent<DistanceJointComponent>())
+		{
+			out << YAML::Key << "DistanceJointComponent";
+			out << YAML::BeginMap; // DistanceJointComponent
+
+			auto& joint = entity.GetComponent<DistanceJointComponent>();
+			out << YAML::Key << "Opponent" << YAML::Value << joint.Opponent;
+			out << YAML::Key << "LocalAnchor" << YAML::Value << joint.LocalAnchor;
+			out << YAML::Key << "OpponentLocalAnchor" << YAML::Value << joint.OpponentLocalAnchor;
+			out << YAML::Key << "minLength" << YAML::Value << joint.minLength;
+			out << YAML::Key << "maxLength" << YAML::Value << joint.maxLength;
+
+			out << YAML::Key << "stiffness" << YAML::Value << joint.stiffness;
+			out << YAML::Key << "damping" << YAML::Value << joint.damping;
+
+			out << YAML::EndMap; // DistanceJointComponent
 		}
 
 		if (entity.HasComponent<SpriteAnimatorComponent>())
@@ -410,6 +512,67 @@ namespace SY {
 			}
 
 			out << YAML::EndMap; // SlotComponent
+		}
+
+		if (entity.HasComponent<ParticleSystem>())
+		{
+			out << YAML::Key << "ParticleSystem";
+			out << YAML::BeginMap;
+
+			auto& particle = entity.GetComponent<ParticleSystem>();
+
+			out << YAML::Key << "Position" << YAML::Value << particle.Position;
+			out << YAML::Key << "PositionVariation" << YAML::Value << particle.PositionVariation;
+
+			out << YAML::Key << "Velocity" << YAML::Value << particle.Velocity;
+			out << YAML::Key << "VelocityVariation" << YAML::Value << particle.VelocityVariation;
+			out << YAML::Key << "VelocityEnd" << YAML::Value << particle.VelocityEnd;
+
+			out << YAML::Key << "SizeBegin" << YAML::Value << particle.SizeBegin;
+			out << YAML::Key << "SizeEnd" << YAML::Value << particle.SizeEnd;
+			out << YAML::Key << "SizeVariation" << YAML::Value << particle.SizeVariation;
+
+			out << YAML::Key << "ColorBegin" << YAML::Value << particle.ColorBegin;
+			out << YAML::Key << "ColorEnd" << YAML::Value << particle.ColorEnd;
+
+			out << YAML::Key << "EmissionBegin" << YAML::Value << particle.EmissionBegin;
+			out << YAML::Key << "EmissionEnd" << YAML::Value << particle.EmissionEnd;
+
+			out << YAML::Key << "MaxParticles" << YAML::Value << particle.MaxParticles;
+			out << YAML::Key << "Frequency" << YAML::Value << particle.Frequency;
+			out << YAML::Key << "LifeTime" << YAML::Value << particle.LifeTime;
+
+			out << YAML::Key << "PositionPolar" << YAML::Value << particle.PositionPolar;
+			out << YAML::Key << "VelocityPolar" << YAML::Value << particle.VelocityPolar;
+
+			out << YAML::Key << "State" << YAML::Value << (UINT)particle.state;
+
+			if (particle.attachTexture) {
+				wstring path = particle.attachTexture->GetPath();
+				out << YAML::Key << "AttachTexture" << YAML::Value << wtos(path);
+
+				out << YAML::Key << "AttachOffset" << YAML::Value << particle.AttachOffset;
+			}
+
+			if (particle.graphicsTexture) {
+				wstring path = particle.graphicsTexture->GetPath();
+				out << YAML::Key << "GraphicsTexture" << YAML::Value << wtos(path);
+			}
+
+			out << YAML::EndMap; // ParticleSystem
+		}
+
+		if (entity.HasComponent<Bloom>())
+		{
+			out << YAML::Key << "Bloom";
+			out << YAML::BeginMap;
+
+			auto& bloom = entity.GetComponent<Bloom>();
+
+			out << YAML::Key << "Threshold" << YAML::Value << bloom.Threshold;
+			out << YAML::Key << "Intensity" << YAML::Value << bloom.Intensity;
+
+			out << YAML::EndMap; // Bloom
 		}
 
 		out << YAML::EndMap; // Entity
@@ -563,6 +726,7 @@ namespace SY {
 							READ_SCRIPT_FIELD(Vector3, Vector3);
 							READ_SCRIPT_FIELD(Vector4, Vector4);
 							READ_SCRIPT_FIELD(Entity, UUID);
+
 							case ScriptFieldType::String:
 							{
 								string data = scriptField["Data"].as<string>();
@@ -607,19 +771,86 @@ namespace SY {
 		{
 			auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 			src.Color = spriteRendererComponent["Color"].as<Vector4>();
+
+			if(spriteRendererComponent["Emission"])
+				src.Emission = spriteRendererComponent["Emission"].as<Vector4>();
+
+			if (spriteRendererComponent["Shader"])
+				src.shader = GET_SINGLE(Resources)->Find<Shader>(stow(spriteRendererComponent["Shader"].as<string>()));
+
 			if (spriteRendererComponent["DiffusePath"])
 			{
 				std::string texturePath = spriteRendererComponent["DiffusePath"].as<std::string>();
 				auto path = Project::GetAssetFileSystemPath(texturePath);
-				src.Diffuse = make_shared<Texture>();
-				src.Diffuse->Load(path.wstring(), false);
-				src.fixed = spriteRendererComponent["Fixed"].as<bool>();
-				src.sourceOffset = spriteRendererComponent["SourceOffset"].as<Vector2>();
-				src.sourceSize = spriteRendererComponent["SourceSize"].as<Vector2>();
-				src.targetOffset = spriteRendererComponent["TargetOffset"].as<Vector2>();
-				if(spriteRendererComponent["Layer"])
-					src.LayerBit = spriteRendererComponent["Layer"].as<UINT16>();
+				src.Diffuse = GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false);
+				if(spriteRendererComponent["Offset"])
+					src.Offset = spriteRendererComponent["Offset"].as<Vector2>();
+				if (spriteRendererComponent["Offset"])
+					src.tile = spriteRendererComponent["Tile"].as<Vector2>();
+				if(spriteRendererComponent["Deffered"])
+					src.Deffered = spriteRendererComponent["Deffered"].as<bool>();
 			}
+
+			if (spriteRendererComponent["LightMapPath"])
+			{
+				std::string texturePath = spriteRendererComponent["LightMapPath"].as<std::string>();
+				auto path = Project::GetAssetFileSystemPath(texturePath);
+				src.LightMap = GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false);
+			}
+
+			if (spriteRendererComponent["Layer"])
+				src.LayerBit = spriteRendererComponent["Layer"].as<UINT16>();
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "int" + to_string(i);
+				if(spriteRendererComponent[label])
+					src.material->SetInt(i, spriteRendererComponent[label].as<int>());
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "float" + to_string(i);
+				if (spriteRendererComponent[label])
+					src.material->SetFloat(i, spriteRendererComponent[label].as<float>());
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "vec2" + to_string(i);
+				if (spriteRendererComponent[label])
+					src.material->SetVec2(i, spriteRendererComponent[label].as<Vector2>());
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "vec4" + to_string(i);
+				if (spriteRendererComponent[label])
+					src.material->SetVec4(i, spriteRendererComponent[label].as<Vector4>());
+			}
+		}
+
+		auto circleRendererComponent = entity["CircleRendererComponent"];
+		if (circleRendererComponent)
+		{
+			auto& cr = deserializedEntity.AddComponent<CircleRendererComponent>();
+			cr.Color = circleRendererComponent["Color"].as<Vector4>();
+		}
+
+
+		auto eraser = entity["Eraser"];
+		if (eraser)
+			deserializedEntity.AddComponent<Eraser>();
+
+		auto light = entity["Light"];
+		if (light)
+		{
+			auto& lightComp = deserializedEntity.AddComponent<Light>();
+			lightComp.info.color = light["Color"].as<Vector3>();
+			lightComp.info.dir = light["Direction"].as<Vector3>();
+			lightComp.info.type = light["Type"].as<UINT32>();
+			lightComp.info.range = light["Range"].as<float>();
+
 		}
 
 		auto animatorComponent = entity["AnimatorComponent"];
@@ -671,10 +902,7 @@ namespace SY {
 					string key;
 					key = Key.as<string>();
 					shared_ptr<Animation> clipRef;
-					if (clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key)))
-					{
-					}
-					else {
+					if ((clipRef = GET_SINGLE(Resources)->Find<Animation>(stow(key))) == nullptr){
 						Vector2 offset = OriginalOffset.as<Vector2>();
 						Vector2 size = SpriteSize.as<Vector2>();
 						Vector2 step = Step.as<Vector2>();
@@ -786,6 +1014,12 @@ namespace SY {
 			auto& rb2d = deserializedEntity.AddComponent<Rigidbody2DComponent>();
 			rb2d.Type = RigidBody2DBodyTypeFromString(rigidbody2DComponent["BodyType"].as<std::string>());
 			rb2d.FixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
+			if(rigidbody2DComponent["LinearDamping"])
+				rb2d.LinearDamping = rigidbody2DComponent["LinearDamping"].as<float>();
+			if(rigidbody2DComponent["AngularDamping"])
+				rb2d.AngularDamping = rigidbody2DComponent["AngularDamping"].as<float>();
+			if (rigidbody2DComponent["DisableGravity"])
+				rb2d.DisableGravity = rigidbody2DComponent["DisableGravity"].as<bool>();
 		}
 
 		auto boxCollider2DComponent = entity["BoxCollider2DComponent"];
@@ -820,6 +1054,30 @@ namespace SY {
 				cc2d.maskBits = circleCollider2DComponent["MaskBits"].as<UINT16>();
 			if (circleCollider2DComponent["CategoryBits"])
 				cc2d.categoryBits = circleCollider2DComponent["CategoryBits"].as<UINT16>();
+		}
+
+		auto revoluteJointComponent = entity["RevoluteJointComponent"];
+		if (revoluteJointComponent)
+		{
+			auto& joint = deserializedEntity.AddComponent<RevoluteJointComponent>();
+			joint.Opponent = revoluteJointComponent["Opponent"].as<uint64_t>();
+			joint.LocalAnchor = revoluteJointComponent["LocalAnchor"].as<Vector2>();
+			joint.OpponentLocalAnchor = revoluteJointComponent["OpponentLocalAnchor"].as<Vector2>();
+			joint.EnableLimit = revoluteJointComponent["EnableLimit"].as<bool>();
+			joint.AngleRange = revoluteJointComponent["AngleRange"].as<Vector2>();
+		}
+
+		auto distanceJointComponent = entity["DistanceJointComponent"];
+		if (distanceJointComponent)
+		{
+			auto& joint = deserializedEntity.AddComponent<DistanceJointComponent>();
+			joint.Opponent = distanceJointComponent["Opponent"].as<uint64_t>();
+			joint.LocalAnchor = distanceJointComponent["LocalAnchor"].as<Vector2>();
+			joint.OpponentLocalAnchor = distanceJointComponent["OpponentLocalAnchor"].as<Vector2>();
+			joint.minLength = distanceJointComponent["minLength"].as<float>();
+			joint.maxLength = distanceJointComponent["maxLength"].as<float>();
+			joint.stiffness = distanceJointComponent["stiffness"].as<float>();
+			joint.damping = distanceJointComponent["damping"].as<float>();
 		}
 
 		auto panelComponent = entity["PanelComponent"];
@@ -911,6 +1169,62 @@ namespace SY {
 			}
 			
 		}
+
+		auto particleSystem = entity["ParticleSystem"];
+		if (particleSystem)
+		{
+			auto& particle = deserializedEntity.AddComponent<ParticleSystem>();
+			
+			particle.Position = particleSystem["Position"].as<Vector2>();
+			particle.PositionVariation = particleSystem["PositionVariation"].as<Vector2>();
+
+			particle.Velocity = particleSystem["Velocity"].as<Vector2>();
+			particle.VelocityVariation = particleSystem["VelocityVariation"].as<Vector2>();
+			particle.VelocityEnd = particleSystem["VelocityEnd"].as<Vector2>();
+
+			particle.SizeBegin = particleSystem["SizeBegin"].as<Vector2>();
+			particle.SizeEnd = particleSystem["SizeEnd"].as<Vector2>();
+			particle.SizeVariation = particleSystem["SizeVariation"].as<Vector2>();
+
+			particle.ColorBegin = particleSystem["ColorBegin"].as<Vector4>();
+			particle.ColorEnd = particleSystem["ColorEnd"].as<Vector4>();
+
+			particle.EmissionBegin = particleSystem["EmissionBegin"].as<Vector4>();
+			particle.EmissionEnd = particleSystem["EmissionEnd"].as<Vector4>();
+
+			particle.MaxParticles = particleSystem["MaxParticles"].as<UINT>();
+			particle.Frequency = particleSystem["Frequency"].as<float>();
+			particle.LifeTime = particleSystem["LifeTime"].as<float>();
+
+			particle.PositionPolar = particleSystem["PositionPolar"].as<bool>();
+			particle.VelocityPolar = particleSystem["VelocityPolar"].as<bool>();
+
+			particle.state = (ParticleState)particleSystem["State"].as<UINT>();
+
+			if (particleSystem["AttachTexture"]) {
+
+				auto sPath = particleSystem["AttachTexture"].as<string>();
+				auto path = Project::GetAssetFileSystemPath(sPath);
+				particle.attachTexture = GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false);
+				particle.TextureAttach = true;
+
+				particle.AttachOffset = particleSystem["AttachOffset"].as<Vector2>();
+			}
+			if (particleSystem["GraphicsTexture"]) {
+				auto sPath = particleSystem["GraphicsTexture"].as<string>();
+				particle.graphicsTexture = GET_SINGLE(Resources)->Load<Texture>(stow(sPath), stow(sPath), false);
+			}
+		}
+
+		auto bloom = entity["Bloom"];
+		if (bloom)
+		{
+			auto& bloomComp = deserializedEntity.AddComponent<Bloom>();
+
+			bloomComp.Threshold = bloom["Threshold"].as<float>();
+			bloomComp.Intensity = bloom["Intensity"].as<float>();
+		}
+
 		return deserializedEntity;
 	}
 }

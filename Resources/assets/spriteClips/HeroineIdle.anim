@@ -57,7 +57,7 @@ Animations:
     
   - Key: Landing
     OriginalOffset: [ 5.0, 771.0 ]
-    SpriteSize: [ 32.0, 45.0 ]
+    SpriteSize: [ 32.0, 44.0 ]
     Step: [ 37.0, 53.0 ]
     Columns: 21
     Frames: 3
@@ -66,8 +66,8 @@ Animations:
     nextKey: Idle
     
   - Key: Crouch
-    OriginalOffset: [ 3.0, 390.0 ]
-    SpriteSize: [ 32.0, 44.0 ]
+    OriginalOffset: [ 3.0, 386.0 ]
+    SpriteSize: [ 32.0, 49.0 ]
     Step: [ 34.0, 53.0 ]
     TargetOffset: [ 0.0, -2.0 ]
     Columns: 21

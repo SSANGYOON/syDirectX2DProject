@@ -18,8 +18,8 @@ struct VSOut
 VSOut VS_MAIN(VSIn In)
 {
     float itemRotation = g_float_0;
-    float2 slotSize = g_vec2_0;
-    float2 itemSize = g_vec2_1;
+    float2 slotSize = g_tex0_size;
+    float2 itemSize = g_tex1_size;
     float2 itemMagnification = g_vec2_2;
 
     VSOut Out = (VSOut)0.f;

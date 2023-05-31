@@ -1,14 +1,15 @@
 #pragma once
 #include "Resource.h"
+#include "Texture.h"
 
 class Mesh;
 class Shader;
 class ComputeShader;
-class Texture;
+
 enum : UINT8
 {
 	MATERIAL_ARG_COUNT = 4,
-	MAX_TEXTURE_COUNT = 8
+	MAX_TEXTURE_COUNT = 4
 };
 
 struct MaterialCB
@@ -22,17 +23,33 @@ struct MaterialCB
 		}
 	}
 
-	void SetInt(UINT8 index, UINT32 value) { intParams[index] = value; }
+	void SetInt(UINT8 index, int value) { intParams[index] = value; }
 	void SetFloat(UINT8 index, float value) { floatParams[index] = value; }
 	void SetVec2(UINT8 index, Vector2 value) { vec2Params[index] = value; }
 	void SetVec4(UINT8 index, Vector4 value) { vec4Params[index] = value; }
-	void SetMatrix(UINT8 index, Matrix& value) { matrixParams[index] = value; }
 
-	array<UINT32, MATERIAL_ARG_COUNT> intParams;
+	int GetInt(UINT8 index) { return intParams[index]; }
+	float GetFloat(UINT8 index) { return floatParams[index]; }
+	Vector2 GetVec2(UINT8 index) { return vec2Params[index]; }
+	Vector4 GetVec4(UINT8 index) { return vec4Params[index]; }
+
+	array<UINT32, MATERIAL_ARG_COUNT> texOn;
+	array<int, MATERIAL_ARG_COUNT> intParams;
 	array<float, MATERIAL_ARG_COUNT> floatParams;
 	array<Vector2, MATERIAL_ARG_COUNT> vec2Params;
+	array<Vector2, MATERIAL_ARG_COUNT> texSizes;
 	array<Vector4, MATERIAL_ARG_COUNT> vec4Params;
-	array<Matrix, MATERIAL_ARG_COUNT> matrixParams;
+};
+
+
+union InstanceID
+{
+	struct
+	{
+		UINT shaderID;
+		UINT TextureID;
+	};
+	UINT64 id;
 };
 
 class Material : public Resource
@@ -44,22 +61,24 @@ public :
 public:
 	virtual HRESULT Load(const std::wstring& path, bool stockObject) override;
 
-	void SetUInt(UINT8 index, UINT32 value) { _params.SetInt(index, value); }
+	void SetInt(UINT8 index, int value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }
 	void SetVec2(UINT8 index, Vector2 value) { _params.SetVec2(index, value); }
 	void SetVec4(UINT8 index, Vector4 value) { _params.SetVec4(index, value); }
 
-	void SetMatrix(UINT8 index, Matrix& value) { _params.SetMatrix(index, value); }
+	int GetInt(UINT8 index) { return _params.GetInt(index); }
+	float GetFloat(UINT8 index) { return _params.GetFloat(index); }
+	Vector2 GetVec2(UINT8 index) { return _params.GetVec2(index); }
+	Vector4 GetVec4(UINT8 index) { return _params.GetVec4(index); }
 
-	void SetTexture(UINT8 index, shared_ptr<Texture> texture) { _textures[index] = texture;}
+	void SetTexture(UINT8 index, shared_ptr<Texture> texture);
 	void SetShader(shared_ptr<Shader> shader) { _shader = shader; }
 	void SetComputeShader(shared_ptr<ComputeShader> computeShader) { _computeShader = computeShader; }
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
-
+	UINT64 GetInstanceID();
 	void Bind();
 	void Clear();
-	void Dispatch();
 
 private:
 	MaterialCB		_params;

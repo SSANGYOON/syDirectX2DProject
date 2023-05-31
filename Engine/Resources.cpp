@@ -23,19 +23,15 @@ void Resources::CreateDefaultResource()
 	Vertex vertexes[4] = {};
 
 	vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.f, 1.0f);
-	vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 	vertexes[0].uv = Vector2(0.f, 0.f);
 
 	vertexes[1].pos = Vector4(0.5f, 0.5f, 0.f, 1.0f);
-	vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
 	vertexes[1].uv = Vector2(1.0f, 0.0f);
 
 	vertexes[2].pos = Vector4(0.5f, -0.5f, 0.f, 1.0f);
-	vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
 	vertexes[2].uv = Vector2(1.0f, 1.0f);
 
 	vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.f, 1.0f);
-	vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
 	vertexes[3].uv = Vector2(0.0f, 1.0f);
 
 	mesh->CreateVertexBuffer(vertexes, 4);
@@ -66,7 +62,6 @@ void Resources::CreateDefaultResource()
 		vector<Vertex> circleVertexes;
 		Vertex center = {};
 		center.pos = Vector4(0.0f, 0.0f, 0.f, 1.0f);
-		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		center.uv = Vector2::Zero;
 
 		circleVertexes.push_back(center);
@@ -85,7 +80,6 @@ void Resources::CreateDefaultResource()
 				, fRadius * sinf(fTheta * (float)i)
 				, -0.00001f, 1.0f
 			);
-			vtx.color = center.color;
 
 			circleVertexes.push_back(vtx);
 		}
@@ -93,7 +87,6 @@ void Resources::CreateDefaultResource()
 		vector<UINT> circleIndexes;
 		for (size_t i = 0; i < iSlice; i++)
 		{
-			circleIndexes.push_back(i + 1);
 			circleIndexes.push_back(i + 1);
 		}
 		circleIndexes.push_back(1);
@@ -110,7 +103,6 @@ void Resources::CreateDefaultResource()
 		vector<Vertex> circleVertexes;
 		Vertex center = {};
 		center.pos = Vector4(0.0f, 0.0f, 0.1f, 1.0f);
-		center.color = Vector4(0.0f, 1.0f, 0.f, 1.0f);
 		center.uv = Vector2::Zero;
 
 		circleVertexes.push_back(center);
@@ -129,7 +121,6 @@ void Resources::CreateDefaultResource()
 				, fRadius * sinf(fTheta * (float)i) / 2.f
 				, 0.1f, 1.0f
 			);
-			vtx.color = center.color;
 
 			circleVertexes.push_back(vtx);
 		}
@@ -138,9 +129,10 @@ void Resources::CreateDefaultResource()
 		for (size_t i = 1; i <= iSlice; i++)
 		{
 			circleIndexes.push_back(i);
+			circleIndexes.push_back( i % iSlice + 1);
+			circleIndexes.push_back(0);
 		}
-		circleIndexes.push_back(1);
-
+		
 		std::shared_ptr<Mesh> cirlceMesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"Circle2D", cirlceMesh);
 		cirlceMesh->CreateVertexBuffer(circleVertexes.data(), (UINT)circleVertexes.size());
@@ -153,23 +145,7 @@ void Resources::CreateDefaultResource()
 	ShaderEntry _entry;
 
 #pragma endregion
-{
-#pragma region TrailShader
-		shared_ptr<Shader> TrailShader = std::make_shared<Shader>();
-		Resources::Insert<Shader>(L"TrailShader", TrailShader);
-		ShaderInfo _info;
-		_info = {};
-		ShaderEntry _entry;
-		_info.bst = BSType::AlphaBlend;
-		_info.dst = DSType::Less;
-		_info.rst = RSType::SolidNone;
-		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-		_entry = {};
-		_entry.VS = true;
-		_entry.PS = true;
-		TrailShader->CreateShader(_info, _entry, L"TrailShader.hlsl");
-#pragma endregion
-}
+
 #pragma region DebugShader
 	shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 	Resources::Insert<Shader>(L"DebugShader", debugShader);
@@ -181,19 +157,19 @@ void Resources::CreateDefaultResource()
 	_entry.VS = true;
 	_entry.PS = true;
 	debugShader->CreateShader(_info, _entry, L"DebugShader.hlsl");
-#pragma endregion
+#pragma 
 
-#pragma region GridMaterial
-	shared_ptr<Shader> gridShader = std::make_shared<Shader>();
+#pragma region CircleShader
+	shared_ptr<Shader> circleShader = std::make_shared<Shader>();
+	Resources::Insert<Shader>(L"CircleShader", circleShader);
 	_info.bst = BSType::AlphaBlend;
-	_info.dst = DSType::NoWrite;
+	_info.dst = DSType::Less;
 	_info.rst = RSType::SolidNone;
 	_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	_entry = {};
 	_entry.VS = true;
 	_entry.PS = true;
-	gridShader->CreateShader(_info, _entry, L"Grid.hlsl");
-	Resources::Insert<Shader>(L"GridShader", gridShader);
+	circleShader->CreateShader(_info, _entry, L"DebugShader.hlsl");
 #pragma endregion
 
 #pragma region ParticleCompute
@@ -205,7 +181,7 @@ void Resources::CreateDefaultResource()
 #pragma region SpriteShader
 	{
 		shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
-		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
+		Resources::Insert<Shader>(L"SpriteFoward", spriteShader);
 		ShaderInfo _info = {};
 		ShaderEntry _entry;
 		_info.bst = BSType::AlphaBlend;
@@ -215,7 +191,75 @@ void Resources::CreateDefaultResource()
 		_entry = {};
 		_entry.VS = true;
 		_entry.PS = true;
-		spriteShader->CreateShader(_info, _entry, L"Sprite.hlsl");
+		spriteShader->CreateShader(_info, _entry, L"DefaultSpriteFoward.hlsl");
+	}
+#pragma endregion
+
+#pragma region Halo
+	{
+		shared_ptr<Shader> haloShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"HaloShader", haloShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		haloShader->CreateShader(_info, _entry, L"Halo.hlsl");
+	}
+#pragma endregion
+
+#pragma region DefferedShader
+	{
+		shared_ptr<Shader> defferedShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"SpriteDeffered", defferedShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		defferedShader->CreateShader(_info, _entry, L"DefaultSpriteDeffered.hlsl");
+	}
+#pragma endregion
+
+#pragma region LightTingShader
+	{
+		shared_ptr<Shader> lightingShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Lighting", lightingShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::NoWrite;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		lightingShader->CreateShader(_info, _entry, L"Lighting.hlsl");
+	}
+#pragma endregion
+
+#pragma region GlowSword
+	{
+		shared_ptr<Shader> glowSword = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"GlowSword", glowSword);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		glowSword->CreateShader(_info, _entry, L"GlowSword.hlsl");
 	}
 #pragma endregion
 
@@ -287,4 +331,164 @@ void Resources::CreateDefaultResource()
 		IconShader->CreateShader(_info, _entry, L"IconShader.hlsl");
 	}
 #pragma endregion
+
+#pragma region SkyShader
+{
+		shared_ptr<Shader> skyShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"SkyShader", skyShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		skyShader->CreateShader(_info, _entry, L"Sky.hlsl");
+}
+#pragma endregion
+
+#pragma region WingShader
+{
+		shared_ptr<Shader> wingShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"WingShader", wingShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		wingShader->CreateShader(_info, _entry, L"WingShader.hlsl");
+}
+#pragma endregion
+
+#pragma region Eraser
+	{
+		shared_ptr<Shader> eraser = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Eraser", eraser);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		eraser->CreateShader(_info, _entry, L"Eraser.hlsl");
+	}
+#pragma endregion
+
+#pragma region ParticleGraphic
+	{
+		shared_ptr<Shader> particle = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"ParticleGraphics", particle);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		_entry.GS = true;
+		particle->CreateShader(_info, _entry, L"Particle.hlsl", true);
+	}
+#pragma endregion
+
+#pragma region Resize
+	{
+		shared_ptr<Shader> resizer = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Resizer", resizer);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		resizer->CreateShader(_info, _entry, L"Downscale.hlsl");
+	}
+#pragma endregion
+
+#pragma region HorizonalBlur
+	shared_ptr<ComputeShader> HorigentalShader = std::make_shared<ComputeShader>();
+	Resources::Insert<ComputeShader>(L"HorizonalBlurShader", HorigentalShader);
+	HorigentalShader->Create(L"Horizonal.hlsl");
+#pragma endregion
+
+#pragma region VerticalBlur
+	shared_ptr<ComputeShader> VerticalBlurShadr = std::make_shared<ComputeShader>();
+	Resources::Insert<ComputeShader>(L"VerticalBlurShader", VerticalBlurShadr);
+	VerticalBlurShadr->Create(L"VerticalBlur.hlsl");
+#pragma endregion
+
+#pragma region BloomCombline
+	{
+		shared_ptr<Shader> BloomCombline = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"BloomCombline", BloomCombline);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::None;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		BloomCombline->CreateShader(_info, _entry, L"Combine.hlsl");
+	}
+#pragma endregion
+
+#pragma region ACESMap
+	{
+		shared_ptr<Shader> ACESMap =  std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"ACESMap", ACESMap);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::None;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		ACESMap->CreateShader(_info, _entry, L"ACESMap.hlsl");
+	}
+#pragma endregion
+
+#pragma region BloomBuffers
+	{
+		shared_ptr<Texture> downScaledEmission = std::make_shared<Texture>();
+		downScaledEmission->Create(480, 270, DXGI_FORMAT_R16G16B16A16_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+		Resources::Insert<Texture>(L"DownScaledEmission", downScaledEmission);
+		shared_ptr<Texture> VerticalBlur = std::make_shared<Texture>();
+		VerticalBlur->Create(480, 270, DXGI_FORMAT_R16G16B16A16_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+		Resources::Insert<Texture>(L"VerticalBlur", VerticalBlur);
+		shared_ptr<Texture> HorizontalBlur = std::make_shared<Texture>();
+		HorizontalBlur->Create(480, 270, DXGI_FORMAT_R16G16B16A16_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+		Resources::Insert<Texture>(L"HorizontalBlur", HorizontalBlur);
+	}
+#pragma endregion
+}
+
+vector<shared_ptr<Shader>> Resources::GetShaders()
+{
+	vector<shared_ptr<Shader>> vec;
+
+	for (auto& res : _resources)
+	{
+		if (res.second->_type == RESOURCE_TYPE::GRAPHIC_SHADER)
+		{
+			vec.push_back(static_pointer_cast<Shader>(res.second));
+		}
+	}
+	return vec;
 }

@@ -30,8 +30,9 @@ namespace SY {
 			Collision col = {};
 			col.entityID = entity2.GetUUID();
 			col.CollisionLayer =  filter.categoryBits;
+
 			if (f1->IsSensor())
-				ScriptEngine::OnTriggerEnter(entity1, &col);
+   				ScriptEngine::OnTriggerEnter(entity1, &col);
 			else
 				ScriptEngine::OnCollisionEnter(entity1, &col);
 		}
@@ -41,6 +42,7 @@ namespace SY {
 			Collision col = {};
 			col.entityID = entity1.GetUUID();
 			col.CollisionLayer = filter.categoryBits;
+
 			if (f2->IsSensor())
 				ScriptEngine::OnTriggerEnter(entity2, &col);
 			else
@@ -79,7 +81,7 @@ namespace SY {
 			Collision col = {};
 			col.entityID = entity1.GetUUID();
 			col.CollisionLayer = filter.categoryBits;
-			if (f1->IsSensor())
+			if (f2->IsSensor())
 				ScriptEngine::OnTriggerExit(entity2, &col);
 			else
 				ScriptEngine::OnCollisionExit(entity2, &col);

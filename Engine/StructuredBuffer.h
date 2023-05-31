@@ -10,7 +10,9 @@ public:
 	bool Create(UINT size, UINT stride, void* data, bool asUAV = false, bool cpuAccess = false);
 
 	void SetData(void* data, UINT bufferCount);
-	void GetData(void* data, UINT size);
+	void GetData(void* data);
+
+	UINT GetStride() { return _stride; }
 
 	void BindSRV(UINT slot);
 	void BindUAV(UINT slot);

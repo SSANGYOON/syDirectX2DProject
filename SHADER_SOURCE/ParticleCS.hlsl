@@ -1,70 +1,105 @@
 #include "global.hlsli"
 
-struct Particle
-{
-    float3  worldPos;
-    float   curTime;
-    float3  worldDir;
-    float   lifeTime;
-    int     alive;
-    float3  padding;
-};
-
 struct ComputeShared
 {
     int addCount;
     float3 padding;
 };
 
+struct Particle
+{
+    float3 position;
+    float remainLife;
+    float2 velocity;
+    float2 size;
+    uint alive;
+    float3 initialPos;
+};
+
 RWStructuredBuffer<Particle> g_particle : register(u0);
 RWStructuredBuffer<ComputeShared> g_shared : register(u1);
 
-[numthreads(16, 16, 1)]
-void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupIndex)
+
+[numthreads(32, 32, 1)]
+void CS_MAIN(uint3 DispatchID : SV_DispatchThreadID, uint GroupIndex : SV_GroupIndex)
 {
-
-    uint maxCount = g_int_0;
-    uint addCount = g_int_1;
-    float zOffSet = g_float_0;
-
-    float deltaTime = g_vec2_0.x;
-    float accTime = g_vec2_0.y;
-
-    float2 particleSpriteSize = g_vec2_1;
-    float2 force = g_vec2_3;
-
-    float2 initialPos = g_vec2_2.xy;
-    float2 initialPosVarFrom = g_vec4_0.xy;
-    float2 initialPosVarTo = g_vec4_0.zw;
-
-    float2 initialDir = g_vec4_1.xy;
-    float2 initialDirVar = g_vec4_1.zw;
-
-    float2 aliveZone = g_vec4_2.xy;
-
-    uint aliveZoneType = g_vec4_2.z;
-    uint posvarType = g_vec4_2.w;
-
-    float minLifeTime = g_vec4_3.x;
-    float maxLifeTime = g_vec4_3.y;
-    float minSpeed = g_vec4_3.z;
-    float maxSpeed = g_vec4_3.w;
-    
     g_shared[0].addCount = addCount;
     GroupMemoryBarrierWithGroupSync();
-
     float pi = 3.1415928;
+    if (GroupIndex >= maxParticles)
+        return;
+
     if (g_particle[GroupIndex].alive == 0)
     {
         while (true)
         {
-            int remaining = g_shared[0].addCount;
+            uint remaining = g_shared[0].addCount;
             if (remaining <= 0)
                 break;
 
-            int expected = remaining;
-            int desired = remaining - 1;
-            int originalValue;
+            float x = DispatchID.x / 32.f;
+            float y = DispatchID.y / 32.f;
+
+            float r1 = Rand(float2(x, y));
+            float r2 = Rand(float2(y, x));
+            float r3 = Rand(float2(x * time, y));
+            float r4 = Rand(float2(x, y * time));
+
+            float r5 = Rand(float2(y * time, x));
+            float r6 = Rand(float2(y, x * time));
+            // [0.5~1] -> [0~1]
+            float4 noise1 =
+            {
+                r1 - 0.5f,
+                r2 - 0.5f,
+                r3 - 0.5f,
+                r4 - 0.5f,
+            };
+
+            float2 noise2 =
+            {
+                r5 - 0.5f,
+                r6 - 0.5f,
+            };
+
+            float2 pos2 = (float2)0.f;
+
+            if (PositionPolar > 0) {
+                float r = LocalPosition.x + noise1.z * PositionVariation.x;
+
+                float theta = pi / 180.f * (LocalPosition.y + noise1.w * PositionVariation.y);
+                pos2 = r * float2(cos(theta), sin(theta));
+                g_particle[GroupIndex].position = mul(float4(pos2, 0.f, 1.f), worldTrans).xyz;
+            }
+            else {
+                pos2 = LocalPosition + PositionVariation * noise1.zw;
+                g_particle[GroupIndex].position = mul(float4(pos2, 0.f, 1.f), worldTrans).xyz;
+            }
+
+            if (textureAttach > 0)
+            {
+                float2 texSize;
+
+                tex_0.GetDimensions(texSize.x, texSize.y);
+
+                pos2.y = -pos2.y;
+
+                float2 uv = (targetTexturePos + pos2) / texSize;
+
+                float4 texValue = tex_0.SampleLevel(pointSampler, uv, 0);
+
+                if (texValue.w == 0 || uv.x > 1 || uv.y > 1 || uv.x < 0 || uv.y < 0) {
+                    break;
+                }
+            }
+
+            uint expected = remaining;
+            uint desired = remaining - 1;
+            uint originalValue;
+
+            if (desired < 0)
+                break;
+
             InterlockedCompareExchange(g_shared[0].addCount, expected, desired, originalValue);
 
             if (originalValue == expected)
@@ -74,65 +109,65 @@ void CS_MAIN(int3 DispatchID : SV_DispatchThreadID, int GroupIndex : SV_GroupInd
             }
         }
 
-        float x = DispatchID.x;
-        float y = DispatchID.y;
+        
         if (g_particle[GroupIndex].alive == 1)
         {
+            float x = DispatchID.x / 32.f;
+            float y = DispatchID.y / 32.f;
+
             float r1 = Rand(float2(x, y));
             float r2 = Rand(float2(y, x));
-            float r3 = Rand(float2(x * accTime, y));
-            float r4 = Rand(float2(x, y * accTime));
-            float r5 = Rand(float2(x * accTime, y * accTime));
+            float r3 = Rand(float2(x * time, y));
+            float r4 = Rand(float2(x, y * time));
+
+            float r5 = Rand(float2(y * time, x));
+            float r6 = Rand(float2(y, x * time));
             // [0.5~1] -> [0~1]
-            float4 noise =
+            float4 noise1 =
             {
-                2 * r1 - 1,
-                2 * r2 - 1,
-                2 * r3 - 1,
-                2 * r4 - 1
+                r1 - 0.5f,
+                r2 - 0.5f,
+                r3 - 0.5f,
+                r4 - 0.5f,
             };
 
-            float2 dir = initialDir + initialDirVar * float2(cos(noise.x * 2 * pi), sin(noise.x * 2 * pi));
-            dir = normalize(dir);
-            g_particle[GroupIndex].worldDir = float3(dir.x, dir.y, 0.f);
+            float2 noise2 =
+            {
+                r5 - 0.5f,
+                r6 - 0.5f,
+            };
 
-            if (posvarType == 0) {
-                float2 pos = initialPos + (initialPosVarFrom + (initialPosVarTo - initialPosVarFrom) * noise.z) * float2(cos(noise.y * 2 * pi), sin(noise.y * 2 * pi));
-                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
-            }
-            else if (posvarType == 1) {
-                float2 pos = initialPos + (initialPosVarFrom + (initialPosVarTo - initialPosVarFrom) * noise.z) * float2(dir);
-                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
-            }
-            else {
-                float2 pos = initialPos + initialPosVarTo * float2(noise.y, noise.z);
-                g_particle[GroupIndex].worldPos = float3(pos, zOffSet);
-            }
-
-            g_particle[GroupIndex].lifeTime = (maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;
-            g_particle[GroupIndex].curTime = 0;
+            g_particle[GroupIndex].velocity = mul(float4(Velocity + VelocityVariation * noise1.xy , 0.f, 0.f), worldTrans).xy;
+            g_particle[GroupIndex].size = SizeBegin + SizeVariation * noise2;
+            g_particle[GroupIndex].remainLife = LifeTime;
+            g_particle[GroupIndex].initialPos = mul(float4(0.f, 0.f, 0.f, 1.f), worldTrans).xyz;
         }
     }
     else
     {
-        g_particle[GroupIndex].curTime += deltaTime;
-        if (g_particle[GroupIndex].lifeTime < g_particle[GroupIndex].curTime)
-        {
+        float slice = DeltaTime / g_particle[GroupIndex].remainLife;
+        g_particle[GroupIndex].velocity += (VelocityEnd - Velocity) * slice;
+        g_particle[GroupIndex].size = lerp(g_particle[GroupIndex].size, SizeEnd, slice);
+
+        float2 vel = g_particle[GroupIndex].velocity;
+
+        if (VelocityPolar > 0) {
+            g_particle[GroupIndex].initialPos = mul(float4(0.f, 0.f, 0.f, 1.f), worldTrans).xyz;
+            float2 posDiff = g_particle[GroupIndex].position.xy - g_particle[GroupIndex].initialPos.xy;
+
+            float2 normal = normalize(posDiff + float2(0.0001f, 0.f));
+            float2 normalPerp = float2(normal.y, -normal.x);
+
+            float cos;
+            float sin;
+
+            vel = normal * vel.x + normalPerp * vel.y;
+        }
+
+        g_particle[GroupIndex].position.xy += vel * DeltaTime;
+
+        g_particle[GroupIndex].remainLife -= DeltaTime;
+        if (g_particle[GroupIndex].remainLife <= 0)
             g_particle[GroupIndex].alive = 0;
-            return;
-        }
-
-        float ratio = g_particle[GroupIndex].curTime / g_particle[GroupIndex].lifeTime;
-        float2 velocity = g_particle[GroupIndex].worldDir.xy * ((maxSpeed - minSpeed) * ratio + minSpeed) - force.x * g_particle[GroupIndex].worldPos.xy * g_particle[GroupIndex].curTime;
-   
-        g_particle[GroupIndex].worldPos += float3(velocity * deltaTime, 0.f);
-
-        if (aliveZoneType == 1)
-        {
-            if (length(g_particle[GroupIndex].worldPos) > aliveZone.x) {
-                g_particle[GroupIndex].alive = 0;
-                return;
-            }
-        }
     }
 }

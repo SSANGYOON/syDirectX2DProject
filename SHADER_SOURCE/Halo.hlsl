@@ -2,47 +2,71 @@
 
 struct VSIn
 {
+    // VertexData
     float4 Pos : POSITION;
-    float4 Color : COLOR;
     float2 UV : TEXCOORD;
+
+    //InstanceData
+
+    float4 Color : COLOR;
+    float4 Emission : EMISSION;
+
+    row_major matrix matW : W;
+    row_major matrix matWVP : WVP;
+
+    float2 Tile : TILE;
+    float2 Offset : OFFSET;
+
+    uint instanceID : SV_InstanceID;
 };
 
 struct VSOut
 {
     float4 Pos : SV_Position;
-    float3 WorldPos : POSITION;
+    float3 WorldPos : Position;
+
     float4 Color : COLOR;
+    float4 Emission : EMISSION;
     float2 UV : TEXCOORD;
 };
 
-// centerPos g_vec4_0
-// color g_vec4_1
-// radius g_float_1
-// alpha g_float_0
 
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
+    Out.UV = In.UV * In.Tile + In.Offset;
 
-    In.Pos.xy = (In.Pos.xy) * g_float_1 /10.f;
+    if (tex0_On)
+        In.Pos.xy *= (g_tex0_size * In.Tile);
 
-    float4 worldPosition = mul(In.Pos, world);
-    float4 viewPosition = mul(worldPosition, view);
-    float4 ProjPosition = mul(viewPosition, projection);
+    Out.Pos = mul(In.Pos, In.matWVP);
+    Out.WorldPos = mul(In.Pos, In.matW).xyz;
 
-    Out.Pos = ProjPosition;
     Out.Color = In.Color;
-    Out.WorldPos = worldPosition.xyz;
+    Out.Emission = In.Emission;
+
     return Out;
 }
 
-
-float4 PS_MAIN(VSOut In) : SV_TARGET
+struct PSOut
 {
-    float dis = distance(In.WorldPos, g_vec4_0.xyz);
-    float4 color = g_vec4_1;
+    float4 Color : SV_Target0;
+    float4 Emission : SV_Target1;
+};
 
-    color.a = color.a * g_float_0 * (g_float_1 / 10.f - dis) / (g_float_1 /10.f);
+PSOut PS_MAIN(VSOut In)
+{
+    float4 color = In.Color;
 
-    return color;
+    if (tex0_On == 1)
+        color *= tex_0.Sample(pointSampler, In.UV);
+
+    if (color.w == 0.f)
+        discard;
+
+    PSOut Out = (PSOut)0.f;
+    color.w *= (1 -  2 * abs(0.5f - In.UV.x));
+    Out.Color = color;
+
+    return Out;
 }

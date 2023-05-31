@@ -19,11 +19,11 @@ VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
 
-    float2 barSize = g_vec2_0;
-    float2 gaugeSize = g_vec2_1;
+    float2 barSize = g_tex0_size;
+    float2 gaugeSize = g_tex1_size;
 
 
-    In.Pos.xy = In.Pos.xy * barSize;
+    In.Pos.xy *= barSize;
     float4 worldPosition = mul(In.Pos, world);
     float4 ProjPosition = mul(worldPosition, projection);
 

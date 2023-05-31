@@ -70,6 +70,12 @@ namespace SY
             return (float)Math.Sqrt(LengthSquared());
         }
 
+        public void Normalize()
+        {
+            float l = this.Length();
+            this.X = X / l;
+            this.Y = Y / l;
+        }
 
     }
 }

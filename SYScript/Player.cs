@@ -22,7 +22,6 @@ namespace Sandbox
             Dead
         }
 
-        private TransformComponent m_Transform;
         private Rigidbody2DComponent m_Rigidbody;
         private SpriteAnimatorComponent m_Animator;
         private BoxCollider2DComponent m_BoxCollider;
@@ -86,12 +85,10 @@ namespace Sandbox
                         break;
 
                     case PlayerState.Crouching:
-                        {
+                        if(prevState == PlayerState.Idle)
                             m_Animator.Play("Crouch");
-                            Vector2 size = m_BoxCollider.Size;
-                            size.Y = 15.0f;
-                            m_BoxCollider.Size = size;
-                        }
+                        else
+                            m_Animator.Play("Crouching");
                         break;
 
                     case PlayerState.Roll:
@@ -105,7 +102,7 @@ namespace Sandbox
                         else
                         {
                             string Pose;
-                            if (isGrounded && Input.IsKeyDown(KeyCode.Down))
+                            if (isGrounded && Input.IsKeyPressed(KeyCode.Down))
                                 Pose = "Crouching";
                             else if (isGrounded)
                                 Pose = "Standing";
@@ -142,7 +139,6 @@ namespace Sandbox
 
         void OnCreate()
         {
-            m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigidbody2DComponent>();
             m_Animator = GetComponent<SpriteAnimatorComponent>();
             m_BoxCollider = GetComponent<BoxCollider2DComponent>();
@@ -214,8 +210,7 @@ namespace Sandbox
                 else
                     m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
             }
-
-            
+         
         }
 
         private void UpdateState()
@@ -269,10 +264,10 @@ namespace Sandbox
 
                 case PlayerState.ZAttack:
                 case PlayerState.XAttack:
-                    if (State == PlayerState.ZAttack && stateTime > zWeapon.Duration ||
-                        State == PlayerState.XAttack && stateTime > xWeapon.Duration)
+                    if (State == PlayerState.ZAttack && stateTime > zWeapon.Data.Duration ||
+                        State == PlayerState.XAttack && stateTime > xWeapon.Data.Duration)
                     {
-                        if(State == PlayerState.ZAttack)
+                        if (State == PlayerState.ZAttack)
                             zWeapon.Pause();
                         else
                             xWeapon.Pause();
@@ -286,17 +281,64 @@ namespace Sandbox
                         else
                             State = PlayerState.Aerial;
                     }
-                    break;
 
+                    else if (Input.IsKeyNone(KeyCode.Down) && isGrounded)
+                    {
+                        Weapon weapon;
+                        if (State == PlayerState.ZAttack)
+                            weapon = zWeapon;
+                        else
+                            weapon = xWeapon;
+
+                        if (m_BoxCollider.Size.Y < 24)
+                        {
+                            Translation = new Vector3(Translation.X, Translation.Y + 5.0f, Translation.Z);
+                            m_BoxCollider.Size = new Vector2(11, 24);
+
+                            string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Standing";
+                            m_Animator.Play(key, stateTime);
+                        }
+
+                        var trans = weapon.Translation;
+                        trans.Y -= 2.0f;
+                        weapon.Translation = trans;
+                    }
+
+                    else if (Input.IsKeyPressed(KeyCode.Down) && isGrounded)
+                    {
+                        Weapon weapon;
+                        if (State == PlayerState.ZAttack)
+                            weapon = zWeapon;
+                        else
+                            weapon = xWeapon;
+
+                        if (m_BoxCollider.Size.Y > 18)
+                        {
+                            Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
+                            m_BoxCollider.Size = new Vector2(11, 18);
+
+                            string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Crouching";
+                            m_Animator.Play(key, stateTime);
+                        }
+
+                        var trans = weapon.Translation;
+                        trans.Y -= 5.0f;
+                        weapon.Translation = trans;
+                    }
+
+                    else if (!isGrounded)
+                    { 
+                    
+                    }
+                    break;
                 default: break;
             }
         }
         void OnCollisionStay(ref Collision2D collsion)
         {
-            Console.WriteLine("cOLLI");
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
             {
-                Entity ground = new Entity(collsion.EntityID);
+                Entity ground = new Entity(collsion.entityID);
                 if (ground.Translation.Y < Translation.Y)
                     isGrounded = true;    
             }
@@ -306,14 +348,16 @@ namespace Sandbox
         {
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
             {
-                Entity ground = new Entity(collsion.EntityID);
+                if (State == PlayerState.Crouching)
+                    return;
+
+                Entity ground = new Entity(collsion.entityID);
                 if (ground.IsValid())
                 {
                     if (ground.Translation.Y < Translation.Y)
                         isGrounded = false;
                 }
             }
-            
         }
 
         public void OnNamedEvent(string funcName)
@@ -321,9 +365,7 @@ namespace Sandbox
             String name = funcName;
             Type type = this.GetType();
             MethodInfo myClass_FunCallme = type.GetMethod(name, BindingFlags.Instance | BindingFlags.NonPublic);
-            myClass_FunCallme.Invoke(this, null);
-
-            
+            myClass_FunCallme.Invoke(this, null);   
         }
 
         void SetInvisible()
@@ -333,6 +375,12 @@ namespace Sandbox
         void SetVulnerable()
         {
             invisible = false;
+        }
+
+        void Crouching()
+        {
+            Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
+            m_BoxCollider.Size = new Vector2(11, 18);
         }
     }
 }

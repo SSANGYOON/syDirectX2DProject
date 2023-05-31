@@ -24,7 +24,7 @@ public:
 	void BindSRV(ShaderStage stage, UINT slot);
 	void ClearSRV(ShaderStage stage, UINT slot);
 	void BindUAV(UINT slot);
-	void ClearUAV(ShaderStage stage, UINT slot);
+	void ClearUAV(UINT slot);
 
 	ID3D11ShaderResourceView* GetSRV() { return _SRV.Get(); }
 	const Vector2& GetSize() { return _size; }

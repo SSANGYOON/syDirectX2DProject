@@ -49,7 +49,6 @@ namespace SY {
 
 		void UI_Toolbar();
 	private:
-		//SY::OrthographicCameraController m_CameraController;
 
 		shared_ptr<Scene> m_ActiveScene;
 		shared_ptr<Scene> m_EditorScene;

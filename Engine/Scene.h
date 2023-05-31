@@ -35,6 +35,8 @@ namespace SY {
 		void OnUpdateEditor(float ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
+		void AddBody(Entity entity);
+
 		vector<Entity> GetDontDestroys();
 		void UpdateTransform();
 
@@ -65,6 +67,8 @@ namespace SY {
 
 		void OnPhysics2DStart();
 		void OnPhysics2DStop();
+
+		
 		void OnPhysicsUpdate(float timeStep);
 		void RenderScene(EditorCamera& camera);
 	private:
@@ -78,11 +82,14 @@ namespace SY {
 
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
 
+		float accTime;
+
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 		friend class ParentManager;
 		friend class PrefabManager;
+		friend class InstancingManager;
 	};
 
 }

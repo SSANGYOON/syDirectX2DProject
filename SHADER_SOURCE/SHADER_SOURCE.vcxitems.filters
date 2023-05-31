@@ -1,22 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="$(MSBuildThisFileDirectory)DebugShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Grid.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)Sprite.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)TrailShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Rect.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)Particle.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Halo.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)WingShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)LaserShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)GaugeShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)UIShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)SlotShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)IconShader.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Sky.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)DefaultSpriteFoward.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)DefaultSpriteDeffered.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Eraser.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)DebugShader.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)UIShader.hlsl">
+      <Filter>UI</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)SlotShader.hlsl">
+      <Filter>UI</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)IconShader.hlsl">
+      <Filter>UI</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)GaugeShader.hlsl">
+      <Filter>UI</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Particle.hlsl">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Lighting.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)VerticalBlur.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Horizonal.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Downscale.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Combine.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ACESMap.hlsl">
+      <Filter>PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpriteFowardAnistropic.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)GlowSword.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{c98953b0-28d1-4def-a3a3-9fca8bcc3d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{674677e5-df58-4384-9111-f8fc278eea5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpriteShader">
+      <UniqueIdentifier>{7f5156bb-9635-40cd-97ab-a4ca71b22d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{4a8fe2ab-7ac3-4b46-b2ed-c2775ee16e6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

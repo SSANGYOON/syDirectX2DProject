@@ -6,7 +6,8 @@ namespace SY {
 	struct Collision
 	{
 		UINT64 entityID;
-		UINT padding;
+		Vector2 normal;
+		Vector2 ContactPoint;
 		UINT CollisionLayer;
 	};
 

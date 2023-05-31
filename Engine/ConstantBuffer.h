@@ -3,7 +3,10 @@ enum class Constantbuffer_Type : UINT8
 {
 	TRANSFORM,
 	MATERIAL,
+	VISUALEFFECT,
 	LIGHT,
+	PARTICLE,
+	BLOOM,
 	END
 };
 
@@ -19,12 +22,18 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 struct LightInfo
 {
 	Vector3 dir;
-	float angle;
+	float SpotlightFov;
 	Vector3 position;
 	float range;
-	Vector4 color;
+	Vector3 color;
 	UINT type;
-	Vector3 padding;
+};
+
+CBUFFER(VECB, CBSLOT_VISUALEFFECT)
+{
+	float time;
+	float DeltaTime;
+	Vector2 ViewPort;
 };
 
 CBUFFER(LightCB, CBSLOT_LIGHT)
@@ -33,6 +42,38 @@ CBUFFER(LightCB, CBSLOT_LIGHT)
 	Vector3		padding;
 	LightInfo	lights[50];
 };
+
+CBUFFER(ParticleCB, CBSLOT_PARTICLE)
+{
+	Vector2 Position, PositionVariation;
+
+	Vector2 Velocity, VelocityVariation, VelocityEnd;
+
+	Vector2 SizeBegin, SizeEnd, SizeVariation;
+
+	Vector4 ColorBegin, ColorEnd;
+	Vector4 EmissionBegin, EmissionEnd;
+
+	Matrix worldTrans;
+
+	float LifeTime;
+
+	UINT addCount;
+	UINT PositionPolar;
+	UINT VelocityPolar;
+
+	UINT maxParticles;
+	UINT textureAttach;
+	Vector2 texturePos;
+};
+
+CBUFFER(BloomCB, CBSLOT_BLOOM)
+{
+	float bloomThreshold;
+	float bloomIntensity;
+	Vector2 texSize;
+};
+
 
 class ConstantBuffer
 {

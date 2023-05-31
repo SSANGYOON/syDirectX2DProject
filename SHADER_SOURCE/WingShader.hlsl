@@ -2,17 +2,34 @@
 
 struct VSIn
 {
+    // VertexData
     float4 Pos : POSITION;
-    float4 Color : COLOR;
     float2 UV : TEXCOORD;
+
+    //InstanceData
+
+    float4 Color : COLOR;
+    float4 Emission : EMISSION;
+
+    row_major matrix matW : W;
+    row_major matrix matWVP : WVP;
+
+    float2 Tile : TILE;
+    float2 Offset : OFFSET;
+
+    uint instanceID : SV_InstanceID;
 };
 
 struct VSOut
 {
     float4 Pos : SV_Position;
+    float3 WorldPos : Position;
+
     float4 Color : COLOR;
+    float4 Emission : EMISSION;
     float2 UV : TEXCOORD;
 };
+
 
 // g_float_0 waveLength
 // g_float_1 cycle
@@ -22,30 +39,43 @@ struct VSOut
 VSOut VS_MAIN(VSIn In)
 {
     VSOut Out = (VSOut)0.f;
-
-    In.Pos.xy = In.Pos.xy * g_vec2_0;
-
-    float4 worldPosition = mul(In.Pos, world);
-    float4 viewPosition = mul(worldPosition, view);
-    float4 ProjPosition = mul(viewPosition, projection);
-
-    Out.Pos = ProjPosition;
-    Out.Color = In.Color;
     Out.UV = In.UV;
+
+    In.Pos.x += 0.5f;
+
+    Out.Pos = mul(In.Pos, In.matWVP);
+    Out.WorldPos = mul(In.Pos, In.matW).xyz;
+
+    Out.Color = In.Color;
+    Out.Emission = In.Emission;
 
     return Out;
 }
 
+struct PSOut
+{
+    float4 Color : SV_Target0;
+    float4 Emission : SV_Target1;
+};
 
-float4 PS_MAIN(VSOut In) : SV_TARGET
+PSOut PS_MAIN(VSOut In)
 {
     const float pi = 3.14159265359;
-    float amp = In.UV.x - 0.5f;
-    float waveLength = g_float_0;
-    float div = amp * 0.5f * sin(amp * g_vec2_0.x / waveLength * pi + g_float_2 / g_float_1 * 2 * pi) + 0.5;
 
-    if (abs(In.UV.y - div) > (0.5 - abs(amp)) * g_float_3 / g_vec2_0.y || amp > 0)
+    float thickness = g_float_0;
+    float amplitude = g_float_1;
+
+    float waveLength = g_float_2;  
+    float cycle = g_float_3;
+
+    float div = (In.UV.x * 0.5f * sin(In.UV.x / waveLength * 2 * pi - time / cycle * 2 * pi) + 0.5f) * amplitude;
+
+    if (abs(In.UV.y - div) > (1 - In.UV.x) * thickness * 0.5f)
         discard;
 
-    return g_vec4_0;
+    PSOut Out = (PSOut)0.f;
+    Out.Color = In.Color;
+    Out.Emission = In.Emission;
+    
+    return Out;
 }

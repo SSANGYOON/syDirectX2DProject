@@ -1,0 +1,32 @@
+Head: 11596605931286826793
+Entities:
+  - Entity: 11596605931286826793
+    TagComponent:
+      Tag: Chain1-1
+    State: 0
+    TransformComponent:
+      Translation: [18.2999992, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      DiffusePath: textures\ChainSide.png
+      SourceOffset: [0, 0]
+      SourceSize: [16, 32]
+      TargetOffset: [0, 0]
+      Layer: 1
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [1, 1]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 1
+      CategoryBits: 1

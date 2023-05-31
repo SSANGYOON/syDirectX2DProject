@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "RigidBodyComponent.h"
+#include "box2d/b2_body.h"
 
 namespace SY {
 	void Rigidbody2DComponent::DrawImGui(Rigidbody2DComponent& component)
@@ -8,7 +9,7 @@ namespace SY {
 		const char* currentBodyTypeString = bodyTypeStrings[(int)component.Type];
 		if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
 		{
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
 				if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
@@ -25,5 +26,9 @@ namespace SY {
 		}
 
 		ImGui::Checkbox("Fixed Rotation", &component.FixedRotation);
+		ImGui::Checkbox("Disable Gravity", &component.DisableGravity);
+
+		ImGui::InputFloat("Linear Damping", &component.LinearDamping);
+		ImGui::InputFloat("Angular Damping", &component.AngularDamping);
 	}
 }

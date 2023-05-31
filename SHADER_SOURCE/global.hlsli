@@ -7,28 +7,37 @@ cbuffer Transform : register(b0)
     float3 padding;
 }
 
-cbuffer MaterialData : register(b1)
+cbuffer Material : register(b1)
 {
+    int     tex0_On;
+    int     tex1_On;
+    int     tex2_On;
+    int     tex3_On;
+
     int     g_int_0;
     int     g_int_1;
     int     g_int_2;
     int     g_int_3;
+
     float   g_float_0;
     float   g_float_1;
     float   g_float_2;
     float   g_float_3;
+
     float2  g_vec2_0;
     float2  g_vec2_1;
     float2  g_vec2_2;
     float2  g_vec2_3;
+
+    float2  g_tex0_size;
+    float2  g_tex1_size;
+    float2  g_tex2_size;
+    float2  g_tex3_size;
+
     float4  g_vec4_0;
     float4  g_vec4_1;
     float4  g_vec4_2;
     float4  g_vec4_3;
-    row_major float4x4 g_mat_0;
-    row_major float4x4 g_mat_1;
-    row_major float4x4 g_mat_2;
-    row_major float4x4 g_mat_3;
 }
 
 struct LightInfo
@@ -37,17 +46,61 @@ struct LightInfo
     float angle;
     float3 position;
     float range;
-    float4 color;
+    float3 color;
     uint type;
-    float3 padding;
 };
+
+cbuffer VisualEffect : register(b2)
+{
+    float time;
+    float DeltaTime;
+    float2 viewPort;
+}
 
 cbuffer Lights : register(b3)
 {
-    int         g_lightCount;
+    uint         g_lightCount;
     float3      g_lightPadding;
     LightInfo   g_light[50];
 }
+
+cbuffer ParticleBuffer : register(b4)
+{
+    float2  LocalPosition;
+    float2  PositionVariation;
+
+    float2  Velocity;
+    float2  VelocityVariation;
+    float2  VelocityEnd;
+
+    float2 SizeBegin;
+    float2 SizeEnd;
+    float2 SizeVariation;
+
+    float4 ColorBegin;
+    float4 ColorEnd;
+
+    float4 EmissionBegin;
+    float4 EmissionEnd;
+
+    row_major float4x4 worldTrans;
+
+    float LifeTime;
+    uint addCount;
+    uint PositionPolar;
+    uint VelocityPolar;
+
+    uint maxParticles;
+    uint textureAttach;
+    float2 targetTexturePos;
+};
+
+cbuffer BlurBuffer : register(b5)
+{
+    float extractThreshold;
+    float bloomIntensity;
+    float2 ImgSize;
+};
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
@@ -58,44 +111,39 @@ Texture2D tex_1 : register(t1);
 Texture2D tex_2 : register(t2);
 Texture2D tex_3 : register(t3);
 
-float Rand(float2 co)
+Texture2D Position : register(t2);
+
+float Rand(float2 uv)
 {
-    return 0.5 + (frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453)) * 0.5;
+    return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
 }
 
-float4 CalculateLight(float3 position, int idx)
+float3 CalculateLight(float3 position, float lightmap)
 {
-    if (0 == g_light[idx].type)
-    {
-        float dis = distance(position, g_light[idx].position);
-        
-        if (dis > g_light[idx].range)
-            return (float4)0;
-        else
-            return g_light[idx].color *(1 - dis / g_light[idx].range);
-    }
-    else if (1 == g_light[idx].type)
-    {
-        float3 diff = position - g_light[idx].position;
+    float3 ret = (float3)0.f;
 
-        float proj = dot(diff, g_light[idx].dir);
+    for (uint idx = 0; idx < g_lightCount; idx++) {
+        if (0 == g_light[idx].type)
+        {
+            float dis = distance(position, g_light[idx].position);
 
-        if (proj < 0 || proj < length(diff) * cos(g_light[idx].angle) || proj > g_light[idx].range)
-            return (float4)0;
-        else
-            return g_light[idx].color * (1 - proj / g_light[idx].range);
-    }
-    else if (2 == g_light[idx].type)
-    {
-        return g_light[idx].color;
-    }
-    else
-    {
-        float3 diff = position - g_light[idx].position;
+            if (dis < g_light[idx].range)
+                ret += g_light[idx].color * (1 - dis / g_light[idx].range);
+        }
+        else if (1 == g_light[idx].type)
+        {
+            float3 diff = position - g_light[idx].position;
 
-        if (length(diff) > g_light[idx].range || g_light[idx].position.z > position.z)
-            return (float4)0;
+            float proj = dot(diff, g_light[idx].dir);
+
+            if (proj > 0 && proj > length(diff) * cos(g_light[idx].angle) && proj < g_light[idx].range)
+                ret += g_light[idx].color * (1 - proj / g_light[idx].range);
+        }
         else
-            return g_light[idx].color * length(diff) / g_light[idx].range;
+        {
+            ret += g_light[idx].color;
+        }
     }
+
+    return ret * lightmap;
 }

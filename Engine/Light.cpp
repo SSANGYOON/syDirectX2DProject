@@ -1,51 +1,31 @@
 #include "pch.h"
+
 #include "Light.h"
-#include "GameObject.h"
-#include "SceneManager.h"
+#include "SceneHierarchyPanel.h"
 #include "Scene.h"
 
-//#include "Halo.h"
-Light::Light(GameObject* owner)
-	:Component(Component_Type::Light, owner), /*_halo(nullptr),*/ _info{}
-{
-}
+namespace SY {
+	extern void DrawVec3Control(const std::string& label, Vector3& values, float resetValue, float columnWidth);
 
-Light::~Light()
-{
-}
+	void Light::DrawImGui(Light& component)
+	{
+		DrawVec3Control("Dir", component.info.dir, 0, 100);
+		ImGui::ColorEdit3("Light Color", reinterpret_cast<float*>(&component.info.color), ImGuiColorEditFlags_::ImGuiColorEditFlags_HDR);
+		ImGui::InputFloat("Light Range", &component.info.range);
 
-void Light::SetAngle(float angle)
-{
-	_info.angle = angle;
-}
+		const char* LightTypes[] = { "Point", "Spot", "Directional", "Ambient" };
 
-void Light::SetRange(float range)
-{
-	_info.range = range;
-}
-
-void Light::SetDirection(Vector3 direction)
-{
-	_info.dir = direction;
-}
-
-void Light::SetColor(Vector4 color)
-{
-	_info.color = color;
-}
-
-void Light::Start()
-{
-	Scene* curScene = GET_SINGLE(SceneManager)->GetActiveScene();
-	curScene->AddLight(this);
-}
-
-void Light::FinalUpdate()
-{
-	_info.position = _owner->GetTransform()->GetWorldPosition();
-}
-
-void Light::Render()
-{
-	// 헤일로 렌더링
+		if (ImGui::BeginCombo("State", LightTypes[(int)component.info.type]))
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				bool is_selected = (int)component.info.type == i;
+				if (ImGui::Selectable(LightTypes[i], is_selected))
+					component.info.type = i;
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
+	}
 }

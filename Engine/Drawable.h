@@ -1,7 +1,7 @@
 #pragma once
 #include "Material.h"
 #include "Texture.h"
-#include "Shader.h";
+#include "Shader.h"
 #include "Resources.h"
 namespace SY
 {
@@ -12,36 +12,39 @@ namespace SY
 
 		shared_ptr<Shader> shader = nullptr;
 
-		Vector2 sourceOffset;
-		Vector2 sourceSize;
-		Vector2 targetOffset;
+		Vector2 tile;
+		Vector2 Offset;
 
 		shared_ptr<Material> material;
-		Vector4 Color = Vector4(1.f, 0, 1.f, 1);
 
+		Vector4 Color = Vector4(1.f, 1, 1.f, 1);
+		Vector4 Emission = Vector4::Zero;
+
+		bool Deffered = false;
 		UINT16 LayerBit = 1;
-		bool fixed = false;
 		SpriteRendererComponent() : material(make_shared<Material>()) {}
 
 		void SetMaterial()
 		{
 			if (shader)
 				material->SetShader(shader);
+
+			else if(Deffered)
+				material->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"SpriteDeffered"));
 			else
-				material->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"SpriteShader"));
+				material->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"SpriteFoward"));
 
 			material->SetTexture(0, Diffuse);
 			material->SetTexture(1, LightMap);
-			material->SetVec2(0, sourceOffset);
-			material->SetVec2(1, sourceSize);
-			if (Diffuse)
-				material->SetVec2(2, Diffuse->GetSize());
-			material->SetVec2(3, targetOffset);
-			material->SetVec4(0, Color);
-			material->SetUInt(0, fixed);
 		}
 
 		static void DrawImGui(SpriteRendererComponent& component);
+	};
+
+	struct CircleRendererComponent
+	{
+		Vector4 Color = Vector4(1.f, 1, 1.f, 1);
+		static void DrawImGui(CircleRendererComponent& component);
 	};
 
 	struct PanelComponent
@@ -89,7 +92,7 @@ namespace SY
 			material->SetVec2(1, gauge->GetSize());
 			material->SetFloat(0, currentValue);
 			material->SetFloat(1, maxValue);
-			material->SetUInt(0, showNumeric);
+			material->SetInt(0, showNumeric);
 		}
 
 		static void DrawImGui(SliderComponent& component);
@@ -137,6 +140,30 @@ namespace SY
 		}
 
 		static void DrawImGui(IconComponent& component);
+	};
+
+	struct Eraser
+	{
+		shared_ptr<Material> material;
+
+		Eraser() : material(make_shared<Material>()) {}
+
+		void SetMaterial() {
+			material->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"Eraser"));
+		}
+
+		static void DrawImGui(Eraser& component);
+	};
+
+	struct Bloom
+	{
+		float Threshold = 1.f;
+		float Intensity = 0.f;
+
+		Bloom() = default;
+		Bloom(const Bloom&) = default;
+
+		static void DrawImGui(Bloom& component);
 	};
 }
 

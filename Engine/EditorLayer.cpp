@@ -55,7 +55,7 @@ namespace SY {
 				Application::Get().Close();
 		}
 
-		m_EditorCamera = EditorCamera(30.0f, 1.778f, 1.f, 1000.0f);
+		m_EditorCamera = EditorCamera(30.0f, 1.778f, 1.f, 3000.0f);
 
 
 	}
@@ -71,7 +71,8 @@ namespace SY {
 
 		//m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
-		GEngine->BindRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::EDITOR);
+		GEngine->ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::DEFFERED);
+		GEngine->ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::HDR);
 		GEngine->ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE::EDITOR);
 
 		switch (m_SceneState)
@@ -102,7 +103,7 @@ namespace SY {
 		}
 		}
 
-		auto [mx, my] = ImGui::GetMousePos();
+		/*auto [mx, my] = ImGui::GetMousePos();
 		int mouseX = (int)mx;
 		int mouseY = (int)my;
 		Vector2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
@@ -131,7 +132,7 @@ namespace SY {
 			CONTEXT->Unmap(m_EntityTex->GetD3Texture(), 0);
 
 			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
-		}
+		}*/
 
 		OnOverlayRender();
 	}
@@ -230,6 +231,7 @@ namespace SY {
 			ImGui::Text("Renderer2D Stats:");
 			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 			ImGui::Text("Used Instanced : %d", stats.Instanced);
+			ImGui::Text("FPS : %f", 1.f / TIME->DeltaTime());
 
 			ImGui::End();
 
@@ -572,6 +574,14 @@ namespace SY {
 
 					Renderer::DrawCircleOutline(transform, Vector4(0, 1, 0, 1), entity);
 				}
+			}
+
+			// Eraser
+			auto erasers = m_ActiveScene->GetAllEntitiesWith<TransformComponent, Eraser>();
+			for (auto entity : erasers)
+			{
+				auto [transform, eraser] = erasers.get<TransformComponent, Eraser>(entity);
+				Renderer::DrawRectOutline(transform.localToWorld, Vector4(0, 0, 1, 1), entity);
 			}
 		}
 

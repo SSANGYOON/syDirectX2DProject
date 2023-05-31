@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-#include <unordered_set>;
+#include <unordered_set>
 
 namespace SY {
 	class PrefabManager

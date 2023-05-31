@@ -37,6 +37,15 @@ namespace SY
                 return null;
         }
 
+        public Entity GetParent()
+        {
+            InternalCalls.Entity_GetParent(ID, out ulong parentID);
+            if (parentID > 0)
+                return new Entity(parentID);
+            else
+                return null;
+        }
+
         public void Destroy()
         {
             StateComponent state = GetComponent<StateComponent>();
@@ -73,9 +82,18 @@ namespace SY
                 InternalCalls.TransformComponent_GetTranslation(ID, out Vector3 result);
                 return result;
             }
-            protected set
+            set
             {
                 InternalCalls.TransformComponent_SetTranslation(ID, ref value);
+            }
+        }
+
+        public Vector3 WorldPosition
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetWorldPosition(ID, out Vector3 result);
+                return result;
             }
         }
 
@@ -86,9 +104,22 @@ namespace SY
                 InternalCalls.TransformComponent_GetScale(ID, out Vector3 result);
                 return result;
             }
-            protected set
+            set
             {
                 InternalCalls.TransformComponent_SetScale(ID, ref value);
+            }
+        }
+
+        public Vector3 Rotation
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetRotation(ID, out Vector3 result);
+                return result;
+            }
+            set
+            {
+                InternalCalls.TransformComponent_SetRotation(ID, ref value);
             }
         }
 

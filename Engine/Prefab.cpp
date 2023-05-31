@@ -48,5 +48,5 @@ HRESULT Prefab::Load(const std::wstring& path, bool stockObject)
 		 return SY::SceneSerializer::DeserializeEntity(scene, entity);
 	 }
 
-	 
+	 return {};
 }

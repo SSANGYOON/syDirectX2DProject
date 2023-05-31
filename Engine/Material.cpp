@@ -10,7 +10,7 @@
 Material::Material()
 	:Resource(RESOURCE_TYPE::MATERIAL)
 {
-	_params = MaterialCB();
+    _params = {};
 }
 
 Material::~Material()
@@ -22,6 +22,31 @@ HRESULT Material::Load(const std::wstring& path, bool stockObject)
     return E_NOTIMPL;
 }
 
+void Material::SetTexture(UINT8 index, shared_ptr<Texture> texture)
+{
+    _textures[index] = texture; 
+    
+    if(texture){
+        _params.texOn[index] = 1; 
+        _params.texSizes[index] = texture->GetSize(); 
+    }
+    else{
+        _params.texOn[index] = 0;
+        _params.texSizes[index] = Vector2::Zero;
+    }
+}
+
+UINT64 Material::GetInstanceID()
+{
+    InstanceID instanceID = {};
+    if(_textures[0] == nullptr)
+        instanceID = { _shader->GetId(), 0};
+    else
+        instanceID = { _shader->GetId(), _textures[0]->GetId()};
+
+    return instanceID.id;
+}
+
 void Material::Bind()
 {
 	ConstantBuffer* cb = GEngine->GetConstantBuffer(Constantbuffer_Type::MATERIAL).get();
@@ -31,7 +56,6 @@ void Material::Bind()
 	cb->SetPipline(ShaderStage::VS);
 	cb->SetPipline(ShaderStage::PS);
     cb->SetPipline(ShaderStage::GS);
-
 
     for(UINT i=0; i < MAX_TEXTURE_COUNT;i++){
         if (_textures[i] == nullptr)
@@ -54,12 +78,4 @@ void Material::Clear()
         _textures[i]->ClearSRV(ShaderStage::GS, i);
         _textures[i]->ClearSRV(ShaderStage::PS, i);
     }
-}
-
-void Material::Dispatch()
-{
-    ConstantBuffer* cb = GEngine->GetConstantBuffer(Constantbuffer_Type::MATERIAL).get();
-    cb->SetData(&_params);
-    cb->SetPipline(ShaderStage::CS);
-    _computeShader->Dispatch();
 }

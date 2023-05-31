@@ -3,6 +3,8 @@
 struct VS_IN
 {
     float4 Pos : POSITION;
+    float2 UV : TEXCOORD;
+
     uint id : SV_InstanceID;
 };
 
@@ -15,23 +17,23 @@ struct VS_OUT
 
 struct Particle
 {
-    float3  worldPos;
-    float   curTime;
-    float3  worldDir;
-    float   lifeTime;
-    int     alive;
-    float3  padding;
+    float3 position;
+    float remainLife;
+    float2 velocity;
+    float2 size;
+    uint alive;
+    float3 initialPos;
 };
+
 
 StructuredBuffer<Particle> g_data : register(t4);
 
 VS_OUT VS_MAIN(VS_IN input)
 {
     VS_OUT Out = (VS_OUT)0.0f;
-    float4 worldPos = mul(input.Pos + float4(g_data[input.id].worldPos, 0.f), world);
 
 
-    Out.Pos = mul(worldPos, view);
+    Out.Pos = input.Pos;
     Out.id = input.id;
 
     return Out;
@@ -40,10 +42,15 @@ VS_OUT VS_MAIN(VS_IN input)
 struct GS_OUT
 {
     float4 Pos : SV_Position;
-    float2 uv : TEXCOORD;
+    float2 uv : TEXCOORD0;
     uint id : SV_InstanceID;
 };
 
+struct PSOut
+{
+    float4 Color : SV_Target0;
+    float4 Emission : SV_Target1;
+};
 
 [maxvertexcount(6)]
 void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
@@ -59,30 +66,42 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
     if (0 == g_data[id].alive)
         return;
 
-    float ratio = g_data[id].curTime / g_data[id].lifeTime;
-    float2 dir = g_data[id].worldDir.xy;
-    float2 scale = float2(g_vec2_0.x, (g_vec2_0.y + g_vec2_0.y * ratio));
+    float3 pos = g_data[id].position;
+    float2 size = g_data[id].size;
 
-    output[0].Pos = vtx.Pos;
-    output[1].Pos = vtx.Pos;
-    output[2].Pos = vtx.Pos;
-    output[3].Pos = vtx.Pos;
-
-    output[0].Pos.xy = vtx.Pos.xy + (dir * scale.y - float2(dir.y, -dir.x) * scale.x) /2.f;
-    output[1].Pos.xy = vtx.Pos.xy + (dir * scale.y + float2(dir.y, -dir.x) * scale.x) / 2.f;
-    output[2].Pos.xy = vtx.Pos.xy + (-dir * scale.y + float2(dir.y, -dir.x) * scale.x) / 2.f;
-    output[3].Pos.xy = vtx.Pos.xy + (-dir * scale.y - float2(dir.y, -dir.x) * scale.x) / 2.f;
+    output[0].Pos = float4(pos, 1.f);
+    output[1].Pos = float4(pos, 1.f);
+    output[2].Pos = float4(pos, 1.f);
+    output[3].Pos = float4(pos, 1.f);
 
 
-    output[0].Pos = mul(output[0].Pos, projection);
-    output[1].Pos = mul(output[1].Pos, projection);
-    output[2].Pos = mul(output[2].Pos, projection);
-    output[3].Pos = mul(output[3].Pos, projection);
+    float2 velocity = g_data[id].velocity;
+
+    float2 rot = normalize(float2(velocity.y, -velocity.x));
+
+    if (VelocityPolar > 0)
+    {
+        float2 posDiff = g_data[id].position.xy - g_data[id].initialPos.xy;
+        float2 normal = normalize(posDiff);
+
+        rot = float2(rot.x * normal.x - rot.y * normal.y, rot.x * normal.y + rot.y * normal.x);
+    }
+    float2x2 mat = { rot, float2(-rot.y, rot.x)};
+
+    output[0].Pos.xy += mul(size *float2(-0.5f, 0.5f), mat);
+    output[1].Pos.xy += mul(size *float2(0.5f, 0.5f), mat);
+    output[2].Pos.xy += mul(size * float2(-0.5f, -0.5f), mat);
+    output[3].Pos.xy += mul(size * float2(0.5f, -0.5f), mat);
+
+    output[0].Pos = mul(mul(output[0].Pos, view), projection);
+    output[1].Pos = mul(mul(output[1].Pos, view), projection);
+    output[2].Pos = mul(mul(output[2].Pos, view), projection);
+    output[3].Pos = mul(mul(output[3].Pos, view), projection);
 
     output[0].uv = float2(0.f, 0.f);
     output[1].uv = float2(1.f, 0.f);
-    output[2].uv = float2(1.f, 1.f);
-    output[3].uv = float2(0.f, 1.f);
+    output[2].uv = float2(0.f, 1.f);
+    output[3].uv = float2(1.f, 1.f);
 
     output[0].id = id;
     output[1].id = id;
@@ -91,7 +110,7 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
 
     outputStream.Append(output[0]);
     outputStream.Append(output[1]);
-    outputStream.Append(output[2]);
+    outputStream.Append(output[3]);
     outputStream.RestartStrip();
 
     outputStream.Append(output[0]);
@@ -100,14 +119,19 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
     outputStream.RestartStrip();
 }
 
-float4 PS_MAIN(GS_OUT input) : SV_Target
+PSOut PS_MAIN(GS_OUT input)
 {
-    float ratio = 1.f - g_data[input.id].curTime / g_data[input.id].lifeTime;
-    float4 color = tex_0.Sample(pointSampler, input.uv) * g_vec4_1;
+    float t = g_data[input.id].remainLife / LifeTime;
+    float4 color = lerp(ColorEnd, ColorBegin, t);
 
-    color.w *= ratio;
+    if(tex0_On > 0)
+        color *= tex_0.Sample(pointSampler, input.uv);
 
-    if (color.w == 0)
-        discard;
-    return color;
+    float4 Emission = lerp(EmissionEnd, EmissionBegin, t);
+
+    PSOut Out;
+    Out.Color = color;
+    Out.Emission = Emission;
+    
+    return Out;
 }

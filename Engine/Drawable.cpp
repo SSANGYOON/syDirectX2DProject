@@ -1,10 +1,86 @@
 #include "pch.h"
 #include "Drawable.h"
+#include "Resources.h"
+#include "Material.h"
 
 namespace SY {
+
+	void DrawMaterialParams(shared_ptr<Material> material)
+	{
+		if (ImGui::TreeNodeEx("Int params")) {
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "Int : " + to_string(i);
+				int v = material->GetInt(i);
+				ImGui::InputInt(label.c_str(), &v);
+				material->SetInt(i, v);
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNodeEx("Float params")) {
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "float : " + to_string(i);
+				float v = material->GetFloat(i);
+				ImGui::InputFloat(label.c_str(), &v);
+				material->SetFloat(i, v);
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNodeEx("Vector2 params")) {
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "Vec2 : " + to_string(i);
+				auto v = material->GetVec2(i);
+				ImGui::InputFloat2(label.c_str(), reinterpret_cast<float*>(&v));
+				material->SetVec2(i, v);
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNodeEx("Vector4 params")) {
+			for (int i = 0; i < 4; i++)
+			{
+				string label = "Vec4 : " + to_string(i);
+				auto v = material->GetVec4(i);
+				ImGui::InputFloat4(label.c_str(), reinterpret_cast<float*>(&v));
+				material->SetVec4(i, v);
+			}
+			ImGui::TreePop();
+		}
+	}
+
 	void SpriteRendererComponent::DrawImGui(SpriteRendererComponent& component)
 	{
 		ImGui::ColorEdit4("Color", reinterpret_cast<float*>(&component.Color));
+		ImGui::ColorEdit4("Emission", reinterpret_cast<float*>(&component.Emission), ImGuiColorEditFlags_::ImGuiColorEditFlags_HDR);
+
+
+		auto shaders = GET_SINGLE(Resources)->GetShaders();
+		string skey;
+		if (component.shader)
+			skey = wtos(component.shader->GetKey());
+		const char* currentShader = component.shader == nullptr?  "SpriteShader" : skey.c_str();
+		if (ImGui::BeginCombo("Shader", currentShader))
+		{
+			for (int i = 0; i < shaders.size(); i++)
+			{
+				string s = wtos(shaders[i]->GetKey());
+				const char* currentShaderKey = s.c_str();
+				bool isSelected = strcmp(currentShader, currentShaderKey) == 0;
+				if (ImGui::Selectable(currentShaderKey, isSelected))
+				{
+					component.shader = shaders[i];
+				}
+
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
+			}
+
+			ImGui::EndCombo();
+		}
 
 		ImGui::Text("Diffuse", ImVec2(100.0f, 0.0f));
 		if (ImGui::BeginDragDropTarget())
@@ -20,18 +96,42 @@ namespace SY {
 			ImGui::EndDragDropTarget();
 		}
 
+
+
 		if (component.Diffuse) {
 			ImGui::Text(wtos(component.Diffuse->GetPath()).c_str());
 
-			if (ImGui::Button("Remove"))
+			if (ImGui::Button("Remove Diffuse"))
 			{
 				component.Diffuse = nullptr;
 			}
 		}
 
-		ImGui::InputFloat2("SourceOffset", reinterpret_cast<float*>(&component.sourceOffset));
-		ImGui::InputFloat2("SourceSize", reinterpret_cast<float*>(&component.sourceSize));
-		ImGui::Checkbox("Fixed", &component.fixed);
+		ImGui::Text("LightMap", ImVec2(100.0f, 0.0f));
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)payload->Data;
+				std::filesystem::path texturePath(path);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
+				assert(texture->GetD3Texture());
+				component.LightMap = texture;
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		if (component.LightMap) {
+			ImGui::Text(wtos(component.LightMap->GetPath()).c_str());
+
+			if (ImGui::Button("Remove LightMap"))
+			{
+				component.LightMap = nullptr;
+			}
+		}
+
+		ImGui::InputFloat2("Tile", reinterpret_cast<float*>(&component.tile));
+		ImGui::InputFloat2("Offset", reinterpret_cast<float*>(&component.Offset));
 
 		bool layerBits[8];
 		int category = component.LayerBit;
@@ -53,6 +153,10 @@ namespace SY {
 		{
 			component.LayerBit += layerBits[i] * (1 << i);
 		}
+
+		ImGui::Checkbox("Deffered", &component.Deffered);
+
+		DrawMaterialParams(component.material);
 	}
 
 	void PanelComponent::DrawImGui(PanelComponent& component)
@@ -79,9 +183,7 @@ namespace SY {
 			ImGui::Text(wtos(component.panel->GetPath()).c_str());
 
 			if (ImGui::Button("Remove"))
-			{
 				component.panel = nullptr;
-			}
 		}
 	}
 	void SliderComponent::DrawImGui(SliderComponent& component)
@@ -232,5 +334,17 @@ namespace SY {
 		}
 
 		ImGui::ColorEdit4("Tint color", reinterpret_cast<float*>(&component.tint));
+	}
+	void Eraser::DrawImGui(Eraser& component)
+	{
+	}
+	void Bloom::DrawImGui(Bloom& component)
+	{
+		ImGui::DragFloat("Threshold", &component.Threshold);
+		ImGui::DragFloat("Intensity", &component.Intensity);
+	}
+	void CircleRendererComponent::DrawImGui(CircleRendererComponent& component)
+	{
+		ImGui::ColorEdit4("Circle Color", reinterpret_cast<float*>(&component.Color));
 	}
 }

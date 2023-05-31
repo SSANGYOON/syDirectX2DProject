@@ -17,7 +17,7 @@ HRESULT Engine::Init(const WindowInfo& info)
 	sd.BufferCount = 2;
 	sd.BufferDesc.Width = info.width;
 	sd.BufferDesc.Height = info.height;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.Format = DXGI_FORMAT_R10G10B10A2_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 144;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -57,15 +57,21 @@ HRESULT Engine::Init(const WindowInfo& info)
 	
 	_constantBuffers[(UINT8)Constantbuffer_Type::TRANSFORM] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::TRANSFORM]->Init(Constantbuffer_Type::TRANSFORM, sizeof(TransformCB));
-
-	//_constantBuffers[(UINT8)Constantbuffer_Type::GRID] = make_shared<ConstantBuffer>();
-	//_constantBuffers[(UINT8)Constantbuffer_Type::GRID]->Init(Constantbuffer_Type::GRID, sizeof(GridCB));
+	
+	_constantBuffers[(UINT8)Constantbuffer_Type::VISUALEFFECT] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::VISUALEFFECT]->Init(Constantbuffer_Type::VISUALEFFECT, sizeof(VECB));
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::MATERIAL]->Init(Constantbuffer_Type::MATERIAL, sizeof(MaterialCB));
 
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::LIGHT]->Init(Constantbuffer_Type::LIGHT, sizeof(LightCB));
+
+	_constantBuffers[(UINT8)Constantbuffer_Type::PARTICLE] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::PARTICLE]->Init(Constantbuffer_Type::PARTICLE, sizeof(ParticleCB));
+
+	_constantBuffers[(UINT8)Constantbuffer_Type::BLOOM] = make_shared<ConstantBuffer>();
+	_constantBuffers[(UINT8)Constantbuffer_Type::BLOOM]->Init(Constantbuffer_Type::BLOOM, sizeof(BloomCB));
 
 	return S_OK;
 }
@@ -110,6 +116,11 @@ void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group, float* color
 	_rtGroups[(UINT)group]->ClearRenderTargets(color);
 }
 
+void Engine::ClearRenderTargetGroup(RENDER_TARGET_GROUP_TYPE group, UINT ind, float* color)
+{
+	_rtGroups[(UINT)group]->ClearRenderTargets(color, ind);
+}
+
 HRESULT Engine::CreateRenderTargetGroup()
 {
 	_swapChain->GetBuffer(0, IID_PPV_ARGS(_renderTarget.GetAddressOf()));
@@ -117,21 +128,55 @@ HRESULT Engine::CreateRenderTargetGroup()
 	_depth = make_shared<Texture>();
 	_depth->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
+
+	shared_ptr<Texture> emission = make_shared<Texture>();
+	emission->Create(_window.width, _window.height, DXGI_FORMAT_R16G16B16A16_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+	shared_ptr<Texture> dsTexture = make_shared<Texture>();
+	dsTexture->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
 	{
-		vector<RenderTarget> rtVec(RENDER_TARGET_EDITOR_GROUP_MEMBER_COUNT);
+		vector<RenderTarget> rtVec(RENDER_TARGET_HDR_BUFFER_MEMBER_COUNT);
+
+		rtVec[0].target = make_shared<Texture>();
+		rtVec[0].target->Create(_window.width, _window.height, DXGI_FORMAT_R16G16B16A16_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+
+		rtVec[1].target = emission;
+
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::HDR)] = make_shared<RenderTargetGroup>();
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::HDR)]->Create(RENDER_TARGET_GROUP_TYPE::HDR, rtVec, dsTexture);
+	}
+
+	{
+		vector<RenderTarget> rtVec(RENDER_TARGET_DEFFERED_GROUP_MEMBER_COUNT);
 
 		rtVec[0].target = make_shared<Texture>();
 		rtVec[0].target->Create(_window.width, _window.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
 
-		rtVec[1].target = make_shared<Texture>();
-		rtVec[1].target->Create(_window.width, _window.height, DXGI_FORMAT_R32_SINT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET);
-		rtVec[1].clearColor[0] = -1.f;
+		rtVec[1].target = emission;
 
-		shared_ptr<Texture> dsTexture = make_shared<Texture>();
-		dsTexture->Create(_window.width, _window.height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+		rtVec[2].target = make_shared<Texture>();
+		rtVec[2].target->Create(_window.width, _window.height, DXGI_FORMAT_R32G32B32A32_FLOAT, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+
+		rtVec[3].target = make_shared<Texture>();
+		rtVec[3].target->Create(_window.width, _window.height, DXGI_FORMAT_R8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+
+		
+
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::DEFFERED)] = make_shared<RenderTargetGroup>();
+		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::DEFFERED)]->Create(RENDER_TARGET_GROUP_TYPE::DEFFERED, rtVec, dsTexture);
+	}
+
+	{
+		vector<RenderTarget> rtVec(RENDER_TARGET_EDITER_GROUP_MEMBER_COUNT);
+
+		rtVec[0].target = make_shared<Texture>();
+		rtVec[0].target->Create(_window.width, _window.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE);
+
+
 
 		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)] = make_shared<RenderTargetGroup>();
 		_rtGroups[static_cast<UINT8>(RENDER_TARGET_GROUP_TYPE::EDITOR)]->Create(RENDER_TARGET_GROUP_TYPE::EDITOR, rtVec, dsTexture);
 	}
+
 	return S_OK;
 }

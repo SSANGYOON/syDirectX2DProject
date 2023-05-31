@@ -18,6 +18,7 @@
 #include "box2d/b2_polygon_shape.h"
 #include "box2d/b2_circle_shape.h"
 #include "box2d/b2_contact.h"
+#include "box2d/b2_distance_joint.h"
 #include "CollisionManager.h"
 #include "PrefabManager.h"
 #include "ParentManager.h"
@@ -106,7 +107,26 @@ namespace SY {
 		Entity entity = scene->GetEntityByUUID(entityID);
 		assert(entity);
 
-		entity.GetComponent<TransformComponent>().translation = *translation;
+		auto& transform = entity.GetComponent<TransformComponent>();
+		transform.translation = *translation;
+
+		if (entity.HasComponent<Rigidbody2DComponent>())
+		{
+			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+			b2Body* body = (b2Body*)rb2d.RuntimeBody;
+
+			b2Vec2 b2Trans = b2Vec2(translation->x, translation->y);
+			body->SetTransform(b2Trans, transform.rotation.z);
+		}
+	}
+
+	static void TransformComponent_GetWorldPosition(UUID entityID, Vector3* translation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		*translation = entity.GetComponent<TransformComponent>().localToWorld.Translation();
 	}
 
 	static void TransformComponent_GetScale(UUID entityID, Vector3* outScale)
@@ -127,6 +147,35 @@ namespace SY {
 		assert(entity);
 
 		entity.GetComponent<TransformComponent>().scale = *scale;
+	}
+
+	static void TransformComponent_GetRotation(UUID entityID, Vector3* outRotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		*outRotation = entity.GetComponent<TransformComponent>().rotation;
+	}
+
+	static void TransformComponent_SetRotation(UUID entityID, Vector3* rotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& transform = entity.GetComponent<TransformComponent>();
+
+		transform.rotation = *rotation;
+
+		if (entity.HasComponent<Rigidbody2DComponent>())
+		{
+			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+			b2Body* body = (b2Body*)rb2d.RuntimeBody;
+			body->SetTransform(b2Vec2(transform.translation.x,transform.translation.y), transform.rotation.z);
+		}
 	}
 
 	static void Rigidbody2DComponent_ApplyLinearImpulse(UUID entityID, Vector2* impulse, Vector2* point, bool wake)
@@ -273,7 +322,37 @@ namespace SY {
 		body->CreateFixture(&fixtureDef);
 	}
 
-	static bool SpriteAnimatorComponent_Play(UUID entityID, MonoString* str)
+	static float DistanceJointComponent_GetCurrentLength(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& dj = entity.GetComponent<DistanceJointComponent>();
+		return dj.GetCurrentLength();
+	}
+
+	static float DistanceJointComponent_GetMinLength(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& dj = entity.GetComponent<DistanceJointComponent>();
+		return dj.GetMinLength();
+	}
+
+	static void DistanceJointComponent_SetMinLength(UUID entityID, float length)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& dj = entity.GetComponent<DistanceJointComponent>();
+		dj.SetMinLength(length);
+	}
+
+	static bool SpriteAnimatorComponent_Play(UUID entityID, MonoString* str, float at = 0.f)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
 		char* cStr = mono_string_to_utf8(str);
@@ -286,12 +365,12 @@ namespace SY {
 			return false;
 		else {
 			animator._currentClip = animator.clips.find(clipKey)->second;
-			animator._currentTime = 0.f;
+			animator._currentTime = at;
 			return true;
 		}
 	}
 
-	static bool TransformAnimatorComponent_Play(UUID entityID, MonoString* str)
+	static bool TransformAnimatorComponent_Play(UUID entityID, MonoString* str, float at = 0.f)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
 		char* cStr = mono_string_to_utf8(str);
@@ -304,21 +383,50 @@ namespace SY {
 			return false;
 		else {
 			animator._currentClip = animator.clips.find(clipKey)->second;
-			animator._currentTime = 0.f;
+			animator._currentTime = at;
 			return true;
 		}
 	}
 
-	static bool Input_IsKeyDown(KEY_TYPE keycode)
+	static ParticleState ParticleSystem_GetState(UUID entityID)
 	{
-		bool result = INPUT->GetKeyState(keycode) == KEY_STATE::DOWN;
-		return result;
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		return particle.state;
 	}
 
-	static bool Input_IsKeyPressed(KEY_TYPE keycode)
+	static void ParticleSystem_SetState(UUID entityID, UINT state)
 	{
-		bool result = INPUT->GetKeyState(keycode) == KEY_STATE::PRESS;
-		return result;
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.state = (ParticleState)state;
+	}
+
+	static void ParticleSystem_SetGeneratePos(UUID entityID, Vector2* genPos)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.Position = *genPos;
+	}
+
+	static void ParticleSystem_SetGeneratePosVariation(UUID entityID, Vector2* variation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.PositionVariation = *variation;
+	}
+
+	static KEY_STATE Input_GetKeyState(KEY_TYPE keycode)
+	{
+		return INPUT->GetKeyState(keycode);
 	}
 
 	static void CameraComponent_GetOrthographicSize(UUID entityID, Vector2* OrthographicSize)
@@ -455,7 +563,47 @@ namespace SY {
 		auto& sp = entity.GetComponent<SpriteRendererComponent>();
 
 		sp.Diffuse = GET_SINGLE(Resources)->Load<Texture>(stow(path), stow(path), false);
-		sp.sourceSize = sp.Diffuse->GetSize();
+		sp.tile = sp.Diffuse->GetSize();
+	}
+
+	static void SpriteRendererComponent_SetColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+
+		sp.Color = *color;
+	}
+
+	static void SpriteRendererComponent_SetEmission(UUID entityID, Vector4* emission)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+
+		sp.Emission = *emission;
+	}
+
+	static void SpriteRendererComponent_GetColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+		*color = sp.Color;
+	}
+
+	static void SpriteRendererComponent_GetEmission(UUID entityID, Vector4* emission)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+		*emission = sp.Emission;
 	}
 
 
@@ -475,74 +623,13 @@ namespace SY {
 	{
 		Entity instance = PrefabManager::Instantiate(ScriptEngine::GetSceneContext(), id, parentID);
 		
-		if (instance) {
-			UUID uu = instance.GetUUID();
+		if(instance) {
 			if(instance.HasComponent<ScriptComponent>())
-				ScriptEngine::OnCreateEntity(instance);
+				ScriptEngine::OnInstantiateEntity(instance, id);
+
 			if (instance.HasComponent<Rigidbody2DComponent>())
-			{
-				auto& transform = instance.GetComponent<TransformComponent>();
-				auto& rb2d = instance.GetComponent<Rigidbody2DComponent>();
+				ScriptEngine::GetSceneContext()->AddBody(instance);
 
-				b2BodyDef bodyDef;
-				bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
-				bodyDef.position.Set(transform.translation.x, transform.translation.y);
-				bodyDef.angle = transform.rotation.z;
-
-				b2Body* body = ScriptEngine::GetSceneContext()->GetBox2dWorld()->CreateBody(&bodyDef);
-				body->SetFixedRotation(rb2d.FixedRotation);
-				rb2d.RuntimeBody = body;
-				if (instance.HasComponent<BoxCollider2DComponent>())
-				{
-					auto& bc2d = instance.GetComponent<BoxCollider2DComponent>();
-
-					b2PolygonShape boxShape;
-					boxShape.SetAsBox(bc2d.Size.x * transform.scale.x, bc2d.Size.y * transform.scale.y);
-
-					b2FixtureDef fixtureDef;
-					fixtureDef.shape = &boxShape;
-					fixtureDef.density = bc2d.Density;
-					fixtureDef.friction = bc2d.Friction;
-					fixtureDef.restitution = bc2d.Restitution;
-					fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
-					fixtureDef.isSensor = bc2d.isSensor;
-					fixtureDef.filter.categoryBits = bc2d.categoryBits;
-					fixtureDef.filter.maskBits = bc2d.maskBits;
-
-					auto userData = b2FixtureUserData();
-					userData.pointer = (uintptr_t)(uint32)instance;
-					fixtureDef.userData = userData;
-
-					Vector2 bodyPos = Vector2(transform.translation.x, transform.translation.y) + Vector2::Transform(bc2d.Offset, Matrix::CreateRotationZ(transform.rotation.z));
-					body->SetTransform({ bodyPos.x,bodyPos.y }, transform.rotation.z);
-					body->CreateFixture(&fixtureDef);
-				}
-
-				if (instance.HasComponent<CircleCollider2DComponent>())
-				{
-					auto& cc2d = instance.GetComponent<CircleCollider2DComponent>();
-
-					b2CircleShape circleShape;
-					circleShape.m_p.Set(cc2d.Offset.x, cc2d.Offset.y);
-					circleShape.m_radius = transform.scale.x * cc2d.Radius;
-
-					b2FixtureDef fixtureDef;
-					fixtureDef.shape = &circleShape;
-					fixtureDef.density = cc2d.Density;
-					fixtureDef.friction = cc2d.Friction;
-					fixtureDef.restitution = cc2d.Restitution;
-					fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
-					fixtureDef.isSensor = cc2d.isSensor;
-					fixtureDef.filter.categoryBits = cc2d.categoryBits;
-					fixtureDef.filter.maskBits = cc2d.maskBits;
-
-					auto userData = b2FixtureUserData();
-					userData.pointer = (uintptr_t)(uint32)instance;
-					fixtureDef.userData = userData;
-
-					body->CreateFixture(&fixtureDef);
-				}
-			}
 			*instanceId = instance.GetUUID();
 
 			if (instance.HasComponent<TransformComponent>())
@@ -555,10 +642,11 @@ namespace SY {
 				auto& tr = instance.GetComponent<RectTransformComponent>();
 				tr.translation = *position;
 			}
-			if (parentID)
+
+			if (instance.HasComponent<ParticleSystem>())
 			{
-				auto& p = instance.AddOrReplaceComponent<Parent>();
-				p.parentHandle = parentID;
+				auto& p = instance.GetComponent<ParticleSystem>();
+				p.Init();
 			}
 		}
 		else
@@ -576,6 +664,18 @@ namespace SY {
 			*instanceId = child;
 		else
 			*instanceId = 0;
+	}
+
+	static void Entity_GetParent(uint64_t id, uint64_t* instanceId)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(id);
+		assert(entity);
+
+		auto& parent = entity.GetComponent<Parent>();
+
+		*instanceId = parent.parentHandle;
 	}
 
 	static void Entity_Destroy(uint64_t id)
@@ -674,9 +774,15 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(Entity_HasComponent);
 		HZ_ADD_INTERNAL_CALL(Entity_FindEntityByName);
 		HZ_ADD_INTERNAL_CALL(Entity_GetChild);
+		HZ_ADD_INTERNAL_CALL(Entity_GetParent);
 
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
+
+		HZ_ADD_INTERNAL_CALL(TransformComponent_GetRotation);
+		HZ_ADD_INTERNAL_CALL(TransformComponent_SetRotation);
+
+		HZ_ADD_INTERNAL_CALL(TransformComponent_GetWorldPosition);
 
 		HZ_ADD_INTERNAL_CALL(TransformComponent_GetScale);
 		HZ_ADD_INTERNAL_CALL(TransformComponent_SetScale);
@@ -693,11 +799,20 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetSize);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetSize);
 
+		HZ_ADD_INTERNAL_CALL(DistanceJointComponent_GetCurrentLength);
+		HZ_ADD_INTERNAL_CALL(DistanceJointComponent_GetMinLength);
+		HZ_ADD_INTERNAL_CALL(DistanceJointComponent_SetMinLength);
+
 		HZ_ADD_INTERNAL_CALL(SpriteAnimatorComponent_Play);
 		HZ_ADD_INTERNAL_CALL(TransformAnimatorComponent_Play);
 
-		HZ_ADD_INTERNAL_CALL(Input_IsKeyDown);
-		HZ_ADD_INTERNAL_CALL(Input_IsKeyPressed);
+		HZ_ADD_INTERNAL_CALL(Input_GetKeyState);
+
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetState);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_GetState);
+
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetGeneratePos);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetGeneratePosVariation);
 
 		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
@@ -720,7 +835,12 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(IconComponent_SetTexture);
 		HZ_ADD_INTERNAL_CALL(SlotComponent_SetItem);
+
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetTexture);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetColor);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetColor);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetEmission);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetEmission);
 
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadScene);
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadSceneAsync);

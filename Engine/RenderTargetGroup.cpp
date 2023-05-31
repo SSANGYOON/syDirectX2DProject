@@ -34,3 +34,10 @@ void RenderTargetGroup::ClearRenderTargets(float* color)
 
 	CONTEXT->ClearDepthStencilView(_dsTexture->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
+
+void RenderTargetGroup::ClearRenderTargets(float* color, UINT ind)
+{
+
+	CONTEXT->ClearRenderTargetView(_rtVec[ind].target->GetRTV(), color);
+	CONTEXT->ClearDepthStencilView(_dsTexture->GetDSV(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+}

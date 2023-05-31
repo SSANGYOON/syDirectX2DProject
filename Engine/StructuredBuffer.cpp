@@ -45,7 +45,7 @@ void StructuredBuffer::SetData(void* data, UINT bufferCount)
 	CONTEXT->Unmap(_buffer.Get(), 0);
 }
 
-void StructuredBuffer::GetData(void* data, UINT size)
+void StructuredBuffer::GetData(void* data)
 {
 	CONTEXT->CopyResource(_readBuffer.Get(), _buffer.Get());
 

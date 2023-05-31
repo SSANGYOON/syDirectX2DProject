@@ -208,7 +208,7 @@ void Texture::BindUAV(UINT slot)
 	CONTEXT->CSSetUnorderedAccessViews(slot, 1, _UAV.GetAddressOf(), &i);
 }
 
-void Texture::ClearUAV(ShaderStage stage, UINT slot)
+void Texture::ClearUAV(UINT slot)
 {
 	ID3D11UnorderedAccessView* uav = nullptr;
 	UINT i = -1;

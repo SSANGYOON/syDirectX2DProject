@@ -84,17 +84,17 @@ namespace SY
 
     public class SpriteAnimatorComponent : Component
     {
-        public bool Play(string clipName)
+        public bool Play(string clipName, float at = 0.0f)
         {
-            return InternalCalls.SpriteAnimatorComponent_Play(Entity.ID, clipName);
+            return InternalCalls.SpriteAnimatorComponent_Play(Entity.ID, clipName, at);
         }
     }
 
     public class TransformAnimatorComponent : Component 
     {
-        public bool Play(string clipName)
+        public bool Play(string clipName, float at = 0.0f)
         { 
-            return InternalCalls.TransformAnimatorComponent_Play(Entity.ID, clipName);
+            return InternalCalls.TransformAnimatorComponent_Play(Entity.ID, clipName, at);
         }
     
     }
@@ -179,6 +179,64 @@ namespace SY
         public string Texture
         {
             set { InternalCalls.SpriteRendererComponent_SetTexture(Entity.ID, value); }
+        }
+
+        public Vector4 Color
+        {
+            get { InternalCalls.SpriteRendererComponent_GetColor(Entity.ID, out Vector4 color);
+                return color;
+            }
+            set { InternalCalls.SpriteRendererComponent_SetColor(Entity.ID, ref value); }
+        }
+
+        public Vector4 Emission
+        {
+            get
+            {
+                InternalCalls.SpriteRendererComponent_GetEmission(Entity.ID, out Vector4 emission);
+                return emission;
+            }
+            set { InternalCalls.SpriteRendererComponent_SetEmission(Entity.ID, ref value); }
+        }
+    }
+
+
+    public class ParticleSystem : Component
+    {
+        public enum ParticleState
+        { 
+            NORMAL,
+            UPDATE_ONLY,
+            PAUSE,
+        }
+        public uint State
+        {
+            set { InternalCalls.ParticleSystem_SetState(Entity.ID, (uint)value); }
+            get { return InternalCalls.ParticleSystem_GetState(Entity.ID); }
+        }
+
+        public Vector2 Position
+        { 
+            set { InternalCalls.ParticleSystem_SetGeneratePos(Entity.ID, ref value); }
+        }
+
+        public Vector2 PositionVariation
+        {
+            set { InternalCalls.ParticleSystem_SetGeneratePosVariation(Entity.ID, ref value); }
+        }
+    }
+
+    public class DistanceJointComponent : Component
+    {
+        public float CurrentLength
+        {
+            get { return InternalCalls.DistanceJointComponent_GetCurrentLength(Entity.ID); }
+        }
+
+        public float MinLength
+        {
+            get { return InternalCalls.DistanceJointComponent_GetMinLength(Entity.ID); }
+            set { InternalCalls.DistanceJointComponent_SetMinLength(Entity.ID, value); }
         }
     }
 }

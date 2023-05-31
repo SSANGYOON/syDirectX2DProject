@@ -45,7 +45,6 @@ namespace SY {
 		uuidMap[prefabId] = Instance.GetUUID();
 		queue<uint64_t> copyQueue;
 
-
 		for (auto e : childMap[(UINT)entity])
 		{
 			copyQueue.push((UINT)e);
@@ -62,7 +61,6 @@ namespace SY {
 			auto& parentId = inst.GetComponent<Parent>();
 			parentId.parentHandle = uuidMap[parentId.parentHandle];
 			ParentManager::AddHiearchy(targetScene, inst.GetUUID());
-			queue<uint64_t> copyQueue;
 
 			for (auto e : childMap[(UINT)entity])
 			{
@@ -112,5 +110,7 @@ namespace SY {
 				Entity instance = SceneSerializer::DeserializeEntity(prefabScene.get(), entity);
 			}
 		}
+
+		return S_OK;
 	}
 }

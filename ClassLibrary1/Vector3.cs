@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.IsolatedStorage;
 
 namespace SY
 {
@@ -59,10 +60,32 @@ namespace SY
             return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
         }
 
+        public static Vector3 operator -(Vector3 a, Vector3 b)
+        {
+            return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
         public static Vector3 operator *(Vector3 vector, float scalar)
         {
             return new Vector3(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
         }
 
+        public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
+        {
+            return a + (b - a) * t;
+        }
+
+        public float Length()
+        {
+            return (float)Math.Sqrt(X*X + Y*Y + Z*Z);
+        }
+
+        public void Normalize()
+        {
+            float l = this.Length();
+            this.X = X/l;
+            this.Y = Y/l;
+            this.Z = Z/l;
+        }
     }
 }
