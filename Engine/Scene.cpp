@@ -152,10 +152,9 @@ namespace SY {
 	void Scene::OnRuntimeStart()
 	{
 		m_IsRunning = true;
+		ParentManager::CreateHierarchy(this);
 
 		OnPhysics2DStart();
-
-		ParentManager::CreateHierarchy(this);
 
 		auto view = m_Registry.view<ParticleSystem>();
 
@@ -315,7 +314,7 @@ namespace SY {
 				if (camera.Primary)
 				{
 					mainCamera = &camera;
-					cameraTransform = transform.localToWorld;
+					cameraTransform = Matrix::CreateTranslation(Vector3(0,mainCamera->CalculateDiff(timeStep,accTime),0)) *  transform.localToWorld;
 					break;
 				}
 			}
@@ -593,7 +592,7 @@ namespace SY {
 		m_PhysicsWorld->SetContactListener(new CollisionListener());
 
 		m_PhysicsWorld->SetAllowSleeping(false);
-		auto view = m_Registry.view<Rigidbody2DComponent>();
+		auto view = m_Registry.view<Rigidbody2DComponent, TransformComponent>();
 		for (auto e : view)
 		{
 			Entity entity = { e, this };
@@ -665,6 +664,103 @@ namespace SY {
 		m_PhysicsWorld = nullptr;
 	}
 
+	void Scene::AddFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip)
+	{
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+
+			if (bc2d.RuntimeFixture)
+				body->DestroyFixture((b2Fixture*)bc2d.RuntimeFixture);
+
+			b2PolygonShape boxShape;
+			b2Vec2 center = offset;
+
+			b2Rot r(angle);
+			center.x += bc2d.Offset.x * r.c - bc2d.Offset.y * r.s;
+
+			center.x *= flip;
+			center.y += bc2d.Offset.x * r.s + bc2d.Offset.y * r.c;
+
+			bc2d.parentCenter = { offset.x, offset.y };
+			bc2d.parentAngle = angle;
+
+			boxShape.SetAsBox(bc2d.Size.x, bc2d.Size.y, center, flip * angle);
+
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &boxShape;
+			fixtureDef.density = bc2d.Density;
+			fixtureDef.friction = bc2d.Friction;
+			fixtureDef.restitution = bc2d.Restitution;
+			fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
+			fixtureDef.isSensor = bc2d.isSensor;
+			fixtureDef.filter.categoryBits = bc2d.categoryBits;
+			fixtureDef.filter.maskBits = bc2d.maskBits;
+
+			auto userData = b2FixtureUserData();
+			userData.pointer = (uintptr_t)(UINT)entity;
+			fixtureDef.userData = userData;
+
+			auto fix = body->CreateFixture(&fixtureDef);
+			bc2d.RuntimeFixture = fix;
+		}
+
+		if (entity.HasComponent<CircleCollider2DComponent>())
+		{
+			auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
+
+			if (cc2d.RuntimeFixture)
+				body->DestroyFixture((b2Fixture*)cc2d.RuntimeFixture);
+
+			b2CircleShape circleShape;
+
+			b2Vec2 center = offset;
+
+			b2Rot r(angle);
+			center.x += cc2d.Offset.x * r.c - cc2d.Offset.y * r.s;
+			center.y += cc2d.Offset.x * r.s + cc2d.Offset.y * r.c;
+			center.x *= flip;
+			cc2d.parentCenter = { offset.x, offset.y };
+			cc2d.parentAngle = angle;
+
+			circleShape.m_p = center;
+			circleShape.m_radius = cc2d.Radius;
+
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &circleShape;
+			fixtureDef.density = cc2d.Density;
+			fixtureDef.friction = cc2d.Friction;
+			fixtureDef.restitution = cc2d.Restitution;
+			fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
+			fixtureDef.isSensor = cc2d.isSensor;
+			fixtureDef.filter.categoryBits = cc2d.categoryBits;
+			fixtureDef.filter.maskBits = cc2d.maskBits;
+
+			auto userData = b2FixtureUserData();
+			userData.pointer = (uintptr_t)(UINT)entity;
+			fixtureDef.userData = userData;
+
+			cc2d.RuntimeFixture = body->CreateFixture(&fixtureDef);
+
+			cc2d.parentCenter = *reinterpret_cast<Vector2*>(&cc2d.Offset);
+			cc2d.parentAngle = angle;
+		}
+
+		for (auto e : ParentManager::GetChildren(entity))
+		{
+			Entity child = { (entt::entity)e, this };
+
+			if (!child.HasComponent<TransformComponent>())
+				continue;
+			Vector3 trans = child.GetComponent<TransformComponent>().translation;
+			b2Vec2 childOffset = { offset.x + trans.x, offset.y + trans.y };
+			float childAngle = angle + child.GetComponent<TransformComponent>().rotation.z;
+
+			if (child.HasComponent<Parent>() && entity.GetUUID() == child.GetComponent<Parent>().parentHandle && !child.HasComponent<Pause>())
+				AddFixture(child, childOffset, childAngle, body, flip);
+		}
+	}
+
 	void Scene::AddBody(Entity entity)
 	{
 		auto& transform = entity.GetComponent<TransformComponent>();
@@ -684,57 +780,10 @@ namespace SY {
 
 		body->SetFixedRotation(rb2d.FixedRotation);
 		rb2d.RuntimeBody = body;
-		if (entity.HasComponent<BoxCollider2DComponent>())
-		{
-			auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 
-			b2PolygonShape boxShape;
-			b2Vec2 center;
-			center.x = bc2d.Offset.x;
-			center.y = bc2d.Offset.y;
-			boxShape.SetAsBox(bc2d.Size.x, bc2d.Size.y, center, 0);
+		float flip = rb2d.flip ? -1.f : 1.f;
 
-			b2FixtureDef fixtureDef;
-			fixtureDef.shape = &boxShape;
-			fixtureDef.density = bc2d.Density;
-			fixtureDef.friction = bc2d.Friction;
-			fixtureDef.restitution = bc2d.Restitution;
-			fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
-			fixtureDef.isSensor = bc2d.isSensor;
-			fixtureDef.filter.categoryBits = bc2d.categoryBits;
-			fixtureDef.filter.maskBits = bc2d.maskBits;
-
-			auto userData = b2FixtureUserData();
-			userData.pointer = (uintptr_t)(UINT)entity;
-			fixtureDef.userData = userData;
-
-			body->CreateFixture(&fixtureDef);
-		}
-
-		if (entity.HasComponent<CircleCollider2DComponent>())
-		{
-			auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
-
-			b2CircleShape circleShape;
-			circleShape.m_p.Set(cc2d.Offset.x, cc2d.Offset.y);
-			circleShape.m_radius = cc2d.Radius;
-
-			b2FixtureDef fixtureDef;
-			fixtureDef.shape = &circleShape;
-			fixtureDef.density = cc2d.Density;
-			fixtureDef.friction = cc2d.Friction;
-			fixtureDef.restitution = cc2d.Restitution;
-			fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
-			fixtureDef.isSensor = cc2d.isSensor;
-			fixtureDef.filter.categoryBits = cc2d.categoryBits;
-			fixtureDef.filter.maskBits = cc2d.maskBits;
-
-			auto userData = b2FixtureUserData();
-			userData.pointer = (uintptr_t)(UINT)entity;
-			fixtureDef.userData = userData;
-
-			body->CreateFixture(&fixtureDef);
-		}
+		AddFixture(entity, { 0.f, 0.f }, 0.f, body, flip);
 	}
 
 	void Scene::OnPhysicsUpdate(float timeStep)

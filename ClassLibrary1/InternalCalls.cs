@@ -53,6 +53,9 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(ulong entityID, ref Vector2 impulse, bool wake);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Rigidbody2DComponent_Flip(ulong entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float DistanceJointComponent_GetCurrentLength(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float DistanceJointComponent_GetMinLength(ulong entityID);
@@ -81,6 +84,8 @@ namespace SY
         internal extern static void CameraComponent_GetOrthographicSize(ulong entityID, out Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CameraComponent_SetOrthographicSize(ulong entityID, ref Vector2 size);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_AddOscilation(ulong entityID, float amp);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static StateComponent.EntityState StateComponent_GetState(ulong entityID);

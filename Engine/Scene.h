@@ -3,8 +3,10 @@
 #include "EditorCamera.h"
 #include "entt.hpp"
 #include "UUID.h"
+#include "box2d/b2_math.h"
 
 class b2World;
+class b2Body;
 
 namespace SY {
 
@@ -36,6 +38,7 @@ namespace SY {
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		void AddBody(Entity entity);
+		void AddFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip);
 
 		vector<Entity> GetDontDestroys();
 		void UpdateTransform();
@@ -66,9 +69,8 @@ namespace SY {
 		void OnComponentAdded(Entity entity, T& component);
 
 		void OnPhysics2DStart();
-		void OnPhysics2DStop();
+		void OnPhysics2DStop();	
 
-		
 		void OnPhysicsUpdate(float timeStep);
 		void RenderScene(EditorCamera& camera);
 	private:

@@ -13,6 +13,8 @@ namespace SY
 		float LinearDamping = 0;
 		float AngularDamping = 0;
 
+		bool flip = false;
+
 		// Storage for runtime
 		void* RuntimeBody = nullptr;
 

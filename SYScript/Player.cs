@@ -31,6 +31,18 @@ namespace Sandbox
         public float Speed = 10.0f;
         public float stateTime = 0.0f;
 
+        private bool _flip = false;
+
+        private bool Flip
+        {
+            get { return _flip; }
+            set {
+                if (_flip != value)
+                    m_Rigidbody.Flip();
+                _flip = value;            
+            }
+        }
+
         public Weapon zWeapon = null;
         public Weapon xWeapon = null;
         private Entity m_Inven = null;
@@ -39,6 +51,11 @@ namespace Sandbox
         public Skill sSkill = null;
 
         private bool isGrounded = false;
+
+        public bool Grounded
+        { 
+            get { return isGrounded; }
+        }
         private bool isFalling = false;
         private bool flip = false;
         private bool invisible = false;
@@ -177,6 +194,10 @@ namespace Sandbox
             if(zWeapon == null)
                 zWeapon = FindEntityByName("zWeapon").As<Weapon>();
 
+            if (m_Rigidbody.LinearVelocity.X > 0)
+                Flip = false;
+            else if (m_Rigidbody.LinearVelocity.X < 0)
+                Flip = true;
 
             stateTime += ts;
             UpdateState();
@@ -239,7 +260,7 @@ namespace Sandbox
                     else {
                         if (Input.IsKeyPressed(KeyCode.Down) == false && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
                             State = PlayerState.Idle;
-                        else if (State == PlayerState.Idle && Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
+                        else if (Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
                             State = PlayerState.Run;
                         else if (Input.IsKeyPressed(KeyCode.Down))
                         {
@@ -315,7 +336,7 @@ namespace Sandbox
                         if (m_BoxCollider.Size.Y > 18)
                         {
                             Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
-                            m_BoxCollider.Size = new Vector2(11, 18);
+                            m_BoxCollider.Size = new Vector2(11, 19);
 
                             string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Crouching";
                             m_Animator.Play(key, stateTime);
@@ -348,8 +369,8 @@ namespace Sandbox
         {
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
             {
-                if (State == PlayerState.Crouching)
-                    return;
+                if (State == PlayerState.Crouching && stateTime < 0.5f )
+                    return;                   
 
                 Entity ground = new Entity(collsion.entityID);
                 if (ground.IsValid())

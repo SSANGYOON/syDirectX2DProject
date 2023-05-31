@@ -55,6 +55,7 @@ namespace SY {
 		float oscillationAmp = 0.f;
 		float oscillationFreq = 1.f;
 		float oscillationDamp = 1.f;
+		float maxAmp = 0.f;
 
 		float CalculateDiff(float ts, float accTime);
 

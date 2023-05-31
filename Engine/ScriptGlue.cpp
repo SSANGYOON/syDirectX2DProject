@@ -23,6 +23,7 @@
 #include "PrefabManager.h"
 #include "ParentManager.h"
 #include "SceneManager.h"
+#include <queue>
 
 namespace SY {
 
@@ -119,6 +120,56 @@ namespace SY {
 			b2Vec2 b2Trans = b2Vec2(translation->x, translation->y);
 			body->SetTransform(b2Trans, transform.rotation.z);
 		}
+
+		else if(entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>()){
+			b2Vec2 offset = b2Vec2_zero;
+			
+			if (entity.HasComponent<BoxCollider2DComponent>()) {
+				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+				offset = { bc2d.Offset.x, bc2d.Offset.y };
+
+				if (bc2d.RuntimeFixture){
+					auto fix = (b2Fixture*)bc2d.RuntimeFixture;
+					auto body = fix->GetBody();
+					body->DestroyFixture(fix);
+				}
+			}
+
+			if (entity.HasComponent<CircleCollider2DComponent>()) {
+				auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
+				offset = { cc2d.Offset.x, cc2d.Offset.y };
+
+				if (cc2d.RuntimeFixture) {
+					auto fix = (b2Fixture*)cc2d.RuntimeFixture;
+					auto body = fix->GetBody();
+					body->DestroyFixture(fix);
+				}
+			}
+
+			float angle = 0.f;
+
+			b2Body* body = nullptr;
+			Entity root = entity;
+
+			while (root.IsValid())
+			{
+				if (root.HasComponent<Rigidbody2DComponent>()) {
+					body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+					break;
+				}
+				else {
+					auto& trans = root.GetComponent<TransformComponent>();
+					b2Rot r(trans.rotation.z);
+
+					offset += {trans.translation.x* r.c - trans.translation.y * r.s, trans.translation.x* r.s + trans.translation.y * r.c};
+					angle += trans.rotation.z;
+
+					root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
+				}
+			}
+			entity.GetContext()->AddFixture(entity, offset, angle, body, root.GetComponent<Rigidbody2DComponent>().flip);
+		
+		}
 	}
 
 	static void TransformComponent_GetWorldPosition(UUID entityID, Vector3* translation)
@@ -188,6 +239,37 @@ namespace SY {
 		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 		b2Body* body = (b2Body*)rb2d.RuntimeBody;
 		body->ApplyLinearImpulse(b2Vec2(impulse->x, impulse->y), b2Vec2(point->x, point->y), wake);
+	}
+
+	static void Rigidbody2DComponent_Flip(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		rb2d.flip = !rb2d.flip;
+
+		b2Vec2 offset = b2Vec2_zero;
+		float angle = 0.f;
+		float flip = rb2d.flip ? -1.f : 1.f;
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			auto& bc = entity.GetComponent<BoxCollider2DComponent>();
+			offset = { bc.parentCenter.x, bc.parentCenter.y };
+			angle = bc.parentAngle;
+		}
+
+		if (entity.HasComponent<CircleCollider2DComponent>())
+		{
+			auto& cc = entity.GetComponent<CircleCollider2DComponent>();
+			offset = { cc.parentCenter.x, cc.parentCenter.y };
+			angle = cc.parentAngle;
+		}
+
+		scene->AddFixture(entity, offset, angle, body, flip);
 	}
 
 	static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(UUID entityID, Vector2* impulse, bool wake)
@@ -292,12 +374,11 @@ namespace SY {
 		assert(entity);
 
 		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
-		auto& rb = entity.GetComponent<Rigidbody2DComponent>();
 		auto& tr = entity.GetComponent<TransformComponent>();
 
 		bc2d.Size = *size;
 
-		b2Body* body = (b2Body*)rb.RuntimeBody;
+		b2Body* body = ((b2Fixture*)bc2d.RuntimeFixture)->GetBody();
 		body->DestroyFixture(body->GetFixtureList());
 
 		b2PolygonShape boxShape;
@@ -458,6 +539,20 @@ namespace SY {
 
 		cam.Camera.SetAspectRatio(targetSize->x / targetSize->y);
 		cam.Camera.SetOrthographicSize(targetSize->y);
+	}
+
+	static void CameraComponent_AddOscilation(UUID entityID, float amp)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		assert(entity.HasComponent<CameraComponent>());
+
+		CameraComponent& cam = entity.GetComponent<CameraComponent>();
+
+		cam.oscillationAmp = min(10.f, cam.oscillationAmp + amp);
 	}
 
 	static EntityState StateComponent_GetState(UUID entityID)
@@ -623,14 +718,33 @@ namespace SY {
 	{
 		Entity instance = PrefabManager::Instantiate(ScriptEngine::GetSceneContext(), id, parentID);
 		
+		
+
+		
+		
 		if(instance) {
-			if(instance.HasComponent<ScriptComponent>())
-				ScriptEngine::OnInstantiateEntity(instance, id);
+			queue<UINT> initQueue;
+			initQueue.push(instance);
 
-			if (instance.HasComponent<Rigidbody2DComponent>())
-				ScriptEngine::GetSceneContext()->AddBody(instance);
+			while (!initQueue.empty()) {
+				Entity ent = { (entt::entity)initQueue.front(), ScriptEngine::GetSceneContext() };
+				initQueue.pop();
 
-			*instanceId = instance.GetUUID();
+				if (ent.HasComponent<ScriptComponent>())
+					ScriptEngine::OnInstantiateEntity(ent, id);
+
+				if (ent.HasComponent<Rigidbody2DComponent>())
+					ScriptEngine::GetSceneContext()->AddBody(ent);
+
+				if (ent.HasComponent<ParticleSystem>())
+				{
+					auto& p = ent.GetComponent<ParticleSystem>();
+					p.Init();
+				}
+
+				for (UINT e : ParentManager::GetChildren(ent))
+					initQueue.push(e);
+			}
 
 			if (instance.HasComponent<TransformComponent>())
 			{
@@ -643,11 +757,7 @@ namespace SY {
 				tr.translation = *position;
 			}
 
-			if (instance.HasComponent<ParticleSystem>())
-			{
-				auto& p = instance.GetComponent<ParticleSystem>();
-				p.Init();
-			}
+			*instanceId = instance.GetUUID();
 		}
 		else
 			*instanceId = 0;
@@ -793,7 +903,7 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetLinearVelocity);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetType);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetType);
-
+		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_Flip);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetOffset);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetOffset);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetSize);
@@ -816,7 +926,7 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
-
+		HZ_ADD_INTERNAL_CALL(CameraComponent_AddOscilation);
 		HZ_ADD_INTERNAL_CALL(StateComponent_GetState);
 		HZ_ADD_INTERNAL_CALL(StateComponent_SetState);
 

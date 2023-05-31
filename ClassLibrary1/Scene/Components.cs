@@ -68,6 +68,11 @@ namespace SY
         {
             InternalCalls.Rigidbody2DComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
         }
+
+        public void Flip()
+        {
+            InternalCalls.Rigidbody2DComponent_Flip(Entity.ID);
+        }
     }
 
     public class StateComponent : Component
@@ -132,6 +137,11 @@ namespace SY
                 return orthographicSize;
             }
             set => InternalCalls.CameraComponent_SetOrthographicSize(Entity.ID, ref value);
+        }
+
+        public void AddOscilation(float amp)
+        {
+            InternalCalls.CameraComponent_AddOscilation(Entity.ID, amp);
         }
     }
 

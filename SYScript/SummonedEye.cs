@@ -215,6 +215,14 @@ namespace Sandbox
                 {
                     State = eyeState.Closing;
                     sa.Play("Close");
+                    FindEntityByName("MainCamera").GetComponent<CameraComponent>().AddOscilation(5.0f);
+
+                    if (player.As<Player>().Grounded) {
+
+                        var rb = player.GetComponent<Rigidbody2DComponent>();
+                        var bc = player.GetComponent<BoxCollider2DComponent>();
+                        rb.ApplyLinearImpulse(new Vector2(0, 500 * bc.Size.Y * bc.Size.X), true);
+                    }
                 }
             }
         }

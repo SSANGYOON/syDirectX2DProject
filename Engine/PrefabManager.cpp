@@ -56,7 +56,6 @@ namespace SY {
 			copyQueue.pop();
 			Entity inst = targetScene->DuplicateEntity(entity);
 
-
 			uuidMap[entity.GetUUID()] = inst.GetUUID();
 			auto& parentId = inst.GetComponent<Parent>();
 			parentId.parentHandle = uuidMap[parentId.parentHandle];

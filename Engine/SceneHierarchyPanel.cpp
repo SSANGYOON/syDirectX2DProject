@@ -460,6 +460,10 @@ namespace SY {
 				{
 					component.LayerBit += layerBits[i] * (1 << i);
 				}
+
+				ImGui::InputFloat("OscillationAmp", &component.oscillationAmp);
+				ImGui::InputFloat("OscillationFreq", &component.oscillationFreq);
+				ImGui::InputFloat("OscillationDamp", &component.oscillationDamp);
 			});
 
 		DrawComponent<ScriptComponent>("C# Script", entity, [entity, scene = m_Context](auto& component) mutable

@@ -29,6 +29,9 @@ namespace Sandbox
             Vector2 targetPos = playerPos.XY;
 
             Vector2 cameraSize = GetComponent<CameraComponent>().OrthographicSize;
+
+            
+
             Vector2 minPos = cameraSize / 2.0f - CameraRange / 2.0f;
             Vector2 maxPos = CameraRange / 2.0f - cameraSize / 2.0f;
             Vector2 nextPos = targetPos.clamp(minPos, maxPos);

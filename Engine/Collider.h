@@ -20,6 +20,9 @@ namespace SY
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
 		static void DrawImGui(BoxCollider2DComponent& component);
+
+		Vector2 parentCenter = Vector2::Zero;
+		float parentAngle = 0.f;
 	};
 
 	struct CircleCollider2DComponent
@@ -40,6 +43,9 @@ namespace SY
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent&) = default;
 		static void DrawImGui(CircleCollider2DComponent& component);
+
+		Vector2 parentCenter = Vector2::Zero;
+		float parentAngle = 0.f;
 	};
 
 	struct RevoluteJointComponent
