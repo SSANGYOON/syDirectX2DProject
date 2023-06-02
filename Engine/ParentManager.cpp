@@ -139,13 +139,13 @@ namespace SY {
 
 						if (entity.HasComponent<BoxCollider2DComponent>()) {
 							auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
-							b2Vec2  offset = { bc2d.Offset.x, bc2d.Offset.y };
+							offset = { bc2d.Offset.x, bc2d.Offset.y };
 						}
 
 						else
 						{
 							auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
-							b2Vec2  offset = { cc2d.Offset.x, cc2d.Offset.y };
+							offset = { cc2d.Offset.x, cc2d.Offset.y };
 						}
 						float angle = 0.f;
 
@@ -162,7 +162,8 @@ namespace SY {
 								auto& trans = root.GetComponent<TransformComponent>();
 								b2Rot r(trans.rotation.z);
 
-								offset += {trans.translation.x* r.c - trans.translation.y * r.s, trans.translation.x* r.s + trans.translation.y * r.c};
+								offset = { trans.translation.x + offset.x * r.c - offset.y * r.s,
+									trans.translation.y + offset.x * r.s + offset.y * r.c };
 								angle += trans.rotation.z;
 
 								root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
@@ -170,7 +171,7 @@ namespace SY {
 						}
 						if (body) {
 							float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-							entity.GetContext()->AddFixture(entity, offset, angle, body, root.GetComponent<Rigidbody2DComponent>().flip);
+							entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
 						}
 					}
 				}

@@ -132,7 +132,7 @@ float4 PS_MAIN(GSOut In) : SV_Target0
     float4 color = tex_0.Sample(linearSampler, In.UV);
 
     ret = color;
-    if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y)
+    if(In.UV.x > tintRange.x  && In.UV.x < 1.f - tintRange.x && In.UV.y > tintRange.y && In.UV.y < 1.f - tintRange.y && tintColor.w >= color.w)
         ret = tintColor;
 
     return ret;

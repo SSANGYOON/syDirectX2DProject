@@ -123,29 +123,17 @@ namespace SY {
 
 		else if(entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>()){
 			b2Vec2 offset = b2Vec2_zero;
-			
+
 			if (entity.HasComponent<BoxCollider2DComponent>()) {
 				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 				offset = { bc2d.Offset.x, bc2d.Offset.y };
-
-				if (bc2d.RuntimeFixture){
-					auto fix = (b2Fixture*)bc2d.RuntimeFixture;
-					auto body = fix->GetBody();
-					body->DestroyFixture(fix);
-				}
 			}
 
-			if (entity.HasComponent<CircleCollider2DComponent>()) {
+			else
+			{
 				auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
 				offset = { cc2d.Offset.x, cc2d.Offset.y };
-
-				if (cc2d.RuntimeFixture) {
-					auto fix = (b2Fixture*)cc2d.RuntimeFixture;
-					auto body = fix->GetBody();
-					body->DestroyFixture(fix);
-				}
 			}
-
 			float angle = 0.f;
 
 			b2Body* body = nullptr;
@@ -161,13 +149,17 @@ namespace SY {
 					auto& trans = root.GetComponent<TransformComponent>();
 					b2Rot r(trans.rotation.z);
 
-					offset += {trans.translation.x* r.c - trans.translation.y * r.s, trans.translation.x* r.s + trans.translation.y * r.c};
+					offset = { trans.translation.x + offset.x * r.c - offset.y * r.s,
+						trans.translation.y + offset.x * r.s + offset.y * r.c };
 					angle += trans.rotation.z;
 
 					root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
 				}
 			}
-			entity.GetContext()->AddFixture(entity, offset, angle, body, root.GetComponent<Rigidbody2DComponent>().flip);
+			if (body) {
+				float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+				entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
+			}
 		
 		}
 	}
@@ -224,8 +216,53 @@ namespace SY {
 		if (entity.HasComponent<Rigidbody2DComponent>())
 		{
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
 			b2Body* body = (b2Body*)rb2d.RuntimeBody;
-			body->SetTransform(b2Vec2(transform.translation.x,transform.translation.y), transform.rotation.z);
+
+			b2Vec2 b2Trans = b2Vec2(transform.translation.x, transform.translation.y);
+			body->SetTransform(b2Trans, transform.rotation.z);
+		}
+
+		else if (entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>()) {
+			b2Vec2 offset = b2Vec2_zero;
+
+			if (entity.HasComponent<BoxCollider2DComponent>()) {
+				auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+				offset = { bc2d.Offset.x, bc2d.Offset.y };
+			}
+
+			else
+			{
+				auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
+				offset = { cc2d.Offset.x, cc2d.Offset.y };
+			}
+			float angle = 0.f;
+
+			b2Body* body = nullptr;
+			Entity root = entity;
+
+			while (root.IsValid())
+			{
+				if (root.HasComponent<Rigidbody2DComponent>()) {
+					body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+					break;
+				}
+				else {
+					auto& trans = root.GetComponent<TransformComponent>();
+					b2Rot r(trans.rotation.z);
+
+					offset = { trans.translation.x + offset.x * r.c - offset.y * r.s,
+						trans.translation.y + offset.x * r.s + offset.y * r.c };
+					angle += trans.rotation.z;
+
+					root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
+				}
+			}
+			if (body) {
+				float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+				entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
+			}
+
 		}
 	}
 
@@ -353,6 +390,35 @@ namespace SY {
 
 		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 		bc2d.Offset = *offset;
+
+		b2Vec2 b2offset = { bc2d.Offset.x, bc2d.Offset.y };
+
+		float angle = 0.f;
+
+		b2Body* body = nullptr;
+		Entity root = entity;
+
+		while (root.IsValid())
+		{
+			if (root.HasComponent<Rigidbody2DComponent>()) {
+				body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+				break;
+			}
+			else {
+				auto& trans = root.GetComponent<TransformComponent>();
+				b2Rot r(trans.rotation.z);
+
+				b2offset = { trans.translation.x + b2offset.x * r.c - b2offset.y * r.s,
+					trans.translation.y + b2offset.x * r.s + b2offset.y * r.c };
+				angle += trans.rotation.z;
+
+				root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
+			}
+		}
+		if (body) {
+			float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+			entity.GetContext()->AddFixture(entity, b2offset, angle, body, flip);
+		}
 	}
 
 	static void BoxColliderComponent_GetSize(UUID entityID, Vector2* size)
@@ -378,29 +444,34 @@ namespace SY {
 
 		bc2d.Size = *size;
 
-		b2Body* body = ((b2Fixture*)bc2d.RuntimeFixture)->GetBody();
-		body->DestroyFixture(body->GetFixtureList());
+		b2Vec2 b2offset = { bc2d.Offset.x, bc2d.Offset.y };
 
-		b2PolygonShape boxShape;
-		boxShape.SetAsBox(bc2d.Size.x * abs(tr.scale.x), bc2d.Size.y * tr.scale.y);
+		float angle = 0.f;
 
-		b2FixtureDef fixtureDef;
-		fixtureDef.shape = &boxShape;
-		fixtureDef.density = bc2d.Density;
-		fixtureDef.friction = bc2d.Friction;
-		fixtureDef.restitution = bc2d.Restitution;
-		fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
-		fixtureDef.isSensor = bc2d.isSensor;
-		fixtureDef.filter.categoryBits = bc2d.categoryBits;
-		fixtureDef.filter.maskBits = bc2d.maskBits;
+		b2Body* body = nullptr;
+		Entity root = entity;
 
-		auto userData = b2FixtureUserData();
-		userData.pointer = (uintptr_t)(UINT)entity;
-		fixtureDef.userData = userData;
+		while (root.IsValid())
+		{
+			if (root.HasComponent<Rigidbody2DComponent>()) {
+				body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+				break;
+			}
+			else {
+				auto& trans = root.GetComponent<TransformComponent>();
+				b2Rot r(trans.rotation.z);
 
-		Vector2 bodyPos = Vector2(tr.translation.x, tr.translation.y) + Vector2::Transform(bc2d.Offset, Matrix::CreateRotationZ(tr.rotation.z));
-		body->SetTransform({ bodyPos.x,bodyPos.y }, tr.rotation.z);
-		body->CreateFixture(&fixtureDef);
+				b2offset = { trans.translation.x + b2offset.x * r.c - b2offset.y * r.s,
+					trans.translation.y + b2offset.x * r.s + b2offset.y * r.c };
+				angle += trans.rotation.z;
+
+				root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
+			}
+		}
+		if (body) {
+			float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+			entity.GetContext()->AddFixture(entity, b2offset, angle, body, flip);
+		}
 	}
 
 	static float DistanceJointComponent_GetCurrentLength(UUID entityID)

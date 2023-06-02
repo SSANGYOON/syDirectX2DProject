@@ -336,7 +336,7 @@ namespace Sandbox
                         if (m_BoxCollider.Size.Y > 18)
                         {
                             Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
-                            m_BoxCollider.Size = new Vector2(11, 19);
+                            m_BoxCollider.Size = new Vector2(11, 18);
 
                             string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Crouching";
                             m_Animator.Play(key, stateTime);

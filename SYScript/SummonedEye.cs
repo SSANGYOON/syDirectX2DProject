@@ -82,7 +82,7 @@ namespace Sandbox
                         white.Activate();
                         pupil.Activate();
 
-                        State = eyeState.Ready;
+                        State = eyeState.Idle;
                     }
                     else
                     {
