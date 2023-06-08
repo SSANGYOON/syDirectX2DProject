@@ -14,12 +14,12 @@ struct VSOut
 };
 
 
-VSOut VS_MAIN(VSIn input)
+VSOut VS_MAIN(VSIn In)
 {
     VSOut output = (VSOut)0;
 
-    output.Pos = float4(input.Pos.xyz * 2.f, 1.f);
-    output.UV = input.UV;
+    Out.Pos = ProjPosition;
+    Out.UV = In.UV;
 
     return output;
 }
