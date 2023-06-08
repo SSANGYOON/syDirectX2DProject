@@ -75,6 +75,7 @@ PSOut PS_MAIN(VSOut In)
 
     Out.Position = In.WorldPos;
     Out.LightMap = Light;
+    In.Emission.xyz *= In.Emission.w;
     Out.Emission = In.Emission;
 
     return Out;

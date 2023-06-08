@@ -6,7 +6,7 @@ using SYScript;
 
 namespace Sandbox
 {
-    public class Player : Entity
+    public class Player : Character
     {
         public enum PlayerState
         { 
@@ -22,26 +22,11 @@ namespace Sandbox
             Dead
         }
 
-        private Rigidbody2DComponent m_Rigidbody;
         private SpriteAnimatorComponent m_Animator;
-        private BoxCollider2DComponent m_BoxCollider;
 
         private PlayerState m_State;
 
         public float Speed = 10.0f;
-        public float stateTime = 0.0f;
-
-        private bool _flip = false;
-
-        private bool Flip
-        {
-            get { return _flip; }
-            set {
-                if (_flip != value)
-                    m_Rigidbody.Flip();
-                _flip = value;            
-            }
-        }
 
         public Weapon zWeapon = null;
         public Weapon xWeapon = null;
@@ -57,7 +42,6 @@ namespace Sandbox
             get { return isGrounded; }
         }
         private bool isFalling = false;
-        private bool flip = false;
         private bool invisible = false;
         private const float evadeTime = 1.0f;
         private const float evadeSpeed = 150.0f;
@@ -69,6 +53,11 @@ namespace Sandbox
                 PlayerState prevState = m_State;
                 m_State = value;
 
+                if (prevState == PlayerState.XAttack)
+                    xWeapon.Pause();
+                if (prevState == PlayerState.ZAttack)
+                    zWeapon.Pause();
+
                 switch (m_State)
                 {
                     case PlayerState.Idle:
@@ -78,9 +67,9 @@ namespace Sandbox
                             m_Animator.Play("Run2Idle");
                         else if (prevState == PlayerState.Crouching)
                         {
-                            Vector2 size = m_BoxCollider.Size;
+                            Vector2 size = hitBox.Size;
                             size.Y = 24.0f;
-                            m_BoxCollider.Size = size;
+                            hitBox.Size = size;
                             m_Animator.Play("Crouching2Idle");
                         }
                         else if (prevState != PlayerState.Idle)
@@ -142,7 +131,8 @@ namespace Sandbox
                         break;
 
                     case PlayerState.Damaged:
-                        m_Animator.Play("Damaged");
+                        m_Animator.Play("Attacked");
+                        blood.State = (uint)ParticleSystem.ParticleState.NORMAL;
                         break;
                     case PlayerState.Dead:
                         m_Animator.Play("Dead");
@@ -156,9 +146,11 @@ namespace Sandbox
 
         void OnCreate()
         {
-            m_Rigidbody = GetComponent<Rigidbody2DComponent>();
+            rigidBody = GetComponent<Rigidbody2DComponent>();
             m_Animator = GetComponent<SpriteAnimatorComponent>();
-            m_BoxCollider = GetComponent<BoxCollider2DComponent>();
+            hitBox = GetComponent<BoxCollider2DComponent>();
+            blood = GetComponent<ParticleSystem>();
+
             m_State = PlayerState.Idle;
 
             Vector3 pos = new Vector3(0, 20, -1);
@@ -172,10 +164,9 @@ namespace Sandbox
 
             if (State != PlayerState.Dead && Input.IsKeyDown(KeyCode.Tab))
             {
-        
                 if (m_Inven != null)
                 {
-                    m_Inven.GetComponent<StateComponent>().State = m_Inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ? 
+                    m_Inven.GetComponent<StateComponent>().State = m_Inven.GetComponent<StateComponent>().State == StateComponent.EntityState.Pause ?
                         StateComponent.EntityState.Active : StateComponent.EntityState.Pause;
                 }
             }
@@ -194,59 +185,61 @@ namespace Sandbox
             if(zWeapon == null)
                 zWeapon = FindEntityByName("zWeapon").As<Weapon>();
 
-            if (m_Rigidbody.LinearVelocity.X > 0)
-                Flip = false;
-            else if (m_Rigidbody.LinearVelocity.X < 0)
-                Flip = true;
-
+            if (rigidBody.LinearVelocity.X > 0)
+                if(State == PlayerState.Damaged)
+                    Flip = true;
+                else
+                    Flip = false;
+            else if (rigidBody.LinearVelocity.X < 0)
+                if (State == PlayerState.Damaged)
+                    Flip = false;
+                else
+                    Flip = true;
             stateTime += ts;
             UpdateState();
             if (m_State == PlayerState.Idle || m_State == PlayerState.Run || m_State == PlayerState.Aerial)
             {
-                Vector2 velocity = m_Rigidbody.LinearVelocity;
+                Vector2 velocity = rigidBody.LinearVelocity;
                 velocity.X = 0;
                 if (Input.IsKeyPressed(KeyCode.Right))
                     velocity.X += 1 * Speed;
                 if (Input.IsKeyPressed(KeyCode.Left))
                     velocity.X -= 1 * Speed;
 
-                m_Rigidbody.LinearVelocity = velocity;
+                rigidBody.LinearVelocity = velocity;
 
                 if (Input.IsKeyDown(KeyCode.Space) && (m_State == PlayerState.Idle || m_State == PlayerState.Run))
-                    m_Rigidbody.ApplyLinearImpulse(new Vector2(0, 1000 * m_BoxCollider.Size.Y * m_BoxCollider.Size.X), true);
-                if (velocity.X < 0 && !flip || velocity.X > 0 && flip)
-                {
-                    Vector3 scale = Scale;
-                    scale.X = -scale.X;
-                    Scale = scale;
-                    flip = !flip;
-                }
+                    rigidBody.ApplyLinearImpulse(new Vector2(0, 1000 * hitBox.Size.Y * hitBox.Size.X), true);
             }
             if (m_State == PlayerState.Roll)
             {
                 float delta = stateTime / evadeTime;
                 float targetSpeed = (1.0f - delta) * (evadeSpeed) + delta * Speed / 2.0f;
-                if (flip)
-                    m_Rigidbody.LinearVelocity = new Vector2(-targetSpeed, m_Rigidbody.LinearVelocity.Y);
+                if (Flip)
+                    rigidBody.LinearVelocity = new Vector2(-targetSpeed, rigidBody.LinearVelocity.Y);
                 else
-                    m_Rigidbody.LinearVelocity = new Vector2(targetSpeed, m_Rigidbody.LinearVelocity.Y);
+                    rigidBody.LinearVelocity = new Vector2(targetSpeed, rigidBody.LinearVelocity.Y);
             }
-         
+            if (m_State == PlayerState.Damaged) {
+                if (stateTime > 0.5f)
+                {
+                    blood.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
+                    State = PlayerState.Idle;
+                }
+            }
         }
 
         private void UpdateState()
         {
-            if (m_Rigidbody.LinearVelocity.Y < 0)
+            if (rigidBody.LinearVelocity.Y < 0)
             {
                 if (isFalling == false && State == PlayerState.Aerial)
                     m_Animator.Play("Falling");
                 isFalling = true;
             }
             else
-            {
                 isFalling = false;
-            }
-                
+
             switch (State) {
                 case PlayerState.Idle:
                 case PlayerState.Run:
@@ -258,9 +251,9 @@ namespace Sandbox
                             State = PlayerState.Aerial; 
                     }
                     else {
-                        if (Input.IsKeyPressed(KeyCode.Down) == false && Math.Abs(m_Rigidbody.LinearVelocity.X) < 1.0f)
+                        if (Input.IsKeyPressed(KeyCode.Down) == false && Math.Abs(rigidBody.LinearVelocity.X) < 1.0f)
                             State = PlayerState.Idle;
-                        else if (Math.Abs(m_Rigidbody.LinearVelocity.X) >= 1.0f)
+                        else if (Math.Abs(rigidBody.LinearVelocity.X) >= 1.0f)
                             State = PlayerState.Run;
                         else if (Input.IsKeyPressed(KeyCode.Down))
                         {
@@ -311,10 +304,10 @@ namespace Sandbox
                         else
                             weapon = xWeapon;
 
-                        if (m_BoxCollider.Size.Y < 24)
+                        if (hitBox.Size.Y < 24)
                         {
                             Translation = new Vector3(Translation.X, Translation.Y + 5.0f, Translation.Z);
-                            m_BoxCollider.Size = new Vector2(11, 24);
+                            hitBox.Size = new Vector2(8, 24);
 
                             string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Standing";
                             m_Animator.Play(key, stateTime);
@@ -333,10 +326,10 @@ namespace Sandbox
                         else
                             weapon = xWeapon;
 
-                        if (m_BoxCollider.Size.Y > 18)
+                        if (hitBox.Size.Y > 19)
                         {
                             Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
-                            m_BoxCollider.Size = new Vector2(11, 18);
+                            hitBox.Size = new Vector2(8, 19);
 
                             string key = "Attack" + Enum.GetName(typeof(WeaponData.weaponType), weapon.Data.Type) + "Crouching";
                             m_Animator.Play(key, stateTime);
@@ -345,11 +338,6 @@ namespace Sandbox
                         var trans = weapon.Translation;
                         trans.Y -= 5.0f;
                         weapon.Translation = trans;
-                    }
-
-                    else if (!isGrounded)
-                    { 
-                    
                     }
                     break;
                 default: break;
@@ -361,23 +349,31 @@ namespace Sandbox
             {
                 Entity ground = new Entity(collsion.entityID);
                 if (ground.Translation.Y < Translation.Y)
-                    isGrounded = true;    
+                    isGrounded = true;
+            }
+        }
+
+        void OnTriggerEnter(ref Collision2D collsion)
+        {
+            if ((collsion.CollisionLayer & (1 << 4)) > 0 && !invisible)
+            {
+                State = PlayerState.Damaged;
+
+                Entity enemy = new Entity(collsion.entityID);
+                if (enemy.WorldPosition.X > Translation.X)
+                    rigidBody.ApplyLinearImpulse(new Vector2(-1000 * hitBox.Size.Y * hitBox.Size.X, 500 * hitBox.Size.Y * hitBox.Size.X), true);
+                else
+                    rigidBody.ApplyLinearImpulse(new Vector2(1000 * hitBox.Size.Y * hitBox.Size.X, 500 * hitBox.Size.Y * hitBox.Size.X), true);
             }
         }
 
         void OnCollisionExit(ref Collision2D collsion)
         {
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
-            {
-                if (State == PlayerState.Crouching && stateTime < 0.5f )
-                    return;                   
-
+            {                 
                 Entity ground = new Entity(collsion.entityID);
-                if (ground.IsValid())
-                {
-                    if (ground.Translation.Y < Translation.Y)
-                        isGrounded = false;
-                }
+                if (ground.Translation.Y < Translation.Y)
+                    isGrounded = false;
             }
         }
 
@@ -401,7 +397,7 @@ namespace Sandbox
         void Crouching()
         {
             Translation = new Vector3(Translation.X, Translation.Y - 5.0f, Translation.Z);
-            m_BoxCollider.Size = new Vector2(11, 18);
+            hitBox.Size = new Vector2(8, 19);
         }
     }
 }

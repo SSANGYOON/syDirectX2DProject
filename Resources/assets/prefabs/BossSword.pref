@@ -24,8 +24,8 @@ Entities:
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: true
-      MaskBits: 3
-      CategoryBits: 1
+      MaskBits: 7
+      CategoryBits: 16 
     ParticleSystem:
       Position: [0, -50]
       PositionVariation: [64, 192]

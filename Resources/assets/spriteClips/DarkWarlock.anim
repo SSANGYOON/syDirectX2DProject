@@ -1,0 +1,47 @@
+Animations:
+  - Key: WARLOCKIDLE
+    OriginalOffset: [ 3.0, 17.0 ]
+    SpriteSize: [ 41.0, 75.0 ]
+    Step: [ 46.0, 140.0 ]
+    Columns: 16
+    Frames: 16
+    Duration: 1.5
+    Loop: true
+
+  - Key: WARLOCKATTACK
+    OriginalOffset: [ 4.0, 111.0 ]
+    SpriteSize: [ 72.0, 83.0 ]
+    Step: [ 61.67, 27.0 ]
+    Columns: 7
+    Frames: 7
+    Duration: 1
+    Loop: false 
+
+  - Key: WARLOCKATTACK2IDLE
+    OriginalOffset: [ 3.0, 213.0 ]
+    SpriteSize: [ 41.0, 75.0 ]
+    Step: [ 145.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false
+    nextKey: WARLOCKIDLE
+    
+
+  - Key: WARLOCKDAMAGED
+    OriginalOffset: [ 3.0, 311.0 ]
+    SpriteSize: [ 46.0, 71.0 ]
+    Step: [ 145.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false
+
+  - Key: WARLOCKDEAD
+    OriginalOffset: [ 3.0, 401.0 ]
+    SpriteSize: [ 37.0, 61.0 ]
+    Step: [ 145.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false

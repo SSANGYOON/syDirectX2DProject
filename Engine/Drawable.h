@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Resources.h"
+struct Vertex;
 namespace SY
 {
 	struct SpriteRendererComponent
@@ -164,6 +165,56 @@ namespace SY
 		Bloom(const Bloom&) = default;
 
 		static void DrawImGui(Bloom& component);
+	};
+	
+	struct TrailRenderer
+	{
+		Vector3 base;
+		Vector3 tip;
+
+		Vector4 Color;
+
+		shared_ptr<Material> material;
+		shared_ptr<Mesh> _mesh;
+
+		
+
+		float recoordFreq = 1.f;
+		int currentIndex = -1;
+
+		UINT maxRecoord = 300;
+		float _accTime = 0.f;
+
+		UINT recoorded = 1;
+		vector<Vertex> _vertexes;
+		vector<UINT> _indexes;
+		TrailRenderer()
+		{
+			material = make_shared<Material>();
+		}
+		TrailRenderer(const TrailRenderer&) = default;
+
+		void Init();
+		void SetData();
+		static void DrawImGui(TrailRenderer& component);
+	};
+
+	struct LineRenderer
+	{
+		Vector4 Color;
+		Vector4 Emission;
+		Vector2 Size;
+		Vector2 Velocity;
+		shared_ptr<Material> material;
+
+		LineRenderer()
+		{
+			material = make_shared<Material>();
+			material->SetShader(GET_SINGLE(Resources)->Find<Shader>(L"Laser"));
+		}
+		LineRenderer(const LineRenderer&) = default;
+
+		static void DrawImGui(LineRenderer& component);
 	};
 }
 

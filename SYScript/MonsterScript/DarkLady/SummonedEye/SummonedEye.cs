@@ -41,7 +41,7 @@ namespace Sandbox
         private eyeState _state;
         public eyeState State
         {
-            private set { _state = value; stateTime = 0.0f; }
+            private set { _state = value; stateTime = 0.0f;}
             get { return _state; }
         }
 
@@ -51,14 +51,32 @@ namespace Sandbox
             Eye = GetChild("seEye");
 
             pupil = Eye.GetChild("sePupil");
+            
+            sword = swordPref.Instantiate(Translation, 0).As<BossSword>();
+            sword._owner = this;
+            sword.Pause();
+            sword.body.Enable = false;
+            sa = Eye.GetComponent<SpriteAnimatorComponent>();
+            
+            player = FindEntityByName("Player");           
+        }
+
+        void OnActivated()
+        {
             State = eyeState.Summon;
 
-            sa = Eye.GetComponent<SpriteAnimatorComponent>();
-
-            player = FindEntityByName("Player");
-
             var ps = Body.GetComponent<ParticleSystem>();
+            ps.Position = new Vector2(0, -50.0f + (stateTime / 2.0f) * 100.0f);
             ps.State = (uint)ParticleSystem.ParticleState.NORMAL;
+
+            var bsr = Body.GetComponent<SpriteRendererComponent>();
+            bsr.Color = new Vector4(1, 1, 1, 0);
+
+            var esr = Eye.GetComponent<SpriteRendererComponent>();
+            esr.Color = new Vector4(1, 1, 1, 0);
+
+            Eye.GetChild("seWhite").Pause();
+            pupil.Pause();
         }
 
         void OnUpdate(float ts)
@@ -82,7 +100,7 @@ namespace Sandbox
                         white.Activate();
                         pupil.Activate();
 
-                        State = eyeState.Idle;
+                        State = eyeState.Idle;    
                     }
                     else
                     {
@@ -111,7 +129,7 @@ namespace Sandbox
                     break;
 
                 case eyeState.Idle:
-                    if (stateTime > 2.0f)
+                    if (stateTime > 3.0f)
                         State = eyeState.Ready;
 
                     else
@@ -126,14 +144,21 @@ namespace Sandbox
                         State = eyeState.Targeting;
                         sa.Play("Open");
 
-                        sword = swordPref.Instantiate(Translation,0).As<BossSword>();
-                        sword._owner = this;
-                        sword.Pause();
+                        var body = sword.GetChild("BossSwordBody");
+                        sword.Rotation = new Vector3();
+                        var sr = body.GetComponent<SpriteRendererComponent>();
+                        var color = sr.Color;
+                        color.W = 1;
+                        sr.Color = color;
+
+                        var Emission = sr.Emission;
+                        Emission.W = 1;
+                        sr.Emission = Emission;
                     }
                     break;
 
                 case eyeState.Targeting:
-                    sword.Activate();
+                    sword.Activate();         
                     if (stateTime < 0.5f)
                     {
                         if (targetDiff > 0)
@@ -152,6 +177,7 @@ namespace Sandbox
 
                     else if (stateTime < 1.5f)
                     {
+                        sword.body.Enable = true;
                         if (targetDiff > 0)
                         {
                             sword.Rotation = Vector3.Lerp(sword.Rotation, new Vector3(0, 0, 0.25f * (float)Math.PI), ts / (1.5f - stateTime));
@@ -167,14 +193,15 @@ namespace Sandbox
                 case eyeState.Closing:
                     if (stateTime > 1.0f)
                     {
-                        State = eyeState.Pause;
-
+                        State = eyeState.Idle;
+                        
                         var ps = sword.GetComponent<ParticleSystem>();
                         ps.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
                     }
 
                     else
                     {
+                        sword.body.Enable = false;
                         var body = sword.GetChild("BossSwordBody");
                         var sr = body.GetComponent<SpriteRendererComponent>();
 
@@ -185,14 +212,6 @@ namespace Sandbox
                         var Emission = sr.Emission;
                         Emission.W = (1 - stateTime);
                         sr.Emission = Emission;
-                    }
-                    break;
-
-                case eyeState.Pause:
-                    if (stateTime > 1.0f)
-                    {
-                        sword.Destroy();
-                        State = eyeState.Idle;
                     }
                     break;
                 default:
@@ -206,6 +225,12 @@ namespace Sandbox
 
             stateTime += ts;
         }
+
+        void OnPaused()
+        {
+            sword.Pause();
+        }
+
         internal void OnTriggerEnter(ref Collision2D collsion)
         {
             if ((collsion.CollisionLayer & (1 << 0)) > 0)
@@ -213,10 +238,11 @@ namespace Sandbox
                 var opp = new Entity(collsion.entityID);
                 if (opp.Translation.Y < sword.Translation.Y -20)
                 {
+                    
                     State = eyeState.Closing;
                     sa.Play("Close");
                     FindEntityByName("MainCamera").GetComponent<CameraComponent>().AddOscilation(5.0f);
-
+                    
                     if (player.As<Player>().Grounded) {
 
                         var rb = player.GetComponent<Rigidbody2DComponent>();

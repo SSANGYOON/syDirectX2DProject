@@ -73,7 +73,8 @@ namespace SY {
 	using AllComponents =
 		ComponentGroup<StateComponent, TransformComponent, Parent, Light,
 		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, BackGroundColorComponent, Bloom,
-		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, RevoluteJointComponent, DistanceJointComponent, SpriteRendererComponent, CircleRendererComponent, DontDestroy,
+		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, RevoluteJointComponent, DistanceJointComponent, SpriteRendererComponent, CircleRendererComponent, TrailRenderer, LineRenderer,
+		DontDestroy,
 		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent, Eraser, ParticleSystem>;
 }
 

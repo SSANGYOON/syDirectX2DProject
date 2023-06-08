@@ -164,6 +164,14 @@ namespace SY {
 			p.Init();
 		}
 
+		auto trails = m_Registry.group<TrailRenderer>(entt::get<TransformComponent>, entt::exclude<Pause>);
+		for (auto e : trails)
+		{
+			auto& trail = m_Registry.get<TrailRenderer>(e);
+			trail.Init();
+		}
+
+
 		{
 			ScriptEngine::OnRuntimeStart(this);
 			// Instantiate all script entities
@@ -292,6 +300,8 @@ namespace SY {
 					transform.rotation.z = clipFrames[curFrame].angle * (1 - ratio) + clipFrames[nextFrame].angle * (ratio);
 					transform.rotation.z *= XM_PI / 180.f;
 
+					transform.recent = false;
+
 				});
 		}
 
@@ -324,7 +334,7 @@ namespace SY {
 
 #pragma region LightRuntime
 		{
-			auto view = m_Registry.view<TransformComponent, Light>();
+			auto view = m_Registry.view<TransformComponent, Light>(entt::exclude<Pause>);
 			int lightnum = 0;
 			LightCB cb;
 			for (auto entity : view)
@@ -402,6 +412,92 @@ namespace SY {
 				{
 					auto [transform, circle] = circles.get<TransformComponent, CircleRendererComponent>(entity);
 					Renderer::DrawCircle(transform.localToWorld, circle.Color, entity);
+				}
+
+				for (auto entity : circles)
+				{
+					auto [transform, circle] = circles.get<TransformComponent, CircleRendererComponent>(entity);
+					Renderer::DrawCircle(transform.localToWorld, circle.Color, entity);
+				}
+
+				auto trails = m_Registry.group<TrailRenderer>(entt::get<TransformComponent>, entt::exclude<Pause>);
+
+				for (auto entity : trails)
+				{
+					auto [transform, trail] = trails.get<TransformComponent, TrailRenderer>(entity);
+
+					trail._accTime += timeStep;
+					if (trail._accTime > 1 / trail.recoordFreq)
+					{
+						UINT RecoordNum = (UINT)(trail._accTime * trail.recoordFreq);
+
+						trail._accTime -= RecoordNum / trail.recoordFreq;
+						Vector4 prevTip;
+						Vector4 prevBase;
+
+						if (trail.currentIndex > -1) {
+							
+							prevTip = trail._vertexes[trail.currentIndex * 2 + 1].pos;
+							prevBase = trail._vertexes[trail.currentIndex * 2].pos;
+						}
+						else
+						{
+							prevTip = Vector4(Vector3::Transform(trail.tip, transform.localToWorld), 1.f);
+							prevBase = Vector4(Vector3::Transform(trail.base, transform.localToWorld), 1.f);
+							trail.currentIndex++;
+							trail._vertexes[trail.currentIndex * 2].pos = prevBase;
+							trail._vertexes[trail.currentIndex * 2 + 1].pos = prevTip;
+						}
+
+						Vector4 currentTip = Vector4(Vector3::Transform(trail.tip, transform.localToWorld), 1.f);
+						Vector4 currentBase = Vector4(Vector3::Transform(trail.base, transform.localToWorld), 1.f);
+
+						UINT cur = 1;
+
+						trail.recoorded = min(trail.recoorded + RecoordNum, (UINT)trail.maxRecoord);
+						while (cur <= RecoordNum) {
+							trail.currentIndex = (trail.currentIndex + 1) % trail.maxRecoord;
+							trail._vertexes[trail.currentIndex * 2].pos = Vector4::Lerp(prevBase, currentBase, cur / (float)RecoordNum);
+							trail._vertexes[trail.currentIndex * 2 + 1].pos = Vector4::Lerp(prevTip, currentTip, cur / (float)RecoordNum);
+
+							cur++;
+						}
+						for (int i = 0; i < trail.maxRecoord; i++)
+						{
+							if (i > trail.currentIndex) {
+								trail._vertexes[i * 2].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 1.f };
+								trail._vertexes[i * 2 + 1].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 0.f };
+							}
+							else
+							{
+								trail._vertexes[i * 2].uv = { (i - trail.currentIndex - 1 + trail.maxRecoord) / (float)(trail.maxRecoord - 1), 1.f };
+								trail._vertexes[i * 2 + 1].uv = { (i - trail.currentIndex - 1 + trail.maxRecoord) / (float)(trail.maxRecoord - 1), 0.f };
+							}
+						}
+
+						for (int i = 0; i < trail.recoorded; i++)
+						{
+							int ind = (trail.currentIndex + trail.maxRecoord - i) % trail.maxRecoord;
+							trail._indexes[2 * (trail.recoorded - 1 - i)] = ind * 2;
+							trail._indexes[2 * (trail.recoorded - 1 - i) + 1] = ind * 2 + 1;
+						}
+
+						trail.SetData();
+					}
+					trail.material->SetVec4(0, trail.Color);
+					Renderer::DrawMesh(Matrix::Identity, trail.material, trail._mesh, entity);
+				}
+
+				auto lines = m_Registry.group<LineRenderer>(entt::get<TransformComponent>, entt::exclude<Pause>);
+
+				for (auto entity : lines)
+				{
+					auto [transform, line] = lines.get<TransformComponent, LineRenderer>(entity);
+					line.material->SetVec4(0, line.Color);
+					line.material->SetVec4(1, line.Emission);
+					line.material->SetVec2(0, line.Velocity);
+					line.material->SetVec2(1, line.Size);
+					Renderer::DrawRect(transform.localToWorld, line.material, entity, 1);
 				}
 
 				auto particles = m_Registry.group<ParticleSystem>(entt::get<TransformComponent>, entt::exclude<Pause>);
@@ -664,6 +760,31 @@ namespace SY {
 		m_PhysicsWorld = nullptr;
 	}
 
+	void Scene::AddBody(Entity entity)
+	{
+		auto& transform = entity.GetComponent<TransformComponent>();
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+		b2BodyDef bodyDef;
+		bodyDef.linearDamping = rb2d.LinearDamping;
+		bodyDef.angularDamping = rb2d.AngularDamping;
+		bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
+		bodyDef.position.Set(transform.translation.x, transform.translation.y);
+		bodyDef.angle = transform.rotation.z;
+		bodyDef.gravityScale = !rb2d.DisableGravity;
+		b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
+
+		if (entity.HasComponent<Pause>())
+			body->SetEnabled(false);
+
+		body->SetFixedRotation(rb2d.FixedRotation);
+		rb2d.RuntimeBody = body;
+
+		float flip = rb2d.flip ? -1.f : 1.f;
+
+		AddFixture(entity, { 0.f, 0.f }, 0.f, body, flip);
+	}
+
 	void Scene::AddFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip)
 	{
 		if (entity.HasComponent<BoxCollider2DComponent>())
@@ -756,40 +877,78 @@ namespace SY {
 			b2Vec2 childOffset = { offset.x + trans.x, offset.y + trans.y };
 			float childAngle = angle + child.GetComponent<TransformComponent>().rotation.z;
 
-			if (child.HasComponent<Parent>() && entity.GetUUID() == child.GetComponent<Parent>().parentHandle && !child.HasComponent<Pause>())
+			if (child.HasComponent<Parent>() && entity.GetUUID() == child.GetComponent<Parent>().parentHandle)
 				AddFixture(child, childOffset, childAngle, body, flip);
 		}
 	}
 
-	void Scene::AddBody(Entity entity)
+	void Scene::MoveFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip)
 	{
-		auto& transform = entity.GetComponent<TransformComponent>();
-		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		if (entity.HasComponent<BoxCollider2DComponent>())
+		{
+			auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 
-		b2BodyDef bodyDef;
-		bodyDef.linearDamping = rb2d.LinearDamping;
-		bodyDef.angularDamping = rb2d.AngularDamping;
-		bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
-		bodyDef.position.Set(transform.translation.x, transform.translation.y);
-		bodyDef.angle = transform.rotation.z;
-		bodyDef.gravityScale = !rb2d.DisableGravity;
-		b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
+			assert(bc2d.RuntimeFixture);
 
-		if (entity.HasComponent<Pause>())
-			body->SetEnabled(false);
+			b2Fixture* fix = static_cast<b2Fixture*>(bc2d.RuntimeFixture);
+			
+			b2PolygonShape* boxShape = static_cast<b2PolygonShape*>(fix->GetShape());
+			b2Vec2 center = offset;
 
-		body->SetFixedRotation(rb2d.FixedRotation);
-		rb2d.RuntimeBody = body;
+			b2Rot r(angle);
+			center.x += bc2d.Offset.x * r.c - bc2d.Offset.y * r.s;
 
-		float flip = rb2d.flip ? -1.f : 1.f;
+			center.x *= flip;
+			center.y += bc2d.Offset.x * r.s + bc2d.Offset.y * r.c;
 
-		AddFixture(entity, { 0.f, 0.f }, 0.f, body, flip);
+			bc2d.parentCenter = { offset.x, offset.y };
+			bc2d.parentAngle = angle;
+
+			boxShape->SetAsBox(bc2d.Size.x, bc2d.Size.y, center, flip * angle);
+
+		}
+
+		if (entity.HasComponent<CircleCollider2DComponent>())
+		{
+			auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
+
+			assert(cc2d.RuntimeFixture);
+
+			b2Fixture* fix = static_cast<b2Fixture*>(cc2d.RuntimeFixture);
+
+			b2CircleShape* circleShape = static_cast<b2CircleShape*>(fix->GetShape());
+			b2Vec2 center = offset;
+
+			b2Rot r(angle);
+			center.x += cc2d.Offset.x * r.c - cc2d.Offset.y * r.s;
+			center.y += cc2d.Offset.x * r.s + cc2d.Offset.y * r.c;
+			center.x *= flip;
+			cc2d.parentCenter = { offset.x, offset.y };
+			cc2d.parentAngle = angle;
+
+			circleShape->m_p = center;
+			circleShape->m_radius = cc2d.Radius;
+		}
+
+		for (auto e : ParentManager::GetChildren(entity))
+		{
+			Entity child = { (entt::entity)e, this };
+
+			if (!child.HasComponent<TransformComponent>())
+				continue;
+			Vector3 trans = child.GetComponent<TransformComponent>().translation;
+			b2Vec2 childOffset = { offset.x + trans.x, offset.y + trans.y };
+			float childAngle = angle + child.GetComponent<TransformComponent>().rotation.z;
+
+			if (child.HasComponent<Parent>() && entity.GetUUID() == child.GetComponent<Parent>().parentHandle && !child.HasComponent<Pause>())
+				MoveFixture(child, childOffset, childAngle, body, flip);
+		}
 	}
 
 	void Scene::OnPhysicsUpdate(float timeStep)
 	{
 		const int32_t velocityIterations = 12;
-		const int32_t positionIterations = 4;
+		const int32_t positionIterations = 8;
 
 		m_PhysicsWorld->Step(timeStep, velocityIterations, positionIterations);
 
@@ -809,6 +968,8 @@ namespace SY {
 			transform.translation.x = transformPos.x;
 			transform.translation.y = transformPos.y;
 			transform.rotation.z = angle;
+
+			transform.recent = false;
 		}
 		b2Contact* contact = m_PhysicsWorld->GetContactManager().m_contactList;
 
@@ -822,8 +983,8 @@ namespace SY {
 				uintptr_t p1 = f1->GetUserData().pointer;
 				uintptr_t p2 = f2->GetUserData().pointer;
 
-				SY::Entity entity1 = { (entt::entity)p1, ScriptEngine::GetSceneContext() };
-				SY::Entity entity2 = { (entt::entity)p2, ScriptEngine::GetSceneContext() };
+				SY::Entity entity1 = { (entt::entity)p1, this };
+				SY::Entity entity2 = { (entt::entity)p2, this };
 
 				string tag1 = entity1.GetComponent<SY::TagComponent>().Tag;
 				string tag2 = entity2.GetComponent<SY::TagComponent>().Tag;
@@ -834,7 +995,7 @@ namespace SY {
 					Collision col = {};
 					col.entityID = entity2.GetUUID();
 					col.CollisionLayer = filter.categoryBits;
-					if (f1->IsSensor())
+					if (f1->IsSensor() || f2->IsSensor())
 						ScriptEngine::OnTriggerStay(entity1, &col);
 					else
 						ScriptEngine::OnCollisionStay(entity1, &col);
@@ -845,7 +1006,7 @@ namespace SY {
 					Collision col = {};
 					col.entityID = entity1.GetUUID();
 					col.CollisionLayer = filter.categoryBits;
-					if (f1->IsSensor())
+					if (f1->IsSensor() ||f2->IsSensor())
 						ScriptEngine::OnTriggerStay(entity2, &col);
 					else
 						ScriptEngine::OnCollisionStay(entity2, &col);
@@ -862,7 +1023,7 @@ namespace SY {
 
 #pragma region LightEdit
 		{
-			auto view = m_Registry.view<TransformComponent, Light>();
+			auto view = m_Registry.view<TransformComponent, Light>(entt::exclude<Pause>);
 			int lightnum = 0;
 			LightCB cb;
 			for (auto entity : view)
@@ -907,6 +1068,18 @@ namespace SY {
 			{
 				auto [transform, circle] = circles.get<TransformComponent, CircleRendererComponent>(entity);
 				Renderer::DrawCircle(transform.localToWorld, circle.Color, entity);
+			}
+
+			auto lines = m_Registry.group<LineRenderer>(entt::get<TransformComponent>, entt::exclude<Pause>);
+
+			for (auto entity : lines)
+			{
+				auto [transform, line] = lines.get<TransformComponent, LineRenderer>(entity);
+				line.material->SetVec4(0, line.Color);
+				line.material->SetVec4(1, line.Emission);
+				line.material->SetVec2(0, line.Velocity);
+				line.material->SetVec2(1, line.Size);
+				Renderer::DrawRect(transform.localToWorld, line.material, entity, 1);
 			}
 
 			CONTEXT->OMSetRenderTargets(0, nullptr, nullptr);
@@ -1044,6 +1217,18 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TrailRenderer>(Entity entity, TrailRenderer& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<LineRenderer>(Entity entity, LineRenderer& component)
 	{
 
 	}

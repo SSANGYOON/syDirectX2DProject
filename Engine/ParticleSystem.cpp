@@ -7,6 +7,7 @@
 #include "Material.h"
 #include "Renderer.h"
 #include "Entity.h"
+#include "Shader.h"
 
 namespace SY {
 
@@ -33,7 +34,7 @@ namespace SY {
 		memset(a, 0, sizeof(Particle) * 1024);
 		mBuffer->Create(sizeof(Particle), 1024, a, true, true);
 
-		delete a;
+		delete[] a;
 
 		mSharedBuffer = make_shared<StructuredBuffer>();
 		mSharedBuffer->Create(sizeof(ParticleShared), 1, nullptr, true, true);
@@ -90,6 +91,10 @@ namespace SY {
 		pcb.textureAttach = TextureAttach;
 		pcb.texturePos = AttachOffset;
 
+		pcb.aliveZone = aliveZone;
+		pcb.useAliveZone = UseAliveZone;
+		pcb.useLocalCoord = UseLocalCoord;
+
 		auto cb = GEngine->GetConstantBuffer(Constantbuffer_Type::PARTICLE);
 		cb->SetData(&pcb);
 
@@ -138,6 +143,29 @@ namespace SY {
 				bool isSelected = strcmp(stateKey, currentStateString) == 0;
 				if (ImGui::Selectable(stateKey, isSelected))
 					component.state = (ParticleState)i;
+
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
+			}
+
+			ImGui::EndCombo();
+		}
+
+		auto shaders = GET_SINGLE(Resources)->GetShaders();
+		string skey;
+
+		skey = wtos(component.mMaterial->GetShader()->GetKey());
+		const char* currentShader = skey.c_str();
+
+		if (ImGui::BeginCombo("Shader", currentShader))
+		{
+			for (int i = 0; i < shaders.size(); i++)
+			{
+				string s = wtos(shaders[i]->GetKey());
+				const char* currentShaderKey = s.c_str();
+				bool isSelected = strcmp(currentShader, currentShaderKey) == 0;
+				if (ImGui::Selectable(currentShaderKey, isSelected))
+					component.mMaterial->SetShader(shaders[i]);
 
 				if (isSelected)
 					ImGui::SetItemDefaultFocus();
@@ -220,6 +248,12 @@ namespace SY {
 		ImGui::DragFloat("Frequency", &component.Frequency);
 
 		ImGui::DragFloat("LifeTime", &component.LifeTime);
+
+		ImGui::Checkbox("UseLocalCoord", &component.UseLocalCoord);
+		ImGui::Checkbox("UseAliveZone", &component.UseAliveZone);
+		
+		if(component.UseAliveZone)
+			ImGui::DragFloat2("AliceZone", reinterpret_cast<float*>(&component.aliveZone));
 	}
 }
 

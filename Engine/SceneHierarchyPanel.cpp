@@ -373,6 +373,8 @@ namespace SY {
 			DisplayAddComponentEntry<BackGroundColorComponent>("BackGroundColor");
 			DisplayAddComponentEntry<Light>("Light");
 			DisplayAddComponentEntry<Bloom>("Bloom");
+			DisplayAddComponentEntry<TrailRenderer>("TrailRenderer");
+			DisplayAddComponentEntry<LineRenderer>("LineRenderer");
 			ImGui::EndPopup();
 		}
 
@@ -555,7 +557,10 @@ namespace SY {
 
 									if (data)
 									{
-										ImGui::Text(PrefabManager::GetPrefabName(data).c_str());
+										string name = PrefabManager::GetPrefabName(data).c_str();
+
+										if(name.length() > 0)
+											ImGui::Text(name.c_str());
 									}
 
 									ImGui::Text((name + " From Prefab").c_str());
@@ -870,7 +875,8 @@ namespace SY {
 			DrawComponent<IconComponent>("Icon", entity, &IconComponent::DrawImGui);
 			DrawComponent<ParticleSystem>("ParticleSystem", entity, &ParticleSystem::DrawImGui);
 			DrawComponent<Bloom>("Bloom", entity, &Bloom::DrawImGui);
-
+			DrawComponent<TrailRenderer>("TrailRenderer", entity, &TrailRenderer::DrawImGui);
+			DrawComponent<LineRenderer>("LineRenderer", entity, &LineRenderer::DrawImGui);
 			DrawComponent<BackGroundColorComponent>("BackGroundColor", entity, [](auto& component)
 				{
 					ImGui::ColorEdit4("BackGroundColor", reinterpret_cast<float*>(&component.color));

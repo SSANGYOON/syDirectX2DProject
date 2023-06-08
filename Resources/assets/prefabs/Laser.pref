@@ -1,0 +1,56 @@
+Head: 10974572844252980261
+Entities:
+  - Entity: 10974572844252980261
+    TagComponent:
+      Tag: Laser
+    State: 0
+    TransformComponent:
+      Translation: [-307, 23, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Laser2D
+      ScriptFields:
+        - Name: Range
+          Type: Float
+          Data: 200
+        - Name: mask
+          Type: ULong
+          Data: 3
+    LineRenderer:
+      Color: [1, 0.0965250731, 0.93372196, 1]
+      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
+      Velocity: [2, 0]
+      Size: [10, 10]
+  - Entity: 361544312975538174
+    TagComponent:
+      Tag: LaserEndPoint
+    State: 0
+    TransformComponent:
+      Translation: [200, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 10974572844252980261
+    ParticleSystem:
+      Position: [1, 0]
+      PositionVariation: [0.100000001, 60]
+      Velocity: [2, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.917647064, 0.596078455, 1, 1]
+      ColorEnd: [0.917647064, 0.596078455, 1, 0]
+      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
+      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
+      MaxParticles: 256
+      Frequency: 50
+      LifeTime: 1
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics

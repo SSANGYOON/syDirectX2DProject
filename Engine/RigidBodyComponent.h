@@ -15,7 +15,7 @@ namespace SY
 
 		bool flip = false;
 
-		// Storage for runtime
+		bool enabled = true;
 		void* RuntimeBody = nullptr;
 
 		Rigidbody2DComponent() = default;

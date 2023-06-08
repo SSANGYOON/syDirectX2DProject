@@ -545,6 +545,12 @@ namespace SY {
 			out << YAML::Key << "PositionPolar" << YAML::Value << particle.PositionPolar;
 			out << YAML::Key << "VelocityPolar" << YAML::Value << particle.VelocityPolar;
 
+			out << YAML::Key << "UseLocalCoord" << YAML::Value << particle.UseLocalCoord;
+			out << YAML::Key << "UseAliveZone" << YAML::Value << particle.UseAliveZone;
+
+			if(particle.UseAliveZone)
+				out << YAML::Key << "AliveZone" << YAML::Value << particle.aliveZone;
+
 			out << YAML::Key << "State" << YAML::Value << (UINT)particle.state;
 
 			if (particle.attachTexture) {
@@ -558,6 +564,9 @@ namespace SY {
 				wstring path = particle.graphicsTexture->GetPath();
 				out << YAML::Key << "GraphicsTexture" << YAML::Value << wtos(path);
 			}
+
+			wstring key = particle.mMaterial->GetShader()->GetKey();
+			out << YAML::Key << "GraphicsShader" << YAML::Value << wtos(key);
 
 			out << YAML::EndMap; // ParticleSystem
 		}
@@ -573,6 +582,42 @@ namespace SY {
 			out << YAML::Key << "Intensity" << YAML::Value << bloom.Intensity;
 
 			out << YAML::EndMap; // Bloom
+		}
+
+		if (entity.HasComponent<TrailRenderer>())
+		{
+			out << YAML::Key << "TrailRenderer";
+			out << YAML::BeginMap;
+
+			auto& trail = entity.GetComponent<TrailRenderer>();
+
+			out << YAML::Key << "Color" << YAML::Value << trail.Color;
+			out << YAML::Key << "Base" << YAML::Value << trail.base;
+			out << YAML::Key << "Tip" << YAML::Value << trail.tip;
+
+			wstring shaderKey = trail.material->GetShader()->GetKey();
+			out << YAML::Key << "Shader" << YAML::Value << wtos(shaderKey);
+
+			wstring texturePath = trail.material->GetTexture(0)->GetPath();
+			out << YAML::Key << "Texture" << YAML::Value << wtos(texturePath);
+
+			out << YAML::EndMap; // TrailRenderer
+		}
+
+		if (entity.HasComponent<LineRenderer>())
+		{
+			out << YAML::Key << "LineRenderer";
+			out << YAML::BeginMap;
+
+			auto& line = entity.GetComponent<LineRenderer>();
+
+			out << YAML::Key << "Color" << YAML::Value << line.Color;
+			out << YAML::Key << "Emission" << YAML::Value << line.Emission;
+
+			out << YAML::Key << "Velocity" << YAML::Value << line.Velocity;
+			out << YAML::Key << "Size" << YAML::Value << line.Size;
+
+			out << YAML::EndMap; // LineRenderer
 		}
 
 		out << YAML::EndMap; // Entity
@@ -1214,6 +1259,20 @@ namespace SY {
 				auto sPath = particleSystem["GraphicsTexture"].as<string>();
 				particle.graphicsTexture = GET_SINGLE(Resources)->Load<Texture>(stow(sPath), stow(sPath), false);
 			}
+
+			if (particleSystem["UseLocalCoord"])
+				particle.UseLocalCoord = particleSystem["UseLocalCoord"].as<bool>();
+
+			if (particleSystem["UseAliveZone"])
+				particle.UseAliveZone = particleSystem["UseAliveZone"].as<bool>();
+
+			if (particleSystem["AliveZone"])
+				particle.aliveZone = particleSystem["AliveZone"].as<Vector2>();
+
+			if (particleSystem["GraphicsShader"]) {
+				auto sKey = particleSystem["GraphicsShader"].as<string>();
+				particle.mMaterial->SetShader(GET_SINGLE(Resources)->Find<Shader>(stow(sKey)));
+			}
 		}
 
 		auto bloom = entity["Bloom"];
@@ -1223,6 +1282,35 @@ namespace SY {
 
 			bloomComp.Threshold = bloom["Threshold"].as<float>();
 			bloomComp.Intensity = bloom["Intensity"].as<float>();
+		}
+
+		auto trail = entity["TrailRenderer"];
+		if (trail)
+		{
+			auto& trailComp = deserializedEntity.AddComponent<TrailRenderer>();
+
+			trailComp.Color = trail["Color"].as<Vector4>();
+			trailComp.base = trail["Base"].as<Vector3>();
+			trailComp.tip = trail["Tip"].as<Vector3>();
+
+			auto shaderKey = trail["Shader"].as<string>();
+			auto texturePath = trail["Texture"].as<string>();
+			auto path = Project::GetAssetFileSystemPath(texturePath);
+
+			trailComp.material->SetShader(GET_SINGLE(Resources)->Find<Shader>(stow(shaderKey)));
+			trailComp.material->SetTexture(0, GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false));
+		}
+
+		auto line = entity["LineRenderer"];
+		if (line)
+		{
+			auto& lineComp = deserializedEntity.AddComponent<LineRenderer>();
+
+			lineComp.Color = line["Color"].as<Vector4>();
+			lineComp.Emission = line["Emission"].as<Vector4>();
+
+			lineComp.Size = line["Size"].as<Vector2>();
+			lineComp.Velocity = line["Velocity"].as<Vector2>();
 		}
 
 		return deserializedEntity;

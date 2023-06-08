@@ -12,6 +12,8 @@ namespace SY {
 		DrawVec3Control("Rotation", rotation,0,100);
 		component.rotation = rotation / 180.f * XM_PI;
 		DrawVec3Control("Scale", component.scale, 1.0f,100);
+
+		component.recent = false;
 	}
 	void TransformComponent::Serialize(YAML::Emitter& out)
 	{

@@ -46,6 +46,10 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Rigidbody2DComponent_SetLinearVelocity(ulong entityID, ref Vector2 velocity, bool wake);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float Rigidbody2DComponent_GetAngularVelocity(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Rigidbody2DComponent_SetAngularVelocity(ulong entityID, float velocity);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static Rigidbody2DComponent.BodyType Rigidbody2DComponent_GetType(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Rigidbody2DComponent_SetType(ulong entityID, Rigidbody2DComponent.BodyType type);
@@ -54,6 +58,10 @@ namespace SY
         internal extern static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(ulong entityID, ref Vector2 impulse, bool wake);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Rigidbody2DComponent_Flip(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Rigidbody2DComponent_GetEnable(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Rigidbody2DComponent_SetEnable(ulong entityID, bool enable);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static float DistanceJointComponent_GetCurrentLength(ulong entityID);
@@ -79,6 +87,8 @@ namespace SY
         internal extern static void BoxColliderComponent_GetSize(ulong entityID, out Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_SetSize(ulong entityID, ref Vector2 size);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Physics_RayCast2D(ref Vector2 from, ref Vector2 to, UInt16 mask, out Collision2D col);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CameraComponent_GetOrthographicSize(ulong entityID, out Vector2 size);
@@ -112,9 +122,19 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_GetState(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ParticleSystem_GetGeneratePos(ulong entityID, out Vector2 pos);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ParticleSystem_SetGeneratePos(ulong entityID, ref Vector2 pos);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_SetGeneratePosVariation(ulong entityID, ref Vector2 posVar);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint ParticleSystem_SetVelocityBegin(ulong entityID, ref Vector2 posVar);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint ParticleSystem_SetVelocityEnd(ulong entityID, ref Vector2 posVar);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint ParticleSystem_SetAliveZone(ulong entityID, ref Vector2 aliveZone);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint ParticleSystem_SetLifeTime(ulong entityID, float lifeTime);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void IconComponent_SetTexture(ulong entityID, string color);
@@ -131,6 +151,20 @@ namespace SY
         internal extern static void SpriteRendererComponent_SetEmission(ulong entityID, ref Vector4 emission);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SpriteRendererComponent_GetEmission(ulong entityID, out Vector4 emission);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void LineRenderer_SetSize(ulong entityID, ref Vector2 size);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void LineRenderer_GetSize(ulong entityID, out Vector2 size);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SliderComponent_SetMaxValue(ulong entityID, float v);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float SliderComponent_GetMaxValue(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SliderComponent_SetValue(ulong entityID, float v);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float SliderComponent_GetValue(ulong entityID);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Entity_GetChild(ulong entityID, string childTag, out ulong childID);

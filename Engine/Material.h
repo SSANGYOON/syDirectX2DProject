@@ -76,6 +76,7 @@ public:
 	void SetComputeShader(shared_ptr<ComputeShader> computeShader) { _computeShader = computeShader; }
 
 	shared_ptr<Texture> GetTexture(UINT index) { return _textures[index]; }
+	shared_ptr<Shader> GetShader() { return _shader; }
 	UINT64 GetInstanceID();
 	void Bind();
 	void Clear();

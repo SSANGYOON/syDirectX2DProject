@@ -71,7 +71,7 @@ namespace SY {
 				if (std::filesystem::exists(pdbPath))
 				{
 					ScopedBuffer pdbFileData = FileSystem::ReadFileBinary(pdbPath);
-					mono_debug_open_image_from_memory(image, pdbFileData.As<const mono_byte>(), pdbFileData.Size());
+					mono_debug_open_image_from_memory(image, (mono_byte*)pdbFileData.As<char>(), pdbFileData.Size());
 					//HZ_CORE_INFO("Loaded PDB {}", pdbPath);
 				}
 			}
@@ -345,7 +345,7 @@ namespace SY {
 		if (s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end())
 		{
 			shared_ptr<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
-			instance->InvokeOnUpdate(timeStep);
+			instance->InvokeOnUpdate(timeStep);			
 		}
 		else
 		{

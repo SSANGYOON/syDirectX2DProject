@@ -1,0 +1,32 @@
+Head: 4620892548516245474
+Entities:
+  - Entity: 4620892548516245474
+    TagComponent:
+      Tag: ParticleLine
+    State: 0
+    TransformComponent:
+      Translation: [-321, 81, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ParticleSystem:
+      Position: [10, 0]
+      PositionVariation: [20, 2]
+      Velocity: [50, 0]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [50, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [1, 0.250980407, 0.129411772, 1]
+      ColorEnd: [1, 0.250980407, 0.129411772, 0]
+      EmissionBegin: [1, 0.250980407, 0.129411772, 1]
+      EmissionEnd: [1, 0.250980407, 0.129411772, 0]
+      MaxParticles: 30
+      Frequency: 10
+      LifeTime: 5
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: true
+      UseAliveZone: true
+      AliveZone: [100, 5]
+      State: 0

@@ -43,18 +43,29 @@ void Mesh::SetVertexData(void* data, UINT count)
 	CONTEXT->Unmap(_vertexBuffer.Get(), 0);
 }
 
-void Mesh::CreateIndexBuffer(void* data, UINT count)
+void Mesh::CreateIndexBuffer(void* data, UINT count, D3D11_USAGE usage)
 {
 	D3D11_BUFFER_DESC desc = {};
 	desc.ByteWidth = sizeof(UINT) * count;
 	desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-	desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-	desc.CPUAccessFlags = 0;
+	desc.Usage = usage;
+	if (usage == D3D11_USAGE_DYNAMIC)
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	else
+		desc.CPUAccessFlags = 0; 0;
 
 	D3D11_SUBRESOURCE_DATA subData = {};
 	subData.pSysMem = data;
 	DEVICE->CreateBuffer(&desc, &subData, _indexBuffer.GetAddressOf());
 	_indexes = count;
+}
+
+void Mesh::SetIndexData(void* data, UINT count)
+{
+	D3D11_MAPPED_SUBRESOURCE sub = {};
+	CONTEXT->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+	memcpy(sub.pData, data, sizeof(UINT) * count);
+	CONTEXT->Unmap(_indexBuffer.Get(), 0);
 }
 
 void Mesh::BindBuffer()

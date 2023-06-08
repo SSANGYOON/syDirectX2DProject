@@ -93,10 +93,19 @@ void GS_MAIN(point VS_OUT input[1], inout TriangleStream<GS_OUT> outputStream)
     output[2].Pos.xy += mul(size * float2(-0.5f, -0.5f), mat);
     output[3].Pos.xy += mul(size * float2(0.5f, -0.5f), mat);
 
-    output[0].Pos = mul(mul(output[0].Pos, view), projection);
-    output[1].Pos = mul(mul(output[1].Pos, view), projection);
-    output[2].Pos = mul(mul(output[2].Pos, view), projection);
-    output[3].Pos = mul(mul(output[3].Pos, view), projection);
+    if (useLocalCoord == 1) {
+        output[0].Pos = mul(mul(mul(output[0].Pos, world), view), projection);
+        output[1].Pos = mul(mul(mul(output[1].Pos, world), view), projection);
+        output[2].Pos = mul(mul(mul(output[2].Pos, world), view), projection);
+        output[3].Pos = mul(mul(mul(output[3].Pos, world), view), projection);
+    }
+    else
+    {
+        output[0].Pos = mul(mul(output[0].Pos, view), projection);
+        output[1].Pos = mul(mul(output[1].Pos, view), projection);
+        output[2].Pos = mul(mul(output[2].Pos, view), projection);
+        output[3].Pos = mul(mul(output[3].Pos, view), projection);
+    }
 
     output[0].uv = float2(0.f, 0.f);
     output[1].uv = float2(1.f, 0.f);

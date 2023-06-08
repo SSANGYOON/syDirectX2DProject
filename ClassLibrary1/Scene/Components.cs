@@ -43,6 +43,11 @@ namespace SY
     {
         public enum BodyType { Static = 0, Dynamic, Kinematic }
 
+        public bool Enable
+        {
+            get { return InternalCalls.Rigidbody2DComponent_GetEnable(Entity.ID); }
+            set { InternalCalls.Rigidbody2DComponent_SetEnable(Entity.ID, value); }
+        }
         public Vector2 LinearVelocity
         {
             get
@@ -51,6 +56,13 @@ namespace SY
                 return velocity;
             }
             set => InternalCalls.Rigidbody2DComponent_SetLinearVelocity(Entity.ID, ref value, true);
+        }
+
+        public float AngularVelocity
+        {
+            get { return InternalCalls.Rigidbody2DComponent_GetAngularVelocity(Entity.ID); }
+
+            set { InternalCalls.Rigidbody2DComponent_SetAngularVelocity(Entity.ID, value); }
         }
 
         public BodyType Type
@@ -102,6 +114,24 @@ namespace SY
             return InternalCalls.TransformAnimatorComponent_Play(Entity.ID, clipName, at);
         }
     
+    }
+
+    public class SliderComponent : Component
+    {
+        public float maxValue
+        {
+           
+            get {return InternalCalls.SliderComponent_GetMaxValue(Entity.ID);}
+            set{InternalCalls.SliderComponent_SetMaxValue(Entity.ID, value);}
+        }
+
+        public float Value
+        {
+
+            get { return InternalCalls.SliderComponent_GetValue(Entity.ID); }
+            set { InternalCalls.SliderComponent_SetValue(Entity.ID, value); }
+        }
+
     }
 
     public class BoxCollider2DComponent : Component
@@ -227,12 +257,35 @@ namespace SY
 
         public Vector2 Position
         { 
+            get { InternalCalls.ParticleSystem_GetGeneratePos(Entity.ID, out Vector2 pos);
+                return pos;
+            }
             set { InternalCalls.ParticleSystem_SetGeneratePos(Entity.ID, ref value); }
         }
 
         public Vector2 PositionVariation
         {
             set { InternalCalls.ParticleSystem_SetGeneratePosVariation(Entity.ID, ref value); }
+        }
+
+        public Vector2 VelocityBegin
+        {
+            set { InternalCalls.ParticleSystem_SetVelocityBegin(Entity.ID, ref value); }
+        }
+
+        public Vector2 VelocityEnd
+        {
+            set { InternalCalls.ParticleSystem_SetVelocityEnd(Entity.ID, ref value); }
+        }
+
+        public Vector2 AliveZone
+        {
+            set { InternalCalls.ParticleSystem_SetAliveZone(Entity.ID, ref value); }
+        }
+
+        public float LifeTime
+        {
+            set { InternalCalls.ParticleSystem_SetLifeTime(Entity.ID, value); }
         }
     }
 
@@ -247,6 +300,24 @@ namespace SY
         {
             get { return InternalCalls.DistanceJointComponent_GetMinLength(Entity.ID); }
             set { InternalCalls.DistanceJointComponent_SetMinLength(Entity.ID, value); }
+        }
+    }
+
+    public class LineRenderer : Component
+    {
+        public Vector2 Size
+        {
+            get { InternalCalls.LineRenderer_GetSize(Entity.ID, out Vector2 size);
+                return size;}
+            set {InternalCalls.LineRenderer_SetSize(Entity.ID, ref value);}
+        }
+    }
+
+    public class Physics
+    {
+        public static void RayCast(ref Vector2 from, ref Vector2 to, UInt16 mask, out Collision2D col)
+        {
+            InternalCalls.Physics_RayCast2D(ref from, ref to, mask, out col);
         }
     }
 }

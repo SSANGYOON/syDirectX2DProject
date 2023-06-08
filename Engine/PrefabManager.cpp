@@ -80,7 +80,12 @@ namespace SY {
 
 	string PrefabManager::GetPrefabName(UUID id)
 	{
-		return prefabScene->GetEntityByUUID(id).GetName();
+		Entity ent = prefabScene->GetEntityByUUID(id);
+
+		if (ent)
+			return ent.GetComponent<TagComponent>().Tag;
+		else
+			return "";
 	}
 
 	HRESULT PrefabManager::loadPrefab(std::filesystem::directory_entry entry)

@@ -2,6 +2,7 @@
 #include "Drawable.h"
 #include "Resources.h"
 #include "Material.h"
+#include "Mesh.h"
 
 namespace SY {
 
@@ -92,6 +93,7 @@ namespace SY {
 				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
 				assert(texture->GetD3Texture());
 				component.Diffuse = texture;
+				component.tile = texture->GetSize();
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -346,5 +348,90 @@ namespace SY {
 	void CircleRendererComponent::DrawImGui(CircleRendererComponent& component)
 	{
 		ImGui::ColorEdit4("Circle Color", reinterpret_cast<float*>(&component.Color));
+	}
+	void TrailRenderer::Init()
+	{
+		_mesh = make_shared<Mesh>();
+		_vertexes.resize(maxRecoord * 2);
+
+		_mesh->CreateVertexBuffer(_vertexes.data(), maxRecoord * 2, D3D11_USAGE::D3D11_USAGE_DYNAMIC);
+
+		_indexes.resize(maxRecoord * 2);
+
+		for (int i = 0; i < maxRecoord*2; i++)
+		{
+			_indexes[i] = i;
+		}
+
+		_mesh->CreateIndexBuffer(_indexes.data(), maxRecoord * 2, D3D11_USAGE::D3D11_USAGE_DYNAMIC);
+	}
+	void TrailRenderer::SetData()
+	{
+		_mesh->SetVertexData(_vertexes.data(), recoorded * 2);
+		_mesh->SetIndexData(_indexes.data(), recoorded * 2);
+	}
+
+	void TrailRenderer::DrawImGui(TrailRenderer& component)
+	{
+		ImGui::ColorEdit4("Color", reinterpret_cast<float*>(&component.Color));
+
+		ImGui::DragFloat3("Base", reinterpret_cast<float*>(&component.base));
+		ImGui::DragFloat3("Tip", reinterpret_cast<float*>(&component.tip));
+
+		ImGui::DragFloat("RecoordFreq", &component.recoordFreq);
+		ImGui::DragInt("MaxRecoord", reinterpret_cast<int*>(&component.maxRecoord));
+
+		auto shaders = GET_SINGLE(Resources)->GetShaders();
+		string skey;
+		auto shader = component.material->GetShader();
+		if (shader)
+			skey = wtos(shader->GetKey());
+		const char* currentShader = shader == nullptr ? "SpriteFoward" : skey.c_str();
+		if (ImGui::BeginCombo("Shader", currentShader))
+		{
+			for (int i = 0; i < shaders.size(); i++)
+			{
+				string s = wtos(shaders[i]->GetKey());
+				const char* currentShaderKey = s.c_str();
+				bool isSelected = strcmp(currentShader, currentShaderKey) == 0;
+				if (ImGui::Selectable(currentShaderKey, isSelected))
+					component.material->SetShader(shaders[i]);
+
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
+			}
+
+			ImGui::EndCombo();
+		}
+
+		ImGui::Text("Texture", ImVec2(100.0f, 0.0f));
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)payload->Data;
+				std::filesystem::path texturePath(path);
+				shared_ptr<Texture> texture = GET_SINGLE(Resources)->Load<Texture>(texturePath.wstring(), texturePath.wstring(), false);
+				assert(texture->GetD3Texture());
+				component.material->SetTexture(0, texture);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		auto tex = component.material->GetTexture(0);
+		if (tex) {
+			ImGui::Text(wtos(tex->GetPath()).c_str());
+
+			if (ImGui::Button("Remove Diffuse"))
+				component.material->SetTexture(0, nullptr);
+		}
+	}
+	void LineRenderer::DrawImGui(LineRenderer& component)
+	{
+		ImGui::ColorEdit4("Color", reinterpret_cast<float*>(&component.Color));
+		ImGui::ColorEdit4("Emission", reinterpret_cast<float*>(&component.Emission), ImGuiColorEditFlags_::ImGuiColorEditFlags_HDR);
+
+		ImGui::DragFloat2("Velocity", reinterpret_cast<float*>(&component.Velocity));
+		ImGui::DragFloat2("Size", reinterpret_cast<float*>(&component.Size));
 	}
 }

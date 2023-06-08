@@ -19,7 +19,17 @@ namespace SY
                 return InternalCalls.Entity_IsValid(ID);   
         }
 
-        public Entity Instantiate(Vector3 position, ulong parentId)
+        public Entity Instantiate()
+        {
+            Vector3 pos = Vector3.Zero;
+            InternalCalls.Entity_Instantiate(ID, ref pos, 0, out ulong instanceID);
+            if (instanceID > 0)
+                return new Entity(instanceID);
+            else
+                return null;
+        }
+
+        public Entity Instantiate(Vector3 position, ulong parentId = 0)
         {
             InternalCalls.Entity_Instantiate(ID, ref position, parentId, out ulong instanceID);
             if (instanceID > 0)

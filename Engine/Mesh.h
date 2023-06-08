@@ -11,7 +11,8 @@ public:
 public:
 	void CreateVertexBuffer(void* data, UINT count, D3D11_USAGE usage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	void SetVertexData(void* data, UINT count);
-	void CreateIndexBuffer(void* data, UINT count);
+	void SetIndexData(void* data, UINT count);
+	void CreateIndexBuffer(void* data, UINT count, D3D11_USAGE usage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	void SetIndexSize(UINT index) { _indexes = 0; }
 	void BindBuffer();

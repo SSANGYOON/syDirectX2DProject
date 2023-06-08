@@ -2,11 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Grid.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)TrailShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Rect.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Halo.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)WingShader.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)LaserShader.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Sky.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)DefaultSpriteFoward.hlsl">
       <Filter>SpriteShader</Filter>
@@ -60,6 +58,19 @@
       <Filter>SpriteShader</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)GlowSword.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpriteSmoothErase.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ThunderShader.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ThunderParticle.hlsl">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)TrailShader.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)LaserShader.hlsl">
       <Filter>SpriteShader</Filter>
     </FxCompile>
   </ItemGroup>

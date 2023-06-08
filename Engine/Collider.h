@@ -15,7 +15,7 @@ namespace SY
 		UINT16 maskBits = 1;
 		bool isSensor = false;
 
-		void* RuntimeFixture = nullptr;
+		void* RuntimeFixture;
 
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
@@ -38,7 +38,7 @@ namespace SY
 		UINT16 maskBits = 1;
 		bool isSensor = false;
 
-		void* RuntimeFixture = nullptr;
+		void* RuntimeFixture;
 
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent&) = default;

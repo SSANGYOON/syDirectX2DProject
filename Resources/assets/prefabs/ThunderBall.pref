@@ -1,0 +1,49 @@
+Head: 14308759514697844830
+Entities:
+  - Entity: 14308759514697844830
+    TagComponent:
+      Tag: ThunderBall
+    State: 0
+    TransformComponent:
+      Translation: [-263.5, 30, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.ThunderBall
+    Light:
+      Color: [0.368627459, 0.611764729, 1.97647059]
+      Type: 0
+      Range: 50
+      Direction: [0, 0, 0]
+    CircleCollider2DComponent:
+      Offset: [0, 0]
+      Radius: 5
+      Density: 0
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 2
+      CategoryBits: 16
+    ParticleSystem:
+      Position: [2, 0]
+      PositionVariation: [2, 360]
+      Velocity: [0, 5]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [0, 5]
+      SizeBegin: [10, 10]
+      SizeEnd: [10, 10]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.741176486, 0.929411769, 1, 1]
+      ColorEnd: [0.741176486, 0.929411769, 1, 1]
+      EmissionBegin: [0.184313729, 0.305882365, 0.988235295, 1]
+      EmissionEnd: [0.184313729, 0.305882365, 0.988235295, 1]
+      MaxParticles: 6
+      Frequency: 1
+      LifeTime: 5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: true
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ThunderParticle

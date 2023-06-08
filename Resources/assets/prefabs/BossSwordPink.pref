@@ -1,0 +1,52 @@
+Head: 13563141222382822323
+Entities:
+  - Entity: 13563141222382822323
+    TagComponent:
+      Tag: BossSwordPink
+    State: 0
+    TransformComponent:
+      Translation: [176, -50, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.517647088, 1, 0.278431386, 1]
+      Emission: [1, 0.478764474, 0.937612832, 1]
+      DiffusePath: textures\BossCastleBigSword.png
+      Tile: [64, 192]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\BossCastleBigSwordLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: true
+    BoxCollider2DComponent:
+      Offset: [0, -27]
+      Size: [12, 53]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 2
+      CategoryBits: 16

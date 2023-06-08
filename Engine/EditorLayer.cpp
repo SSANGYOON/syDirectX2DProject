@@ -139,7 +139,6 @@ namespace SY {
 
 	void EditorLayer::OnImGuiRender()
 	{
-
 		static bool dockspaceOpen = true;
 		static bool opt_fullscreen_persistant = true;
 		bool opt_fullscreen = opt_fullscreen_persistant;

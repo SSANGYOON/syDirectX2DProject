@@ -34,10 +34,15 @@ namespace SY {
 
 				sc.currentState = sc.state;
 
-				if (sc.currentState == EntityState::Pause && !ent.HasComponent<Pause>())
-					ent.AddOrReplaceComponent<Pause>();
+				if (sc.currentState == EntityState::Pause && !ent.HasComponent<Pause>()) {
+					ent.AddComponent<Pause>();
+					ent.PauseEntity();
+					ScriptEngine::OnPaused(ent);
+				}
+
 				else if (sc.currentState == EntityState::Active && ent.HasComponent<Pause>()) {
 					ent.RemoveComponent<Pause>();
+					ent.ActivateEntity();
 					ScriptEngine::OnActivated(ent);
 				}
 					
@@ -84,96 +89,13 @@ namespace SY {
 
 				if (sc.currentState == EntityState::Pause && !entity.HasComponent<Pause>()) {
 					entity.AddOrReplaceComponent<Pause>();
-
-					if (entity.HasComponent<Rigidbody2DComponent>())
-					{
-						auto& rb = entity.GetComponent<Rigidbody2DComponent>();
-						b2Body* body = (b2Body*)rb.RuntimeBody;
-
-						if (body)
-							body->SetEnabled(false);
-					}
-
-					else if (entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>())
-					{
-						b2Fixture* fix = nullptr;
-
-						if (entity.HasComponent<BoxCollider2DComponent>()) {
-							auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
-							fix = (b2Fixture*)bc2d.RuntimeFixture;
-						}
-						
-						else{
-							auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
-							fix = (b2Fixture*)cc2d.RuntimeFixture;
-						}
-
-						if (fix) {
-							auto body = fix->GetBody();
-							body->DestroyFixture(fix);
-							if(entity.HasComponent<BoxCollider2DComponent>())
-								entity.GetComponent<BoxCollider2DComponent>().RuntimeFixture = nullptr;
-							else
-								entity.GetComponent<CircleCollider2DComponent>().RuntimeFixture = nullptr;
-						}
-					}
+					entity.PauseEntity();	
+					ScriptEngine::OnPaused(entity);
 				}
 				else if (sc.currentState == EntityState::Active && entity.HasComponent<Pause>()) {
 					entity.RemoveComponent<Pause>();
-
-					if (entity.HasComponent<Rigidbody2DComponent>())
-					{
-						auto& rb = entity.GetComponent<Rigidbody2DComponent>();
-						b2Body* body = (b2Body*)rb.RuntimeBody;
-						auto& tr = entity.GetComponent<TransformComponent>();
-
-						if (body) {
-							body->SetEnabled(true);
-							body->SetTransform({ tr.translation.x,tr.translation.y }, tr.rotation.z);
-						}
-					}
-
-					else if (entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>())
-					{
-						b2Vec2 offset = b2Vec2_zero;
-
-						if (entity.HasComponent<BoxCollider2DComponent>()) {
-							auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
-							offset = { bc2d.Offset.x, bc2d.Offset.y };
-						}
-
-						else
-						{
-							auto& cc2d = entity.GetComponent<CircleCollider2DComponent>();
-							offset = { cc2d.Offset.x, cc2d.Offset.y };
-						}
-						float angle = 0.f;
-
-						b2Body* body = nullptr;
-						Entity root = entity;
-
-						while (root.IsValid())
-						{
-							if (root.HasComponent<Rigidbody2DComponent>()) {
-								body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
-								break;
-							}
-							else {
-								auto& trans = root.GetComponent<TransformComponent>();
-								b2Rot r(trans.rotation.z);
-
-								offset = { trans.translation.x + offset.x * r.c - offset.y * r.s,
-									trans.translation.y + offset.x * r.s + offset.y * r.c };
-								angle += trans.rotation.z;
-
-								root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
-							}
-						}
-						if (body) {
-							float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-							entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
-						}
-					}
+					entity.ActivateEntity();
+					ScriptEngine::OnActivated(entity);
 				}
 				if (sc.currentState == EntityState::Dead) {
 					entity.AddOrReplaceComponent<Dead>();

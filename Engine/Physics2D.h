@@ -2,7 +2,8 @@
 #include "Component.h"
 
 #include "box2d/b2_body.h"
-
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_world_callbacks.h"
 namespace SY {
 
 	namespace Utils {
@@ -35,4 +36,35 @@ namespace SY {
 
 	}
 
+	class MyRayCastCallback : public b2RayCastCallback
+	{
+	public:
+		MyRayCastCallback(UINT16 mask)
+			:m_mask(mask)
+		{
+			m_fixture = NULL;
+		}
+
+		float ReportFixture(b2Fixture* fixture, const b2Vec2& point,
+			const b2Vec2& normal, float fraction)
+		{
+			uint16 categoryBit = fixture->GetFilterData().categoryBits;
+
+			if ((m_mask & categoryBit) == 0)
+				return -1;
+			else {
+				m_fixture = fixture;
+				m_point = point;
+				m_normal = normal;
+				m_fraction = fraction;
+				return fraction;
+			}
+		}
+
+		b2Fixture* m_fixture;
+		b2Vec2 m_point;
+		b2Vec2 m_normal;
+		UINT16 m_mask;
+		float m_fraction;
+	};
 }

@@ -172,6 +172,19 @@ void Resources::CreateDefaultResource()
 	circleShader->CreateShader(_info, _entry, L"DebugShader.hlsl");
 #pragma endregion
 
+#pragma region TrailShader
+	shared_ptr<Shader> trailShader = std::make_shared<Shader>();
+	Resources::Insert<Shader>(L"TrailShader", trailShader);
+	_info.bst = BSType::AlphaBlend;
+	_info.dst = DSType::Less;
+	_info.rst = RSType::SolidNone;
+	_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+	_entry = {};
+	_entry.VS = true;
+	_entry.PS = true;
+	trailShader->CreateShader(_info, _entry, L"TrailShader.hlsl", true);
+#pragma endregion
+
 #pragma region ParticleCompute
 	shared_ptr<ComputeShader> ParticleCompute = std::make_shared<ComputeShader>();
 	Resources::Insert<ComputeShader>(L"ParticleShader", ParticleCompute);
@@ -218,7 +231,7 @@ void Resources::CreateDefaultResource()
 		Resources::Insert<Shader>(L"SpriteDeffered", defferedShader);
 		ShaderInfo _info = {};
 		ShaderEntry _entry;
-		_info.bst = BSType::AlphaBlend;
+		_info.bst = BSType::Default;
 		_info.dst = DSType::Less;
 		_info.rst = RSType::SolidNone;
 		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -401,6 +414,24 @@ void Resources::CreateDefaultResource()
 	}
 #pragma endregion
 
+#pragma region ThunderParticle
+	{
+		shared_ptr<Shader> particle = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"ThunderParticle", particle);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		_entry.GS = true;
+		particle->CreateShader(_info, _entry, L"ThunderParticle.hlsl", true);
+	}
+#pragma endregion
+
 #pragma region Resize
 	{
 		shared_ptr<Shader> resizer = std::make_shared<Shader>();
@@ -461,6 +492,56 @@ void Resources::CreateDefaultResource()
 		_entry.VS = true;
 		_entry.PS = true;
 		ACESMap->CreateShader(_info, _entry, L"ACESMap.hlsl");
+	}
+#pragma endregion
+
+#pragma region SmoothErase
+	{
+		shared_ptr<Shader> serase = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"SmoothErase", serase);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		serase->CreateShader(_info, _entry, L"SpriteSmoothErase.hlsl");
+	}
+#pragma endregion
+
+#pragma region Thunder
+	{
+		shared_ptr<Shader> thunder = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Thunder", thunder);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		thunder->CreateShader(_info, _entry, L"ThunderShader.hlsl");
+	}
+#pragma endregion
+#pragma region Laser
+	{
+		shared_ptr<Shader> laser = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Laser", laser);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		laser->CreateShader(_info, _entry, L"LaserShader.hlsl", true);
 	}
 #pragma endregion
 

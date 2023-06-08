@@ -23,6 +23,8 @@
 #include "PrefabManager.h"
 #include "ParentManager.h"
 #include "SceneManager.h"
+#include "Animation.h"
+#include "Physics2D.h"
 #include <queue>
 
 namespace SY {
@@ -110,7 +112,7 @@ namespace SY {
 
 		auto& transform = entity.GetComponent<TransformComponent>();
 		transform.translation = *translation;
-
+		transform.recent = false;
 		if (entity.HasComponent<Rigidbody2DComponent>())
 		{
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
@@ -158,7 +160,7 @@ namespace SY {
 			}
 			if (body) {
 				float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-				entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
+				entity.GetContext()->MoveFixture(entity, offset, angle, body, flip);
 			}
 		
 		}
@@ -188,8 +190,10 @@ namespace SY {
 		assert(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		assert(entity);
-
-		entity.GetComponent<TransformComponent>().scale = *scale;
+		
+		auto& transform = entity.GetComponent<TransformComponent>();
+		transform.scale = *scale;
+		transform.recent = false;
 	}
 
 	static void TransformComponent_GetRotation(UUID entityID, Vector3* outRotation)
@@ -212,6 +216,7 @@ namespace SY {
 		auto& transform = entity.GetComponent<TransformComponent>();
 
 		transform.rotation = *rotation;
+		transform.recent = false;
 
 		if (entity.HasComponent<Rigidbody2DComponent>())
 		{
@@ -221,6 +226,9 @@ namespace SY {
 
 			b2Vec2 b2Trans = b2Vec2(transform.translation.x, transform.translation.y);
 			body->SetTransform(b2Trans, transform.rotation.z);
+
+			if (!body->IsAwake())
+				body->SetAwake(true);
 		}
 
 		else if (entity.HasComponent<BoxCollider2DComponent>() || entity.HasComponent<CircleCollider2DComponent>()) {
@@ -260,7 +268,7 @@ namespace SY {
 			}
 			if (body) {
 				float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-				entity.GetContext()->AddFixture(entity, offset, angle, body, flip);
+				entity.GetContext()->MoveFixture(entity, offset, angle, body, flip);
 			}
 
 		}
@@ -345,6 +353,55 @@ namespace SY {
 		b2Body* body = (b2Body*)rb2d.RuntimeBody;
 		body->SetLinearVelocity(*reinterpret_cast<b2Vec2*>(linearVelocity));
 	}
+	static float Rigidbody2DComponent_GetAngularVelocity(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		return body->GetAngularVelocity();
+	}
+
+	static void Rigidbody2DComponent_SetAngularVelocity(UUID entityID, float velocity)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		body->SetAngularVelocity(velocity);
+	}
+
+	static bool Rigidbody2DComponent_GetEnable(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		return body->IsEnabled();
+	}
+	static void Rigidbody2DComponent_SetEnable(UUID entityID, bool enable)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		rb2d.enabled = enable;
+
+		if(rb2d.enabled && !entity.HasComponent<Pause>() || !rb2d.enabled)
+			body->SetEnabled(enable);
+	}
 
 	static Rigidbody2DComponent::BodyType Rigidbody2DComponent_GetType(UUID entityID)
 	{
@@ -391,34 +448,32 @@ namespace SY {
 		auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
 		bc2d.Offset = *offset;
 
-		b2Vec2 b2offset = { bc2d.Offset.x, bc2d.Offset.y };
+		if (entity.HasComponent<Pause>())
+			return;
 
 		float angle = 0.f;
-
 		b2Body* body = nullptr;
 		Entity root = entity;
 
 		while (root.IsValid())
 		{
-			if (root.HasComponent<Rigidbody2DComponent>()) {
-				body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+			if (root.HasComponent<Rigidbody2DComponent>())
 				break;
-			}
-			else {
-				auto& trans = root.GetComponent<TransformComponent>();
-				b2Rot r(trans.rotation.z);
-
-				b2offset = { trans.translation.x + b2offset.x * r.c - b2offset.y * r.s,
-					trans.translation.y + b2offset.x * r.s + b2offset.y * r.c };
-				angle += trans.rotation.z;
-
+			else 
 				root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
-			}
 		}
-		if (body) {
-			float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-			entity.GetContext()->AddFixture(entity, b2offset, angle, body, flip);
-		}
+
+		float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+			
+		b2Vec2 center = { bc2d.parentCenter.x, bc2d.parentCenter.x};
+
+		b2Rot r(bc2d.parentAngle);
+		center.x += bc2d.Offset.x * r.c - bc2d.Offset.y * r.s;
+		center.x *= flip;
+
+		center.y += bc2d.Offset.x * r.s + bc2d.Offset.y * r.c;
+
+		static_cast<b2PolygonShape*>(static_cast<b2Fixture*>(bc2d.RuntimeFixture)->GetShape())->SetAsBox(bc2d.Size.x, bc2d.Size.y, center, flip * angle);
 	}
 
 	static void BoxColliderComponent_GetSize(UUID entityID, Vector2* size)
@@ -444,6 +499,9 @@ namespace SY {
 
 		bc2d.Size = *size;
 
+		if (entity.HasComponent<Pause>())
+			return;
+
 		b2Vec2 b2offset = { bc2d.Offset.x, bc2d.Offset.y };
 
 		float angle = 0.f;
@@ -453,24 +511,44 @@ namespace SY {
 
 		while (root.IsValid())
 		{
-			if (root.HasComponent<Rigidbody2DComponent>()) {
-				body = (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody;
+			if (root.HasComponent<Rigidbody2DComponent>())
 				break;
-			}
-			else {
-				auto& trans = root.GetComponent<TransformComponent>();
-				b2Rot r(trans.rotation.z);
-
-				b2offset = { trans.translation.x + b2offset.x * r.c - b2offset.y * r.s,
-					trans.translation.y + b2offset.x * r.s + b2offset.y * r.c };
-				angle += trans.rotation.z;
-
+			else
 				root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
-			}
 		}
-		if (body) {
-			float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
-			entity.GetContext()->AddFixture(entity, b2offset, angle, body, flip);
+
+		float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+
+		b2Vec2 center = { bc2d.parentCenter.x, bc2d.parentCenter.x };
+
+		b2Rot r(bc2d.parentAngle);
+		center.x += bc2d.Offset.x * r.c - bc2d.Offset.y * r.s;
+		center.x *= flip;
+
+		center.y += bc2d.Offset.x * r.s + bc2d.Offset.y * r.c;
+
+		static_cast<b2PolygonShape*>(static_cast<b2Fixture*>(bc2d.RuntimeFixture)->GetShape())->SetAsBox(bc2d.Size.x, bc2d.Size.y, center, flip * angle);
+	}
+
+	static void Physics_RayCast2D(Vector2* from, Vector2* to, UINT16 mask, Collision* col)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		assert(scene);
+		MyRayCastCallback ray(mask);
+		b2Vec2 bFrom = { from->x, from->y };
+		b2Vec2 bTo = { to->x, to->y };
+		ScriptEngine::GetSceneContext()->GetBox2dWorld()->RayCast(&ray, bFrom, bTo);
+
+		if (ray.m_fixture) {
+
+			col->ContactPoint = { ray.m_point.x, ray.m_point.y };
+			col->normal = { ray.m_normal.x, ray.m_normal.y };
+			col->entityID = ray.m_fixture->GetUserData().pointer;
+			col->CollisionLayer = ray.m_fixture->GetFilterData().categoryBits;
+		}
+		else
+		{
+			col->entityID = 0;
 		}
 	}
 
@@ -516,8 +594,16 @@ namespace SY {
 		if (animator.clips.find(clipKey) == animator.clips.end())
 			return false;
 		else {
+
+			if (animator._currentClip != nullptr && animator._endEvent.find(clipKey) != animator._endEvent.end())
+				ScriptEngine::OnEvent(entity, animator._endEvent[clipKey]);
+
 			animator._currentClip = animator.clips.find(clipKey)->second;
 			animator._currentTime = at;
+
+			if (animator._startEvent.find(clipKey) != animator._startEvent.end())
+				ScriptEngine::OnEvent(entity, animator._startEvent[clipKey]);
+
 			return true;
 		}
 	}
@@ -530,12 +616,15 @@ namespace SY {
 		std::string clipKey(cStr);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		auto& animator = entity.GetComponent<TransformAnimatorComponent>();
+		auto& trans = entity.GetComponent<TransformComponent>();
 
 		if (animator.clips.find(clipKey) == animator.clips.end())
 			return false;
 		else {
 			animator._currentClip = animator.clips.find(clipKey)->second;
 			animator._currentTime = at;
+			trans.translation = animator._currentClip->GetFrames()[0].position * 10.f;
+			trans.rotation.z = animator._currentClip->GetFrames()[0].angle;
 			return true;
 		}
 	}
@@ -558,6 +647,15 @@ namespace SY {
 		particle.state = (ParticleState)state;
 	}
 
+	static void ParticleSystem_GetGeneratePos(UUID entityID, Vector2* genPos)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		*genPos = particle.Position;
+	}
+
 	static void ParticleSystem_SetGeneratePos(UUID entityID, Vector2* genPos)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -574,6 +672,42 @@ namespace SY {
 		auto& particle = entity.GetComponent<ParticleSystem>();
 
 		particle.PositionVariation = *variation;
+	}
+
+	static void ParticleSystem_SetVelocityBegin(UUID entityID, Vector2* velocity)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.Velocity = *velocity;
+	}
+
+	static void ParticleSystem_SetVelocityEnd(UUID entityID, Vector2* velocity)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.VelocityEnd = *velocity;
+	}
+
+	static void ParticleSystem_SetAliveZone(UUID entityID, Vector2* aliveZone)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.aliveZone = *aliveZone;
+	}
+
+	static void ParticleSystem_SetLifeTime(UUID entityID, float lifeTime)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.LifeTime = lifeTime;
 	}
 
 	static KEY_STATE Input_GetKeyState(KEY_TYPE keycode)
@@ -742,16 +876,6 @@ namespace SY {
 		sp.Color = *color;
 	}
 
-	static void SpriteRendererComponent_SetEmission(UUID entityID, Vector4* emission)
-	{
-		Scene* scene = ScriptEngine::GetSceneContext();
-		Entity entity = scene->GetEntityByUUID(entityID);
-		assert(entity);
-		auto& sp = entity.GetComponent<SpriteRendererComponent>();
-
-		sp.Emission = *emission;
-	}
-
 	static void SpriteRendererComponent_GetColor(UUID entityID, Vector4* color)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -762,6 +886,16 @@ namespace SY {
 		*color = sp.Color;
 	}
 
+	static void SpriteRendererComponent_SetEmission(UUID entityID, Vector4* emission)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+
+		sp.Emission = *emission;
+	}
+
 	static void SpriteRendererComponent_GetEmission(UUID entityID, Vector4* emission)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -770,6 +904,66 @@ namespace SY {
 
 		auto& sp = entity.GetComponent<SpriteRendererComponent>();
 		*emission = sp.Emission;
+	}
+
+	static void LineRenderer_SetSize(UUID entityID, Vector2* size)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& lr = entity.GetComponent<LineRenderer>();
+		lr.Size = *size;
+	}
+
+	static void LineRenderer_GetSize(UUID entityID, Vector2* size)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& lr = entity.GetComponent<LineRenderer>();
+		*size = lr.Size;
+	}
+
+	static float SliderComponent_GetMaxValue(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& slider = entity.GetComponent<SliderComponent>();
+		return slider.maxValue;
+	}
+
+	static void SliderComponent_SetMaxValue(UUID entityID, float maxValue)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& slider = entity.GetComponent<SliderComponent>();
+		slider.maxValue = maxValue;
+	}
+
+	static void SliderComponent_SetValue(UUID entityID, float value)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& slider = entity.GetComponent<SliderComponent>();
+		slider.currentValue = value;
+	}
+
+	static float SliderComponent_GetValue(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& slider = entity.GetComponent<SliderComponent>();
+		return slider.currentValue;
 	}
 
 
@@ -790,9 +984,7 @@ namespace SY {
 		Entity instance = PrefabManager::Instantiate(ScriptEngine::GetSceneContext(), id, parentID);
 		
 		
-
-		
-		
+	
 		if(instance) {
 			queue<UINT> initQueue;
 			initQueue.push(instance);
@@ -806,6 +998,29 @@ namespace SY {
 
 				if (ent.HasComponent<Rigidbody2DComponent>())
 					ScriptEngine::GetSceneContext()->AddBody(ent);
+				else if (ent.HasComponent<BoxCollider2DComponent>() || ent.HasComponent<CircleCollider2DComponent>()) {
+					Entity root = instance;
+
+					Vector2 center = {};
+					float angle = 0.f;
+					while (root.IsValid())
+					{
+						if (root.HasComponent<Rigidbody2DComponent>())
+							break;
+						else {
+							float zAngle = root.GetComponent<TransformComponent>().rotation.z;
+							Vector3 translation = root.GetComponent<TransformComponent>().translation;
+							center = Vector2::Transform(center, Quaternion::CreateFromAxisAngle(Vector3::Backward, zAngle)) + Vector2(translation.x, translation.y);
+							angle += zAngle;
+							root = root.GetContext()->GetEntityByUUID(root.GetComponent<Parent>().parentHandle);
+						}
+					}
+					float flip = root.GetComponent<Rigidbody2DComponent>().flip ? -1.f : 1.f;
+
+					b2Vec2 b2Centor = { center.x, center.y };
+
+					ScriptEngine::GetSceneContext()->AddFixture(ent, b2Centor, angle, (b2Body*)root.GetComponent<Rigidbody2DComponent>().RuntimeBody, flip);
+				}
 
 				if (ent.HasComponent<ParticleSystem>())
 				{
@@ -972,9 +1187,14 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetLinearVelocity);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetLinearVelocity);
+		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetAngularVelocity);
+		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetAngularVelocity);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetType);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetType);
 		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_Flip);
+		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetEnable);
+		HZ_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetEnable);
+		HZ_ADD_INTERNAL_CALL(Physics_RayCast2D);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetOffset);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_SetOffset);
 		HZ_ADD_INTERNAL_CALL(BoxColliderComponent_GetSize);
@@ -992,8 +1212,16 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetState);
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_GetState);
 
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_GetGeneratePos);
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetGeneratePos);
+
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetGeneratePosVariation);
+
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetVelocityBegin);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetVelocityEnd);
+
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetAliveZone);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetLifeTime);
 
 		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
@@ -1022,6 +1250,14 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetColor);
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetEmission);
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetEmission);
+
+		HZ_ADD_INTERNAL_CALL(LineRenderer_GetSize);
+		HZ_ADD_INTERNAL_CALL(LineRenderer_SetSize);
+
+		HZ_ADD_INTERNAL_CALL(SliderComponent_GetMaxValue);
+		HZ_ADD_INTERNAL_CALL(SliderComponent_SetMaxValue);
+		HZ_ADD_INTERNAL_CALL(SliderComponent_GetValue);
+		HZ_ADD_INTERNAL_CALL(SliderComponent_SetValue);
 
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadScene);
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadSceneAsync);

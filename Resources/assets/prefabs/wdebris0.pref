@@ -1,0 +1,50 @@
+Head: 3858084835572249257
+Entities:
+  - Entity: 3858084835572249257
+    TagComponent:
+      Tag: wdebris0
+    State: 0
+    TransformComponent:
+      Translation: [0, 18.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Demon Warlock.png
+      Tile: [12, 26]
+      Offset: [3, 481]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0.100000001
+      AngularDamping: 0.100000001
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [4, 11]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 1
+      CategoryBits: 64

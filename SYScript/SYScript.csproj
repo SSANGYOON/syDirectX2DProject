@@ -43,10 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessoryData.cs" />
-    <Compile Include="BossController.cs" />
+    <Compile Include="Laser.cs" />
+    <Compile Include="MonsterScript\DarkLady\BossController.cs" />
     <Compile Include="BossSceneCollisionEvent.cs" />
-    <Compile Include="BossSword.cs" />
+    <Compile Include="MonsterScript\DarkLady\BossSword.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="CostumeData.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryData.cs" />
@@ -55,10 +57,12 @@
     <Compile Include="ItemDatas\Weapon\HolySword.cs" />
     <Compile Include="ItemDatas\Weapon\Steeleto.cs" />
     <Compile Include="LoadingSceneController.cs" />
+    <Compile Include="MonsterScript\DarkLady\DarkWarlock.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="SpellData.cs" />
-    <Compile Include="SummonedEye.cs" />
+    <Compile Include="MonsterScript\DarkLady\SummonedEye\SummonedEye.cs" />
+    <Compile Include="MonsterScript\DarkLady\ThunderBall.cs" />
     <Compile Include="TitleSceneController.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Player.cs" />

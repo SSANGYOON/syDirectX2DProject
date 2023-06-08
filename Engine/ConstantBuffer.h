@@ -19,7 +19,7 @@ CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	Vector3 padding;
 };
 
-struct LightInfo
+struct alignas(16) LightInfo
 {
 	Vector3 dir;
 	float SpotlightFov;
@@ -65,6 +65,10 @@ CBUFFER(ParticleCB, CBSLOT_PARTICLE)
 	UINT maxParticles;
 	UINT textureAttach;
 	Vector2 texturePos;
+
+	UINT useLocalCoord;
+	UINT useAliveZone;
+	Vector2 aliveZone;
 };
 
 CBUFFER(BloomCB, CBSLOT_BLOOM)

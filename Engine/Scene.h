@@ -39,6 +39,7 @@ namespace SY {
 
 		void AddBody(Entity entity);
 		void AddFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip);
+		void MoveFixture(Entity entity, const b2Vec2& offset, float angle, b2Body* body, float flip);
 
 		vector<Entity> GetDontDestroys();
 		void UpdateTransform();

@@ -18,7 +18,8 @@ namespace SY
 		Vector2 velocity;
 		Vector2 size;
 		UINT active;
-		Vector3 padding;
+		UINT useLocalCoord;
+		Vector2 padding;
 	};
 
 	struct ParticleShared
@@ -58,6 +59,8 @@ namespace SY
 		Vector4 ColorBegin, ColorEnd;
 		Vector4 EmissionBegin, EmissionEnd;
 
+		Vector2 aliveZone;
+
 		int MaxParticles;
 		float Frequency;
 
@@ -69,6 +72,9 @@ namespace SY
 		bool PositionPolar = false;
 		bool VelocityPolar = false;
 		bool TextureAttach = false;
+
+		bool UseLocalCoord = false;
+		bool UseAliveZone = false;;
 
 		shared_ptr<Texture> attachTexture;
 		shared_ptr<Texture> graphicsTexture;

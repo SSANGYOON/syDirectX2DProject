@@ -21,8 +21,8 @@ namespace SY {
 		SY::Entity entity1 = { (entt::entity)p1, ScriptEngine::GetSceneContext()};
 		SY::Entity entity2 = { (entt::entity)p2, ScriptEngine::GetSceneContext() };
 
-		string tag1 = entity1.GetComponent<SY::TagComponent>().Tag;
-		string tag2 = entity2.GetComponent<SY::TagComponent>().Tag;
+		if (entity1.HasComponent<Pause>() || entity2.HasComponent<Pause>())
+			return;
 
 		if (entity1.HasComponent<ScriptComponent>())
 		{
@@ -31,8 +31,8 @@ namespace SY {
 			col.entityID = entity2.GetUUID();
 			col.CollisionLayer =  filter.categoryBits;
 
-			if (f1->IsSensor())
-   				ScriptEngine::OnTriggerEnter(entity1, &col);
+			if (f1->IsSensor() || f2->IsSensor())
+				ScriptEngine::OnTriggerEnter(entity1, &col);
 			else
 				ScriptEngine::OnCollisionEnter(entity1, &col);
 		}
@@ -43,7 +43,7 @@ namespace SY {
 			col.entityID = entity1.GetUUID();
 			col.CollisionLayer = filter.categoryBits;
 
-			if (f2->IsSensor())
+			if (f1->IsSensor() || f2->IsSensor())
 				ScriptEngine::OnTriggerEnter(entity2, &col);
 			else
 				ScriptEngine::OnCollisionEnter(entity2, &col);
@@ -51,7 +51,7 @@ namespace SY {
 	}
 
 	void CollisionListener::EndContact(b2Contact* contact)
-	{
+	{	
 		b2Fixture* f1 = contact->GetFixtureA();
 		b2Fixture* f2 = contact->GetFixtureB();
 
@@ -60,6 +60,9 @@ namespace SY {
 
 		SY::Entity entity1 = { (entt::entity)p1, ScriptEngine::GetSceneContext() };
 		SY::Entity entity2 = { (entt::entity)p2, ScriptEngine::GetSceneContext() };
+
+		if (entity1.HasComponent<Pause>() || entity2.HasComponent<Pause>())
+			return;
 
 		string tag1 = entity1.GetComponent<SY::TagComponent>().Tag;
 		string tag2 = entity2.GetComponent<SY::TagComponent>().Tag;
