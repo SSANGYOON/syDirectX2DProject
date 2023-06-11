@@ -133,6 +133,7 @@ namespace Sandbox
                     case PlayerState.Damaged:
                         m_Animator.Play("Attacked");
                         blood.State = (uint)ParticleSystem.ParticleState.NORMAL;
+                        invisible = true;
                         break;
                     case PlayerState.Dead:
                         m_Animator.Play("Dead");
@@ -185,12 +186,12 @@ namespace Sandbox
             if(zWeapon == null)
                 zWeapon = FindEntityByName("zWeapon").As<Weapon>();
 
-            if (rigidBody.LinearVelocity.X > 0)
+            if (rigidBody.LinearVelocity.X > 1)
                 if(State == PlayerState.Damaged)
                     Flip = true;
                 else
                     Flip = false;
-            else if (rigidBody.LinearVelocity.X < 0)
+            else if (rigidBody.LinearVelocity.X < -1)
                 if (State == PlayerState.Damaged)
                     Flip = false;
                 else
@@ -224,6 +225,7 @@ namespace Sandbox
                 if (stateTime > 0.5f)
                 {
                     blood.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
+                    invisible = false;
                     State = PlayerState.Idle;
                 }
             }

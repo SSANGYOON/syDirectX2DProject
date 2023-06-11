@@ -545,6 +545,57 @@ void Resources::CreateDefaultResource()
 	}
 #pragma endregion
 
+#pragma region ChainDissolve
+	{
+		shared_ptr<Shader> chainDissolve = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"ChainDissolve", chainDissolve);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		chainDissolve->CreateShader(_info, _entry, L"ChainDissolve.hlsl");
+	}
+#pragma endregion
+
+#pragma region DarkLady
+	{
+		shared_ptr<Shader> darkLady = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"DarkLady", darkLady);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		darkLady->CreateShader(_info, _entry, L"DarkLady.hlsl");
+	}
+#pragma endregion
+
+#pragma region DarkLady2
+	{
+		shared_ptr<Shader> darkLady2 = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"DarkLady2", darkLady2);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		darkLady2->CreateShader(_info, _entry, L"DarkLady2.hlsl");
+	}
+#pragma endregion
+
 #pragma region BloomBuffers
 	{
 		shared_ptr<Texture> downScaledEmission = std::make_shared<Texture>();

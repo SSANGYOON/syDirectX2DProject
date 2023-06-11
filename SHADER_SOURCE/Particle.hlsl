@@ -133,6 +133,9 @@ PSOut PS_MAIN(GS_OUT input)
     float t = g_data[input.id].remainLife / LifeTime;
     float4 color = lerp(ColorEnd, ColorBegin, t);
 
+    if (g_data[input.id].alive == 0)
+        discard;
+
     if(tex0_On > 0)
         color *= tex_0.Sample(pointSampler, input.uv);
 

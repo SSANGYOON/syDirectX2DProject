@@ -17,6 +17,8 @@ namespace Sandbox
 
         public float Range;
         public ulong mask;
+
+        private float _currentRange;
         public float LaserRotation
         {
             get { return Rotation.Z; }
@@ -30,18 +32,25 @@ namespace Sandbox
             endPointPs = endPoint.GetComponent<ParticleSystem>();
         }
 
+        void OnActivated()
+        {
+            _currentRange = 10f;
+        }
+
         public void OnUpdate(float ts)
         {
+            _currentRange = Math.Min(Range, _currentRange + 200 * ts);
+
             Vector2 from = WorldPosition.XY;
             Vector2 diff = new Vector2((float)Math.Cos(LaserRotation), (float)Math.Sin(LaserRotation));
-            Vector2 to = WorldPosition.XY + diff * Range;
+            Vector2 to = WorldPosition.XY + diff * _currentRange;
             Physics.RayCast(ref from, ref to, (ushort)mask, out Collision2D col);
 
             if (col.entityID == 0)
             {
                 endPointPs.State = (uint)ParticleSystem.ParticleState.PAUSE;
                 Vector2 size = Line.Size;
-                size.X = Range;
+                size.X = _currentRange;
                 Line.Size = size;
             }
             else
@@ -57,7 +66,6 @@ namespace Sandbox
 
                 endPoint.Rotation = new Vector3(0, 0, -Rotation.Z + angle);
             }
-
         }
     }
 }

@@ -132,6 +132,15 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_SetVelocityEnd(ulong entityID, ref Vector2 posVar);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ParticleSystem_SetEmissionBegin(ulong entityID, ref Vector4 emissionBegin);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ParticleSystem_SetEmissionEnd(ulong entityID, ref Vector4 emissionEnd);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ParticleSystem_SetColorBegin(ulong entityID, ref Vector4 colorBegin);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ParticleSystem_SetColorEnd(ulong entityID, ref Vector4 colorEnd);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_SetAliveZone(ulong entityID, ref Vector2 aliveZone);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_SetLifeTime(ulong entityID, float lifeTime);
@@ -151,6 +160,10 @@ namespace SY
         internal extern static void SpriteRendererComponent_SetEmission(ulong entityID, ref Vector4 emission);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SpriteRendererComponent_GetEmission(ulong entityID, out Vector4 emission);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetFloat(ulong entityID, uint id, float value);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetVec2(ulong entityID, uint id, ref Vector2 value);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void LineRenderer_SetSize(ulong entityID, ref Vector2 size);

@@ -24,7 +24,6 @@ namespace Sandbox
 
         Entity[] thunderBall;
 
-
         public Entity particleSpherePref;
         public Entity lineParticlePref;
 

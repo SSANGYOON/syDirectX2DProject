@@ -47,7 +47,7 @@ void CS_MAIN(uint3 DispatchID : SV_DispatchThreadID, uint GroupIndex : SV_GroupI
 
             float r5 = Rand(float2(y * time, x));
             float r6 = Rand(float2(y, x * time));
-            // [0.5~1] -> [0~1]
+
             float4 noise1 =
             {
                 r1 - 0.5f,
@@ -66,12 +66,8 @@ void CS_MAIN(uint3 DispatchID : SV_DispatchThreadID, uint GroupIndex : SV_GroupI
 
             if (PositionPolar > 0) {
 
-                float coeff = 0.f;
+                float coeff = sign(noise1.z) *2.f * noise1.z * noise1.z;
 
-                if (noise1.z > 0)
-                    coeff = 2.f * noise1.z * noise1.z;
-                else
-                    coeff = -2.f * noise1.z * noise1.z;
                 float r = LocalPosition.x + coeff * PositionVariation.x;
 
                 float theta = pi / 180.f * (LocalPosition.y + noise1.w * PositionVariation.y);

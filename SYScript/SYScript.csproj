@@ -57,6 +57,8 @@
     <Compile Include="ItemDatas\Weapon\HolySword.cs" />
     <Compile Include="ItemDatas\Weapon\Steeleto.cs" />
     <Compile Include="LoadingSceneController.cs" />
+    <Compile Include="MonsterScript\DarkLady\Bullet.cs" />
+    <Compile Include="MonsterScript\DarkLady\BulletGenerator.cs" />
     <Compile Include="MonsterScript\DarkLady\DarkWarlock.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="Skill.cs" />

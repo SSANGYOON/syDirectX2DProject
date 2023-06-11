@@ -1,0 +1,54 @@
+Head: 786090485618304233
+Entities:
+  - Entity: 786090485618304233
+    TagComponent:
+      Tag: Bullet
+    State: 0
+    TransformComponent:
+      Translation: [-252.5, 31, -2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Bullet
+      ScriptFields:
+        []
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 0.501960814]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\bullet.png
+      Tile: [10, 10]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: true
+    CircleCollider2DComponent:
+      Offset: [0, 0]
+      Radius: 5
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 7
+      CategoryBits: 16

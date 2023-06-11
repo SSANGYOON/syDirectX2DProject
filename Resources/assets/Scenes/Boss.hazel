@@ -1,30 +1,6 @@
 Scene: Untitled
 Entities:
-  - Entity: 15946419432033182029
-    TagComponent:
-      Tag: Laser3
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, -5]
-      Rotation: [0, 0, -0.523598731]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15557953290547489175
-    ScriptComponent:
-      ClassName: Sandbox.Laser2D
-      ScriptFields:
-        - Name: Range
-          Type: Float
-          Data: 500
-        - Name: mask
-          Type: ULong
-          Data: 3
-    LineRenderer:
-      Color: [1, 0.0965250731, 0.93372196, 1]
-      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
-      Velocity: [2, 0]
-      Size: [10, 10]
-  - Entity: 4290763279985189199
+  - Entity: 14639321221248561138
     TagComponent:
       Tag: LaserEndPoint
     State: 0
@@ -33,7 +9,7 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 15946419432033182029
+      ParentID: 12674846328801570142
     ParticleSystem:
       Position: [1, 0]
       PositionVariation: [0.100000001, 60]
@@ -55,6 +31,248 @@ Entities:
       UseLocalCoord: false
       UseAliveZone: false
       State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 12674846328801570142
+    TagComponent:
+      Tag: Laser0
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, -2.3561945]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15557953290547489175
+    ScriptComponent:
+      ClassName: Sandbox.Laser2D
+      ScriptFields:
+        - Name: Range
+          Type: Float
+          Data: 500
+        - Name: mask
+          Type: ULong
+          Data: 3
+    LineRenderer:
+      Color: [1, 0.0965250731, 0.93372196, 1]
+      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
+      Velocity: [2, 0]
+      Size: [10, 10]
+  - Entity: 4554164451504996280
+    TagComponent:
+      Tag: LaserEndPoint
+    State: 0
+    TransformComponent:
+      Translation: [200, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 5169425997000451848
+    ParticleSystem:
+      Position: [1, 0]
+      PositionVariation: [0.100000001, 60]
+      Velocity: [2, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.917647064, 0.596078455, 1, 1]
+      ColorEnd: [0.917647064, 0.596078455, 1, 0]
+      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
+      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
+      MaxParticles: 256
+      Frequency: 50
+      LifeTime: 1
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 5169425997000451848
+    TagComponent:
+      Tag: Laser1
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, -1.83259606]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15557953290547489175
+    ScriptComponent:
+      ClassName: Sandbox.Laser2D
+      ScriptFields:
+        - Name: Range
+          Type: Float
+          Data: 500
+        - Name: mask
+          Type: ULong
+          Data: 3
+    LineRenderer:
+      Color: [1, 0.0965250731, 0.93372196, 1]
+      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
+      Velocity: [2, 0]
+      Size: [10, 10]
+  - Entity: 7718345756393078454
+    TagComponent:
+      Tag: LaserEndPoint
+    State: 0
+    TransformComponent:
+      Translation: [200, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 2692248657442135238
+    ParticleSystem:
+      Position: [1, 0]
+      PositionVariation: [0.100000001, 60]
+      Velocity: [2, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.917647064, 0.596078455, 1, 1]
+      ColorEnd: [0.917647064, 0.596078455, 1, 0]
+      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
+      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
+      MaxParticles: 256
+      Frequency: 50
+      LifeTime: 1
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 2692248657442135238
+    TagComponent:
+      Tag: Laser2
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, -1.30899704]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15557953290547489175
+    ScriptComponent:
+      ClassName: Sandbox.Laser2D
+      ScriptFields:
+        - Name: Range
+          Type: Float
+          Data: 500
+        - Name: mask
+          Type: ULong
+          Data: 3
+    LineRenderer:
+      Color: [1, 0.0965250731, 0.93372196, 1]
+      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
+      Velocity: [2, 0]
+      Size: [10, 10]
+  - Entity: 197190387337956173
+    TagComponent:
+      Tag: LaserEndPoint
+    State: 0
+    TransformComponent:
+      Translation: [200, 0, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15640843311599138860
+    ParticleSystem:
+      Position: [1, 0]
+      PositionVariation: [0.100000001, 60]
+      Velocity: [2, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.917647064, 0.596078455, 1, 1]
+      ColorEnd: [0.917647064, 0.596078455, 1, 0]
+      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
+      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
+      MaxParticles: 256
+      Frequency: 50
+      LifeTime: 1
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 15640843311599138860
+    TagComponent:
+      Tag: Laser3
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, -5]
+      Rotation: [0, 0, -0.785398185]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15557953290547489175
+    ScriptComponent:
+      ClassName: Sandbox.Laser2D
+      ScriptFields:
+        - Name: Range
+          Type: Float
+          Data: 500
+        - Name: mask
+          Type: ULong
+          Data: 3
+    LineRenderer:
+      Color: [1, 0.0965250731, 0.93372196, 1]
+      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
+      Velocity: [2, 0]
+      Size: [10, 10]
+  - Entity: 1476895740068393484
+    TagComponent:
+      Tag: BulletGeneratorR
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.BulletGenerator
+      ScriptFields:
+        - Name: bulletPref
+          Type: Entity
+          Data: 786090485618304233
+  - Entity: 10146461399383333280
+    TagComponent:
+      Tag: BulletGeneratorL
+    State: 1
+    TransformComponent:
+      Translation: [-221, 34.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.BulletGenerator
+      ScriptFields:
+        - Name: bulletPref
+          Type: Entity
+          Data: 786090485618304233
+    ParticleSystem:
+      Position: [0, 0]
+      PositionVariation: [0, 0]
+      Velocity: [0, 0]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [0, 0]
+      SizeBegin: [0, 0]
+      SizeEnd: [0, 0]
+      SizeVariation: [0, 0]
+      ColorBegin: [0, 0, 0, 0]
+      ColorEnd: [0, 0, 0, 0]
+      EmissionBegin: [0, 0, 0, 0]
+      EmissionEnd: [0, 0, 0, 0]
+      MaxParticles: 256
+      Frequency: 1
+      LifeTime: 0
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 2
       GraphicsShader: ParticleGraphics
   - Entity: 13612357310316975563
     TagComponent:
@@ -146,19 +364,20 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -202,19 +421,20 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -258,19 +478,20 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -314,19 +535,20 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -370,19 +592,20 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -421,24 +644,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-102.287865, 403.239471, 0]
-      Rotation: [0, 0, 0.154784799]
+      Rotation: [0, 0, 0.154784784]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -482,19 +706,20 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -533,24 +758,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-245.790039, 337.611816, 0]
-      Rotation: [0, 0, 0.32184419]
+      Rotation: [0, 0, 0.32184422]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -594,19 +820,20 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -650,19 +877,20 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -706,19 +934,20 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -757,11 +986,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-268.169495, 414.396912, 0]
-      Rotation: [0, 0, 0.246917278]
+      Rotation: [0, 0, 0.246917307]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -773,8 +1003,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1071,7 +1301,7 @@ Entities:
       Tag: BrightWingL1
     State: 1
     TransformComponent:
-      Translation: [-78, 72, 0]
+      Translation: [-73, 72, 0]
       Rotation: [0, 0, 0]
       Scale: [-120, 60, 1]
     Parent:
@@ -1264,6 +1494,7 @@ Entities:
     Parent:
       ParentID: 6236180474038636090
     SpriteRendererComponent:
+      Shader: DarkLady
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 1]
       DiffusePath: textures\DarkLady.png
@@ -1279,7 +1510,7 @@ Entities:
       float1: 0
       float2: 0
       float3: 0
-      vec20: [0, 0]
+      vec20: [96, 20]
       vec21: [0, 0]
       vec22: [0, 0]
       vec23: [0, 0]
@@ -1298,6 +1529,7 @@ Entities:
     Parent:
       ParentID: 9863972908540538619
     SpriteRendererComponent:
+      Shader: DarkLady
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 1]
       DiffusePath: textures\DarkLady.png
@@ -1313,7 +1545,7 @@ Entities:
       float1: 0
       float2: 0
       float3: 0
-      vec20: [0, 0]
+      vec20: [96, 20]
       vec21: [0, 0]
       vec22: [0, 0]
       vec23: [0, 0]
@@ -1397,7 +1629,7 @@ Entities:
       Tag: ChainSmooth2
     State: 0
     TransformComponent:
-      Translation: [270, -42.9000015, 0]
+      Translation: [266, -33.4000015, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -1423,7 +1655,7 @@ Entities:
       Tag: ChainSmooth1
     State: 0
     TransformComponent:
-      Translation: [-80.3000031, -36.5, 0]
+      Translation: [-82.3000031, -25.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -1455,6 +1687,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -1466,8 +1699,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1505,6 +1738,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -1516,8 +1750,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1556,11 +1790,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [328.378235, 41.0396614, 0]
-      Rotation: [0, 0, -0.349066019]
+      Rotation: [0, 0, -0.349065989]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -1572,8 +1807,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1617,6 +1852,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -1628,8 +1864,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1668,11 +1904,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [342.058868, 78.6289062, 0]
-      Rotation: [0, 0, -0.349218756]
+      Rotation: [0, 0, -0.349218816]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -1684,8 +1921,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1729,6 +1966,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -1740,8 +1978,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1785,6 +2023,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -1796,8 +2035,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1841,6 +2080,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -1852,8 +2092,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1897,6 +2137,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -1908,8 +2149,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -1953,6 +2194,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -1964,8 +2206,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2004,11 +2246,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [383.104462, 191.395721, 0]
-      Rotation: [0, 0, -0.34900856]
+      Rotation: [0, 0, -0.34900859]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2020,8 +2263,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2065,6 +2308,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2076,8 +2320,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2116,11 +2360,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [396.784943, 228.984695, 0]
-      Rotation: [0, 0, -0.349203736]
+      Rotation: [0, 0, -0.349203795]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2132,8 +2377,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2172,11 +2417,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [403.626404, 247.779175, 0]
-      Rotation: [0, 0, -0.349001169]
+      Rotation: [0, 0, -0.349001139]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2188,8 +2434,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2228,11 +2474,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [410.338013, 266.619843, 0]
-      Rotation: [0, 0, -0.335427374]
+      Rotation: [0, 0, -0.335427403]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2244,8 +2491,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2289,6 +2536,7 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2300,8 +2548,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2340,11 +2588,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [422.044647, 304.855499, 0]
-      Rotation: [0, 0, -0.260246158]
+      Rotation: [0, 0, -0.260246128]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2356,8 +2605,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2479,6 +2728,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2490,8 +2740,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2530,11 +2780,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-170.894608, 130.753159, 0]
-      Rotation: [0, 0, 0.349090487]
+      Rotation: [0, 0, 0.349090517]
       Scale: [0.999999881, 0.999999881, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2546,8 +2797,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2591,6 +2842,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2602,8 +2854,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2647,6 +2899,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2658,8 +2911,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2698,11 +2951,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-191.416626, 187.135284, 0]
-      Rotation: [0, 0, 0.349066347]
+      Rotation: [0, 0, 0.349066377]
       Scale: [0.999999464, 0.999999464, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2714,8 +2968,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2759,6 +3013,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2770,8 +3025,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2815,6 +3070,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2826,8 +3082,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2871,6 +3127,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -2882,8 +3139,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2927,6 +3184,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -2938,8 +3196,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -2992,7 +3250,7 @@ Entities:
       Offset: [0, 0]
       Size: [1, 224]
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
@@ -3018,7 +3276,7 @@ Entities:
       Offset: [0, 0]
       Size: [1, 224]
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
@@ -3070,7 +3328,7 @@ Entities:
       Offset: [0, 0]
       Size: [1, 256]
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
@@ -3096,7 +3354,7 @@ Entities:
       Offset: [0, 0]
       Size: [1, 256]
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
@@ -4919,7 +5177,7 @@ Entities:
       Offset: [0, 0]
       Size: [1, 224]
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
@@ -4962,6 +5220,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -4973,8 +5232,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5013,11 +5272,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-232.459488, 299.900208, 0]
-      Rotation: [0, 0, 0.349047512]
+      Rotation: [0, 0, 0.349047542]
       Scale: [0.999999821, 0.999999821, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5029,8 +5289,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5074,6 +5334,7 @@ Entities:
     Parent:
       ParentID: 13727998989457380891
     SpriteRendererComponent:
+      Shader: DarkLady
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 1]
       DiffusePath: textures\DarkLady.png
@@ -5085,11 +5346,11 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 3
+      float0: 4
       float1: 0
       float2: 0
       float3: 0
-      vec20: [0, 0]
+      vec20: [96, 20]
       vec21: [0, 0]
       vec22: [0, 0]
       vec23: [0, 0]
@@ -5149,11 +5410,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-150.371216, 74.3717728, 0]
-      Rotation: [0, 0, 0.348975837]
+      Rotation: [0, 0, 0.348975867]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5165,8 +5427,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5210,6 +5472,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5221,8 +5484,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5266,6 +5529,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5277,8 +5541,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5322,6 +5586,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5333,8 +5598,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5378,6 +5643,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5389,8 +5655,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5434,6 +5700,7 @@ Entities:
     Parent:
       ParentID: 4649943305802524241
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5445,8 +5712,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5488,7 +5755,7 @@ Entities:
       Tag: ChainSmooth4
     State: 0
     TransformComponent:
-      Translation: [174.5, 2.5, 0]
+      Translation: [177.5, 8.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -5514,7 +5781,7 @@ Entities:
       Tag: ChainSmooth3
     State: 0
     TransformComponent:
-      Translation: [17, 2.5, 0]
+      Translation: [16.5, 9.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
@@ -5546,6 +5813,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5557,8 +5825,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5602,6 +5870,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5613,8 +5882,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5653,11 +5922,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-64.4119415, 206.916245, 0]
-      Rotation: [0, 0, 0.234282807]
+      Rotation: [0, 0, 0.234282821]
       Scale: [0.999999702, 0.999999702, 1]
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5669,8 +5939,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5709,11 +5979,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-59.6515732, 187.491653, 0]
-      Rotation: [0, 0, 0.246381268]
+      Rotation: [0, 0, 0.246381298]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5725,8 +5996,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5770,6 +6041,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5781,8 +6053,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5826,6 +6098,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5837,8 +6110,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5882,6 +6155,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -5893,8 +6167,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5933,11 +6207,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-37.5918617, 110.616959, 0]
-      Rotation: [0, 0, 0.322668731]
+      Rotation: [0, 0, 0.322668761]
       Scale: [0.999999106, 0.999999106, 1]
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -5949,8 +6224,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -5994,6 +6269,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6005,8 +6281,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6084,6 +6360,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6095,8 +6372,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6140,6 +6417,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6151,8 +6429,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6196,6 +6474,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6207,8 +6486,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6247,11 +6526,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [-81.4846954, 285.066895, 0]
-      Rotation: [0, 0, 0.196646914]
+      Rotation: [0, 0, 0.196646929]
       Scale: [0.999995589, 0.999995589, 1]
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6263,8 +6543,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6308,6 +6588,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6319,8 +6600,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6364,6 +6645,7 @@ Entities:
     Parent:
       ParentID: 9563488730365357223
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6375,8 +6657,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6458,6 +6740,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6469,8 +6752,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6509,11 +6792,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [270.491058, 263.114075, 0]
-      Rotation: [0, 0, -0.205731615]
+      Rotation: [0, 0, -0.20573163]
       Scale: [0.999999106, 0.999999106, 1]
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6525,8 +6809,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6565,11 +6849,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [266.344421, 243.547882, 0]
-      Rotation: [0, 0, -0.211951166]
+      Rotation: [0, 0, -0.211951181]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6581,8 +6866,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6626,6 +6911,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6637,8 +6923,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6682,6 +6968,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6693,8 +6980,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6738,6 +7025,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6749,8 +7037,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6794,6 +7082,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6805,8 +7094,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6850,6 +7139,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6861,8 +7151,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6901,11 +7191,12 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [237.196701, 127.156326, 0]
-      Rotation: [0, 0, -0.262055963]
+      Rotation: [0, 0, -0.262055993]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -6917,8 +7208,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -6962,6 +7253,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -6973,8 +7265,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7018,6 +7310,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -7029,8 +7322,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7074,6 +7367,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -7085,8 +7379,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7130,6 +7424,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -7141,8 +7436,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7186,6 +7481,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
@@ -7197,8 +7493,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7242,6 +7538,7 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
@@ -7253,8 +7550,8 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7542,9 +7839,9 @@ Entities:
       ColorEnd: [1, 0.988235295, 0.831372559, 1]
       EmissionBegin: [1, 0.988235295, 0.831372559, 0.250980407]
       EmissionEnd: [1, 0.988235295, 0.831372559, 0]
-      MaxParticles: 256
-      Frequency: 180
-      LifeTime: 1
+      MaxParticles: 1024
+      Frequency: 360
+      LifeTime: 0.5
       PositionPolar: true
       VelocityPolar: true
       UseLocalCoord: false
@@ -7602,6 +7899,7 @@ Entities:
     Parent:
       ParentID: 13727998989457380891
     SpriteRendererComponent:
+      Shader: DarkLady
       Color: [1, 1, 1, 1]
       Emission: [1, 0.471042454, 0.948942542, 1]
       DiffusePath: textures\DarkLady.png
@@ -7613,7 +7911,7 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
+      float0: 4
       float1: 0
       float2: 0
       float3: 0
@@ -7636,6 +7934,7 @@ Entities:
     Parent:
       ParentID: 15557953290547489175
     SpriteRendererComponent:
+      Shader: DarkLady
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 1]
       DiffusePath: textures\DarkLady.png
@@ -7651,7 +7950,7 @@ Entities:
       float1: 0
       float2: 0
       float3: 0
-      vec20: [0, 0]
+      vec20: [96, 20]
       vec21: [0, 0]
       vec22: [0, 0]
       vec23: [0, 0]
@@ -7847,24 +8146,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [446.436554, 422.296356, 0]
-      Rotation: [0, 0, -0.157585129]
+      Rotation: [0, 0, -0.157585144]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7903,24 +8203,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [443.161652, 402.566772, 0]
-      Rotation: [0, 0, -0.171396866]
+      Rotation: [0, 0, -0.171396881]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -7959,24 +8260,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [439.616272, 382.883698, 0]
-      Rotation: [0, 0, -0.185029238]
+      Rotation: [0, 0, -0.185029268]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8020,19 +8322,20 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8076,19 +8379,20 @@ Entities:
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8127,24 +8431,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [426.977386, 324.237274, 0]
-      Rotation: [0, 0, -0.238182291]
+      Rotation: [0, 0, -0.238182306]
       Scale: [0.99999994, 0.99999994, 1]
     Parent:
       ParentID: 15622955626583923677
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8188,19 +8493,20 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8244,19 +8550,20 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8300,19 +8607,20 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8356,19 +8664,20 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8407,24 +8716,25 @@ Entities:
     State: 0
     TransformComponent:
       Translation: [282.226654, 321.956635, 0]
-      Rotation: [0, 0, -0.187204182]
+      Rotation: [0, 0, -0.187204197]
       Scale: [1, 1, 1]
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainFront.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8468,19 +8778,20 @@ Entities:
     Parent:
       ParentID: 14320076339599852770
     SpriteRendererComponent:
+      Shader: ChainDissolve
       Color: [1, 1, 1, 1]
       Emission: [1, 0.333333343, 0.105882354, 1]
       DiffusePath: textures\ChainSide.png
       Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 0
-      float1: 0
+      float0: 9
+      float1: 1
       float2: 0
       float3: 0
       vec20: [0, 0]
@@ -8513,214 +8824,6 @@ Entities:
       OpponentLocalAnchor: [0, 10]
       EnableLimit: false
       AngleRange: [0, 0]
-  - Entity: 4643503262519911383
-    TagComponent:
-      Tag: ItemPanel
-    State: 0
-    RectTransformComponent:
-      Translation: [-90, 45, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [1, 1, 1, 0.50999999]
-      tineRange: [0, 0]
-  - Entity: 11269282856678527580
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 4643503262519911383
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 9197738138019623456
-    TagComponent:
-      Tag: ItemPanel
-    State: 0
-    RectTransformComponent:
-      Translation: [-90, 29, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 5650484012341797285
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 9197738138019623456
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 3633798054750493355
-    TagComponent:
-      Tag: ItemPanel
-    State: 0
-    RectTransformComponent:
-      Translation: [-90, 13, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 10178421398884815009
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 3633798054750493355
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 13752990696863926951
-    TagComponent:
-      Tag: ItemPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [-90, -3, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 11830344548838181877
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 13752990696863926951
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 5155248076690684996
-    TagComponent:
-      Tag: ItemPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [-90, -19, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 14905741888929062796
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 5155248076690684996
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 13769113612214600752
-    TagComponent:
-      Tag: ItemPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [-90, -35, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 13718798544025360390
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 13769113612214600752
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 18385878532922970683
-    TagComponent:
-      Tag: ItemPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [-90, -51, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 7969799777643440117
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 18385878532922970683
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
-  - Entity: 1375066806540658542
-    TagComponent:
-      Tag: ItemPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [-90, -67, -1]
-      Scale: [150, 16, 1]
-    Parent:
-      ParentID: 5650525867042847999
-    PanelComponent:
-      resizeTexture: [1, 1]
-      panelOffset: [0, 0]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 4385337690167574369
-    TagComponent:
-      Tag: equip slot
-    State: 0
-    RectTransformComponent:
-      Translation: [-64, 0, 0]
-      Scale: [24, 24, 1]
-    Parent:
-      ParentID: 1375066806540658542
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: .
   - Entity: 10083584121930769084
     TagComponent:
       Tag: WarlockR
@@ -8945,203 +9048,168 @@ Entities:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-  - Entity: 9116374997338666984
+  - Entity: 779452153835557666
     TagComponent:
-      Tag: LaserParticle
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, -5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15557953290547489175
-    ParticleSystem:
-      Position: [12, 0]
-      PositionVariation: [24, 360]
-      Velocity: [-10, 50]
-      VelocityVariation: [30, 100]
-      VelocityEnd: [0, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.725490212, 0, 1, 1]
-      ColorEnd: [0.725490212, 0, 1, 1]
-      EmissionBegin: [0, 0, 0, 0]
-      EmissionEnd: [0, 0, 0, 0]
-      MaxParticles: 512
-      Frequency: 256
-      LifeTime: 1
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: true
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 234914449418048044
-    TagComponent:
-      Tag: Laser2
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, -5]
-      Rotation: [0, 0, -1.04719746]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15557953290547489175
-    ScriptComponent:
-      ClassName: Sandbox.Laser2D
-      ScriptFields:
-        - Name: Range
-          Type: Float
-          Data: 500
-        - Name: mask
-          Type: ULong
-          Data: 3
-    LineRenderer:
-      Color: [1, 0.0965250731, 0.93372196, 1]
-      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
-      Velocity: [2, 0]
-      Size: [10, 10]
-  - Entity: 9925749332376091431
-    TagComponent:
-      Tag: LaserEndPoint
+      Tag: HolyBody
     State: 0
     TransformComponent:
-      Translation: [200, 0, -5]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 234914449418048044
-    ParticleSystem:
-      Position: [1, 0]
-      PositionVariation: [0.100000001, 60]
-      Velocity: [2, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.917647064, 0.596078455, 1, 1]
-      ColorEnd: [0.917647064, 0.596078455, 1, 0]
-      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
-      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
-      MaxParticles: 256
-      Frequency: 50
-      LifeTime: 1
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 4329178587445312658
+      ParentID: 13727998989457380891
+    SpriteRendererComponent:
+      Shader: DarkLady2
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\DarkLady.png
+      Tile: [177, 610]
+      Offset: [3, 2974]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [96, 20]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 16136633373692022632
     TagComponent:
-      Tag: Laser1
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, -5]
-      Rotation: [0, 0, -2.09439492]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15557953290547489175
-    ScriptComponent:
-      ClassName: Sandbox.Laser2D
-      ScriptFields:
-        - Name: Range
-          Type: Float
-          Data: 500
-        - Name: mask
-          Type: ULong
-          Data: 3
-    LineRenderer:
-      Color: [1, 0.0965250731, 0.93372196, 1]
-      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
-      Velocity: [2, 0]
-      Size: [10, 10]
-  - Entity: 3742165213254785096
-    TagComponent:
-      Tag: LaserEndPoint
+      Tag: HolyWingR
     State: 0
     TransformComponent:
-      Translation: [200, 0, -5]
+      Translation: [48, 52, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [-1, 1, 1]
     Parent:
-      ParentID: 4329178587445312658
-    ParticleSystem:
-      Position: [1, 0]
-      PositionVariation: [0.100000001, 60]
-      Velocity: [2, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.917647064, 0.596078455, 1, 1]
-      ColorEnd: [0.917647064, 0.596078455, 1, 0]
-      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
-      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
-      MaxParticles: 256
-      Frequency: 50
-      LifeTime: 1
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 3856712861460263562
+      ParentID: 9863972908540538619
+    SpriteRendererComponent:
+      Shader: DarkLady2
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\DarkLady.png
+      Tile: [102, 140]
+      Offset: [3, 4865]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [96, 20]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 17768567782325980088
     TagComponent:
-      Tag: Laser0
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, -5]
-      Rotation: [0, 0, -2.61799407]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15557953290547489175
-    ScriptComponent:
-      ClassName: Sandbox.Laser2D
-      ScriptFields:
-        - Name: Range
-          Type: Float
-          Data: 500
-        - Name: mask
-          Type: ULong
-          Data: 3
-    LineRenderer:
-      Color: [1, 0.0965250731, 0.93372196, 1]
-      Emission: [1, 0.0980392173, 0.933333337, 0.501960814]
-      Velocity: [2, 0]
-      Size: [10, 10]
-  - Entity: 10391797695518356148
-    TagComponent:
-      Tag: LaserEndPoint
+      Tag: HolyWingL
     State: 0
     TransformComponent:
-      Translation: [200, 0, -5]
+      Translation: [-48, 52, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 3856712861460263562
-    ParticleSystem:
-      Position: [1, 0]
-      PositionVariation: [0.100000001, 60]
-      Velocity: [2, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.917647064, 0.596078455, 1, 1]
-      ColorEnd: [0.917647064, 0.596078455, 1, 0]
-      EmissionBegin: [0.917647064, 0.596078455, 1, 1]
-      EmissionEnd: [0.917647064, 0.596078455, 1, 0]
-      MaxParticles: 256
-      Frequency: 50
-      LifeTime: 1
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
+      ParentID: 6236180474038636090
+    SpriteRendererComponent:
+      Shader: DarkLady2
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\DarkLady.png
+      Tile: [102, 140]
+      Offset: [3, 4865]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [96, 20]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 14037080828995664381
+    TagComponent:
+      Tag: BrightWingR3
+    State: 1
+    TransformComponent:
+      Translation: [41, 13, 0]
+      Rotation: [0, 0, -0.69813174]
+      Scale: [120, 60, 1]
+    Parent:
+      ParentID: 9863972908540538619
+    SpriteRendererComponent:
+      Shader: WingShader
+      Color: [1, 0.97647059, 0.200000003, 1]
+      Emission: [1, 0.97647059, 0.200000003, 1]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0.25
+      float1: 1
+      float2: 1
+      float3: 2
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 14491259068958186037
+    TagComponent:
+      Tag: BrightWingL3
+    State: 1
+    TransformComponent:
+      Translation: [-41, 13, 0]
+      Rotation: [0, 0, 0.69813174]
+      Scale: [-120, 60, 1]
+    Parent:
+      ParentID: 6236180474038636090
+    SpriteRendererComponent:
+      Shader: WingShader
+      Color: [1, 0.978399217, 0.200772226, 1]
+      Emission: [1, 0.97647059, 0.200000003, 1]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0.25
+      float1: 1
+      float2: 1
+      float3: 2
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]

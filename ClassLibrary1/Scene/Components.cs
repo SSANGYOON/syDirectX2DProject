@@ -238,6 +238,16 @@ namespace SY
             }
             set { InternalCalls.SpriteRendererComponent_SetEmission(Entity.ID, ref value); }
         }
+
+        public void SetFloat(uint id, float value)
+        {
+            InternalCalls.SpriteRendererComponent_SetFloat(Entity.ID, id, value);
+        }
+
+        public void SetVec2(uint id, ref Vector2 value)
+        {
+            InternalCalls.SpriteRendererComponent_SetVec2(Entity.ID, id, ref value);
+        }
     }
 
 
@@ -286,6 +296,26 @@ namespace SY
         public float LifeTime
         {
             set { InternalCalls.ParticleSystem_SetLifeTime(Entity.ID, value); }
+        }
+
+        public Vector4 EmissionBegin
+        {
+            set { InternalCalls.ParticleSystem_SetEmissionBegin(Entity.ID, ref value); }
+        }
+
+        public Vector4 EmissionEnd
+        {
+            set { InternalCalls.ParticleSystem_SetEmissionEnd(Entity.ID, ref value); }
+        }
+
+        public Vector4 ColorBegin
+        {
+            set { InternalCalls.ParticleSystem_SetColorBegin(Entity.ID, ref value); }
+        }
+
+        public Vector4 ColorEnd
+        {
+            set { InternalCalls.ParticleSystem_SetColorEnd(Entity.ID, ref value); }
         }
     }
 

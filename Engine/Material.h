@@ -63,7 +63,7 @@ public:
 
 	void SetInt(UINT8 index, int value) { _params.SetInt(index, value); }
 	void SetFloat(UINT8 index, float value) { _params.SetFloat(index, value); }
-	void SetVec2(UINT8 index, Vector2 value) { _params.SetVec2(index, value); }
+	void SetVec2(UINT8 index, const Vector2& value) { _params.SetVec2(index, value); }
 	void SetVec4(UINT8 index, Vector4 value) { _params.SetVec4(index, value); }
 
 	int GetInt(UINT8 index) { return _params.GetInt(index); }

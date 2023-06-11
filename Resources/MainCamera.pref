@@ -1,0 +1,38 @@
+Head: 13301083487158817121
+Entities:
+  - Entity: 13301083487158817121
+    TagComponent:
+      Tag: MainCamera
+    State: 0
+    TransformComponent:
+      Translation: [-176.73671, 24.0149956, -22]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 1
+        Far: 300
+        OrthographicSize: 270
+      Primary: true
+      FixedAspectRatio: true
+      LayerMask: 255
+    BackGroundColorComponent: [0.0823529437, 0.125490203, 0.164705887, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Camera
+      ScriptFields:
+        - Name: CameraRange
+          Type: Vector2
+          Data: [960, 480]
+        - Name: DistanceFromPlayer
+          Type: Float
+          Data: 20
+    Light:
+      Color: [1.25490201, 1.25490201, 1.25490201]
+      Type: 3
+      Range: 0
+      Direction: [1, 0, 0]
+    Bloom:
+      Threshold: 1
+      Intensity: 2.20000005

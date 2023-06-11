@@ -948,7 +948,7 @@ namespace SY {
 	void Scene::OnPhysicsUpdate(float timeStep)
 	{
 		const int32_t velocityIterations = 12;
-		const int32_t positionIterations = 8;
+		const int32_t positionIterations = 12;
 
 		m_PhysicsWorld->Step(timeStep, velocityIterations, positionIterations);
 

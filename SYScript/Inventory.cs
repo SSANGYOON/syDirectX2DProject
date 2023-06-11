@@ -95,7 +95,6 @@ namespace Sandbox
         void OnCreate()
         {
             items = new InventoryData();
-            //panalData = new Entity(itemPanel);
             previewSlot = FindEntityByName("ItemPreviewSlot");
 
             icons = new Entity[4];

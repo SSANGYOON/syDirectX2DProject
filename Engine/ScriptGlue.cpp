@@ -692,6 +692,42 @@ namespace SY {
 		particle.VelocityEnd = *velocity;
 	}
 
+	static void ParticleSystem_SetColorBegin(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.ColorBegin = *color;
+	}
+
+	static void ParticleSystem_SetColorEnd(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.ColorEnd = *color;
+	}
+
+	static void ParticleSystem_SetEmissionBegin(UUID entityID, Vector4* emission)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.EmissionBegin = *emission;
+	}
+
+	static void ParticleSystem_SetEmissionEnd(UUID entityID, Vector4* emission)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		auto& particle = entity.GetComponent<ParticleSystem>();
+
+		particle.EmissionEnd = *emission;
+	}
+
 	static void ParticleSystem_SetAliveZone(UUID entityID, Vector2* aliveZone)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -904,6 +940,27 @@ namespace SY {
 
 		auto& sp = entity.GetComponent<SpriteRendererComponent>();
 		*emission = sp.Emission;
+	}
+
+	static void SpriteRendererComponent_SetFloat(UUID entityID, UINT id, float value)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+		sp.material->SetFloat(id, value);
+	}
+
+	static void SpriteRendererComponent_SetVec2(UUID entityID, UINT id, Vector2* value)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& sp = entity.GetComponent<SpriteRendererComponent>();
+		sp.material->SetVec2(id, *value);
+		int a = 0;
 	}
 
 	static void LineRenderer_SetSize(UUID entityID, Vector2* size)
@@ -1223,6 +1280,11 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetAliveZone);
 		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetLifeTime);
 
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetColorBegin);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetColorEnd);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetEmissionBegin);
+		HZ_ADD_INTERNAL_CALL(ParticleSystem_SetEmissionEnd);
+
 		HZ_ADD_INTERNAL_CALL(CameraComponent_GetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_SetOrthographicSize);
 		HZ_ADD_INTERNAL_CALL(CameraComponent_AddOscilation);
@@ -1250,6 +1312,8 @@ namespace SY {
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetColor);
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetEmission);
 		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_GetEmission);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetFloat);
+		HZ_ADD_INTERNAL_CALL(SpriteRendererComponent_SetVec2);
 
 		HZ_ADD_INTERNAL_CALL(LineRenderer_GetSize);
 		HZ_ADD_INTERNAL_CALL(LineRenderer_SetSize);
