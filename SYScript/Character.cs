@@ -15,12 +15,26 @@ namespace Sandbox
         protected ParticleSystem blood;
 
         protected float hp;
-        protected float mapHp;
+        protected float maxHp;
 
         protected float mp;
         protected float maxMp;
 
         protected float stateTime = 0f;
+        protected bool invisible = false;
+        protected bool guard = false;
+
+        public bool Invisible
+        { 
+            get { return invisible; }
+            protected set { invisible = value; }
+        }
+
+        public bool Guard
+        { 
+            get { return guard; }
+            private set { guard = value; }
+        }
 
         private bool _flip = false;
 
@@ -42,6 +56,23 @@ namespace Sandbox
         }
         public Character() {
             bloodColor = new Vector4(1, 0, 0, 1);
+        }
+
+        public virtual bool GuardCheck(Weapon opp) {
+            return false;
+        }
+
+        public virtual void OnAttacked(Weapon opp) {
+        }
+
+        public virtual void ReceiveDamage(float damage)
+        {
+            hp -= damage;
+        }
+        public virtual void OnGuarded(Weapon opp) {
+        }
+
+        public virtual void OnBlocked() {
         }
     }
 }

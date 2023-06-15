@@ -151,6 +151,28 @@ namespace SY {
 			ImGui::EndCombo();
 		}
 
+		auto computeShaders = GET_SINGLE(Resources)->GetComputeShaders();
+		wstring computeWkey = component.mCustomShader ? component.mCustomShader->GetKey() : L"ParticleShader";
+
+		string computeKey = wtos(computeWkey);
+
+		if (ImGui::BeginCombo("ComputeShader", computeKey.c_str()))
+		{
+			for (int i = 0; i < computeShaders.size(); i++)
+			{
+				string s = wtos(computeShaders[i]->GetKey());
+				const char* currentShaderKey = s.c_str();
+				bool isSelected = strcmp(computeKey.c_str(), currentShaderKey) == 0;
+				if (ImGui::Selectable(currentShaderKey, isSelected))
+					component.mCustomShader = computeShaders[i];
+
+				if (isSelected)
+					ImGui::SetItemDefaultFocus();
+			}
+
+			ImGui::EndCombo();
+		}
+
 		auto shaders = GET_SINGLE(Resources)->GetShaders();
 		string skey;
 

@@ -1,0 +1,67 @@
+Head: 8628533815128363136
+Entities:
+  - Entity: 8628533815128363136
+    TagComponent:
+      Tag: Always Visilble UI
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 0, 1]
+      Scale: [1, 1, 1]
+  - Entity: 16421662171679666250
+    TagComponent:
+      Tag: zWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [200, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 12224989994753449872
+    TagComponent:
+      Tag: xWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [225, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 15218044699535717829
+    TagComponent:
+      Tag: HP
+    State: 0
+    RectTransformComponent:
+      Translation: [-190, 122, 4]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SliderComponent:
+      barPath: textures\ui\HpBar.png
+      gaugePath: textures\ui\hp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27
+  - Entity: 18170043192015724160
+    TagComponent:
+      Tag: MP
+    State: 0
+    RectTransformComponent:
+      Translation: [-183, 112, 4]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 8628533815128363136
+    SliderComponent:
+      barPath: textures\ui\MpBar.png
+      gaugePath: textures\ui\mp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27

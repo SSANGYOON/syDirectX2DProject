@@ -11,5 +11,6 @@ namespace SYScript
     {
         public string description;
         public string spritePath;
+        public string spritePath2;
     }
 }

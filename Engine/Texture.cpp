@@ -28,9 +28,7 @@ HRESULT Texture::Load( const std::wstring& path, bool stockObject)
 	std::wstring fullPath;
 	if (stockObject) {
 		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-		fullPath = parentPath.wstring() + L"\\Resources\\" + path;
-
-		
+		fullPath = parentPath.wstring() + L"\\Resources\\" + path;	
 	}
 	else
 	{

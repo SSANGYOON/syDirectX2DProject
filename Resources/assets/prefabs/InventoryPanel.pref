@@ -1,0 +1,99 @@
+Head: 5650525867042847999
+Entities:
+  - Entity: 5650525867042847999
+    TagComponent:
+      Tag: InventoryPanel
+    State: 1
+    RectTransformComponent:
+      Translation: [0, 0, 5]
+      Scale: [352, 224, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Inventory
+      ScriptFields:
+        - Name: panalData
+          Type: Entity
+          Data: 140128075639298570
+    PanelComponent:
+      PanelPath: textures\ui\PanelLarge.png
+      resizeTexture: [0.5, 0.5]
+      panelOffset: [70, 70]
+      tineColor: [0, 0, 0, 0.501960814]
+      tineRange: [15, 15]
+  - Entity: 2318846812903059485
+    TagComponent:
+      Tag: ItemPreviewSlot
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 42, 0]
+      Scale: [30, 30, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ItemSlot.png
+      maskPath: textures\ui\ItemSlotMask.png
+      itemPath: .
+  - Entity: 1294482987337403704
+    TagComponent:
+      Tag: EquipmentIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-40, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\EquipmentIcon.png
+  - Entity: 14460692021844907479
+    TagComponent:
+      Tag: Inventory Slider
+    State: 0
+    RectTransformComponent:
+      Translation: [1, 65, -1]
+      Scale: [330, 2, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    PanelComponent:
+      PanelPath: textures\ui\HorizontalBar.png
+      resizeTexture: [1, 0.25]
+      panelOffset: [7, 2]
+      tineColor: [0, 0, 0, 0]
+      tineRange: [0, 0]
+  - Entity: 9878609912585525529
+    TagComponent:
+      Tag: SpellIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-112, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\SpellIcon.png
+  - Entity: 13124059046011802387
+    TagComponent:
+      Tag: ConsumableIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-76, 84, 0]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\ConsumableIcon.png
+  - Entity: 9160509363145347424
+    TagComponent:
+      Tag: WeaponIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-148, 84, -1]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 5650525867042847999
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\icons\WeaponIcon.png

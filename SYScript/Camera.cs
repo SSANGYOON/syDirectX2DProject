@@ -13,8 +13,20 @@ namespace Sandbox
         public  float DistanceFromPlayer = 5.0f;
         public Vector2 CameraRange = new Vector2(640, 360);
 
-        private  Entity m_Player;
+        private Entity m_Player;
+        internal Entity Following;
+        private bool onCinematic = false;
 
+        public bool Cinematic
+        { 
+            get { return onCinematic; }
+            set { onCinematic = value; stateTime = 0f; 
+                if(!value)
+                    GetComponent<CameraComponent>().ScissorRect = new Vector4(0, 0, 1, 1);
+            }
+        }
+
+        private float stateTime;
         void OnCreate()
         {
             m_Player = FindEntityByName("Player");
@@ -24,9 +36,19 @@ namespace Sandbox
         {
             if (m_Player == null)
                 return;
+            if (Cinematic) { 
+                if (stateTime < 1f)
+                    GetComponent<CameraComponent>().ScissorRect = new Vector4(0, stateTime * 0.1f, 1, 1 - stateTime * 0.2f);
+            }
 
-            Vector3 playerPos = m_Player.Translation;
-            Vector2 targetPos = playerPos.XY;
+
+
+            Vector2 targetPos;
+
+            if (Cinematic)
+                targetPos = Following.Translation.XY;
+            else
+                targetPos = m_Player.Translation.XY;
 
             Vector2 cameraSize = GetComponent<CameraComponent>().OrthographicSize;
 
@@ -34,7 +56,17 @@ namespace Sandbox
             Vector2 maxPos = CameraRange / 2.0f - cameraSize / 2.0f;
             Vector2 nextPos = targetPos.clamp(minPos, maxPos);
 
-            Translation = new Vector3(nextPos, playerPos .Z - DistanceFromPlayer);
+            Vector2 diff = nextPos - Translation.XY;
+
+            if (diff.LengthSquared() > 1)
+            {
+                diff.Normalize();
+                Translation = new Vector3(Translation.X + diff.X * 150f * ts, Translation.Y + diff.Y * 150f * ts, Translation.Z);
+            }
+
+
+
+            stateTime += ts;
         }
 
     }

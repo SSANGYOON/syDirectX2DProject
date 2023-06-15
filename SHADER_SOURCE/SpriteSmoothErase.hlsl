@@ -119,7 +119,7 @@ PSOut PS_MAIN(VSOut In)
     float3 rimColor = (float3)0.f;
     float3 ret = (float3)0.f;
     for (uint idx = 0; idx < g_lightCount; idx++) {
-        if (addedAlpha < 4) {
+        if (addedAlpha < 4 && g_light[idx].position.z > In.WorldPos.z) {
             if (0 == g_light[idx].type)
             {
                 float dis = distance(In.WorldPos.xy, g_light[idx].position.xy);
@@ -138,6 +138,29 @@ PSOut PS_MAIN(VSOut In)
                 if (proj > 0 && proj > length(diff.xy) * cos(g_light[idx].angle) && proj < g_light[idx].range) {
                     float2 dir = normalize(diff.xy);
                     rimColor += g_light[idx].color * pow(1 - proj / g_light[idx].range, 2) * saturate(dot(dir, rim.xy));
+                }
+            }
+        }
+
+        else if (g_light[idx].position.z <= In.WorldPos.z){
+            if (0 == g_light[idx].type)
+            {
+                float dis = distance(In.WorldPos.xy, g_light[idx].position.xy);
+
+                if (dis < g_light[idx].range) {
+                    float2 dir = normalize(In.WorldPos.xy - g_light[idx].position.xy);
+                    ret += g_light[idx].color * pow(1 - dis / g_light[idx].range, 2);
+                }
+            }
+            else if (1 == g_light[idx].type)
+            {
+                float3 diff = In.WorldPos - g_light[idx].position;
+
+                float proj = dot(diff, g_light[idx].dir);
+
+                if (proj > 0 && proj > length(diff.xy) * cos(g_light[idx].angle) && proj < g_light[idx].range) {
+                    float2 dir = normalize(diff.xy);
+                    ret += g_light[idx].color * pow(1 - proj / g_light[idx].range, 2);
                 }
             }
         }

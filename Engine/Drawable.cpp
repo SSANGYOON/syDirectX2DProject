@@ -353,7 +353,7 @@ namespace SY {
 	{
 		_mesh = make_shared<Mesh>();
 		_vertexes.resize(maxRecoord * 2);
-
+		recoorded = 1;
 		_mesh->CreateVertexBuffer(_vertexes.data(), maxRecoord * 2, D3D11_USAGE::D3D11_USAGE_DYNAMIC);
 
 		_indexes.resize(maxRecoord * 2);

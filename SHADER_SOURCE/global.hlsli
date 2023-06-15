@@ -55,6 +55,8 @@ cbuffer VisualEffect : register(b2)
     float time;
     float DeltaTime;
     float2 viewPort;
+    float4 ScissorRect;
+    float4 FadeColor;
 }
 
 cbuffer Lights : register(b3)

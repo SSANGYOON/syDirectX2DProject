@@ -11,7 +11,7 @@
 #include "mono/metadata/attrdefs.h"
 #include "FileWatch.hpp"
 
-#pragma comment (lib, "C:/Program Files/Mono/lib/mono-2.0-sgen.lib")
+#pragma comment (lib, "mono/lib/mono-2.0-sgen.lib")
 
 #include "Buffer.h"
 #include "FileSystem.h"
@@ -71,7 +71,7 @@ namespace SY {
 				if (std::filesystem::exists(pdbPath))
 				{
 					ScopedBuffer pdbFileData = FileSystem::ReadFileBinary(pdbPath);
-					mono_debug_open_image_from_memory(image, (mono_byte*)pdbFileData.As<char>(), pdbFileData.Size());
+					mono_debug_open_image_from_memory(image, pdbFileData.As<const mono_byte>(), pdbFileData.Size());
 					//HZ_CORE_INFO("Loaded PDB {}", pdbPath);
 				}
 			}
@@ -138,7 +138,7 @@ namespace SY {
 		bool AssemblyReloadPending = false;
 
 #ifdef _DEBUG
-		bool EnableDebugging = true;
+		bool EnableDebugging = false;
 #else
 		bool EnableDebugging = false;
 #endif
@@ -169,7 +169,7 @@ namespace SY {
 		InitMono();
 		ScriptGlue::RegisterFunctions();
 
-		bool status = LoadAssembly("C:/Users/eondr/source/repos/syDirectX2DProject/ClassLibrary1/bin/Debug/ClassLibrary1.dll");
+		bool status = LoadAssembly("C:/Users/eondr/source/repos/syDirectX2DProject/ClassLibrary1/bin/Debug/ScriptCore.dll");
 		if (!status)
 		{
 			return;
@@ -197,9 +197,7 @@ namespace SY {
 
 	void ScriptEngine::InitMono()
 	{
-		TCHAR mono_path[256] = {0,};
-		mono_set_assemblies_path("C:/Program Files/Mono/lib");
-
+		mono_set_assemblies_path("../External/mono/lib");
 		if (s_Data->EnableDebugging)
 		{
 			const char* argv[2] = {
@@ -306,7 +304,6 @@ namespace SY {
 					for (const auto& [name, fieldInstance] : fieldMap)
 						instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
 				}
-
 				instance->InvokeOnCreate();
 			}
 		}
@@ -620,8 +617,10 @@ namespace SY {
 
 	MonoObject* ScriptEngine::InstantiateClass(MonoClass* monoClass)
 	{
+		
 		MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
 		mono_runtime_object_init(instance);
+		mono_gchandle_new(instance, true);
 		return instance;
 	}
 
@@ -818,7 +817,7 @@ namespace SY {
 			args[0] = (void*)value;
 
 			// Create the object instance
-			MonoObject* myObject = mono_object_new(s_Data->AppDomain, classType);
+			MonoObject* myObject = mono_object_new(s_Data->AppDomain, classType);			
 			mono_runtime_invoke(constructor, myObject, args, NULL);
 			mono_field_set_value(m_Instance, field.ClassField, myObject);
 		}

@@ -60,8 +60,9 @@ PSOut PS_MAIN(VSOut In)
     float4 color = diffuse;
 
     color.w *= In.Color.w;
-
-    float gain = tex_1.Sample(pointSampler, In.UV).x;
+    float gain = 1.f;
+    if(tex1_On > 0)
+        gain *= tex_1.Sample(pointSampler, In.UV).x;
 
     color *= diffuse;
     color.xyz *= CalculateLight(In.WorldPos, gain);
@@ -73,6 +74,7 @@ PSOut PS_MAIN(VSOut In)
 
     Out.Color = color;
     if (diffuse.x == 1.f && diffuse.z == 1.f) {
+        In.Emission.xyz *= In.Emission.w;
         Out.Emission = In.Emission;
         Out.Emission.w *= In.Color.w;
         Out.Color = In.Emission;
@@ -80,6 +82,7 @@ PSOut PS_MAIN(VSOut In)
 
     else if (diffuse.y == 1.f) {
         Out.Emission = In.Color;
+        Out.Emission.xyz *= In.Color.w;
         Out.Color = In.Color;
     }
     return Out;

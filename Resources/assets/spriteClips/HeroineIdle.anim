@@ -150,7 +150,24 @@ Animations:
     SpriteSize: [ 32.0, 48.0 ]
     Step: [ 33.0, 53.0 ]
     Columns: 19
-    TargetOffset: [ 2.0, 0.0 ]
     Frames: 15
+    Duration: 0.8
+    Loop: false
+
+  - Key: Guard
+    OriginalOffset: [ 3.0, 2483.0 ] 
+    SpriteSize: [ 22.0, 49.0 ]
+    Step: [ 33.0, 53.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.8
+    Loop: false
+
+  - Key: GuardBreak
+    OriginalOffset: [ 3.0, 2544.0 ]
+    SpriteSize: [ 24.0, 49.0 ]
+    Step: [ 33.0, 53.0 ]
+    Columns: 1
+    Frames: 1
     Duration: 0.8
     Loop: false

@@ -105,6 +105,11 @@ namespace SY
         {
             return InternalCalls.SpriteAnimatorComponent_Play(Entity.ID, clipName, at);
         }
+
+        public void Stop()
+        {
+            InternalCalls.SpriteAnimatorComponent_Stop(Entity.ID);
+        }
     }
 
     public class TransformAnimatorComponent : Component 
@@ -113,7 +118,12 @@ namespace SY
         { 
             return InternalCalls.TransformAnimatorComponent_Play(Entity.ID, clipName, at);
         }
-    
+
+        public void Stop()
+        {
+            InternalCalls.TransformAnimatorComponent_Stop(Entity.ID);
+        }
+
     }
 
     public class SliderComponent : Component
@@ -157,6 +167,28 @@ namespace SY
         }
     }
 
+    public class CircleCollider2DComponent : Component
+    {
+        public Vector2 Offset
+        {
+            get
+            {
+                InternalCalls.CircleColliderComponent_GetOffset(Entity.ID, out Vector2 offset);
+                return offset;
+            }
+            set => InternalCalls.CircleColliderComponent_SetOffset(Entity.ID, ref value);
+        }
+
+        public float Radius
+        {
+            get
+            {
+                return InternalCalls.CircleColliderComponent_GetRadius(Entity.ID);
+            }
+            set => InternalCalls.CircleColliderComponent_SetRadius(Entity.ID, value);
+        }
+    }
+
     public class CameraComponent : Component
     {
         public Vector2 OrthographicSize
@@ -172,6 +204,26 @@ namespace SY
         public void AddOscilation(float amp)
         {
             InternalCalls.CameraComponent_AddOscilation(Entity.ID, amp);
+        }
+
+        public Vector4 FadeColor
+        {
+            get
+            {
+                InternalCalls.CameraComponent_GetFadeColor(Entity.ID, out Vector4 fadeColor);
+                return fadeColor;
+            }
+            set => InternalCalls.CameraComponent_SetFadeColor(Entity.ID, ref value);
+        }
+
+        public Vector4 ScissorRect
+        {
+            get
+            {
+                InternalCalls.CameraComponent_GetScissorRect(Entity.ID, out Vector4 scissorRect);
+                return scissorRect;
+            }
+            set => InternalCalls.CameraComponent_SetScissorRect(Entity.ID, ref value);
         }
     }
 
@@ -248,6 +300,32 @@ namespace SY
         {
             InternalCalls.SpriteRendererComponent_SetVec2(Entity.ID, id, ref value);
         }
+
+        public string Shader
+        {
+            set { InternalCalls.SpriteRendererComponent_SetShader(Entity.ID, value); }
+        }
+
+        public Vector2 tile
+        {
+            get {
+                InternalCalls.SpriteRendererComponent_GetTile(Entity.ID, out Vector2 tile);
+                    return tile; }
+
+            set
+            {
+                InternalCalls.SpriteRendererComponent_SetTile(Entity.ID, ref value);
+            }
+        }
+
+        public Vector2 offset
+        {
+            get
+            {
+                InternalCalls.SpriteRendererComponent_GetOffset(Entity.ID, out Vector2 offset);
+                return offset;
+            }
+        }
     }
 
 
@@ -317,6 +395,11 @@ namespace SY
         {
             set { InternalCalls.ParticleSystem_SetColorEnd(Entity.ID, ref value); }
         }
+
+        public Vector2 AttachOffset
+        {
+            set { InternalCalls.ParticleSystem_SetAttachOffset(Entity.ID, ref value); }
+        }
     }
 
     public class DistanceJointComponent : Component
@@ -330,6 +413,14 @@ namespace SY
         {
             get { return InternalCalls.DistanceJointComponent_GetMinLength(Entity.ID); }
             set { InternalCalls.DistanceJointComponent_SetMinLength(Entity.ID, value); }
+        }
+    }
+
+    public class RevoluteJointComponent : Component
+    {
+        public Vector2 AngleRange
+        {
+            set { InternalCalls.RevoluteJointComponent_SetAngleLimit(Entity.ID, ref value); }
         }
     }
 

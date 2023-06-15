@@ -19,10 +19,8 @@ namespace SY
 		{
 			if (!recent) {
 				Matrix matScale = Matrix::CreateScale(scale);
-				Matrix matRotation = Matrix::CreateFromYawPitchRoll(rotation);
-				Matrix matTranslation = Matrix::CreateTranslation(translation);
-				recent = true;
-				localToParent = matScale * matRotation * matTranslation;
+				Matrix rt = Matrix::CreateWorld(translation, Vector3::Forward, { -sin(rotation.z),cos(rotation.z), 0.f });
+				localToParent = matScale * rt;
 			}
 		}
 

@@ -10,6 +10,7 @@
 #include "SerializerUtils.h"
 #include "Animation.h"
 #include "Texture.h"
+#include "ComputeShader.h"
 #include <bitset>
 
 namespace YAML
@@ -144,6 +145,14 @@ namespace SY {
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
 			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 			out << YAML::Key << "LayerMask" << YAML::Value << cameraComponent.LayerBit;
+
+			out << YAML::Key << "OscillationAmp" << YAML::Value << cameraComponent.oscillationAmp;
+			out << YAML::Key << "OscillationFreq" << YAML::Value << cameraComponent.oscillationFreq;
+			out << YAML::Key << "OscillationDamp" << YAML::Value << cameraComponent.oscillationDamp;
+			out << YAML::Key << "MaxAmp" << YAML::Value << cameraComponent.maxAmp;
+
+			out << YAML::Key << "FadeColor" << YAML::Value << cameraComponent.fadeColor;
+			out << YAML::Key << "ScissorRect" << YAML::Value << cameraComponent.scissorRect;
 
 			out << YAML::EndMap; // CameraComponent
 		}
@@ -568,6 +577,11 @@ namespace SY {
 			wstring key = particle.mMaterial->GetShader()->GetKey();
 			out << YAML::Key << "GraphicsShader" << YAML::Value << wtos(key);
 
+			if (particle.mCustomShader) {
+				wstring ckey = particle.mCustomShader->GetKey();
+				out << YAML::Key << "ComputeShader" << YAML::Value << wtos(ckey);
+			}
+
 			out << YAML::EndMap; // ParticleSystem
 		}
 
@@ -600,6 +614,8 @@ namespace SY {
 
 			wstring texturePath = trail.material->GetTexture(0)->GetPath();
 			out << YAML::Key << "Texture" << YAML::Value << wtos(texturePath);
+			out << YAML::Key << "Freq" << YAML::Value << trail.recoordFreq;
+			out << YAML::Key << "MaxRecord" << YAML::Value << trail.maxRecoord;
 
 			out << YAML::EndMap; // TrailRenderer
 		}
@@ -802,6 +818,24 @@ namespace SY {
 			cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
 			if(cameraComponent["LayerMask"])
 				cc.LayerBit  = cameraComponent["LayerMask"].as<UINT16>();
+
+			if (cameraComponent["OscillationAmp"])
+				cc.oscillationAmp = cameraComponent["OscillationAmp"].as<float>();
+
+			if (cameraComponent["OscillationFreq"])
+				cc.oscillationFreq = cameraComponent["OscillationFreq"].as<float>();
+
+			if (cameraComponent["OscillationDamp"])
+				cc.oscillationDamp = cameraComponent["OscillationDamp"].as<float>();
+
+			if (cameraComponent["MaxAmp"])
+				cc.maxAmp = cameraComponent["MaxAmp"].as<float>();
+
+			if (cameraComponent["FadeColor"])
+				cc.fadeColor = cameraComponent["FadeColor"].as<Vector4>();
+
+			if (cameraComponent["ScissorRect"])
+				cc.scissorRect = cameraComponent["ScissorRect"].as<Vector4>();
 		}
 
 		auto backgroundcolorComponent = entity["BackGroundColorComponent"];
@@ -1273,6 +1307,11 @@ namespace SY {
 				auto sKey = particleSystem["GraphicsShader"].as<string>();
 				particle.mMaterial->SetShader(GET_SINGLE(Resources)->Find<Shader>(stow(sKey)));
 			}
+
+			if (particleSystem["ComputeShader"]) {
+				auto sKey = particleSystem["ComputeShader"].as<string>();
+				particle.mCustomShader = GET_SINGLE(Resources)->Find<ComputeShader>(stow(sKey));
+			}
 		}
 
 		auto bloom = entity["Bloom"];
@@ -1299,6 +1338,13 @@ namespace SY {
 
 			trailComp.material->SetShader(GET_SINGLE(Resources)->Find<Shader>(stow(shaderKey)));
 			trailComp.material->SetTexture(0, GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false));
+			trailComp.material->SetTexture(0, GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false));
+
+			if (trail["Freq"])
+				trailComp.recoordFreq = trail["Freq"].as<float>();
+			if (trail["MaxRecord"])
+				trailComp.maxRecoord = trail["MaxRecord"].as<UINT>();
+
 		}
 
 		auto line = entity["LineRenderer"];

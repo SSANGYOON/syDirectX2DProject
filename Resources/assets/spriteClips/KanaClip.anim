@@ -1,0 +1,115 @@
+Animations:
+  - Key: Idle_HUMAN
+    OriginalOffset: [ 3.0, 17.0 ]
+    SpriteSize: [ 40.0, 50.0 ]
+    Step: [ 39.0, 55.0 ]
+    Columns: 12
+    Frames: 24
+    Duration: 1
+    Loop: true
+
+  - Key: Idle_DEMON
+    OriginalOffset: [ 3, 141.0 ]
+    SpriteSize: [ 48.0, 59.0 ]
+    Step: [ 50, 60.0 ]
+    Columns: 10
+    Frames: 24
+    Duration: 1
+    Loop: true
+
+  - Key: Run_Kana
+    OriginalOffset: [ 3.0, 335.0 ]
+    SpriteSize: [ 39.0, 51.0 ]
+    Step: [ 45.0, 80.0 ]
+    Columns: 6
+    Frames: 6
+    Duration: 0.5
+    Loop: true
+
+  - Key: Attack_Start_Kana
+    OriginalOffset: [ 3.0, 405.0 ]
+    SpriteSize: [ 75.0, 50.0 ]
+    Step: [ 80.0, 55.0 ]
+    Columns: 6
+    Frames: 12
+    Duration: 1.2
+    Loop: false
+
+  - Key: DashAttackStart
+    OriginalOffset: [ 3.0, 600.0 ]
+    SpriteSize: [ 55.0, 50.0 ]
+    Step: [ 60.0, 80.0 ]
+    Columns: 8
+    Frames: 8
+    Duration: 0.5
+    Loop: false
+    nextKey: DashAttack
+
+  - Key: DashAttack
+    OriginalOffset: [ 3.0, 665.0 ]
+    SpriteSize: [ 118.0, 49.0 ]
+    Step: [ 60.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.75
+    Loop: false
+    nextKey: DashAttackEnd
+
+  - Key: DashAttackEnd
+    OriginalOffset: [ 3.0, 729.0 ]
+    SpriteSize: [ 39.0, 53.0 ]
+    Step: [ 55.0, 80.0 ]
+    Columns: 3
+    Frames: 3
+    Duration: 0.2
+    Loop: false
+
+  - Key: Blocked_Kana
+    OriginalOffset: [ 3.0, 529.0 ]
+    SpriteSize: [ 46.0, 54.0 ]
+    Step: [ 50.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false
+
+  - Key: Blocking_Kana
+    OriginalOffset: [ 3.0, 793.0 ]
+    SpriteSize: [ 38.0, 49.0 ]
+    Step: [ 50.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false
+
+  - Key: Damaged_Kana
+    OriginalOffset: [ 3.0, 930.0 ]
+    SpriteSize: [ 34.0, 52.0 ]
+    Step: [ 50.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.2
+    Loop: false
+
+  - Key: Dead_Kana
+    OriginalOffset: [ 3.0, 1001.0 ]
+    SpriteSize: [ 57.0, 52.0 ]
+    Step: [ 65.0, 80.0 ]
+    Columns: 5
+    Frames: 5
+    Duration: 1
+    Loop: false
+
+  - Key: Kana_Transform
+    OriginalOffset: [ 231, 805.0 ]
+    SpriteSize: [ 40.0, 72.0 ]
+    Step: [ 50.0, 80.0 ]
+    Columns: 5
+    Frames: 5
+    Duration: 1
+    Loop: false
+
+
+
+
+

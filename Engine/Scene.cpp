@@ -221,7 +221,7 @@ namespace SY {
 			DestroyEntity(ent);
 			});
 
-		ParentManager::CreateHierarchy(this);
+		ParentManager::UpdateState(this);
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
 			auto view = m_Registry.view<ScriptComponent>(entt::exclude<Pause>);
@@ -371,7 +371,9 @@ namespace SY {
 				VECB ve;
 				ve.DeltaTime = timeStep;
 				ve.time = accTime;
-				ve.ViewPort = { mainCamera->Camera.GetOrthographicSize() * mainCamera->Camera.GetAspectRatio(), mainCamera->Camera.GetOrthographicSize() };
+				ve.ViewPort = GEngine->GetRenderTargetTex(RENDER_TARGET_GROUP_TYPE::EDITOR, 0)->GetSize();
+				ve.FadeColor = mainCamera->fadeColor;
+				ve.ScissorRect = mainCamera->scissorRect;
 
 				auto veCB = GEngine->GetConstantBuffer(Constantbuffer_Type::VISUALEFFECT);
 				veCB->SetData(&ve);
@@ -467,12 +469,17 @@ namespace SY {
 							if (i > trail.currentIndex) {
 								trail._vertexes[i * 2].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 1.f };
 								trail._vertexes[i * 2 + 1].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 0.f };
+								
 							}
 							else
 							{
 								trail._vertexes[i * 2].uv = { (i - trail.currentIndex - 1 + trail.maxRecoord) / (float)(trail.maxRecoord - 1), 1.f };
 								trail._vertexes[i * 2 + 1].uv = { (i - trail.currentIndex - 1 + trail.maxRecoord) / (float)(trail.maxRecoord - 1), 0.f };
 							}
+							Vector4 tip = trail._vertexes[i * 2 + 1].pos;
+							Vector4 base = trail._vertexes[i * 2].pos;
+
+							trail._vertexes[i * 2].pos = tip + (base - tip) * (trail._vertexes[i * 2].uv.x * 0.5f + 0.5f);
 						}
 
 						for (int i = 0; i < trail.recoorded; i++)
@@ -575,6 +582,7 @@ namespace SY {
 	void Scene::OnUpdateEditor(float timeStep, EditorCamera& camera)
 	{
 		ParentManager::CreateHierarchy(this);
+		ParentManager::UpdateState(this);
 
 		UpdateTransform();
 
@@ -619,8 +627,9 @@ namespace SY {
 			Entity entity = { e, this };
 			auto& transform = entity.GetComponent<TransformComponent>();
 			transform.CreateToParent();
-			if (!entity.HasComponent<Parent>())
+			if (!entity.HasComponent<Parent>() && !transform.recent) {
 				transform.localToWorld = transform.localToParent;
+			}
 		}
 
 		ParentManager::CreateToWorld(this);
@@ -658,6 +667,13 @@ namespace SY {
 		std::string name = entity.GetName();
 		Entity newEntity = CreateEntityWithUUID(entity.GetUUID(), name);
 		CopyComponentIfExists(AllComponents{}, newEntity, entity);
+
+		if (newEntity.HasComponent<BoxCollider2DComponent>())
+			newEntity.GetComponent<BoxCollider2DComponent>().RuntimeFixture = nullptr;
+
+		if (newEntity.HasComponent<CircleCollider2DComponent>())
+			newEntity.GetComponent<CircleCollider2DComponent>().RuntimeFixture = nullptr;
+
 		return newEntity;
 	}
 
@@ -721,7 +737,7 @@ namespace SY {
 
 			jointDef.referenceAngle = 0;
 
-			m_PhysicsWorld->CreateJoint(&jointDef);
+			joint.b2Joint =  m_PhysicsWorld->CreateJoint(&jointDef);
 		}
 
 		auto disjointView = m_Registry.view<DistanceJointComponent>();
@@ -947,7 +963,7 @@ namespace SY {
 
 	void Scene::OnPhysicsUpdate(float timeStep)
 	{
-		const int32_t velocityIterations = 12;
+		const int32_t velocityIterations = 8;
 		const int32_t positionIterations = 12;
 
 		m_PhysicsWorld->Step(timeStep, velocityIterations, positionIterations);
@@ -963,13 +979,14 @@ namespace SY {
 
 			const auto& position = body->GetPosition();
 			Vector2 transformPos = { position.x,position.y };
-			float angle = body->GetAngle();
-
-			transform.translation.x = transformPos.x;
-			transform.translation.y = transformPos.y;
-			transform.rotation.z = angle;
-
-			transform.recent = false;
+			float angle = body->GetAngle();	
+			
+			if (transform.translation.x != transformPos.x || transform.translation.y != transformPos.y || transform.rotation.z != angle) {
+				transform.translation.x = transformPos.x;
+				transform.translation.y = transformPos.y;
+				transform.rotation.z = angle;
+				transform.recent = false;
+			}
 		}
 		b2Contact* contact = m_PhysicsWorld->GetContactManager().m_contactList;
 
@@ -1061,6 +1078,16 @@ namespace SY {
 			Renderer::DrawDeffered();
 			GET_SINGLE(InstancingManager)->Render(fowardBatches);
 			GET_SINGLE(InstancingManager)->ClearBuffer();
+
+			VECB ve;
+			ve.ViewPort = {1920, 1080};
+			ve.FadeColor = Vector4::Zero;
+			ve.ScissorRect = {0,0,1,1};
+
+			auto veCB = GEngine->GetConstantBuffer(Constantbuffer_Type::VISUALEFFECT);
+			veCB->SetData(&ve);
+			veCB->SetPipline(ShaderStage::VS);
+			veCB->SetPipline(ShaderStage::PS);
 
 			auto circles = m_Registry.group<CircleRendererComponent>(entt::get<TransformComponent>, entt::exclude<Pause>);
 

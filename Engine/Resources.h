@@ -2,6 +2,7 @@
 #include "Resource.h"
 
 class Shader;
+class ComputeShader;
 class Resources
 {
 	DECLARE_SINGLE(Resources);
@@ -56,6 +57,7 @@ public:
 	}
 
 	vector<shared_ptr<Shader>> GetShaders();
+	vector<shared_ptr<ComputeShader>> GetComputeShaders();
 
 private:
 	map<wstring, shared_ptr<Resource>> _resources;

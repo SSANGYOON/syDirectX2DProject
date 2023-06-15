@@ -16,7 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SHADER_SOURCE", "SHADER_SOU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCore", "ClassLibrary1\ScriptCore.csproj", "{4293388F-9776-435F-BCF1-E65FAC8C67C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SYScript", "SYScript\SYScript.csproj", "{4337F562-5697-4F10-82D3-3B6F2F7DBF99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "SYScript\Sandbox.csproj", "{4337F562-5697-4F10-82D3-3B6F2F7DBF99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

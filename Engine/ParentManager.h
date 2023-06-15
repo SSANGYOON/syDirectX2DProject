@@ -7,6 +7,7 @@ namespace SY {
 	{
 	public:
 		static void CreateHierarchy(Scene* scene);
+		static void UpdateState(Scene* scene);
 		static void CreateToWorld(Scene* scene);
 		static void AddHiearchy(Scene* scene, uint64_t child);
 		static const vector<UINT32>& GetChildren(UINT handle);

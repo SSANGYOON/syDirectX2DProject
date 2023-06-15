@@ -466,6 +466,10 @@ namespace SY {
 				ImGui::InputFloat("OscillationAmp", &component.oscillationAmp);
 				ImGui::InputFloat("OscillationFreq", &component.oscillationFreq);
 				ImGui::InputFloat("OscillationDamp", &component.oscillationDamp);
+
+				ImGui::ColorEdit4("FadeColor", reinterpret_cast<float*>(&component.fadeColor));
+
+				ImGui::DragFloat4("ScissorRect", reinterpret_cast<float*>(&component.scissorRect));
 			});
 
 		DrawComponent<ScriptComponent>("C# Script", entity, [entity, scene = m_Context](auto& component) mutable

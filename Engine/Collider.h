@@ -56,6 +56,7 @@ namespace SY
 		bool EnableLimit;
 		Vector2 AngleRange;
 		
+		void* b2Joint;
 
 		static void DrawImGui(RevoluteJointComponent& component);
 	};

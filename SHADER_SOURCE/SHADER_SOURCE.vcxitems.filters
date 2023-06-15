@@ -82,6 +82,12 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)DarkLady2.hlsl">
       <Filter>SpriteShader</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleBorderCS.hlsl">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)TintShader.hlsl">
+      <Filter>SpriteShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

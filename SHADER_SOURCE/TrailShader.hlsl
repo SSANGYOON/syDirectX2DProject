@@ -27,14 +27,21 @@ VSOut VS_MAIN(VSIn In)
     return Out;
 }
 
-float4 PS_MAIN(VSOut In) : SV_TARGET0
+struct PSOut
 {
-    float4 color = (float)0.0f;
+    float4 Color : SV_Target0;
+    float4 Emission : SV_Target1;
+};
+
+PSOut PS_MAIN(VSOut In)
+{
 
     float alpha = tex_0.Sample(anisotropicSampler, In.UV).x;
+    PSOut Out = (PSOut)0.f;
+    Out.Color = In.Color;
+    Out.Color.w *= alpha;
 
-    color = In.Color;
-    color.w *= alpha;
+    Out.Emission = Out.Color;
 
-    return color;
+    return Out;
 }

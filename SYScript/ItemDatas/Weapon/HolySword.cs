@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SYScript.ItemDatas
 {
-    public class HolySword : WeaponData
+    public class HolySword : PlayerWeaponData
     {
-
         public HolySword() {
             spritePath = "assets\\textures\\HolySword.png";
             Type = weaponType.OneHand;
+            Damage = 50f;
         }
     }
 }

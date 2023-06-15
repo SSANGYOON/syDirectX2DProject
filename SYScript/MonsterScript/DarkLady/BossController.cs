@@ -39,8 +39,6 @@ namespace Sandbox
         private Entity summonedEyeL;
         private Entity summonedEyeR;
 
-        private bool Invisible = false;
-
         private Vector3[] chainOffsets;
 
         private Entity BulletGeneratorL;
@@ -54,8 +52,8 @@ namespace Sandbox
 
         private Entity[] Lasers;
 
-        private Entity[] BrightWingL;
-        private Entity[] BrightWingR;
+        private SpriteRendererComponent[] BrightWingL;
+        private SpriteRendererComponent[] BrightWingR;
 
         private float[] targetLength;
 
@@ -130,6 +128,7 @@ namespace Sandbox
                     case BossState.Attack:
                         summonedEyeL.Activate();
                         summonedEyeR.Activate();
+                        Invisible = false;
                         break;
 
                     case BossState.Attack2Idle:
@@ -139,8 +138,8 @@ namespace Sandbox
                         largePS.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
                         for (int i = 0; i < 3; i++)
                         {
-                            BrightWingL[i].Pause();
-                            BrightWingR[i].Pause();
+                            BrightWingL[i].Entity.Pause();
+                            BrightWingR[i].Entity.Pause();
                         }
                         break;
 
@@ -167,7 +166,8 @@ namespace Sandbox
                             PinkSword[1].Activate();
 
                             PinkSword[0].Rotation = new Vector3();
-                            PinkSword[1].Rotation = new Vector3();                          
+                            PinkSword[1].Rotation = new Vector3();
+                            Invisible = false;
                         }
                         break;
 
@@ -182,6 +182,7 @@ namespace Sandbox
                             BulletGeneratorR.Rotation = new Vector3(0,0,(float)Math.PI/3 * 2);
                             var br = BulletGeneratorR.As<BulletGenerator>();
                             br.reverse = true;
+                            Invisible = false;
                         }
                         break;
 
@@ -190,6 +191,7 @@ namespace Sandbox
                         {
                             Lasers[i].Activate();
                         }
+                        Invisible = false;
                         break;
 
                     case BossState.OutBurst:
@@ -273,8 +275,14 @@ namespace Sandbox
                     case BossState.HolyEnd:
                         for (int i = 0; i < 4; i++)
                         {
-                            BrightWingL[i].Activate();
-                            BrightWingR[i].Activate();
+                            BrightWingL[i].Entity.Activate();
+                            BrightWingR[i].Entity.Activate();
+
+                            BrightWingL[i].Color = new Vector4(1, 1, 0.2f, 1);
+                            BrightWingL[i].Emission = new Vector4(1, 1, 0.2f, 1);
+
+                            BrightWingR[i].Color = new Vector4(1, 1, 0.2f, 1);
+                            BrightWingR[i].Emission = new Vector4(1, 1, 0.2f, 1);
                         }
                         break;
 
@@ -432,15 +440,15 @@ namespace Sandbox
             HolyWingLSp = HolyWingL.GetComponent<SpriteRendererComponent>();
             HolyWingRSp = HolyWingR.GetComponent<SpriteRendererComponent>();
 
-            BrightWingL = new Entity[4];
-            BrightWingR = new Entity[4];
+            BrightWingL = new SpriteRendererComponent[4];
+            BrightWingR = new SpriteRendererComponent[4];
             for (int i = 0; i < 4; i++)
             {
                 string name = "BrightWingL" + i;
-                BrightWingL[i] = FindEntityByName(name);
+                BrightWingL[i] = FindEntityByName(name).GetComponent<SpriteRendererComponent>();
 
                 name = "BrightWingR" + i;
-                BrightWingR[i] = FindEntityByName(name);
+                BrightWingR[i] = FindEntityByName(name).GetComponent<SpriteRendererComponent>();
             }
         }
 
@@ -479,7 +487,6 @@ namespace Sandbox
                 case BossState.Charge:
                     if (stateTime > 1)
                     {
-                        Invisible = false;
 
                         if (bossPhase == 1)
                             bossState = BossState.Attack;
@@ -493,8 +500,8 @@ namespace Sandbox
 
                         for (int i = 0; i < 3; i++)
                         {
-                            BrightWingL[i].Activate();
-                            BrightWingR[i].Activate();
+                            BrightWingL[i].Entity.Activate();
+                            BrightWingR[i].Entity.Activate();
                         }
 
                         smallPS.State = (uint)ParticleSystem.ParticleState.NORMAL;
@@ -817,17 +824,6 @@ namespace Sandbox
                         Vector3 hTrans = Translation;
                         hTrans.Y += 50 * ts;
                         Translation = hTrans;
-
-                        for (int i = 0; i < 4; i++)
-                        {
-                            var lbwsr = BrightWingL[i].GetComponent<SpriteRendererComponent>();
-                            lbwsr.Color = new Vector4(1, 1, 0.2f, stateTime);
-                            lbwsr.Emission = new Vector4(1, 1, 0.2f, stateTime);
-
-                            var rbwsr = BrightWingR[i].GetComponent<SpriteRendererComponent>();
-                            rbwsr.Color = new Vector4(1, 1, 0.2f, stateTime);
-                            rbwsr.Emission = new Vector4(1, 1, 0.2f, stateTime);
-                        }
                     }
                     break;
 
@@ -869,56 +865,52 @@ namespace Sandbox
             pupil.Translation = diff * 2.0f;
         }
 
-        void OnTriggerEnter(ref Collision2D collsion)
+        public override void OnAttacked(Weapon opp)
         {
-            if ((collsion.CollisionLayer & (1 << 2)) > 0 && !Invisible)
+            attackedBefore = 0.0f;
+            blood.State = (uint)ParticleSystem.ParticleState.NORMAL;
+
+            if (opp.WorldPosition.X > Translation.X)
             {
-                attackedBefore = 0.0f;
-                blood.State = (uint)ParticleSystem.ParticleState.NORMAL;
+                blood.VelocityBegin = new Vector2(100, 0);
+                blood.VelocityEnd = new Vector2(100, -50);
+            }
+            else
+            {
+                blood.VelocityBegin = new Vector2(-100, 0);
+                blood.VelocityEnd = new Vector2(-100, -50);
+            }     
+        }
 
-                Entity weapon = new Entity(collsion.entityID);
-                if (weapon.WorldPosition.X > Translation.X)
+        public override void ReceiveDamage(float damage)
+        {
+            HP -= 10;
+            if (hp < (5 - bossPhase) * 20 || hp <= 0)
+            {
+                if (hp <= 0)
                 {
-                    blood.VelocityBegin = new Vector2(100, 0);
-                    blood.VelocityEnd = new Vector2(100, -50);
+                    Timer.SetTimeScale(0.5f);
+                    BossHpBar.Pause();
                 }
-                else
+
+                Invisible = true;
+                bossState = BossState.Attack2Idle;
+                bossPhase += 1;
+
+                PinkSword[0].Pause();
+                PinkSword[1].Pause();
+                BulletGeneratorL.Pause();
+                BulletGeneratorR.Pause();
+
+                for (int i = 0; i < Lasers.Length; i++)
                 {
-                    blood.VelocityBegin = new Vector2(-100, 0);
-                    blood.VelocityEnd = new Vector2(-100, -50);
+                    Lasers[i].Pause();
                 }
 
-                HP -= 10;
-                if (hp < (5 - bossPhase) * 20 || hp <= 0)
-                {
-                    if (hp <= 0)
-                    {
-                        Timer.SetTimeScale(0.5f);
-                        BossHpBar.Pause();
-                    }
+                halo.GetComponent<ParticleSystem>().State = (uint)ParticleSystem.ParticleState.NORMAL;
 
-                    Invisible = true;
-                    bossState = BossState.Attack2Idle;
-                    bossPhase += 1;
-
-                    PinkSword[0].Pause();
-                    PinkSword[1].Pause();
-                    BulletGeneratorL.Pause();
-                    BulletGeneratorR.Pause();
-
-
-                    for (int i = 0; i < Lasers.Length; i++)
-                    {
-                        Lasers[i].Pause();
-                    }
-
-                    halo.GetComponent<ParticleSystem>().State = (uint)ParticleSystem.ParticleState.NORMAL;
-                    
-                    summonedEyeR.Pause();
-                    summonedEyeL.Pause();
-
-                    
-                }
+                summonedEyeR.Pause();
+                summonedEyeL.Pause();
             }
         }
     }

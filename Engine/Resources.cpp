@@ -191,6 +191,12 @@ void Resources::CreateDefaultResource()
 	ParticleCompute->Create(L"ParticleCS.hlsl");
 #pragma endregion
 
+#pragma region ParticleComputeBoarder
+	shared_ptr<ComputeShader> border = std::make_shared<ComputeShader>();
+	Resources::Insert<ComputeShader>(L"ParticleShaderBorder", border);
+	border->Create(L"ParticleBorderCS.hlsl");
+#pragma endregion
+
 #pragma region SpriteShader
 	{
 		shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
@@ -596,6 +602,23 @@ void Resources::CreateDefaultResource()
 	}
 #pragma endregion
 
+#pragma region TintShader
+	{
+		shared_ptr<Shader> tintShader = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"TintShader", tintShader);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::Default;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		tintShader->CreateShader(_info, _entry, L"TintShader.hlsl");
+	}
+#pragma endregion
+
 #pragma region BloomBuffers
 	{
 		shared_ptr<Texture> downScaledEmission = std::make_shared<Texture>();
@@ -620,6 +643,20 @@ vector<shared_ptr<Shader>> Resources::GetShaders()
 		if (res.second->_type == RESOURCE_TYPE::GRAPHIC_SHADER)
 		{
 			vec.push_back(static_pointer_cast<Shader>(res.second));
+		}
+	}
+	return vec;
+}
+
+vector<shared_ptr<ComputeShader>> Resources::GetComputeShaders()
+{
+	vector<shared_ptr<ComputeShader>> vec;
+
+	for (auto& res : _resources)
+	{
+		if (res.second->_type == RESOURCE_TYPE::COMPUTE_SHADER)
+		{
+			vec.push_back(static_pointer_cast<ComputeShader>(res.second));
 		}
 	}
 	return vec;

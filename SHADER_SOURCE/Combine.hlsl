@@ -39,6 +39,16 @@ float4 PS_MAIN(VSOut In) : SV_TARGET0
     float4 origin = tex_0.Sample(pointSampler, In.UV);
     float4 blur = tex_1.Sample(linearSampler, In.UV + 1.f / ImgSize);
     float4 hdr = origin + bloomIntensity * blur;
+    hdr.xyz = hdr * (1 - FadeColor.w) + FadeColor.w * FadeColor.xyz;
+
+    float x = In.Pos.x / viewPort.x;
+    float y = In.Pos.y / viewPort.y;
+
+    if (x < ScissorRect.x || ScissorRect.x + ScissorRect.z < x)
+        return float4(0,0,0,1);
+
+    if (y < ScissorRect.y || ScissorRect.y + ScissorRect.w < y)
+        return float4(0, 0, 0, 1);
 
     return hdr;
 }

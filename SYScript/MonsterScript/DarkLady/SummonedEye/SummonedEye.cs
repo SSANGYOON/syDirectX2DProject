@@ -23,7 +23,7 @@ namespace Sandbox
         private BossSword sword;
 
         private SpriteAnimatorComponent sa;
-
+        private Vector4 white;
         private float targetDiff;
 
         private float stateTime;
@@ -53,11 +53,11 @@ namespace Sandbox
             pupil = Eye.GetChild("sePupil");
             
             sword = swordPref.Instantiate(Translation, 0).As<BossSword>();
-            sword._owner = this;
+            sword.Active = false;
             sword.Pause();
-            sword.body.Enable = false;
+
             sa = Eye.GetComponent<SpriteAnimatorComponent>();
-            
+            white = new Vector4(1, 1, 1, 1);
             player = FindEntityByName("Player");           
         }
 
@@ -70,10 +70,12 @@ namespace Sandbox
             ps.State = (uint)ParticleSystem.ParticleState.NORMAL;
 
             var bsr = Body.GetComponent<SpriteRendererComponent>();
-            bsr.Color = new Vector4(1, 1, 1, 0);
+
+            white.W = 0;
+            bsr.Color = white;
 
             var esr = Eye.GetComponent<SpriteRendererComponent>();
-            esr.Color = new Vector4(1, 1, 1, 0);
+            esr.Color = white;
 
             Eye.GetChild("seWhite").Pause();
             pupil.Pause();
@@ -90,14 +92,15 @@ namespace Sandbox
                         ps.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
 
                         var bsr = Body.GetComponent<SpriteRendererComponent>();
-                        bsr.Color = new Vector4(1, 1, 1, 1);
+                        white.W = 1;
+                        bsr.Color = white;
 
                         var esr = Eye.GetComponent<SpriteRendererComponent>();
-                        esr.Color = new Vector4(1, 1, 1, 1);
+                        esr.Color = white;
 
-                        var white = Eye.GetChild("seWhite");
+                        var eyeWhite = Eye.GetChild("seWhite");
 
-                        white.Activate();
+                        eyeWhite.Activate();
                         pupil.Activate();
 
                         State = eyeState.Idle;    
@@ -173,21 +176,29 @@ namespace Sandbox
                             sword.Rotation = new Vector3(0, 0, 2.7f * (stateTime - 0.5f) * (float)Math.PI);
                         else
                             sword.Rotation = new Vector3(0, 0, -2.7f * (stateTime - 0.5f) * (float)Math.PI);
+
+                        if(stateTime + ts > 1.0f)
+                            sword.Active = true;
                     }
 
-                    else if (stateTime < 1.5f)
+                    else
                     {
-                        sword.body.Enable = true;
-                        if (targetDiff > 0)
+                        if (sword.Active)
                         {
-                            sword.Rotation = Vector3.Lerp(sword.Rotation, new Vector3(0, 0, 0.25f * (float)Math.PI), ts / (1.5f - stateTime));
-                            sword.Translation = new Vector3(sword.Translation.X, sword.Translation.Y - 200.0f * ts, sword.Translation.Z);
+                            if (targetDiff > 0)
+                            {
+                                sword.Rotation = Vector3.Lerp(sword.Rotation, new Vector3(0, 0, 0.25f * (float)Math.PI), ts / (1.5f - stateTime));
+                                sword.Translation = new Vector3(sword.Translation.X, sword.Translation.Y - 200.0f * ts, sword.Translation.Z);
+                            }
+                            else
+                            {
+                                sword.Rotation = Vector3.Lerp(sword.Rotation, new Vector3(0, 0, -0.25f * (float)Math.PI), ts / (1.5f - stateTime));
+                                sword.Translation = new Vector3(sword.Translation.X, sword.Translation.Y - 200.0f * ts, sword.Translation.Z);
+                            }
                         }
                         else
-                        {
-                            sword.Rotation = Vector3.Lerp(sword.Rotation, new Vector3(0, 0, -0.25f * (float)Math.PI), ts / (1.5f - stateTime));
-                            sword.Translation = new Vector3(sword.Translation.X, sword.Translation.Y - 200.0f * ts, sword.Translation.Z);
-                        }
+                            State = eyeState.Closing;
+                        sa.Play("Close");
                     }
                     break;
                 case eyeState.Closing:
@@ -201,16 +212,15 @@ namespace Sandbox
 
                     else
                     {
-                        sword.body.Enable = false;
                         var body = sword.GetChild("BossSwordBody");
                         var sr = body.GetComponent<SpriteRendererComponent>();
 
                         var color = sr.Color;
-                        color.W = (1 - stateTime);
+                        color.W = 1 - stateTime;
                         sr.Color = color;
 
                         var Emission = sr.Emission;
-                        Emission.W = (1 - stateTime);
+                        Emission.W = 1 - stateTime;
                         sr.Emission = Emission;
                     }
                     break;
@@ -229,28 +239,6 @@ namespace Sandbox
         void OnPaused()
         {
             sword.Pause();
-        }
-
-        internal void OnTriggerEnter(ref Collision2D collsion)
-        {
-            if ((collsion.CollisionLayer & (1 << 0)) > 0)
-            {
-                var opp = new Entity(collsion.entityID);
-                if (opp.Translation.Y < sword.Translation.Y -20)
-                {
-                    
-                    State = eyeState.Closing;
-                    sa.Play("Close");
-                    FindEntityByName("MainCamera").GetComponent<CameraComponent>().AddOscilation(5.0f);
-                    
-                    if (player.As<Player>().Grounded) {
-
-                        var rb = player.GetComponent<Rigidbody2DComponent>();
-                        var bc = player.GetComponent<BoxCollider2DComponent>();
-                        rb.ApplyLinearImpulse(new Vector2(0, 500 * bc.Size.Y * bc.Size.X), true);
-                    }
-                }
-            }
         }
     }
 }

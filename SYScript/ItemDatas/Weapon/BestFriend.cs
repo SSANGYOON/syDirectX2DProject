@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SYScript.ItemDatas
 {
-    public class BestFriend : WeaponData
+    public class BestFriend : PlayerWeaponData
     {
         public BestFriend() {
             spritePath = "assets\\textures\\BestFriend.png";

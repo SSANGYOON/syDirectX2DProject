@@ -34,6 +34,8 @@ CBUFFER(VECB, CBSLOT_VISUALEFFECT)
 	float time;
 	float DeltaTime;
 	Vector2 ViewPort;
+	Vector4 ScissorRect;
+	Vector4 FadeColor;
 };
 
 CBUFFER(LightCB, CBSLOT_LIGHT)

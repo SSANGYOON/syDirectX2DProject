@@ -3888,8 +3888,8 @@ Entities:
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: true
-      MaskBits: 1
-      CategoryBits: 1
+      MaskBits: 2
+      CategoryBits: 32
   - Entity: 15445040840571960245
     TagComponent:
       Tag: middle15
@@ -4087,7 +4087,7 @@ Entities:
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
-      MaskBits: 185
+      MaskBits: 49
       CategoryBits: 2
     AnimatorComponent:
       ClipPath: assets\spriteClips\HeroineIdle.anim
@@ -4165,6 +4165,12 @@ Entities:
       Primary: true
       FixedAspectRatio: true
       LayerMask: 255
+      OscillationAmp: 0
+      OscillationFreq: 1
+      OscillationDamp: 1
+      MaxAmp: 0
+      FadeColor: [0, 0, 0, 0]
+      ScissorRect: [0, 0, 1, 1]
     BackGroundColorComponent: [0.0823529437, 0.125490203, 0.164705887, 1]
     ScriptComponent:
       ClassName: Sandbox.Camera
@@ -4585,9 +4591,10 @@ Entities:
     Parent:
       ParentID: 12478953743042838488
     ScriptComponent:
-      ClassName: Sandbox.Weapon
+      ClassName: Sandbox.PlayerWeapon
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Shader: GlowSword
+      Color: [0.99613899, 0.928201199, 0.292303324, 1]
       Emission: [0, 0, 0, 0]
       int0: 0
       int1: 0
@@ -4628,9 +4635,10 @@ Entities:
     Parent:
       ParentID: 12478953743042838488
     ScriptComponent:
-      ClassName: Sandbox.Weapon
+      ClassName: Sandbox.PlayerWeapon
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Shader: GlowSword
+      Color: [1, 0.941861331, 0.397683382, 1]
       Emission: [0, 0, 0, 0]
       int0: 0
       int1: 0

@@ -63,7 +63,7 @@ PSOut PS_MAIN(VSOut In)
     float Light = 1.f;
 
     if (tex0_On == 1)
-        diffuse *= tex_0.Sample(pointSampler, In.UV);
+        diffuse = tex_0.Sample(pointSampler, In.UV);
     if (tex1_On == 1)
         Light = tex_1.Sample(pointSampler, In.UV).x;
     else

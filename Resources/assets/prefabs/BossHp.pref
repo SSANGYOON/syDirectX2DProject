@@ -1,0 +1,15 @@
+Head: 1001848659946847044
+Entities:
+  - Entity: 1001848659946847044
+    TagComponent:
+      Tag: BossHp
+    State: 1
+    RectTransformComponent:
+      Translation: [0, -128, 5]
+      Scale: [0.25, 0.25, 1]
+    SliderComponent:
+      barPath: textures\BossHpBar.png
+      gaugePath: textures\BossHp.png
+      showNumeric: true
+      currentValue: 100
+      maxValue: 100

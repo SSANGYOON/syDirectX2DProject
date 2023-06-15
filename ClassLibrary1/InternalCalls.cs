@@ -70,6 +70,9 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void DistanceJointComponent_SetMinLength(ulong entityID, float Length);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void RevoluteJointComponent_SetAngleLimit(ulong entityID, ref Vector2 limit);
+
 
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -77,7 +80,11 @@ namespace SY
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool SpriteAnimatorComponent_Play(ulong entityID, string clipName, float at);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteAnimatorComponent_Stop(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool TransformAnimatorComponent_Play(ulong entityID, string clipName, float at);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void TransformAnimatorComponent_Stop(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_GetOffset(ulong entityID, out Vector2 offset);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -87,6 +94,16 @@ namespace SY
         internal extern static void BoxColliderComponent_GetSize(ulong entityID, out Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void BoxColliderComponent_SetSize(ulong entityID, ref Vector2 size);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CircleColliderComponent_GetOffset(ulong entityID, out Vector2 offset);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CircleColliderComponent_SetOffset(ulong entityID, ref Vector2 offset);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float CircleColliderComponent_GetRadius(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CircleColliderComponent_SetRadius(ulong entityID, float radius);
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Physics_RayCast2D(ref Vector2 from, ref Vector2 to, UInt16 mask, out Collision2D col);
 
@@ -96,6 +113,14 @@ namespace SY
         internal extern static void CameraComponent_SetOrthographicSize(ulong entityID, ref Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CameraComponent_AddOscilation(ulong entityID, float amp);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_SetScissorRect(ulong entityID, ref Vector4 scissorRect);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_GetScissorRect(ulong entityID, out Vector4 scissorRect);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_GetFadeColor(ulong entityID, out Vector4 fadeColor);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_SetFadeColor(ulong entityID, ref Vector4 fadeColor);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static StateComponent.EntityState StateComponent_GetState(ulong entityID);
@@ -144,6 +169,8 @@ namespace SY
         internal extern static uint ParticleSystem_SetAliveZone(ulong entityID, ref Vector2 aliveZone);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static uint ParticleSystem_SetLifeTime(ulong entityID, float lifeTime);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static uint ParticleSystem_SetAttachOffset(ulong entityID, ref Vector2 offset);
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void IconComponent_SetTexture(ulong entityID, string color);
@@ -164,7 +191,14 @@ namespace SY
         internal extern static void SpriteRendererComponent_SetFloat(ulong entityID, uint id, float value);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SpriteRendererComponent_SetVec2(ulong entityID, uint id, ref Vector2 value);
-
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetShader(ulong entityID, string key);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_GetTile(ulong entityID, out Vector2 tile);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetTile(ulong entityID, ref Vector2 tile);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_GetOffset(ulong entityID, out Vector2 offset);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void LineRenderer_SetSize(ulong entityID, ref Vector2 size);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

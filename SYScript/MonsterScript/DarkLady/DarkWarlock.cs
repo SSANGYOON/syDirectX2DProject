@@ -1,5 +1,6 @@
 ﻿using SY;
 using System;
+using static Sandbox.BossController;
 
 
 namespace Sandbox
@@ -142,7 +143,13 @@ namespace Sandbox
             Healing = false;
             thunderBall = new Entity[3];
 
-            debris0 = debris0Pref.Instantiate(new Vector3());
+            for (int i = 0; i < 3; i++)
+            {
+                thunderBall[i] = thunderBallPref.Instantiate(new Vector3(), ID);
+                thunderBall[i].Pause();
+            }
+
+                debris0 = debris0Pref.Instantiate(new Vector3());
             debris1 = debris1Pref.Instantiate(new Vector3());
             debris2 = debris2Pref.Instantiate(new Vector3());
 
@@ -203,10 +210,7 @@ namespace Sandbox
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            if (thunderBall[i] == null)
-                                thunderBall[i] = thunderBallPref.Instantiate(new Vector3(), ID);
-                            else
-                                thunderBall[i].Activate();
+                            thunderBall[i].Activate();
 
                             double angle = Math.PI / 2 + 2 * Math.PI / 3 * i;
                             thunderBall[i].Translation = new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0);
@@ -378,29 +382,29 @@ namespace Sandbox
             stateTime += ts;
         }
 
-        void OnTriggerEnter(ref Collision2D collsion)
+        public override void OnAttacked(Weapon opp)
         {
-            if ((collsion.CollisionLayer & (1 << 2)) > 0)
+            if (opp.WorldPosition.X > Translation.X)
+                rigidBody.ApplyLinearImpulse(new Vector2(-500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
+            else
+                rigidBody.ApplyLinearImpulse(new Vector2(500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
+
+            State = WarlockState.Damaged;
+
+            if (Healing)
             {
-                Entity enemy = new Entity(collsion.entityID);
-                if (enemy.WorldPosition.X > Translation.X)
-                    rigidBody.ApplyLinearImpulse(new Vector2(-500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
-                else
-                    rigidBody.ApplyLinearImpulse(new Vector2(500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
-
-                hp -= 3;
-
-                State = WarlockState.Damaged;
-                if (Healing)
+                HitOnHealing++;
+                if (HitOnHealing > 2)
                 {
-                    HitOnHealing++;
-                    if (HitOnHealing > 2)
-                    {
-                        Healing = false;
-                        HitOnHealing = 0;
-                    }
+                    Healing = false;
+                    HitOnHealing = 0;
                 }
             }
+        }
+
+        public override void ReceiveDamage(float damage)
+        {
+            hp -= 3;
         }
     }
 }

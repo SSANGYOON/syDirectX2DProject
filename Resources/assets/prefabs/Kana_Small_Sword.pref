@@ -1,0 +1,79 @@
+Head: 422910671084272149
+Entities:
+  - Entity: 422910671084272149
+    TagComponent:
+      Tag: Kana_Small_Sword
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [1, 0.65198791, 0.378378391, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\BossCastlePhase2Sword.png
+      Tile: [25, 59]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Light:
+      Color: [1, 0.792, 0.623]
+      Type: 0
+      Range: 100
+      Direction: [0, 0, 0]
+    TrailRenderer:
+      Color: [1, 0.423529416, 0.176470593, 0.501960814]
+      Base: [0, 9, 0.100000001]
+      Tip: [0, -25, 0.100000001]
+      Shader: TrailShader
+      Texture: textures\SlashTrail.png
+      Freq: 100
+      MaxRecord: 50
+  - Entity: 16285541653013040789
+    TagComponent:
+      Tag: SwordThunder
+    State: 0
+    TransformComponent:
+      Translation: [1, -11, -1]
+      Rotation: [0, 0, 0]
+      Scale: [15, 32.0999985, 1]
+    Parent:
+      ParentID: 422910671084272149
+    SpriteRendererComponent:
+      Shader: Thunder
+      Color: [0.352941185, 0.768627465, 1, 0.501960814]
+      Emission: [0, 0.34117648, 1, 2.00784326]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]

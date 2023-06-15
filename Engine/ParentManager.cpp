@@ -20,13 +20,14 @@ namespace SY {
 			for (auto e : view)
 			{
 				Entity entity = { e,scene };
-				
+
 				auto parent = scene->GetEntityByUUID(entity.GetComponent<Parent>().parentHandle);
 
 				childMap[(UINT)parent].push_back((UINT)e);
 			}
 		}
-
+	}
+	void ParentManager::UpdateState(Scene* scene){
 		{
 			queue<UINT> updatequeue;
 			scene->m_Registry.view<StateComponent>(entt::exclude<Parent>).each([&updatequeue, scene](entt::entity entity, StateComponent& sc) {
@@ -113,7 +114,6 @@ namespace SY {
 	{
 		queue<UINT> updatequeue;
 		scene->m_Registry.view<TransformComponent>(entt::exclude<Parent>).each([&updatequeue](entt::entity entity, TransformComponent& tr) {
-				tr.localToWorld = tr.localToWorld;
 			for (auto e : childMap[(UINT)entity])
 			{
 				updatequeue.push((UINT)e);
@@ -124,13 +124,15 @@ namespace SY {
 		{
 			Entity entity = { (entt::entity)(updatequeue.front()),scene };
 			updatequeue.pop();
-				auto& tr = entity.GetComponent<TransformComponent>();
-				UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
-				auto parent = scene->GetEntityByUUID(parenUUID);
+			auto& tr = entity.GetComponent<TransformComponent>();
+			UUID parenUUID = entity.GetComponent<Parent>().parentHandle;
+			auto parent = scene->GetEntityByUUID(parenUUID);
 
-				auto& parentTr = parent.GetComponent<TransformComponent>();
-
-			tr.localToWorld = tr.localToParent * parentTr.localToWorld;
+			auto& parentTr = parent.GetComponent<TransformComponent>();
+			if (!parentTr.recent || !tr.recent) {
+				tr.localToWorld = tr.localToParent * parentTr.localToWorld;
+				tr.recent = false;
+			}
 
 			for (auto e : childMap[(UINT)entity])
 			{
@@ -138,7 +140,11 @@ namespace SY {
 			}
 		}
 
-		scene->m_Registry.view<RectTransformComponent>(entt::exclude<Parent>).each([&updatequeue](entt::entity entity, RectTransformComponent& tr) {
+		scene->m_Registry.view<TransformComponent>().each([](entt::entity entity, TransformComponent& tr) {
+			tr.recent = true;
+			});
+
+		scene->m_Registry.view<RectTransformComponent>(entt::exclude<Parent, Pause>).each([&updatequeue](entt::entity entity, RectTransformComponent& tr) {
 			tr.worldTranslation = tr.translation;
 			tr.CreatToWorld();
 			for (auto e : childMap[(UINT)entity])

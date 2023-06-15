@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace SYScript.ItemDatas
 {
-    public class Steeleto : WeaponData
+    public class Steeleto : PlayerWeaponData
     {
         public Steeleto() {
             spritePath = "assets\\textures\\Stiletto.png";
             Type = weaponType.Dagger;
+            Damage = 5f;
         }
     }
 }

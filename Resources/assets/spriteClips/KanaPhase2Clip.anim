@@ -1,0 +1,129 @@
+Animations:
+  - Key: Idle2_Kana
+    OriginalOffset: [ 0.0, 17.0 ]
+    SpriteSize: [ 49.0, 96.0 ]
+    Step: [ 51.0, 105.0 ]
+    Columns: 12
+    Frames: 24
+    Duration: 1
+    Loop: true
+
+  - Key: TailAttack
+    OriginalOffset: [ 3, 233.0 ]
+    SpriteSize: [ 55.0, 96.0 ]
+    Step: [ 60, 60.0 ]
+    Columns: 9
+    Frames: 9
+    Duration: 1
+    Loop: true
+
+  - Key: SwordAttack
+    OriginalOffset: [ 9.0, 345.0 ]
+    SpriteSize: [ 53.0, 96.0 ]
+    Step: [ 60.0, 101.0 ]
+    Columns: 10
+    Frames: 15
+    Duration: 1.5
+    Loop: false
+
+  - Key: Summon
+    OriginalOffset: [ 14.0, 768.0 ]
+    SpriteSize: [ 50.0, 96.0 ]
+    Step: [ 60.0, 55.0 ]
+    Columns: 8
+    Frames: 8
+    Duration: 1
+    Loop: false
+
+  - Key: Launch
+    OriginalOffset: [ 10.0, 883.0 ]
+    SpriteSize: [ 66.0, 96.0 ]
+    Step: [ 65.0, 55.0 ]
+    Columns: 8
+    Frames: 8
+    Duration: 1
+    Loop: false
+
+  - Key: Spin
+    OriginalOffset: [ 14.0, 998.0 ]
+    SpriteSize: [ 50.0, 96.0 ]
+    Step: [ 60.0, 55.0 ]
+    Columns: 8
+    Frames: 8
+    Duration: 1
+    Loop: false
+
+  - Key: Damaged_Kana2
+    OriginalOffset: [ 3.0, 1187.0 ]
+    SpriteSize: [ 46.0, 88.0 ]
+    Step: [ 55.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 0.5
+    Loop: false
+
+  - Key: Launched_Kana
+    OriginalOffset: [ 21.0, 1306.0 ]
+    SpriteSize: [ 34.0, 53.0 ]
+    Step: [ 50.0, 80.0 ]
+    Columns: 1
+    Frames: 1
+    Duration: 1
+    Loop: false
+
+  - Key: Chained_Kana
+    OriginalOffset: [ 8.0, 1392.0 ]
+    SpriteSize: [ 59.0, 52.0 ]
+    Step: [ 76.0, 80.0 ]
+    Columns: 8
+    Frames: 8
+    Duration: 2
+    Loop: false
+    nextKey: Down_Kana
+
+  - Key: Down_Kana
+    OriginalOffset: [ 8.0, 1472.0 ]
+    SpriteSize: [ 59.0, 52.0 ]
+    Step: [ 76.0, 80.0 ]
+    Columns: 3
+    Frames: 3
+    Duration: 0.6
+    Loop: true
+
+  - Key: Kana_Wing1
+    OriginalOffset: [ 1.0, 1550.0 ]
+    SpriteSize: [ 137.0, 64.0 ]
+    Step: [ 153.0, 80.0 ]
+    Columns: 4
+    Frames: 4
+    Duration: 0.4
+    Loop: false
+
+  - Key: Kana_Wing2
+    OriginalOffset: [ 1.0, 1633.0 ]
+    SpriteSize: [ 133.0, 63.0 ]
+    Step: [ 146.0, 80.0 ]
+    Columns: 4
+    Frames: 4
+    Duration: 0.4
+    Loop: false
+
+  - Key: Kana_Wing3
+    OriginalOffset: [ 18.0, 1694.0 ]
+    SpriteSize: [ 83.0, 57.0 ]
+    Step: [ 143.0, 78.0 ]
+    Columns: 4
+    Frames: 5
+    Duration: 0.5
+    Loop: false
+
+  - Key: Kana_Wing4
+    OriginalOffset: [ 140.0, 1753.0 ]
+    SpriteSize: [ 129.0, 70.0 ]
+    Step: [ 144.0, 78.0 ]
+    Columns: 3
+    Frames: 3
+    Duration: 0.3
+    Loop: false
+
+

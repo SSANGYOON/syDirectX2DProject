@@ -58,6 +58,8 @@ namespace SY {
 		float maxAmp = 0.f;
 
 		float CalculateDiff(float ts, float accTime);
+		Vector4 scissorRect = {0,0,1,1};
+		Vector4 fadeColor;
 
 		UINT16 LayerBit = 65535;
 		CameraComponent() = default;

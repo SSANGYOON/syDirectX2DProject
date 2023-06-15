@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SY;
 namespace SYScript
 {
-    public  class WeaponData : ItemData
+    public class PlayerWeaponData : ItemData
     {
         public enum weaponType
         {
@@ -15,9 +15,15 @@ namespace SYScript
             TwoHand,
             OneHand,
             Dagger,
+            Shield
         }
         
         public weaponType Type{ get; set; }
+
+        protected float _damage;
+
+        public float Damage { get { return _damage; }
+                protected set { _damage = value; } }
 
         public float Duration
         {
@@ -34,11 +40,6 @@ namespace SYScript
 
                 }
             }
-        }
-
-        public virtual float calculateDamage()
-        {
-            return 2.0f;
         }
     }
 }
