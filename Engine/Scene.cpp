@@ -34,7 +34,7 @@
 #include "ScriptEngine.h"
 #include "Animation.h"
 #include "InstancingManager.h"
-
+#include "FW1FontWrapper\\Include\\FW1FontWrapper.h"
 
 namespace SY {
 
@@ -199,8 +199,8 @@ namespace SY {
 	void Scene::OnRuntimeShift()
 	{
 		m_IsRunning = false;
-
 		OnPhysics2DStop();
+		ScriptEngine::OnRuntimeShift();
 	}
 
 	void Scene::OnSimulationStart()
@@ -560,9 +560,8 @@ namespace SY {
 			}
 
 			if (post.size() == 0)
-			{
 				Renderer::ACESMap();
-			}
+
 			Renderer::End();
 		}
 
@@ -1125,6 +1124,7 @@ namespace SY {
 			{
 				Renderer::ACESMap();
 			}
+			
 		}
 
 		Renderer::End();

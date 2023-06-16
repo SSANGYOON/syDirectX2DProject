@@ -10,7 +10,7 @@ namespace Sandbox
 {
     public class LoadingSceneController : Entity
     {
-        public float accTime;
+        float accTime;
         void OnCreate()
         {
             var sa = GetComponent<SpriteAnimatorComponent>();
@@ -22,11 +22,10 @@ namespace Sandbox
         void OnUpdate(float ts)
         {
             accTime += ts;
-
-            if(accTime > 5.0f) {
-                SceneManager.LoadReservedScene();
-            }
-            
+            if (accTime > 4f && accTime < 5.0f)
+                FindEntityByName("Camera").GetComponent<CameraComponent>().FadeColor = new Vector4(0, 0, 0, accTime - 4);
+            else if (accTime > 5.0f)
+                SceneManager.LoadReservedScene();       
         }
     }
 }

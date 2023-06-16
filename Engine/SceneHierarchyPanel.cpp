@@ -548,6 +548,13 @@ namespace SY {
 										scriptField.SetValue(data);
 								}
 
+								if (field.Type == ScriptFieldType::Vector3)
+								{
+									Vector3 data = scriptField.GetValue<Vector3>();
+									if (ImGui::DragFloat3(name.c_str(), reinterpret_cast<float*>(&data)))
+										scriptField.SetValue(data);
+								}
+
 								if (field.Type == ScriptFieldType::ULong)
 								{
 									UINT64 data = scriptField.GetValue<UINT64>();
@@ -602,6 +609,17 @@ namespace SY {
 								{
 									Vector2 data = Vector2::Zero;
 									if (ImGui::DragFloat2(name.c_str(), reinterpret_cast<float*>(&data)))
+									{
+										ScriptFieldInstance& fieldInstance = entityFields[name];
+										fieldInstance.Field = field;
+										fieldInstance.SetValue(data);
+									}
+								}
+
+								if (field.Type == ScriptFieldType::Vector3)
+								{
+									Vector3 data = Vector3::Zero;
+									if (ImGui::DragFloat3(name.c_str(), reinterpret_cast<float*>(&data)))
 									{
 										ScriptFieldInstance& fieldInstance = entityFields[name];
 										fieldInstance.Field = field;

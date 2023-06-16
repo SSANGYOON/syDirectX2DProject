@@ -10,6 +10,8 @@
 #include "mono/metadata/threads.h"
 #include "mono/metadata/attrdefs.h"
 #include "FileWatch.hpp"
+#include "entt.hpp"
+#include <queue>
 
 #pragma comment (lib, "mono/lib/mono-2.0-sgen.lib")
 
@@ -20,6 +22,7 @@
 #include "Project.h"
 
 #include "CollisionManager.h"
+#include "ParentManager.h"
 
 namespace SY {
 
@@ -294,18 +297,22 @@ namespace SY {
 		{
 			UUID entityID = entity.GetUUID();
 
-			if (s_Data->EntityInstances.find(entityID) == s_Data->EntityInstances.end() || s_Data->EntityInstances.find(entityID)->second == nullptr) {
-				shared_ptr<ScriptInstance> instance = make_shared<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-				s_Data->EntityInstances[entityID] = instance;
-
-				if (s_Data->EntityScriptFields.find(entityID) != s_Data->EntityScriptFields.end())
-				{
-					const ScriptFieldMap& fieldMap = s_Data->EntityScriptFields.at(entityID);
-					for (const auto& [name, fieldInstance] : fieldMap)
-						instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
-				}
-				instance->InvokeOnCreate();
+			if (s_Data->EntityInstances.find(entityID) != s_Data->EntityInstances.end()) {		
+				int a = 0;
+				return;
 			}
+				
+
+			shared_ptr<ScriptInstance> instance = make_shared<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
+			s_Data->EntityInstances[entityID] = instance;
+
+			if (s_Data->EntityScriptFields.find(entityID) != s_Data->EntityScriptFields.end())
+			{
+				const ScriptFieldMap& fieldMap = s_Data->EntityScriptFields.at(entityID);
+				for (const auto& [name, fieldInstance] : fieldMap)
+					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+			}
+			instance->InvokeOnCreate();
 		}
 	}
 
@@ -519,12 +526,26 @@ namespace SY {
 
 	void ScriptEngine::OnRuntimeShift()
 	{
-		for (auto inst : s_Data->EntityInstances)
+		queue<UUID> destroyed;
+		for (auto& inst : s_Data->EntityInstances)
 		{
 			Entity entity = s_Data->SceneContext->GetEntityByUUID(inst.first);
-			if(!entity.HasComponent<DontDestroy>())
-				inst.second = nullptr;
+			if (!entity.HasComponent<DontDestroy>() && !entity.HasComponent<Parent>())
+				destroyed.push(inst.first);
 		}
+		while (!destroyed.empty()) {
+			UUID id = destroyed.front();
+			destroyed.pop();
+			s_Data->EntityInstances.erase(id);
+			Entity e = s_Data->SceneContext->GetEntityByUUID(id);
+
+			for (auto child : ParentManager::GetChildren(e))
+			{
+				Entity childEntity = { (entt::entity)child, s_Data->SceneContext };
+				destroyed.push(childEntity.GetUUID());
+			}
+		}
+
 		s_Data->SceneContext = nullptr;
 	}
 

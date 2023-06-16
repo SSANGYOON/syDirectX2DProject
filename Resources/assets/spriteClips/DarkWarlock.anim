@@ -9,9 +9,9 @@ Animations:
     Loop: true
 
   - Key: WARLOCKATTACK
-    OriginalOffset: [ 4.0, 111.0 ]
-    SpriteSize: [ 72.0, 83.0 ]
-    Step: [ 61.67, 27.0 ]
+    OriginalOffset: [ 3.0, 111.0 ]
+    SpriteSize: [ 58.0, 83.0 ]
+    Step: [ 64, 27.0 ]
     Columns: 7
     Frames: 7
     Duration: 1

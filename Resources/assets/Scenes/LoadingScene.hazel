@@ -1,5 +1,47 @@
 Scene: Untitled
 Entities:
+  - Entity: 2775902960571162810
+    TagComponent:
+      Tag: LoadingIcon
+    State: 0
+    TransformComponent:
+      Translation: [256, -128, -2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.LoadingSceneController
+      ScriptFields:
+        []
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [1, 1, 1, 0.250980407]
+      DiffusePath: textures\sactx-128x128-Uncompressed-Loading-dd4d29fb.png
+      Tile: [32, 32]
+      Offset: [0, 32]
+      Layer: 128
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\Loading.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
   - Entity: 13154837667527679248
     TagComponent:
       Tag: Camera
@@ -13,34 +55,19 @@ Entities:
         ProjectionType: 1
         PerspectiveFOV: 0.785398185
         Near: 0.00999999978
-        Far: 1000
+        Far: 4
         OrthographicSize: 360
       Primary: true
       FixedAspectRatio: false
       LayerMask: 128
-  - Entity: 2775902960571162810
-    TagComponent:
-      Tag: LoadingIcon
-    State: 0
-    TransformComponent:
-      Translation: [256, -128, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ScriptComponent:
-      ClassName: Sandbox.LoadingSceneController
-      ScriptFields:
-        []
-    SpriteRendererComponent:
-      Color: [1, 0, 1, 1]
-      DiffusePath: textures\sactx-128x128-Uncompressed-Loading-dd4d29fb.png
-      SourceOffset: [0, 0]
-      SourceSize: [0, 0]
-      TargetOffset: [0, 0]
-      Fixed: false
-      Layer: 128
-    AnimatorComponent:
-      ClipPath: assets\spriteClips\Loading.anim
-      StartEvents:
-        []
-      EndEvents:
-        []
+      OscillationAmp: 0
+      OscillationFreq: 1
+      OscillationDamp: 1
+      MaxAmp: 0
+      FadeColor: [0, 0, 0, 0]
+      ScissorRect: [0, 0, 1, 1]
+    Light:
+      Color: [1, 1, 1]
+      Type: 3
+      Range: 0
+      Direction: [0, 0, 0]

@@ -119,9 +119,6 @@ namespace Sandbox
 
             xWeaponView = FindEntityByName("xWeaponView");
             zWeaponView = FindEntityByName("zWeaponView");
-            DontDestroy();
-            xWeaponView.DontDestroy();
-            zWeaponView.DontDestroy();
         }
 
         void OnUpdate(float ts)

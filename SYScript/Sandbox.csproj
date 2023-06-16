@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemDatas\Weapon\ShieldOfLife.cs" />
+    <Compile Include="MonsterScript\Kana\CastlePortal.cs" />
     <Compile Include="MonsterScript\Kana\Kana_BigSword.cs" />
     <Compile Include="MonsterScript\Kana\Kana_Last.cs" />
     <Compile Include="MonsterScript\Kana\Kana_Phase2.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="MonsterScript\DarkLady\Bullet.cs" />
     <Compile Include="MonsterScript\DarkLady\BulletGenerator.cs" />
     <Compile Include="MonsterScript\DarkLady\DarkWarlock.cs" />
-    <Compile Include="MonsterScript\Kana\CastleCollisionEvent.cs" />
+    <Compile Include="Gimmick\CastleCollisionEvent.cs" />
     <Compile Include="MonsterScript\Kana\KanaKatana.cs" />
     <Compile Include="MonsterScript\Kana\Kana_Phase1.cs" />
     <Compile Include="Gimmick\Portal.cs" />

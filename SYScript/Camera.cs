@@ -16,7 +16,7 @@ namespace Sandbox
         private Entity m_Player;
         internal Entity Following;
         private bool onCinematic = false;
-
+        private bool enterScene = false;
         public bool Cinematic
         { 
             get { return onCinematic; }
@@ -30,20 +30,27 @@ namespace Sandbox
         void OnCreate()
         {
             m_Player = FindEntityByName("Player");
+            enterScene = true;
         }
 
         void OnUpdate(float ts)
         {
             if (m_Player == null)
                 return;
-            if (Cinematic) { 
+            if (Cinematic)
                 if (stateTime < 1f)
-                    GetComponent<CameraComponent>().ScissorRect = new Vector4(0, stateTime * 0.1f, 1, 1 - stateTime * 0.2f);
-            }
-
-
+                    GetComponent<CameraComponent>().ScissorRect = new Vector4(0, stateTime * 0.12f, 1, 1 - stateTime * 0.24f);
 
             Vector2 targetPos;
+            var cameraComp = GetComponent<CameraComponent>();
+
+            if (enterScene && stateTime < 1)
+                cameraComp.FadeColor = new Vector4(0, 0, 0, 1 - stateTime);
+            if (stateTime > 1)
+            {
+                enterScene = false;
+                cameraComp.FadeColor = new Vector4(0, 0, 0, 0);
+            }
 
             if (Cinematic)
                 targetPos = Following.Translation.XY;
@@ -63,8 +70,6 @@ namespace Sandbox
                 diff.Normalize();
                 Translation = new Vector3(Translation.X + diff.X * 150f * ts, Translation.Y + diff.Y * 150f * ts, Translation.Z);
             }
-
-
 
             stateTime += ts;
         }

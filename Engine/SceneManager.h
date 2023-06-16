@@ -17,7 +17,7 @@ namespace SY {
 		static shared_ptr<Scene> activeScene;
 		static shared_ptr<Scene> nextScene;
 		static map<string, shared_ptr<Scene>> scenes;
-		static std::stack<thread> loadingThreads;
+		static thread loadingThread;
 	};
 }
 

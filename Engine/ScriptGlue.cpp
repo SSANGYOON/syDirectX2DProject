@@ -1393,10 +1393,8 @@ namespace SY {
 			}
 			
 		}
-		else
-		{
+		else if (entity.HasComponent<TransformComponent>())	
 			dontDestroy.desiredPos = *desiredPos;
-		}
 	}
 
 	static void SceneManager_LoadScene(MonoString* monoPath)
@@ -1412,7 +1410,7 @@ namespace SY {
 		char* cPath = mono_string_to_utf8(monoPath);
 		mono_free(cPath);
 		std::string sPath(cPath);
-		SceneManager::LoadScene(sPath);
+		SceneManager::LoadSceneAsync(sPath);
 	}
 
 	template<typename... Component>

@@ -16,6 +16,7 @@ namespace SY
         public static void LoadReservedScene()
         { 
             InternalCalls.SceneManager_LoadSceneAsync(reservedScenePath);
+            Console.WriteLine(reservedScenePath);
         }
         public static void LoadScene(string path)
         { 

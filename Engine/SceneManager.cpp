@@ -10,9 +10,10 @@ namespace SY {
     shared_ptr<Scene> SceneManager::activeScene = nullptr;
     shared_ptr<Scene> SceneManager::nextScene = nullptr;
     map<string, shared_ptr<Scene>> SceneManager::scenes = {};
-    stack<thread> SceneManager::loadingThreads = {};
+    thread SceneManager::loadingThread = {};
 
     static std::mutex SceneLock;
+
     void SceneManager::LoadScene(string path)
     {
         std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
@@ -32,13 +33,14 @@ namespace SY {
                 scenes[path] = newScene;
         }
         
-        //SceneLock.lock();
+        SceneLock.lock();
         nextScene = newScene;
-        //SceneLock.unlock();
+        SceneLock.unlock();
     }
     void SceneManager::LoadSceneAsync(string path)
     {
-        loadingThreads.push(thread(SceneManager::LoadScene, path));
+        thread t1(SceneManager::LoadScene, path);
+        loadingThread = std::move(t1);
     }
     void SceneManager::SetStartScene(shared_ptr<Scene> scene, string name)
     {
@@ -47,7 +49,7 @@ namespace SY {
     }
     void SceneManager::OnUpdate(float timeStep)
     {
-        //SceneLock.lock();
+        SceneLock.lock();
         if (nextScene != activeScene)
         {
             if (activeScene != nullptr && nextScene != nullptr)
@@ -77,6 +79,7 @@ namespace SY {
                     }
                 }
                 activeScene->OnRuntimeShift();
+                
                 nextScene->OnRuntimeStart();
             }
             else if(activeScene)
@@ -85,18 +88,10 @@ namespace SY {
                 nextScene->OnRuntimeStart();
         }
         activeScene = nextScene;
-        //SceneLock.unlock();
+        SceneLock.unlock();
         
-        while (!loadingThreads.empty())
-        {
-            if (loadingThreads.top().joinable())
-            {
-                loadingThreads.top().join();
-                loadingThreads.pop();
-            }
-            else
-                break;
-        }
+        if (loadingThread.joinable())
+            loadingThread.join();
 
         activeScene->OnUpdateRuntime(timeStep);
         

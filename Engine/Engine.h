@@ -3,6 +3,8 @@
 #include "ConstantBuffer.h"
 #include "RenderTargetGroup.h"
 class Texture;
+class IFW1Factory;
+class IFW1FontWrapper;
 class Engine
 {
 public:
@@ -29,6 +31,7 @@ public:
 
 public:
 	HRESULT CreateRenderTargetGroup();
+	IFW1FontWrapper* mFontWrapper;
 
 private:
 	WindowInfo _window;
@@ -43,6 +46,7 @@ private:
 	ComPtr<ID3D11RenderTargetView> _rtv;
 	shared_ptr<Texture> _depth;
 
+	IFW1Factory* mFW1Factory;
 
 	array<shared_ptr<ConstantBuffer>, (size_t)Constantbuffer_Type::END> _constantBuffers;
 	array<shared_ptr<RenderTargetGroup>, RENDER_TARGET_GROUP_COUNT> _rtGroups;

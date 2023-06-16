@@ -23,6 +23,7 @@ namespace Sandbox
             Camera cam =FindEntityByName("MainCamera").As<Camera>();
             cam.Cinematic = true;
             cam.Following = this;
+            FindEntityByName("BlockWall").Pause();
         }
 
         void OnUpdate(float ts)

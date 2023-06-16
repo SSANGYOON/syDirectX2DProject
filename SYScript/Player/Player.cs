@@ -198,10 +198,14 @@ namespace Sandbox
 
             m_State = PlayerState.Idle;
 
-            Vector3 pos = new Vector3(0, 20, -1);
+            Vector3 pos = new Vector3(-460, 30, -5);
             DontDestroy(ref pos);
 
+            var ui = FindEntityByName("Always Visilble UI");
+            ui.DontDestroy();
+
             m_Inven = FindEntityByName("InventoryPanel");
+            m_Inven.DontDestroy();
         }
 
         void OnUpdate(float ts)

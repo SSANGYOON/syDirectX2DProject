@@ -37,7 +37,18 @@ float3 ToneMapACESFilmic(float3 x)
 float4 PS_MAIN(VSOut In) : SV_TARGET0
 {
     float4 hdr = tex_0.Sample(pointSampler, In.UV);
-    hdr.xyz = ToneMapACESFilmic(hdr.xyz);;
+    hdr.xyz = ToneMapACESFilmic(hdr.xyz);
+
+    hdr.xyz = hdr * (1 - FadeColor.w) + FadeColor.w * FadeColor.xyz;
+
+    float x = In.Pos.x / viewPort.x;
+    float y = In.Pos.y / viewPort.y;
+
+    if (x < ScissorRect.x || ScissorRect.x + ScissorRect.z < x)
+        return float4(0, 0, 0, 1);
+
+    if (y < ScissorRect.y || ScissorRect.y + ScissorRect.w < y)
+        return float4(0, 0, 0, 1);
 
     return hdr;
 }
