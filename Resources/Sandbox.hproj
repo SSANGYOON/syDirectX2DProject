@@ -2,4 +2,4 @@ Project:
   Name: Sandbox
   StartScene: C:\Users\eondr\source\repos\syDirectX2DProject\Resources\assets\Scenes\Castle.hazel
   AssetDirectory: Assets
-  ScriptModulePath: C:/Users/eondr/source/repos/syDirectX2DProject/SYScript/bin/Debug/Sandbox.dll
+  ScriptModulePath: ../SYScript/bin/Debug/Sandbox.dll

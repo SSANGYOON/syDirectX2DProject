@@ -168,17 +168,17 @@ namespace SY {
 	void ScriptEngine::Init()
 	{
 		s_Data = new ScriptEngineData();
-
+		
 		InitMono();
 		ScriptGlue::RegisterFunctions();
 
-		bool status = LoadAssembly("C:/Users/eondr/source/repos/syDirectX2DProject/ClassLibrary1/bin/Debug/ScriptCore.dll");
+		bool status = LoadAssembly("../ClassLibrary1/bin/Debug/ScriptCore.dll");
 		if (!status)
 		{
 			return;
 		}
 
-		auto scriptModulePath = Project::GetAssetDirectory() / Project::GetActive()->GetConfig().ScriptModulePath;
+		auto scriptModulePath = Project::GetActive()->GetConfig().ScriptModulePath;
 		status = LoadAppAssembly(scriptModulePath);
 		if (!status)
 		{
