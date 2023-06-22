@@ -175,6 +175,15 @@
     <Filter Include="Component\ParticleSystem">
       <UniqueIdentifier>{3819bfba-52ce-40da-8b35-6f5e2fac66d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FmodWrapper">
+      <UniqueIdentifier>{4482ff22-0b35-43e7-b39c-27fd47df5b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\AudioClip">
+      <UniqueIdentifier>{fe8d6aed-ad46-4731-b143-7c2f9701e7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Audio">
+      <UniqueIdentifier>{998cd2c1-1ee8-419c-a3c2-5ee55f31e1af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Resource.cpp">
@@ -368,6 +377,18 @@
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FmodWrapper.cpp">
+      <Filter>FmodWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioListener.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioClip.cpp">
+      <Filter>Resource\AudioClip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +619,18 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FmodWrapper.h">
+      <Filter>FmodWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioListener.h">
+      <Filter>Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioClip.h">
+      <Filter>Resource\AudioClip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

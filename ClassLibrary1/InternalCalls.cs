@@ -222,5 +222,10 @@ namespace SY
         internal extern static void SceneManager_LoadScene(string nextScenePath);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void SceneManager_LoadSceneAsync(string nextScenePath);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_play(ulong entityID, string clip, bool loop);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_stop(ulong entityID);
     }
 }

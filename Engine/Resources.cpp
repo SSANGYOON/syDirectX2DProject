@@ -568,6 +568,23 @@ void Resources::CreateDefaultResource()
 	}
 #pragma endregion
 
+#pragma region Sunset
+	{
+		shared_ptr<Shader> sunset = std::make_shared<Shader>();
+		Resources::Insert<Shader>(L"Sunset", sunset);
+		ShaderInfo _info = {};
+		ShaderEntry _entry;
+		_info.bst = BSType::AlphaBlend;
+		_info.dst = DSType::Less;
+		_info.rst = RSType::SolidNone;
+		_info.topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		_entry = {};
+		_entry.VS = true;
+		_entry.PS = true;
+		sunset->CreateShader(_info, _entry, L"Sunset.hlsl");
+	}
+#pragma endregion
+
 #pragma region DarkLady
 	{
 		shared_ptr<Shader> darkLady = std::make_shared<Shader>();

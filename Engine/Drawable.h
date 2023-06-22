@@ -143,6 +143,12 @@ namespace SY
 		static void DrawImGui(IconComponent& component);
 	};
 
+	struct UIText
+	{
+		wstring text = L"";
+		static void DrawImGui(UIText& component);
+	};
+
 	struct Eraser
 	{
 		shared_ptr<Material> material;

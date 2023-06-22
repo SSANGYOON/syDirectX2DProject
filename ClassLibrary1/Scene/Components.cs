@@ -227,6 +227,19 @@ namespace SY
         }
     }
 
+    public class AudioSource : Component
+    {
+        public void Play(string clip, bool loop = false)
+        {
+            InternalCalls.AudioSource_play(Entity.ID, clip, loop);
+        }
+
+        public void Stop()
+        {
+            InternalCalls.AudioSource_stop(Entity.ID);
+        }
+    }
+
     public class PanelComponent : Component 
     {
         public Vector4 TintColor

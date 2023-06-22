@@ -24,6 +24,8 @@ namespace Sandbox
         private string equipableTexturePath = "assets\\textures\\ui\\Equippable.png";
         private string equipedTexturePath = "assets\\textures\\ui\\Equipped.png";
 
+        private AudioSource m_AudioSource;
+
         private Entity[] icons;
         private Entity[] panels;
 
@@ -119,6 +121,8 @@ namespace Sandbox
 
             xWeaponView = FindEntityByName("xWeaponView");
             zWeaponView = FindEntityByName("zWeaponView");
+
+            m_AudioSource = GetComponent<AudioSource>();
         }
 
         void OnUpdate(float ts)
@@ -131,20 +135,28 @@ namespace Sandbox
             if(Input.IsKeyDown(KeyCode.Right))
             {
                 CurrentCategory = (InventoryData.CATEGORY)(((int)CurrentCategory + 1) % icons.Length);
+                m_AudioSource.Play("assets\\soundClip\\Click_Standard_00.wav", false);
             }
 
             if (Input.IsKeyDown(KeyCode.Left))
             {
                 CurrentCategory = (InventoryData.CATEGORY)(((int)CurrentCategory - 1 + icons.Length) % icons.Length);
+                m_AudioSource.Play("assets\\soundClip\\Click_Standard_00.wav", false);
             }
 
-            if (Input.IsKeyDown(KeyCode.Up)) { CurrentPanelIndex = CurrentPanelIndex - 1; }
-            if (Input.IsKeyDown(KeyCode.Down)) { CurrentPanelIndex = CurrentPanelIndex + 1; }
+            if (Input.IsKeyDown(KeyCode.Up)) { 
+                CurrentPanelIndex = CurrentPanelIndex - 1;
+                m_AudioSource.Play("assets\\soundClip\\Click_Standard_00.wav", false);
+            }
+            if (Input.IsKeyDown(KeyCode.Down)) {
+                CurrentPanelIndex = CurrentPanelIndex + 1;
+                m_AudioSource.Play("assets\\soundClip\\Click_Standard_00.wav", false);
+            }
 
             if(Input.IsKeyDown(KeyCode.Z)) {
                 if (CurrentCategory == InventoryData.CATEGORY.Weapon)
                 {
-                    
+                    m_AudioSource.Play("assets\\soundClip\\UI_Select_Medieval_Shield_Hit_stereo.wav", false);
                     var weaponData = items.itemDatas[(int)CurrentCategory][currentPanelIndex] as PlayerWeaponData;
                     var xslot = xWeaponView.GetComponent<SlotComponent>();
                     var zslot = zWeaponView.GetComponent<SlotComponent>();
@@ -173,6 +185,7 @@ namespace Sandbox
             {
                 if (CurrentCategory == InventoryData.CATEGORY.Weapon)
                 {
+                    m_AudioSource.Play("assets\\soundClip\\UI_Select_Medieval_Shield_Hit_stereo.wav", false);
                     var weaponData = items.itemDatas[(int)CurrentCategory][currentPanelIndex] as PlayerWeaponData;
                     var xslot = xWeaponView.GetComponent<SlotComponent>();
                     var zslot = zWeaponView.GetComponent<SlotComponent>();
@@ -215,11 +228,13 @@ namespace Sandbox
 
         void OnPaused()
         {
+            m_AudioSource.Play("assets\\soundClip\\Inventory_Open_00.wav", false);
             Timer.SetTimeScale(1.0f);
         }
 
         void OnActivated()
         {
+            m_AudioSource.Play("assets\\soundClip\\Inventory_Open_00.wav", false);
             Timer.SetTimeScale(0.0f);
         }
     }

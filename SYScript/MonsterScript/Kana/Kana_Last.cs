@@ -11,9 +11,10 @@ namespace Sandbox
     {
         private Vector2 velocity;
         private float _stateTime = 0f;
-
+        private AudioSource _audioSource;
         void OnCreate()
         {
+            _audioSource = GetComponent<AudioSource>();
         }
 
         void OnActivated()
@@ -24,6 +25,7 @@ namespace Sandbox
             cam.Cinematic = true;
             cam.Following = this;
             FindEntityByName("BlockWall").Pause();
+            GetComponent<AudioSource>();
         }
 
         void OnUpdate(float ts)
@@ -42,8 +44,11 @@ namespace Sandbox
                 }
             }
 
-            if (_stateTime < 4 && _stateTime + ts >4)
+            if (_stateTime < 4 && _stateTime + ts > 4)
+            {
                 FindEntityByName("Altar_Particle").Activate();
+                _audioSource.Play("assets\\soundClip\\FIRE_Hot_Furnice_Smooth_loop_mono.wav", true);
+            }
             if (_stateTime > 4)
             {
                 Vector3 trans = Translation;
@@ -53,6 +58,7 @@ namespace Sandbox
 
             if (_stateTime > 7)
             {
+                _audioSource.Stop();
                 FindEntityByName("Altar_Particle").Pause();
                 Pause();
 

@@ -434,4 +434,23 @@ namespace SY {
 		ImGui::DragFloat2("Velocity", reinterpret_cast<float*>(&component.Velocity));
 		ImGui::DragFloat2("Size", reinterpret_cast<float*>(&component.Size));
 	}
+	void UIText::DrawImGui(UIText& component)
+	{
+		char text[255] = "\0";
+		wchar_t wtext[255] = L"\0";
+
+		int len = WideCharToMultiByte(CP_UTF8, 0, component.text.c_str(), -1, NULL, 0, NULL, NULL);
+		WideCharToMultiByte(CP_UTF8, 0, component.text.c_str(), component.text.length(), text, len, NULL, NULL);
+
+		if (ImGui::InputText("UIText", text, 255)) {
+			MultiByteToWideChar(CP_UTF8, 0, text, strlen(text), wtext, 255);
+
+			component.text = wtext;
+
+			int len = WideCharToMultiByte(CP_ACP, 0, wtext, -1, NULL, 0, NULL, NULL);
+			WideCharToMultiByte(CP_ACP, 0, wtext, -1, text, len, NULL, NULL);
+
+			int a = 0;
+		}
+	}
 }

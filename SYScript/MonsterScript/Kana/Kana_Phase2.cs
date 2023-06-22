@@ -17,6 +17,8 @@ namespace Sandbox
         private SpriteRendererComponent m_Renderer;
         private SpriteRendererComponent m_WingRenderer;
         private SliderComponent hpBar;
+        private AudioSource m_AudioSource;
+
         private Entity player;
         private Entity MainCamera;
 
@@ -94,6 +96,7 @@ namespace Sandbox
                     case KanaState.Spin:
                         {
                             m_Animator.Play("Spin");
+                            m_AudioSource.Play("assets\\soundClip\\buff up attack (2).wav");
                             SwordPhase = 4;
                             break;
                         }
@@ -107,6 +110,9 @@ namespace Sandbox
                     case KanaState.Dead:
                         {
                             m_Animator.Play("Damaged_Kana2");
+                            m_AudioSource.Stop();
+                            m_AudioSource.Play("assets\\soundClip\\death_03.wav");
+                            MainCamera.GetComponent<AudioSource>().Stop();
                             Entity lastKana = FindEntityByName("Kana_Last");
                             lastKana.Translation = Translation;
                             lastKana.Activate();
@@ -172,6 +178,8 @@ namespace Sandbox
             MainCamera = FindEntityByName("MainCamera");
             KanaBigSword = FindEntityByName("Kana_big_sword");
             smallSwords = new Entity[5];
+            m_AudioSource = GetComponent<AudioSource>();
+
             for (int i = 0; i < smallSwords.Length; i++)
             {
                 smallSwords[i] = swordPref.Instantiate(Vector3.Zero, ID);
@@ -284,6 +292,7 @@ namespace Sandbox
                     {
                         SwordPhase = 1;
                         State = KanaState.Launch;
+                        m_AudioSource.Play("assets\\soundClip\\buff up attack (2).wav");
                     }
                     break;
 
@@ -430,7 +439,10 @@ namespace Sandbox
                         }
                     }
                     else
+                    {
                         SwordPhase = 5;
+                        m_AudioSource.Play("assets\\soundClip\\Weapon_Woosh_06.wav", true);
+                    }
                     break;
 
                 case 5:
@@ -449,7 +461,10 @@ namespace Sandbox
                         }
                     }
                     else
+                    {
                         SwordPhase = 6;
+                        m_AudioSource.Stop();
+                    }
                     break;
 
                 case 6:
@@ -531,7 +546,7 @@ namespace Sandbox
 
         public override void ReceiveDamage(float damage)
         {
-            hp -= 10;
+            hp -= damage;
             if (hp <= 0)
             {
                 hp = 0;

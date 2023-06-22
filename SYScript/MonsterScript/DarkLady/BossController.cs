@@ -73,6 +73,8 @@ namespace Sandbox
 
         SpriteRendererComponent HolyWingRSp;
 
+        AudioSource _audioSource;
+
         public enum BossState
         { 
             Sleep,
@@ -107,6 +109,8 @@ namespace Sandbox
                             var particle = halo.GetComponent<ParticleSystem>();
                             particle.State = (uint)ParticleSystem.ParticleState.NORMAL;
                             BossHpBar.Activate();
+
+                            FindEntityByName("MainCamera").GetComponent<AudioSource>().Play("assets/soundClip/trailer-guitar.wav", true);
                         }
                         break;
 
@@ -157,6 +161,9 @@ namespace Sandbox
 
                             warlockR.Activate();
                             warlockL.Activate();
+
+                            warlockLightL.Activate();
+                            warlockLightR.Activate();
                         }
                         break;
 
@@ -191,6 +198,8 @@ namespace Sandbox
                         {
                             Lasers[i].Activate();
                         }
+
+                        _audioSource.Play("assets\\soundClip\\CatacombBeam.wav", true);
                         Invisible = false;
                         break;
 
@@ -201,6 +210,7 @@ namespace Sandbox
 
                     case BossState.Falling:
                         halo.Pause();
+                        _audioSource.Play("assets\\soundClip\\Holy (1).wav", false);
                         for (int i = 0; i < 4; i++)
                         {
                             for (int j = 0; j < 23; j++)
@@ -237,7 +247,8 @@ namespace Sandbox
                         haloPs.ColorBegin = new Vector4(1, 239F / 255F, 30F / 255F, 1);
                         haloPs.ColorEnd = new Vector4(1, 239F / 255F, 30F / 255F, 0);
 
-                        
+                        FindEntityByName("MainCamera").GetComponent<AudioSource>().Play("assets\\soundClip\\heaven.wav", true);
+
                         break;
 
                     case BossState.Cleanse:
@@ -273,6 +284,7 @@ namespace Sandbox
                         smallPS.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
                         break;
                     case BossState.HolyEnd:
+                        _audioSource.Play("assets\\soundClip\\Holy (8).wav", false);
                         for (int i = 0; i < 4; i++)
                         {
                             BrightWingL[i].Entity.Activate();
@@ -450,6 +462,8 @@ namespace Sandbox
                 name = "BrightWingR" + i;
                 BrightWingR[i] = FindEntityByName(name).GetComponent<SpriteRendererComponent>();
             }
+
+            _audioSource = GetComponent<AudioSource>();
         }
 
         void OnUpdate(float ts)
@@ -465,7 +479,11 @@ namespace Sandbox
                         if (stateTime + ts < chainMoveTime + chainInterval * i && stateTime + ts > chainInterval * i)
                         {
                             if (stateTime <= chainInterval * i)
+                            {
                                 cp[i].Activate();
+                                _audioSource.Play("assets\\soundClip\\magical whoosh (1).wav");
+                            }
+                                
 
                             chainEnd[i].Translation = Vector3.Lerp(chainEnd[i].Translation, Translation + chainOffsets[i], ts / (chainMoveTime + chainInterval * i - stateTime));
                         }
@@ -738,6 +756,12 @@ namespace Sandbox
                     break;
 
                 case BossState.Idle:
+                    if (stateTime < 2f && stateTime + ts > 2f)
+                    {
+                        warlockLightL.Pause();
+                        warlockLightR.Pause();
+                    }
+
                     if (warlockR.GetComponent<StateComponent>().State == EntityState.Pause && warlockL.GetComponent<StateComponent>().State == EntityState.Pause)
                         bossState = BossState.Idle2Charge;
                     break;
@@ -784,8 +808,12 @@ namespace Sandbox
                     break;
 
                 case BossState.Miracle:
-                    if (stateTime < 5)
-                        Translation = Vector3.Lerp(Translation, new Vector3(96, -280, 2.0f), ts / (5f - stateTime));
+                    if (stateTime < 3)
+                    { 
+                    }
+
+                    else if (stateTime < 8)
+                        Translation = Vector3.Lerp(Translation, new Vector3(96, -280, 2.0f), ts / (8f - stateTime));
                     else
                         bossState = BossState.Cleanse;
                     break;
@@ -891,6 +919,7 @@ namespace Sandbox
                 {
                     Timer.SetTimeScale(0.5f);
                     BossHpBar.Pause();
+                    FindEntityByName("MainCamera").GetComponent<AudioSource>().Stop();
                 }
 
                 Invisible = true;
@@ -901,6 +930,7 @@ namespace Sandbox
                 PinkSword[1].Pause();
                 BulletGeneratorL.Pause();
                 BulletGeneratorR.Pause();
+                _audioSource.Stop();
 
                 for (int i = 0; i < Lasers.Length; i++)
                 {

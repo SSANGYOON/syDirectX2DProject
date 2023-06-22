@@ -14,14 +14,22 @@ namespace Sandbox
         public bool reverse = false;
         private float afterShoot = 0;
         private float accTime = 0;
+
+        AudioSource _audioSource;
         void OnCreate()
         {
             bullets = new List<Bullet>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         void OnActivated()
         {
             afterShoot = 0.5f;
+        }
+        void OnPaused()
+        {
+            if (_audioSource != null)
+                _audioSource.Stop();
         }
 
         void OnUpdate(float ts)
@@ -48,6 +56,8 @@ namespace Sandbox
                         bullets.RemoveAt(bullets.Count - 1);
                         bullet.Activate();
                     }
+                    if (_audioSource != null)
+                        _audioSource.Play("assets\\soundClip\\energyshot_small.wav", true);
 
                     var rb = bullet.GetComponent<Rigidbody2DComponent>();
                     bullet.Translation = WorldPosition;

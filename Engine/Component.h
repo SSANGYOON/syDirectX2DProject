@@ -13,6 +13,9 @@
 #include "ConstantBuffer.h"
 #include <DirectXMath.h>
 #include "SimpleMath.h"
+#include "AudioListener.h"
+#include "AudioSource.h"
+
 
 using namespace DirectX;
 namespace SY {
@@ -75,6 +78,8 @@ namespace SY {
 		CameraComponent, ScriptComponent, SpriteAnimatorComponent, TransformAnimatorComponent, BackGroundColorComponent, Bloom,
 		Rigidbody2DComponent, BoxCollider2DComponent, CircleCollider2DComponent, RevoluteJointComponent, DistanceJointComponent, SpriteRendererComponent, CircleRendererComponent, TrailRenderer, LineRenderer,
 		DontDestroy,
-		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent, Eraser, ParticleSystem>;
+		RectTransformComponent, PanelComponent, SliderComponent, SlotComponent, IconComponent, Eraser, ParticleSystem,
+		AudioListener, AudioSource,
+		UIText>;
 }
 

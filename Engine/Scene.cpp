@@ -171,17 +171,13 @@ namespace SY {
 			trail.Init();
 		}
 
+		ScriptEngine::OnRuntimeStart(this);
 
+		auto scriptView = m_Registry.view<ScriptComponent>();
+		for (auto e : scriptView)
 		{
-			ScriptEngine::OnRuntimeStart(this);
-			// Instantiate all script entities
-
-			auto view = m_Registry.view<ScriptComponent>();
-			for (auto e : view)
-			{
-				Entity entity = { e, this };
-				ScriptEngine::OnCreateEntity(entity);
-			}
+			Entity entity = { e, this };
+			ScriptEngine::OnCreateEntity(entity);
 		}
 
 		accTime = 0.f;
@@ -192,6 +188,13 @@ namespace SY {
 		m_IsRunning = false;
 
 		OnPhysics2DStop();
+
+		auto sounds = m_Registry.group<AudioSource>(entt::get<TransformComponent>, entt::exclude<Pause>);
+		for (auto e : sounds)
+		{
+			auto& sound = m_Registry.get<AudioSource>(e);
+			sound.Stop();
+		}
 
 		ScriptEngine::OnRuntimeStop();
 	}
@@ -390,7 +393,7 @@ namespace SY {
 					Vector3 diff = transform.localToWorld.Translation() - cameraTransform.Translation();
 					Vector2 scale2D = { transform.scale.x, transform.scale.y };
 					Vector2 diffuseSize = Vector2::Max(sprite.tile, scale2D);
-					
+
 					if (diff.x - diffuseSize.x / 2.f < cameraViewport.x / 2.f && diff.x + diffuseSize.x / 2.f > -cameraViewport.x / 2.f &&
 						diff.y - diffuseSize.y / 2.f < cameraViewport.y / 2.f && diff.y + diffuseSize.y / 2.f > -cameraViewport.y / 2.f) {
 						sprite.SetMaterial();
@@ -438,7 +441,7 @@ namespace SY {
 						Vector4 prevBase;
 
 						if (trail.currentIndex > -1) {
-							
+
 							prevTip = trail._vertexes[trail.currentIndex * 2 + 1].pos;
 							prevBase = trail._vertexes[trail.currentIndex * 2].pos;
 						}
@@ -469,7 +472,7 @@ namespace SY {
 							if (i > trail.currentIndex) {
 								trail._vertexes[i * 2].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 1.f };
 								trail._vertexes[i * 2 + 1].uv = { (i - trail.currentIndex - 1) / (float)(trail.maxRecoord - 1), 0.f };
-								
+
 							}
 							else
 							{
@@ -547,21 +550,54 @@ namespace SY {
 					Icon.SetMaterial();
 					Renderer::DrawRect(transform.localToWorld, Icon.material, entity);
 				}
+
+				auto soundObject = m_Registry.group<AudioSource>(entt::exclude<Pause>);
+				for (auto entity : soundObject)
+				{
+					auto& sound = soundObject.get<AudioSource>(entity);
+					Vector3 trans; 
+					if (m_Registry.has<TransformComponent>(entity)) {
+						trans = m_Registry.get<TransformComponent>(entity).localToWorld.Translation();
+						trans.z = 0.f;
+					}
+
+					else if (m_Registry.has<RectTransformComponent>(entity)) {
+						trans = m_Registry.get<RectTransformComponent>(entity).worldTranslation + cameraTransform.Translation();
+						trans.z = 0.f;
+					}
+					
+					else {
+						continue;
+					}
+					sound.Set3DAttributes(trans, Vector3::Zero);
+				}
+
+
+
+
+
+				auto soundListener = m_Registry.group<AudioListener>(entt::get<TransformComponent>, entt::exclude<Pause>);
+
+				if (soundListener.size() > 0) {
+					Entity listener = { soundListener[0], this };
+					Matrix worldTrans = listener.GetComponent<TransformComponent>().localToParent;
+					Vector3 pos = worldTrans.Translation();
+					FmodWrapper::Set3DListenerAttributes(pos, Vector3::Zero, { 0,0,-1 }, {0,1,0});
+				}
+
+				auto post = m_Registry.view<Bloom>();
+				for (auto e : post)
+				{
+					Entity entity = { e, this };
+					auto& bloom = entity.GetComponent<Bloom>();
+
+					Renderer::ApplyBloom(bloom.Threshold, bloom.Intensity);
+					break;
+				}
+
+				if (post.size() == 0)
+					Renderer::ACESMap();
 			}
-
-			auto post = m_Registry.view<Bloom>();
-			for (auto e : post)
-			{
-				Entity entity = { e, this };
-				auto& bloom = entity.GetComponent<Bloom>();
-
-				Renderer::ApplyBloom(bloom.Threshold, bloom.Intensity);
-				break;
-			}
-
-			if (post.size() == 0)
-				Renderer::ACESMap();
-
 			Renderer::End();
 		}
 
@@ -1256,6 +1292,18 @@ namespace SY {
 
 	template<>
 	void Scene::OnComponentAdded<LineRenderer>(Entity entity, LineRenderer& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<AudioListener>(Entity entity, AudioListener& component)
+	{
+
+	}
+
+	template<>
+	void Scene::OnComponentAdded<AudioSource>(Entity entity, AudioSource& component)
 	{
 
 	}

@@ -375,6 +375,9 @@ namespace SY {
 			DisplayAddComponentEntry<Bloom>("Bloom");
 			DisplayAddComponentEntry<TrailRenderer>("TrailRenderer");
 			DisplayAddComponentEntry<LineRenderer>("LineRenderer");
+			DisplayAddComponentEntry<AudioListener>("AudioListener");
+			DisplayAddComponentEntry<AudioSource>("AudioSource");
+			DisplayAddComponentEntry<UIText>("UIText");
 			ImGui::EndPopup();
 		}
 
@@ -899,6 +902,9 @@ namespace SY {
 			DrawComponent<Bloom>("Bloom", entity, &Bloom::DrawImGui);
 			DrawComponent<TrailRenderer>("TrailRenderer", entity, &TrailRenderer::DrawImGui);
 			DrawComponent<LineRenderer>("LineRenderer", entity, &LineRenderer::DrawImGui);
+			DrawComponent<AudioSource>("AudioSource", entity, &AudioSource::DrawImGui);
+			DrawComponent<AudioListener>("AudioListener", entity, &AudioListener::DrawImGui);
+			DrawComponent<UIText>("UIText", entity, &UIText::DrawImGui);
 			DrawComponent<BackGroundColorComponent>("BackGroundColor", entity, [](auto& component)
 				{
 					ImGui::ColorEdit4("BackGroundColor", reinterpret_cast<float*>(&component.color));

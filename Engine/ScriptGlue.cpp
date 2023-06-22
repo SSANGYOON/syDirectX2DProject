@@ -26,6 +26,7 @@
 #include "SceneManager.h"
 #include "Animation.h"
 #include "Physics2D.h"
+#include "AudioClip.h"
 #include <queue>
 
 namespace SY {
@@ -1260,7 +1261,37 @@ namespace SY {
 		return TIME->SetTimeScale(timeScale);
 	}
 
+	static void AudioSource_play(UUID entityID, MonoString* monoKey, bool loop)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
 
+		auto& audio = entity.GetComponent<AudioSource>();
+
+		if(audio.mChannel)
+			audio.Stop();
+
+		char* cKey = mono_string_to_utf8(monoKey);
+		mono_free(cKey);
+
+		string sKey = string(cKey);
+
+ 		audio.mSound = GET_SINGLE(Resources)->Load<AudioClip>(stow(sKey), stow(sKey), true);
+		audio.Play(loop);
+	}
+
+	static void AudioSource_stop(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& audio = entity.GetComponent<AudioSource>();
+		
+		if(audio.mChannel)
+			audio.Stop();
+	}
 	
 	static void Entity_Instantiate(uint64_t id, Vector3* position, uint64_t parentID, uint64_t* instanceId)
 	{
@@ -1574,6 +1605,9 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadScene);
 		HZ_ADD_INTERNAL_CALL(SceneManager_LoadSceneAsync);
+
+		HZ_ADD_INTERNAL_CALL(AudioSource_play);
+		HZ_ADD_INTERNAL_CALL(AudioSource_stop);
 	}
 
 }

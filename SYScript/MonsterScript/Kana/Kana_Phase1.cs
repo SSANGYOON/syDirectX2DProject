@@ -15,6 +15,7 @@ namespace Sandbox
         SpriteAnimatorComponent m_Animator;
         SpriteRendererComponent m_Renderer;
         SpriteRendererComponent m_HumanBodyRenderer;
+        AudioSource m_AudioSource;
         Entity player;
         SliderComponent hpBar;
 
@@ -72,6 +73,7 @@ namespace Sandbox
                         remainNormalAttack--;
                         if (weapon == null)
                             weapon = FindEntityByName("Kana_HumanBody").As<KanaKatana>();
+                        m_AudioSource.Play("assets\\soundClip\\attack_08.wav", false);
                         break;
 
                     case Kana_State.Parried:
@@ -85,6 +87,7 @@ namespace Sandbox
                     case Kana_State.Rush:
                         if(weapon == null)
                             weapon = FindEntityByName("Kana_HumanBody").As<KanaKatana>();
+                        m_AudioSource.Play("assets\\soundClip\\attack_02.wav", false);
                         weapon.Active = true;
                         weapon.IgnoreGuard = true;
                         break;
@@ -97,10 +100,12 @@ namespace Sandbox
 
                     case Kana_State.Damaged:
                         m_Animator.Play("Damaged_Kana");
+                        m_AudioSource.Play("assets\\soundClip\\damage_01 #157338.wav", false);
                         break;
 
                     case Kana_State.Dead:
                         m_Animator.Play("Dead_Kana");
+                        m_AudioSource.Play("assets\\soundClip\\death_01.wav", false);
                         invisible = true;
                         var camScript = MainCamera.As<Camera>();
                         MainCamera.As<Camera>().Cinematic = true;
@@ -144,6 +149,7 @@ namespace Sandbox
             invisible = true;
 
             MainCamera = FindEntityByName("MainCamera");
+            m_AudioSource = GetComponent<AudioSource>();
         }
 
         public void FormChange()
@@ -279,7 +285,10 @@ namespace Sandbox
                         {
                             Translation = Vector3.Lerp(Translation, trans, ts / (3f - stateTime));
                             if (stateTime + ts > 3)
+                            {
                                 GetComponent<ParticleSystem>().State = (uint)ParticleSystem.ParticleState.NORMAL;
+                                m_AudioSource.Play("assets\\soundClip\\CHARGE_Complex_Wet_12_Semi_Up_2000ms_stereo.wav");
+                            }
                         }
 
                         else if (stateTime > 3f && stateTime < 5f)
@@ -287,11 +296,11 @@ namespace Sandbox
                             m_Renderer.Color = new Vector4(1, 1, 1, (stateTime - 3) / 2);
                             m_Renderer.Emission = new Vector4(1, 1, 1, (stateTime - 3) / 2);
                             if (stateTime + ts > 5)
-                            {
-                                
+                            {                    
                                 GetComponent<ParticleSystem>().VelocityBegin = new Vector2(200, 0);
                                 GetComponent<ParticleSystem>().VelocityEnd = new Vector2(200, 0);
                                 GetComponent<ParticleSystem>().State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
+                                
                                 m_Animator.Stop();                            
                             }
                         }
@@ -301,6 +310,7 @@ namespace Sandbox
                             GetComponent<ParticleSystem>().State = (uint)ParticleSystem.ParticleState.NORMAL;
 
                             Entity phase2 = FindEntityByName("Kana_Phase2");
+                            m_AudioSource.Play("assets\\soundClip\\IceMagic_Whoosh_01.wav");
                             m_Renderer.tile = new Vector2(1, 1);
                             phase2.Activate();
                             phase2.GetComponent<Rigidbody2DComponent>().Enable = false;

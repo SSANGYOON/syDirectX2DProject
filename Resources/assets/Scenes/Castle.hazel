@@ -468,6 +468,8 @@ Entities:
         []
       EndEvents:
         []
+    AudioSource:
+      {}
   - Entity: 6455359744090987710
     TagComponent:
       Tag: SwordBody
@@ -642,6 +644,8 @@ Entities:
       IsSensor: false
       MaskBits: 5
       CategoryBits: 8
+    AudioSource:
+      {}
   - Entity: 12114901299047182034
     TagComponent:
       Tag: BlockWall
@@ -715,7 +719,7 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 59.9898758
+      float0: 59.9746628
       float1: 0
       float2: 0
       float3: 0
@@ -776,6 +780,8 @@ Entities:
       UseAliveZone: false
       State: 2
       GraphicsShader: ParticleGraphics
+    AudioSource:
+      {}
   - Entity: 11067285721351833223
     TagComponent:
       Tag: Candle0
@@ -1768,6 +1774,8 @@ Entities:
       CategoryBits: 4
     TransfromAnimatorComponent:
       ClipPath: assets\transformClips\WeaponAnim.anim
+    AudioSource:
+      {}
   - Entity: 6283719450378191957
     TagComponent:
       Tag: xWeapon
@@ -1812,6 +1820,8 @@ Entities:
       CategoryBits: 4
     TransfromAnimatorComponent:
       ClipPath: assets\transformClips\WeaponAnim.anim
+    AudioSource:
+      {}
   - Entity: 5534335148212246852
     TagComponent:
       Tag: Ground1-0
@@ -2358,6 +2368,8 @@ Entities:
       UseAliveZone: false
       State: 2
       GraphicsShader: ParticleGraphics
+    AudioSource:
+      {}
   - Entity: 17061122718703816526
     TagComponent:
       Tag: MainCamera
@@ -2391,6 +2403,9 @@ Entities:
         - Name: DistanceFromPlayer
           Type: Float
           Data: 20
+        - Name: bgmFile
+          Type: String
+          Data: assets/soundClip/12192783_MotionElements_demonic-ritual.wav
     Light:
       Color: [0.250980407, 0.250980407, 0.250980407]
       Type: 3
@@ -2399,6 +2414,10 @@ Entities:
     Bloom:
       Threshold: 1
       Intensity: 1
+    AudioSource:
+      ClipPath: soundClip\12192783_MotionElements_demonic-ritual.wav
+    AudioListener:
+      {}
   - Entity: 12471771747761689369
     TagComponent:
       Tag: Ground0
@@ -4188,7 +4207,7 @@ Entities:
       int1: 0
       int2: 0
       int3: 0
-      float0: 59.9898758
+      float0: 59.9746628
       float1: 0
       float2: 0
       float3: 0
@@ -4268,17 +4287,19 @@ Entities:
           Data: 140128075639298570
     PanelComponent:
       PanelPath: textures\ui\PanelLarge.png
-      resizeTexture: [0.5, 0.5]
+      resizeTexture: [2, 2]
       panelOffset: [70, 70]
       tineColor: [0, 0, 0, 0.501960814]
       tineRange: [15, 15]
+    AudioSource:
+      {}
   - Entity: 13042999964120872870
     TagComponent:
       Tag: WeaponIcon
     State: 0
     RectTransformComponent:
-      Translation: [-148, 84, -1]
-      Scale: [25, 25, 1]
+      Translation: [-148, 72, -1]
+      Scale: [20, 20, 1]
     Parent:
       ParentID: 7917568214416097044
     IconComponent:
@@ -4289,8 +4310,8 @@ Entities:
       Tag: ConsumableIcon
     State: 0
     RectTransformComponent:
-      Translation: [-76, 84, 0]
-      Scale: [25, 25, 1]
+      Translation: [-76, 72, 0]
+      Scale: [20, 20, 1]
     Parent:
       ParentID: 7917568214416097044
     IconComponent:
@@ -4301,8 +4322,8 @@ Entities:
       Tag: SpellIcon
     State: 0
     RectTransformComponent:
-      Translation: [-112, 84, 0]
-      Scale: [25, 25, 1]
+      Translation: [-112, 72, 0]
+      Scale: [20, 20, 1]
     Parent:
       ParentID: 7917568214416097044
     IconComponent:
@@ -4313,7 +4334,7 @@ Entities:
       Tag: Inventory Slider
     State: 0
     RectTransformComponent:
-      Translation: [1, 65, -1]
+      Translation: [1, 56, -1]
       Scale: [330, 2, 1]
     Parent:
       ParentID: 7917568214416097044
@@ -4328,8 +4349,8 @@ Entities:
       Tag: EquipmentIcon
     State: 0
     RectTransformComponent:
-      Translation: [-40, 84, 0]
-      Scale: [25, 25, 1]
+      Translation: [-40, 72, 0]
+      Scale: [20, 20, 1]
     Parent:
       ParentID: 7917568214416097044
     IconComponent:
@@ -4467,6 +4488,8 @@ Entities:
       IsSensor: true
       MaskBits: 3
       CategoryBits: 16
+    AudioSource:
+      {}
   - Entity: 8634268830774839764
     TagComponent:
       Tag: Altar_Particle
@@ -4530,3 +4553,4 @@ Entities:
       IsSensor: true
       MaskBits: 2
       CategoryBits: 32
+TextKor: ÇÑ±Û

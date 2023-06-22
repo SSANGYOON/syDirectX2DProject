@@ -12,6 +12,7 @@ namespace Sandbox
 
         private float stateTime = 0f;
         public Rigidbody2DComponent body;
+        private AudioSource audioSource;
 
         void OnCreate()
         {
@@ -19,6 +20,7 @@ namespace Sandbox
             body = GetComponent<Rigidbody2DComponent>();
             body.Enable = false;
             m_SpriteRenderer = GetChild("SwordBody").GetComponent<SpriteRendererComponent>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         void OnUpdate(float ts)
@@ -62,8 +64,10 @@ namespace Sandbox
         {
             if (Active)
             {
-                if (collsion.CollisionLayer % 2  > 0)
+                if (collsion.CollisionLayer % 2 > 0) {
                     Active = false;
+                    audioSource.Play("assets\\soundClip\\Punch (3).wav");
+                }
 
                 else
                 {

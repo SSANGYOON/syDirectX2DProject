@@ -9,8 +9,8 @@ Animations:
     Loop: true
 
   - Key: Bush
-    OriginalOffset: [ 3.0, 1610.0 ]
-    SpriteSize: [ 28.0, 27.0 ]
+    OriginalOffset: [ 0.0, 1610.0 ]
+    SpriteSize: [ 42.0, 27.0 ]
     Step: [ 42.0, 27.0 ]
     Columns: 24
     Frames: 24

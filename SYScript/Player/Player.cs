@@ -27,6 +27,7 @@ namespace Sandbox
         }
 
         private SpriteAnimatorComponent m_Animator;
+        private AudioSource m_AudioSource;
 
         private PlayerState m_State;
 
@@ -55,13 +56,23 @@ namespace Sandbox
             set
             {
                 PlayerState prevState = m_State;
-                m_State = value;
+                
 
                 if (prevState == PlayerState.XAttack)
                     xWeapon.Pause();
                 if (prevState == PlayerState.ZAttack)
                     zWeapon.Pause();
 
+                switch (prevState)
+                {
+                    case PlayerState.Run:
+                    case PlayerState.Roll:
+                        m_AudioSource.Stop();
+                        break;
+
+                }
+                
+                m_State = value;
                 switch (m_State)
                 {
                     case PlayerState.Idle:
@@ -83,8 +94,12 @@ namespace Sandbox
                     case PlayerState.Run:
                         if (prevState == PlayerState.Idle)
                             m_Animator.Play("Idle2Run");
-                        else if (prevState != PlayerState.Run)
+
+                        else
                             m_Animator.Play("Run");
+
+                        m_AudioSource.Play("assets\\soundClip\\FOOTSTEP_Trainers_Gravel_Compact_Run_RR2_mono.wav", true);
+
                         break;
 
                     case PlayerState.Aerial:
@@ -103,11 +118,13 @@ namespace Sandbox
 
                     case PlayerState.Roll:
                         m_Animator.Play("Roll");
+                        m_AudioSource.Play("assets\\soundClip\\PlayerJumpRoll0.wav");
                         break;
 
                     case PlayerState.ZAttack:
                     case PlayerState.XAttack:
                         rigidBody.LinearVelocity = Vector2.Zero;
+                        m_AudioSource.Play("assets\\soundClip\\PlayerAttackShort0.wav", false);
                         if (m_State == PlayerState.ZAttack && zWeapon == null || m_State == PlayerState.XAttack && xWeapon == null)
                             return;
                         else
@@ -161,6 +178,7 @@ namespace Sandbox
                         {
                             zWeapon.Translation = new Vector3(11.5f, -4, 0);
                             zWeapon.Rotation = new Vector3(0, 0, (float)Math.PI / 18);
+                            m_AudioSource.Play("assets\\soundClip\\damage_05 #152416.wav", false);
                             zWeapon.Activate();
                         }
                         break;
@@ -169,6 +187,7 @@ namespace Sandbox
                         {
                             xWeapon.Translation = new Vector3(11.5f, -4, 0);
                             xWeapon.Rotation = new Vector3(0, 0, (float)Math.PI / 18);
+                            m_AudioSource.Play("assets\\soundClip\\damage_05 #152416.wav", false);
                             xWeapon.Activate();
                         }
                         break;
@@ -176,6 +195,7 @@ namespace Sandbox
 
                     case PlayerState.Damaged:
                         m_Animator.Play("Attacked");
+                        m_AudioSource.Play("assets\\soundClip\\damage_a_05.wav", false);
                         blood.State = (uint)ParticleSystem.ParticleState.NORMAL;
                         invisible = true;
                         break;
@@ -206,6 +226,8 @@ namespace Sandbox
 
             m_Inven = FindEntityByName("InventoryPanel");
             m_Inven.DontDestroy();
+
+            m_AudioSource =GetComponent<AudioSource>();
         }
 
         void OnUpdate(float ts)
@@ -303,7 +325,7 @@ namespace Sandbox
                     else {
                         if (Input.IsKeyPressed(KeyCode.Down) == false && Math.Abs(rigidBody.LinearVelocity.X) < 1.0f)
                             State = PlayerState.Idle;
-                        else if (Math.Abs(rigidBody.LinearVelocity.X) >= 1.0f)
+                        else if (Math.Abs(rigidBody.LinearVelocity.X) >= 1.0f && State != PlayerState.Run)
                             State = PlayerState.Run;
                         else if (Input.IsKeyPressed(KeyCode.Down))
                         {
@@ -460,9 +482,15 @@ namespace Sandbox
                 rigidBody.ApplyLinearImpulse(new Vector2(400 * hitBox.Size.Y * hitBox.Size.X, 200 * hitBox.Size.Y * hitBox.Size.X), true);
 
             if (State == PlayerState.XGuard)
+            {
                 State = PlayerState.XGuardBreak;
+                xWeapon.OnGuarded(opp.GetParent().As<Character>());
+            }
             else
+            {
                 State = PlayerState.ZGuardBreak;
+                zWeapon.OnGuarded(opp.GetParent().As<Character>());
+            }
         }
 
         public override bool GuardCheck(Weapon opp)

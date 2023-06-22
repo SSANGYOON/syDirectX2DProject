@@ -14,11 +14,14 @@ namespace Sandbox
         private Entity player;
 
         private PlayerWeaponData weaponData = null;
+        private AudioSource m_AudioSource;
+
+        private float attackTime = 0f;
 
         public bool Active
         {
             get { return active; }
-            set { active = value; }
+            set { active = value; attackTime = 0f; }
         }
 
         public PlayerWeaponData Data
@@ -62,16 +65,37 @@ namespace Sandbox
             m_BoxCollider = GetComponent<BoxCollider2DComponent>();
 
             player = FindEntityByName("Player");
+            m_AudioSource = GetComponent<AudioSource>();
         }
 
         public void Attack(float at = 0.0f)
         {
             if (m_Animator != null && weaponData != null)
+            {
                 m_Animator.Play(Enum.GetName(typeof(PlayerWeaponData.weaponType), weaponData.Type), at);
+                attackTime = 0f;
+                
+            }
+        }
+
+        void OnUpdate(float ts)
+        {
+            if (active)
+            { 
+                if(attackTime < 0.4f && attackTime + ts > 0.4f)
+                    m_AudioSource.Play("assets\\soundClip\\Woosh_Sword_Normal_02.wav", false);
+
+                attackTime += ts;
+            }
         }
 
         public override void ApplyDamage(Character enemy) {
             enemy.ReceiveDamage(weaponData.Damage);
+        }
+
+        public override void OnGuarded(Character enemy)
+        {
+            m_AudioSource.Play("assets\\soundClip\\IMPACT_Metal_Hit_Large_Metal_02_mono.wav", false);
         }
 
         void OnTriggerEnter(ref Collision2D collsion)

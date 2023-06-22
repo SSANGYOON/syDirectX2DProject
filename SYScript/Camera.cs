@@ -15,6 +15,7 @@ namespace Sandbox
 
         private Entity m_Player;
         internal Entity Following;
+        public string bgmFile;
         private bool onCinematic = false;
         private bool enterScene = false;
         public bool Cinematic
@@ -31,6 +32,7 @@ namespace Sandbox
         {
             m_Player = FindEntityByName("Player");
             enterScene = true;
+            GetComponent<AudioSource>().Play(bgmFile, true);
         }
 
         void OnUpdate(float ts)

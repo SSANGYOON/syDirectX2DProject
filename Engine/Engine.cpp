@@ -9,6 +9,7 @@
 #include "Texture.h"
 #include "FW1FontWrapper\Include\\FW1FontWrapper.h"
 #include "FW1FontWrapper\Include\\FW1CompileSettings.h"
+#include "FmodWrapper.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "FW1FontWrapper\\Library\\Debug\\FW1FontWrapperL.lib")
@@ -84,6 +85,8 @@ HRESULT Engine::Init(const WindowInfo& info)
 	//auto r1 = FAILED(FW1CreateFactory(FW1_VERSION, &mFW1Factory));
 
 	//auto r2 = FAILED(mFW1Factory->CreateFontWrapper(_device.Get(), L"Arial", &mFontWrapper));
+
+	FmodWrapper::Initialize();
 
 	return S_OK;
 }

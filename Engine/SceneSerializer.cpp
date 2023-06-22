@@ -11,6 +11,7 @@
 #include "Animation.h"
 #include "Texture.h"
 #include "ComputeShader.h"
+#include "AudioClip.h"
 #include <bitset>
 
 namespace YAML
@@ -636,6 +637,29 @@ namespace SY {
 			out << YAML::EndMap; // LineRenderer
 		}
 
+		if (entity.HasComponent<AudioSource>())
+		{
+			out << YAML::Key << "AudioSource";
+			out << YAML::BeginMap;
+
+			auto& sound = entity.GetComponent<AudioSource>();
+			
+			if (sound.mSound) {
+				wstring clipPath = sound.mSound->GetPath();
+				out << YAML::Key << "ClipPath" << YAML::Value << wtos(clipPath);
+			}
+
+			out << YAML::EndMap; // AudioSource
+		}
+
+		if (entity.HasComponent<AudioListener>())
+		{
+			out << YAML::Key << "AudioListener";
+			out << YAML::BeginMap;
+
+			out << YAML::EndMap; // AudioSource
+		}
+
 		out << YAML::EndMap; // Entity
 	}
 
@@ -654,6 +678,8 @@ namespace SY {
 				SerializeEntity(out, entity);
 			});
 		out << YAML::EndSeq;
+
+		out << YAML::Key << "TextKor" << YAML::Value << "ÇÑ±Û";
 		out << YAML::EndMap;
 
 		std::ofstream fout(filepath);
@@ -1338,7 +1364,6 @@ namespace SY {
 
 			trailComp.material->SetShader(GET_SINGLE(Resources)->Find<Shader>(stow(shaderKey)));
 			trailComp.material->SetTexture(0, GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false));
-			trailComp.material->SetTexture(0, GET_SINGLE(Resources)->Load<Texture>(path.wstring(), path.wstring(), false));
 
 			if (trail["Freq"])
 				trailComp.recoordFreq = trail["Freq"].as<float>();
@@ -1358,6 +1383,26 @@ namespace SY {
 			lineComp.Size = line["Size"].as<Vector2>();
 			lineComp.Velocity = line["Velocity"].as<Vector2>();
 		}
+
+		auto audioSource = entity["AudioSource"];
+
+		if (audioSource)
+		{
+			auto& sourceComp = deserializedEntity.AddComponent<AudioSource>();
+
+			if (audioSource["ClipPath"]) {
+				string clipPath = audioSource["ClipPath"].as<string>();
+
+				auto path = Project::GetAssetFileSystemPath(clipPath);
+
+				sourceComp.mSound = GET_SINGLE(Resources)->Load<AudioClip>(path.wstring(), path.wstring(), false);
+			}	
+		}
+
+		auto audioListener = entity["AudioListener"];
+
+		if (audioListener)
+			auto& sourceComp = deserializedEntity.AddComponent<AudioListener>();
 
 		return deserializedEntity;
 	}

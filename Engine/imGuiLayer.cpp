@@ -32,8 +32,8 @@ namespace SY {
 		float fontSize = 18.0f;// *2.0f;
 		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
 		std::string fullPath = parentPath.string() + "\\Resources\\";
-		io.Fonts->AddFontFromFileTTF((fullPath + "assets/fonts/opensans/OpenSans-Bold.ttf").c_str(), fontSize);
-		io.FontDefault = io.Fonts->AddFontFromFileTTF((fullPath + "assets/fonts/opensans/OpenSans-Regular.ttf").c_str(), fontSize);
+		io.Fonts->AddFontFromFileTTF((fullPath + "assets/fonts/opensans/OpenSans-Bold.ttf").c_str(), fontSize, NULL, io.Fonts->GetGlyphRangesKorean());
+		io.FontDefault = io.Fonts->AddFontFromFileTTF((fullPath + "assets/fonts/opensans/OpenSans-Regular.ttf").c_str(), fontSize, NULL, io.Fonts->GetGlyphRangesKorean());
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();

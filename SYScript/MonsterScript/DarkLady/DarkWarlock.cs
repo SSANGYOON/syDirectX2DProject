@@ -50,6 +50,7 @@ namespace Sandbox
         double thunderBallAngle = 0;
         double thunderBallAngularVelocity = Math.PI;
         uint HitOnHealing = 0;
+        AudioSource audioSource;
 
         bool Healing
         {
@@ -89,6 +90,7 @@ namespace Sandbox
                         debris0.Pause();
                         debris1.Pause();
                         debris2.Pause();
+                        audioSource.Play("assets\\soundClip\\Holy (1).wav");
                         break;
 
                     case WarlockState.Idle:
@@ -157,6 +159,7 @@ namespace Sandbox
             debris1.Pause();
             debris2.Pause();
             summonParticle = GetChild("wParticle");
+            audioSource = GetComponent<AudioSource>();
         }
 
         void OnActivated()
@@ -388,7 +391,7 @@ namespace Sandbox
                 rigidBody.ApplyLinearImpulse(new Vector2(-500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
             else
                 rigidBody.ApplyLinearImpulse(new Vector2(500 * hitBox.Size.Y * hitBox.Size.X, 250 * hitBox.Size.Y * hitBox.Size.X), true);
-
+            
             State = WarlockState.Damaged;
 
             if (Healing)
@@ -405,6 +408,7 @@ namespace Sandbox
         public override void ReceiveDamage(float damage)
         {
             hp -= 3;
+            audioSource.Play("assets\\soundClip\\Skeleton2.wav");
         }
     }
 }
