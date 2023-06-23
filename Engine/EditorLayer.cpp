@@ -601,8 +601,7 @@ namespace SY {
 		{
 			ScriptEngine::Init();
 			PrefabManager::Init();
-			auto startScenePath = Project::GetAssetFileSystemPath(Project::GetActive()->GetConfig().StartScene);
-			OpenScene(startScenePath);
+			OpenScene(Project::GetActive()->GetConfig().StartScene);
 			m_ContentBrowserPanel = make_unique<ContentBrowserPanel>();
 
 		}

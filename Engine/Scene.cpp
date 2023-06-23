@@ -1168,7 +1168,7 @@ namespace SY {
 			GET_SINGLE(InstancingManager)->ClearBuffer();
 
 			VECB ve;
-			ve.ViewPort = {1920, 1080};
+			ve.ViewPort = GEngine->GetRenderTargetTex(RENDER_TARGET_GROUP_TYPE::EDITOR, 0)->GetSize();
 			ve.FadeColor = Vector4::Zero;
 			ve.ScissorRect = {0,0,1,1};
 

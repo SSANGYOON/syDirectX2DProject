@@ -252,36 +252,44 @@ namespace Sandbox
                         break;
 
                     case BossState.Cleanse:
-                        Vector2 targetPos = FindEntityByName("DarkLadyCirclelet").WorldPosition.XY;
+                        {
+                            Vector2 targetPos = FindEntityByName("DarkLadyCirclelet").WorldPosition.XY;
 
-                        var circlet = FindEntityByName("DarkLadyCirclelet");
-                        var tr = FindEntityByName("DarkLadyCirclelet").Translation;
-                        tr.Z = -10;
-                        circlet.Translation = tr;
+                            var circlet = FindEntityByName("DarkLadyCirclelet");
+                            var tr = circlet.Translation;
+                            tr.Z -= 10;
+                            circlet.Translation = tr;
 
-                        BodySp.SetVec2(0, ref targetPos);
-                        WingLSp.SetVec2(0, ref targetPos);
-                        WingRSp.SetVec2(0, ref targetPos);
-                        eyeSp.SetVec2(0, ref targetPos);
-                        pupilSp.SetVec2(0, ref targetPos);
-                        HolyBodySp.SetVec2(0, ref targetPos);
-                        HolyWingLSp.SetVec2(0, ref targetPos);
-                        HolyWingRSp.SetVec2(0, ref targetPos);
+                            BodySp.SetVec2(0, ref targetPos);
+                            WingLSp.SetVec2(0, ref targetPos);
+                            WingRSp.SetVec2(0, ref targetPos);
+                            eyeSp.SetVec2(0, ref targetPos);
+                            pupilSp.SetVec2(0, ref targetPos);
+                            HolyBodySp.SetVec2(0, ref targetPos);
+                            HolyWingLSp.SetVec2(0, ref targetPos);
+                            HolyWingRSp.SetVec2(0, ref targetPos);
 
-                        smallPS.State = (uint)ParticleSystem.ParticleState.NORMAL;
-                        smallPS.Position = new Vector2(-1, -90);
-                        smallPS.PositionVariation = new Vector2(1, 120);
-                        smallPS.VelocityBegin = new Vector2(60, 0);
-                        smallPS.VelocityEnd = new Vector2(60, 0);
+                            smallPS.State = (uint)ParticleSystem.ParticleState.NORMAL;
+                            smallPS.Position = new Vector2(-1, -90);
+                            smallPS.PositionVariation = new Vector2(1, 120);
+                            smallPS.VelocityBegin = new Vector2(60, 0);
+                            smallPS.VelocityEnd = new Vector2(60, 0);
 
-                        smallPS.EmissionBegin = new Vector4(1, 239F / 255F, 30F / 255F, 1);
-                        smallPS.EmissionEnd = new Vector4(1, 239F / 255F, 30F / 255F, 0);
+                            smallPS.EmissionBegin = new Vector4(1, 239F / 255F, 30F / 255F, 1);
+                            smallPS.EmissionEnd = new Vector4(1, 239F / 255F, 30F / 255F, 0);
 
-                        smallPS.ColorBegin = new Vector4(1, 239F / 255F, 30F / 255F, 1);
-                        smallPS.ColorEnd = new Vector4(1, 239F / 255F, 30F / 255F, 0);
+                            smallPS.ColorBegin = new Vector4(1, 239F / 255F, 30F / 255F, 1);
+                            smallPS.ColorEnd = new Vector4(1, 239F / 255F, 30F / 255F, 0);
+                        }
                         break;
                     case BossState.HolyCharge:
-                        smallPS.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
+                        {
+                            smallPS.State = (uint)ParticleSystem.ParticleState.UPDATE_ONLY;
+                            var circlet = FindEntityByName("DarkLadyCirclelet");
+                            var tr = circlet.Translation;
+                            tr.Z += 10;
+                            circlet.Translation = tr;
+                        }
                         break;
                     case BossState.HolyEnd:
                         _audioSource.Play("assets\\soundClip\\Holy (8).wav", false);
@@ -348,7 +356,7 @@ namespace Sandbox
             BossHpBar = FindEntityByName("BossHp");
             var bar = BossHpBar.GetComponent<SliderComponent>();
             bar.maxValue = 100;
-            bar.Value = 90;
+            bar.Value = 100;
 
             for (int i=0;i< 4;i++)
             {
@@ -912,7 +920,7 @@ namespace Sandbox
 
         public override void ReceiveDamage(float damage)
         {
-            HP -= 10;
+            HP -= 7;
             if (hp < (5 - bossPhase) * 20 || hp <= 0)
             {
                 if (hp <= 0)

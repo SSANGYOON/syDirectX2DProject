@@ -1,5 +1,32 @@
 Scene: Untitled
 Entities:
+  - Entity: 2490596947480238363
+    TagComponent:
+      Tag: BlackWall2
+    State: 0
+    TransformComponent:
+      Translation: [420, -85, 5]
+      Rotation: [0, 0, 0]
+      Scale: [141.399994, 320.200012, 1]
+    SpriteRendererComponent:
+      Color: [0, 0, 0, 1]
+      Emission: [0, 0, 0, 0]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
   - Entity: 6194250688550423866
     TagComponent:
       Tag: name
@@ -1602,7 +1629,7 @@ Entities:
       Tag: ChainSmooth
     State: 0
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [0, 0, -2]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
   - Entity: 10937614076188744622
@@ -8687,7 +8714,7 @@ Entities:
       Tag: BossHp
     State: 1
     RectTransformComponent:
-      Translation: [0, -128, 5]
+      Translation: [0, -112, 5]
       Scale: [0.25, 0.25, 1]
     SliderComponent:
       barPath: textures\BossHpBar.png
@@ -9049,3 +9076,54 @@ Entities:
       panelOffset: [7, 2]
       tineColor: [0, 0, 0, 0]
       tineRange: [0, 0]
+  - Entity: 3627286707319799441
+    TagComponent:
+      Tag: BlackWall1
+    State: 0
+    TransformComponent:
+      Translation: [-349, -140.5, 29.7000008]
+      Rotation: [0, 0, 0]
+      Scale: [360.200012, 281.600006, 1]
+    SpriteRendererComponent:
+      Color: [0, 0, 0, 1]
+      Emission: [0, 0, 0, 0]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 17978294778514345160
+    TagComponent:
+      Tag: EnemyWall
+    State: 0
+    TransformComponent:
+      Translation: [496, -69.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [147, 157]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 8
+      CategoryBits: 1
