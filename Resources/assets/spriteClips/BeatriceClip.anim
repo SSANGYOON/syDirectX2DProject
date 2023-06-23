@@ -1,0 +1,18 @@
+Animations:
+  - Key: IdleB
+    OriginalOffset: [ 3.0, 16.0 ]
+    SpriteSize: [ 25.0, 51.0 ]
+    Step: [ 28.0, 140.0 ]
+    Columns: 24
+    Frames: 24
+    Duration: 1
+    Loop: true
+
+  - Key: Casting1B
+    OriginalOffset: [ 3.0, 155.0 ]
+    SpriteSize: [ 30.0, 49.0 ]
+    Step: [ 40.0, 27.0 ]
+    Columns: 9
+    Frames: 9
+    Duration: 0.5
+    Loop: true

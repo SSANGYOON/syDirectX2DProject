@@ -632,8 +632,11 @@ namespace SY {
 
 	MonoObject* ScriptEngine::GetManagedInstance(UUID uuid)
 	{
-		assert(s_Data->EntityInstances.find(uuid) != s_Data->EntityInstances.end());
-		return s_Data->EntityInstances.at(uuid)->GetManagedObject();
+		
+		if (s_Data->EntityInstances.find(uuid) != s_Data->EntityInstances.end())
+			return s_Data->EntityInstances.at(uuid)->GetManagedObject();
+		else
+			return nullptr;
 	}
 
 	MonoObject* ScriptEngine::InstantiateClass(MonoClass* monoClass)

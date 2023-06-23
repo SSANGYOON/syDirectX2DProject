@@ -1,5 +1,145 @@
 Scene: Untitled
 Entities:
+  - Entity: 6194250688550423866
+    TagComponent:
+      Tag: name
+    State: 0
+    RectTransformComponent:
+      Translation: [-75, 36, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    UIText:
+      text: 주인공
+      color: [1, 1, 1, 1]
+      size: 8
+      lineLength: 10
+  - Entity: 8873865369855018549
+    TagComponent:
+      Tag: BeatriceParticle
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0.100000001]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12787519920363666196
+    ParticleSystem:
+      Position: [0, 0]
+      PositionVariation: [21, 49]
+      Velocity: [0, 20]
+      VelocityVariation: [5, 5]
+      VelocityEnd: [0, 20]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [1, 0.20784314, 0.960784316, 1]
+      ColorEnd: [1, 0.20784314, 0.960784316, 0]
+      EmissionBegin: [1, 0.20784314, 0.960784316, 1]
+      EmissionEnd: [1, 0.20784314, 0.960784316, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 12787519920363666196
+    TagComponent:
+      Tag: Beatrice
+    State: 0
+    TransformComponent:
+      Translation: [198.5, -152.5, -10]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Beatrice
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\PC Computer - Lost Ruins - Beatrice.png
+      Tile: [21, 49]
+      Offset: [3, 18]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\BeatriceClip.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+    AudioSource:
+      {}
+  - Entity: 16288486700301828595
+    TagComponent:
+      Tag: ScriptText
+    State: 0
+    RectTransformComponent:
+      Translation: [-80, 16, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    UIText:
+      text: ""
+      color: [1, 1, 1, 1]
+      size: 7
+      lineLength: 28
+  - Entity: 2048732647023978488
+    TagComponent:
+      Tag: OppIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [160, 84, 0]
+      Scale: [256, 256, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\NpcSummonerPortraitDefault.png
+  - Entity: 7562529411322355004
+    TagComponent:
+      Tag: PlayerIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-160, 84, 0]
+      Scale: [256, 256, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\PlayerPortraitDefault.png
+  - Entity: 5292350596021791245
+    TagComponent:
+      Tag: nameOpp
+    State: 0
+    RectTransformComponent:
+      Translation: [36, 36, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    UIText:
+      text: 베아트리스
+      color: [1, 1, 1, 1]
+      size: 8
+      lineLength: 10
   - Entity: 14491259068958186037
     TagComponent:
       Tag: BrightWingL3
@@ -8875,4 +9015,37 @@ Entities:
       UseAliveZone: false
       State: 0
       GraphicsShader: ParticleGraphics
-TextKor: 한글
+  - Entity: 1256972050224414835
+    TagComponent:
+      Tag: ScriptPanel
+    State: 1
+    RectTransformComponent:
+      Translation: [0, -56, 5]
+      Scale: [208, 94, 1]
+    ScriptComponent:
+      ClassName: Sandbox.BossSceneScriptPanel
+      ScriptFields:
+        []
+    PanelComponent:
+      PanelPath: textures\PanelLargeSans.png
+      resizeTexture: [4, 2]
+      panelOffset: [44, 44]
+      tineColor: [0, 0, 0, 0.87843138]
+      tineRange: [18, 16]
+    AudioSource:
+      {}
+  - Entity: 4322318580397869842
+    TagComponent:
+      Tag: ScriptBar
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 18, -0.100000001]
+      Scale: [176, 2, 1]
+    Parent:
+      ParentID: 1256972050224414835
+    PanelComponent:
+      PanelPath: textures\ui\HorizontalBar.png
+      resizeTexture: [1, 0.25]
+      panelOffset: [7, 2]
+      tineColor: [0, 0, 0, 0]
+      tineRange: [0, 0]

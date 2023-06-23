@@ -10,9 +10,10 @@ namespace SYScript.ItemDatas
     public class HolySword : PlayerWeaponData
     {
         public HolySword() {
+            itemName = "성스러운 검";
             spritePath = "assets\\textures\\HolySword.png";
             Type = weaponType.OneHand;
-            Damage = 50f;
+            Damage = 100f;
         }
     }
 }

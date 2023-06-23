@@ -43,7 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BossSceneScriptPanel.cs" />
+    <Compile Include="ItemDatas\Skill\SkillData.cs" />
+    <Compile Include="ItemDatas\Skill\SummonSword.cs" />
     <Compile Include="ItemDatas\Weapon\ShieldOfLife.cs" />
+    <Compile Include="MonsterScript\Beatrice\Beatrice.cs" />
     <Compile Include="MonsterScript\Kana\CastlePortal.cs" />
     <Compile Include="MonsterScript\Kana\Kana_BigSword.cs" />
     <Compile Include="MonsterScript\Kana\Kana_Last.cs" />
@@ -78,6 +82,7 @@
     <Compile Include="Player\SpellData.cs" />
     <Compile Include="MonsterScript\DarkLady\SummonedEye\SummonedEye.cs" />
     <Compile Include="MonsterScript\DarkLady\ThunderBall.cs" />
+    <Compile Include="Player\SummonSword.cs" />
     <Compile Include="TitleSceneController.cs" />
     <Compile Include="Player\PlayerWeapon.cs" />
     <Compile Include="Player\Player.cs" />

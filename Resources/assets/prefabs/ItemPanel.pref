@@ -24,3 +24,17 @@ Entities:
     IconComponent:
       tint: [1, 1, 1, 1]
       iconPath: textures\ui\Equipped.png
+  - Entity: 17537337167032248242
+    TagComponent:
+      Tag: ItemName
+    State: 0
+    RectTransformComponent:
+      Translation: [3, 6, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 140128075639298570
+    UIText:
+      text: ""
+      color: [1, 1, 1, 1]
+      size: 8
+      lineLength: 15

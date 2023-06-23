@@ -72,3 +72,5 @@ struct Vertex
 	Vector4 pos;
 	Vector2 uv;
 };
+
+#define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24 ) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)

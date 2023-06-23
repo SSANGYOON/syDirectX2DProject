@@ -146,6 +146,10 @@ namespace SY
 	struct UIText
 	{
 		wstring text = L"";
+		float size = 1 ;
+		int lineLength = 1;
+		Vector4 color;
+
 		static void DrawImGui(UIText& component);
 	};
 

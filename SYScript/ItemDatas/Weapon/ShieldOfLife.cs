@@ -11,6 +11,7 @@ namespace Sandbox
     {
         public ShieldOfLife()
         {
+            itemName = "생명의 방패";
             spritePath = "assets\\textures\\ShieldOfLifeFront.png";
             spritePath2 = "assets\\textures\\ShieldOfLifeSide.png";
             Type = weaponType.Shield;

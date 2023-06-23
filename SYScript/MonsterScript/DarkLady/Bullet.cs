@@ -8,7 +8,7 @@ using static Sandbox.DarkWarlock;
 
 namespace Sandbox
 {
-    public class Bullet : Entity
+    public class Bullet : Weapon
     {
         public BulletGenerator _owner;
         private float lifeTime = 0;
@@ -32,6 +32,8 @@ namespace Sandbox
         {
             if ((collsion.CollisionLayer & (1 << 1)) > 0)
             {
+                Character player = new Entity(collsion.entityID).As<Character>();
+                player.OnAttacked(this);
                 _owner.bullets.Add(this);
                 Pause();
             }

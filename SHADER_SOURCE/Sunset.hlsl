@@ -60,7 +60,7 @@ PSOut PS_MAIN(VSOut In)
 
     PSOut Out = (PSOut)0.f;
     Out.Color = In.Color;
-    In.Emission.w *= 1 - 4 * dis * dis;
+    In.Emission.w *= 1 - 8 * dis * dis* dis;
     Out.Emission = In.Emission;
 
     return Out;

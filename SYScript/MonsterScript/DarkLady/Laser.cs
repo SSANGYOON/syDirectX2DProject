@@ -9,7 +9,7 @@ using System.Xml.Schema;
 
 namespace Sandbox
 {
-    public class Laser2D : Entity
+    public class Laser2D : Weapon
     {
         private LineRenderer Line;
         private ParticleSystem endPointPs;
@@ -65,6 +65,17 @@ namespace Sandbox
                 float angle = (float)Math.Atan2(col.normal.Y, col.normal.X);
 
                 endPoint.Rotation = new Vector3(0, 0, -Rotation.Z + angle);
+
+                if ((col.CollisionLayer & (1<<1)) > 0)
+                {
+                    Player player = new Entity(col.entityID).As<Player>();
+                    if(player != null)
+                    {
+                        if (!player.Invisible)
+                            player.OnAttacked(this);
+                    }
+                    
+                }
             }
         }
     }

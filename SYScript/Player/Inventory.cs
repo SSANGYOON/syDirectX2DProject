@@ -19,6 +19,9 @@ namespace Sandbox
         private Entity previewSlot;
         public Player player;
 
+        private SkillData aSkillData;
+        private SkillData sSkillData;
+
         public InventoryData items;
 
         private string equipableTexturePath = "assets\\textures\\ui\\Equippable.png";
@@ -31,6 +34,9 @@ namespace Sandbox
 
         private Entity xWeaponView;
         private Entity zWeaponView;
+
+        private Entity aSpellView;
+        private Entity sSpellView;
 
         private int currentPanelIndex = 0;
 
@@ -83,6 +89,9 @@ namespace Sandbox
                 for (int i = 0; i < currentCategoryItemNum; i++)
                 {
                     panels[i].Activate();
+
+                    var weaponData = items.itemDatas[(int)CurrentCategory][i];
+                    panels[i].GetChild("ItemName").GetComponent<UIText>().Text = weaponData.itemName;
                 }
 
                 for (int i = currentCategoryItemNum; i < 8; i++)
@@ -121,6 +130,10 @@ namespace Sandbox
 
             xWeaponView = FindEntityByName("xWeaponView");
             zWeaponView = FindEntityByName("zWeaponView");
+            
+            aSpellView = FindEntityByName("aSpellView");
+            sSpellView = FindEntityByName("sSpellView");
+
 
             m_AudioSource = GetComponent<AudioSource>();
         }
@@ -210,7 +223,65 @@ namespace Sandbox
                 }
             }
 
-            if(CurrentCategory == InventoryData.CATEGORY.Weapon)
+            if (Input.IsKeyDown(KeyCode.A))
+            {
+                if (CurrentCategory == InventoryData.CATEGORY.Spell)
+                {
+                    m_AudioSource.Play("assets\\soundClip\\UI_Select_Medieval_Shield_Hit_stereo.wav", false);
+                    var spellData = items.itemDatas[(int)CurrentCategory][currentPanelIndex] as SkillData;
+                    var aSlot = aSpellView.GetComponent<SlotComponent>();
+                    var sSlot = sSpellView.GetComponent<SlotComponent>();
+                    if (items.itemDatas[(int)CurrentCategory].Count > 0)
+                    {
+                        if (aSkillData == spellData && spellData != null)
+                        {
+                            aSkillData = null;
+                            aSlot.Texture = "";
+                        }
+                        else if (spellData != null)
+                        {
+                            aSkillData = spellData;
+                            aSlot.Texture = spellData.spritePath;
+                            if (sSkillData == spellData)
+                            {
+                                sSkillData = null;
+                                sSlot.Texture = "";
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (Input.IsKeyDown(KeyCode.S))
+            {
+                if (CurrentCategory == InventoryData.CATEGORY.Spell)
+                {
+                    m_AudioSource.Play("assets\\soundClip\\UI_Select_Medieval_Shield_Hit_stereo.wav", false);
+                    var spellData = items.itemDatas[(int)CurrentCategory][currentPanelIndex] as SkillData;
+                    var aSlot = aSpellView.GetComponent<SlotComponent>();
+                    var sSlot = sSpellView.GetComponent<SlotComponent>();
+                    if (items.itemDatas[(int)CurrentCategory].Count > 0)
+                    {
+                        if (sSkillData == spellData && spellData != null)
+                        {
+                            sSkillData = null;
+                            sSlot.Texture = "";
+                        }
+                        else if (spellData != null)
+                        {
+                            sSkillData = spellData;
+                            sSlot.Texture = spellData.spritePath;
+                            if (sSkillData == spellData)
+                            {
+                                aSkillData = null;
+                                aSlot.Texture = "";
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (CurrentCategory == InventoryData.CATEGORY.Weapon)
             {
                 var weapon = items.itemDatas[(int)CurrentCategory];
 
@@ -219,6 +290,21 @@ namespace Sandbox
                     Entity slot = panels[i].GetChild("equip slot");
                     var slotComp = slot.GetComponent<IconComponent>();
                     if (weapon[i] as PlayerWeaponData == player.zWeapon.Data || weapon[i] as PlayerWeaponData == player.xWeapon.Data)
+                        slotComp.Texture = equipedTexturePath;
+                    else
+                        slotComp.Texture = equipableTexturePath;
+                }
+            }
+
+            if (CurrentCategory == InventoryData.CATEGORY.Spell)
+            {
+                var spell = items.itemDatas[(int)CurrentCategory];
+
+                for (int i = 0; i < spell.Count; i++)
+                {
+                    Entity slot = panels[i].GetChild("equip slot");
+                    var slotComp = slot.GetComponent<IconComponent>();
+                    if (spell[i] as SkillData == aSkillData || spell[i] as SkillData == sSkillData)
                         slotComp.Texture = equipedTexturePath;
                     else
                         slotComp.Texture = equipableTexturePath;

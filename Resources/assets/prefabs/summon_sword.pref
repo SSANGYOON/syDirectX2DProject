@@ -1,0 +1,61 @@
+Head: 2962620313084047084
+Entities:
+  - Entity: 2962620313084047084
+    TagComponent:
+      Tag: summon_sword
+    State: 0
+    TransformComponent:
+      Translation: [-285.5, -28.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.SummonedSword
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.409266412, 0.623663902, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\BossCastlePhase2Sword.png
+      Tile: [25, 59]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Light:
+      Color: [0.407843143, 0.623529434, 1]
+      Type: 0
+      Range: 100
+      Direction: [0, 0, 0]
+    BoxCollider2DComponent:
+      Offset: [0, -10]
+      Size: [3, 15]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 8
+      CategoryBits: 4
+    TrailRenderer:
+      Color: [0.407843143, 0.623529434, 1, 0.501960814]
+      Base: [0, 9, 0.100000001]
+      Tip: [0, -25, 0.100000001]
+      Shader: TrailShader
+      Texture: textures\SlashTrail.png
+      Freq: 100
+      MaxRecord: 50

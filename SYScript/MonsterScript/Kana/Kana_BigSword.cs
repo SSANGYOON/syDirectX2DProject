@@ -67,6 +67,15 @@ namespace Sandbox
                 if (collsion.CollisionLayer % 2 > 0) {
                     Active = false;
                     audioSource.Play("assets\\soundClip\\Punch (3).wav");
+
+                    FindEntityByName("MainCamera").GetComponent<CameraComponent>().AddOscilation(10.0f);
+                    Entity player = FindEntityByName("Player");
+                    if (player.As<Player>().Grounded)
+                    {
+                        var rb = player.GetComponent<Rigidbody2DComponent>();
+                        var bc = player.GetComponent<BoxCollider2DComponent>();
+                        rb.ApplyLinearImpulse(new Vector2(0, 750 * bc.Size.Y * bc.Size.X), true);
+                    }
                 }
 
                 else

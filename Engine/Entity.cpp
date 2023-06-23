@@ -33,6 +33,14 @@ namespace SY {
 				body->SetTransform({ tr.translation.x,tr.translation.y }, tr.rotation.z);
 			}
 		}
+
+		if (HasComponent<TrailRenderer>())
+		{
+			auto& trail = GetComponent<TrailRenderer>();
+			trail.recoorded = 1;
+			trail.currentIndex = -1;
+			trail._accTime = 0.f;
+		}
 	}
 	void Entity::KillEntity()
 	{

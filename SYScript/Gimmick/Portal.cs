@@ -28,11 +28,11 @@ namespace Sandbox
             MainCamera = FindEntityByName("MainCamera");
         }
 
-        internal virtual void OnUpdate(float ts)
+        void OnUpdate(float ts)
         {
             if (sceneChange)
             {
-                if (stateTime < 1F)
+                if (stateTime < 1f)
                     MainCamera.GetComponent<CameraComponent>().FadeColor = new Vector4(0, 0, 0, stateTime);
 
                 else {

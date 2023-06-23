@@ -1,0 +1,76 @@
+Head: 1755572392404634678
+Entities:
+  - Entity: 1755572392404634678
+    TagComponent:
+      Tag: Beatrice
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Beatrice
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\PC Computer - Lost Ruins - Beatrice.png
+      Tile: [21, 49]
+      Offset: [3, 18]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\BeatriceClip.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+    AudioSource:
+      {}
+  - Entity: 13510213207685176759
+    TagComponent:
+      Tag: BeatriceParticle
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0.100000001]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1755572392404634678
+    ParticleSystem:
+      Position: [0, 0]
+      PositionVariation: [21, 49]
+      Velocity: [0, 20]
+      VelocityVariation: [5, 5]
+      VelocityEnd: [0, 20]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [1, 0.20784314, 0.960784316, 1]
+      ColorEnd: [1, 0.20784314, 0.960784316, 0]
+      EmissionBegin: [1, 0.20784314, 0.960784316, 1]
+      EmissionEnd: [1, 0.20784314, 0.960784316, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics

@@ -50,6 +50,15 @@ namespace Sandbox
         
         private const float evadeTime = 1.0f;
         private const float evadeSpeed = 150.0f;
+
+        private uint _swordPhase;
+        private float swordStateTime;
+        private float SmallSwordCoolTime = 0f;
+        private double SwordAngle;
+
+        public Entity swordPref;
+        private Entity[] smallSwords;
+
         public PlayerState State
         {
             get { return m_State; }
@@ -140,15 +149,19 @@ namespace Sandbox
                             if (m_State == PlayerState.ZAttack)
                             {
                                 m_Animator.Play("Attack" + Enum.GetName(typeof(PlayerWeaponData.weaponType), zWeapon.Data.Type) + Pose);
+                                zWeapon.Translation = Vector3.Zero;
                                 zWeapon.Activate();
                                 zWeapon.Active = true;
+                                
                                 zWeapon.Attack();
                             }
                             else
                             {
                                 m_Animator.Play("Attack" + Enum.GetName(typeof(PlayerWeaponData.weaponType), xWeapon.Data.Type) + Pose);
+                                xWeapon.Translation = Vector3.Zero;
                                 xWeapon.Activate();
                                 xWeapon.Active = true;
+                                
                                 xWeapon.Attack();
                             }
                         }
@@ -209,6 +222,43 @@ namespace Sandbox
             }
         }
 
+        uint SwordPhase
+        {
+            get { return _swordPhase; }
+            set
+            {
+                _swordPhase = value;
+                swordStateTime = 0f;
+                switch (value)
+                {
+                    case 0:
+                        SwordAngle = 0;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            smallSwords[i].Rotation = Vector3.Zero;
+                            smallSwords[i].Pause();
+                        }
+                        break;
+
+                    case 1:
+                        for (int i = 0; i < 5; i++)
+                        {
+                            SpriteRendererComponent sr = smallSwords[i].GetComponent<SpriteRendererComponent>();
+                            Vector4 color = sr.Color;
+                            color.W = 1f;
+                            sr.Color = color;
+                            smallSwords[i].Translation = Vector3.Zero;
+                            smallSwords[i].Activate();
+                        }
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+        }
+
         void OnCreate()
         {
             rigidBody = GetComponent<Rigidbody2DComponent>();
@@ -228,6 +278,16 @@ namespace Sandbox
             m_Inven.DontDestroy();
 
             m_AudioSource =GetComponent<AudioSource>();
+
+            smallSwords = new Entity[5];
+            for (int i = 0; i < smallSwords.Length; i++)
+            {
+                smallSwords[i] = swordPref.Instantiate(Vector3.Zero, ID);
+                smallSwords[i].Rotation = Vector3.Zero;
+                smallSwords[i].Pause();
+            }
+
+            SwordPhase = 0;
         }
 
         void OnUpdate(float ts)
@@ -299,6 +359,138 @@ namespace Sandbox
                     State = PlayerState.Idle;
                 }
             }
+
+            if(Input.IsKeyDown (KeyCode.T)) {
+                SwordPhase = 1;
+            }
+
+            if (Input.IsKeyDown(KeyCode.Y))
+            {
+                SwordPhase = 4;
+            }
+
+            float flip = Flip ? -1f : 1f;
+
+            switch (SwordPhase)
+            {
+                case 1:
+                    if (swordStateTime < 1)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            double angle = Math.PI * 0.4 * i;
+                            smallSwords[i].Translation = new Vector3(flip * 80 * swordStateTime * (float)Math.Cos(angle), 10 + 80 * swordStateTime * (float)Math.Sin(angle), -0.1f);
+                        }
+                    }
+                    else
+                        SwordPhase = 2;
+
+                    break;
+                case 2:
+                    if (swordStateTime < 1)
+                    {
+                        SwordAngle += Math.PI * ts * swordStateTime;
+                        if (SwordAngle > Math.PI)
+                            SwordAngle -= 2 * Math.PI;
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            double angle = SwordAngle + Math.PI * 0.4 * i;
+                            smallSwords[i].Translation = new Vector3(flip * 80 * (float)Math.Cos(angle), 10 + 80 * (float)Math.Sin(angle), -0.1f);
+                        }
+                    }
+                    else
+                    {
+                        SwordPhase = 3;
+                    }
+                    break;
+
+                case 3:
+                    SwordAngle += Math.PI * ts;
+                    if (SwordAngle > Math.PI)
+                        SwordAngle -= 2 * Math.PI;
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        double angle = SwordAngle + Math.PI * 0.4 * i;
+                        smallSwords[i].Translation = new Vector3(flip * 80 * (float)Math.Cos(angle), 10 + 80 * (float)Math.Sin(angle), -0.1f);
+                    }
+                    break;
+
+                case 4:
+                    if (swordStateTime < 1)
+                    {
+                        SwordAngle += Math.PI * ts;
+                        if (SwordAngle > Math.PI)
+                            SwordAngle -= 2 * Math.PI;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            double angle = SwordAngle + 0.4 * i * Math.PI;
+                            double rotAngle = angle + 0.5 * Math.PI;
+
+                            smallSwords[i].Translation = new Vector3(flip * 80 * (float)Math.Cos(angle), 10 + 80 * (float)Math.Sin(angle), -0.1f);
+                            smallSwords[i].Rotation = Vector3.Lerp(smallSwords[i].Rotation, new Vector3(0, 0, flip * (float)rotAngle), ts / (1 - (float)swordStateTime));
+                        }
+                    }
+                    else
+                    {
+                        SwordPhase = 5;
+                        m_AudioSource.Play("assets\\soundClip\\Weapon_Woosh_06.wav", true);
+                    }
+                    break;
+
+                case 5:
+                    if (swordStateTime < 2)
+                    {
+                        SwordAngle += Math.PI * ts * 2;
+                        if (SwordAngle > Math.PI)
+                            SwordAngle -= 2 * Math.PI;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            double angle = SwordAngle + 0.4 * i * Math.PI;
+                            double rotAngle = angle + 0.5 * Math.PI;
+
+                            smallSwords[i].Translation = new Vector3(flip * 80 * (float)Math.Cos(angle), 10 + 80 * (float)Math.Sin(angle), -0.1f);
+                            smallSwords[i].Rotation = new Vector3(0, 0, flip * (float)rotAngle);
+                        }
+                    }
+                    else
+                    {
+                        SwordPhase = 6;
+                        m_AudioSource.Stop();
+                    }
+                    break;
+
+                case 6:
+                    if (swordStateTime < 2)
+                    {
+                        SwordAngle += Math.PI * ts * (2 - swordStateTime);
+                        if (SwordAngle > Math.PI)
+                            SwordAngle -= 2 * Math.PI;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            double angle = SwordAngle + 0.4 * i * Math.PI;
+                            double rotAngle = angle + 0.5 * Math.PI;
+
+                            smallSwords[i].Translation = new Vector3(flip * 80 * (float)Math.Cos(angle), 10 + 80 * (float)Math.Sin(angle), -0.1f);
+                            smallSwords[i].Rotation = new Vector3(0, 0, flip * (float)rotAngle);
+
+                            SpriteRendererComponent sr = smallSwords[i].GetComponent<SpriteRendererComponent>();
+                            Vector4 color = sr.Color;
+                            color.W = (2 - swordStateTime) / 2;
+                            sr.Color = color;
+                        }
+                    }
+                    else
+                    {
+                        SmallSwordCoolTime = 5;
+                        SwordPhase = 0;
+                    }
+
+                    break;
+            }
+
+            swordStateTime += ts;
         }
 
         private void UpdateState()

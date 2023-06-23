@@ -52,6 +52,8 @@ namespace Sandbox
         uint HitOnHealing = 0;
         AudioSource audioSource;
 
+        float lastHeal = 0f;
+
         bool Healing
         {
             set { _healing = value;
@@ -86,7 +88,7 @@ namespace Sandbox
                 {
                     case WarlockState.Summon:
                         rigidBody.Enable = false;
-
+                        invisible = false;
                         debris0.Pause();
                         debris1.Pause();
                         debris2.Pause();
@@ -116,6 +118,7 @@ namespace Sandbox
                         break;
 
                     case WarlockState.Dead:
+                        invisible = true;
                         animator.Play("WARLOCKDEAD");
                         break;
 
@@ -166,7 +169,7 @@ namespace Sandbox
         {
             State = WarlockState.Summon;
             animator.Play("WARLOCKIDLE");
-            hp = 6;
+            hp = 15;
 
             thunderBallRadius = 20f;
             thunderBallCoolTime = 0f;
@@ -357,6 +360,15 @@ namespace Sandbox
                 ps.LifeTime = length / 50;
                 ps.AliveZone = new Vector2(length, 10);
                 lineParticleFromThis.Rotation = new Vector3(0,0,(float)Math.Atan2(diff.Y , diff.X));
+
+                if (lastHeal > 1)
+                {
+                    boss.As<BossController>().HP += 1;
+                    lastHeal = 0;
+                }
+                else {
+                    lastHeal += ts;
+                }
             }
 
             if (thunderBallLifeRemain > 0)

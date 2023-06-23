@@ -709,7 +709,7 @@ namespace Sandbox
                         {
                             Lasers[i].Pause();
                         }
-
+                        _audioSource.Stop();
                         bossState = BossState.Attack;
                     }
                     break;

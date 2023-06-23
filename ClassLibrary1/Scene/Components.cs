@@ -454,4 +454,17 @@ namespace SY
             InternalCalls.Physics_RayCast2D(ref from, ref to, mask, out col);
         }
     }
+
+    public class UIText : Component
+    { 
+        public Vector4 Color
+        {
+            set { InternalCalls.UIText_SetColor(Entity.ID, ref value); }
+        }
+
+        public string Text
+        { 
+            set { InternalCalls.UIText_SetText(Entity.ID, value); }
+        }
+    }
 }

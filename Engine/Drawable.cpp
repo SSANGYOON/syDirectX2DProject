@@ -367,7 +367,7 @@ namespace SY {
 	}
 	void TrailRenderer::SetData()
 	{
-		_mesh->SetVertexData(_vertexes.data(), recoorded * 2);
+		_mesh->SetVertexData(_vertexes.data(), maxRecoord * 2);
 		_mesh->SetIndexData(_indexes.data(), recoorded * 2);
 	}
 
@@ -444,13 +444,11 @@ namespace SY {
 
 		if (ImGui::InputText("UIText", text, 255)) {
 			MultiByteToWideChar(CP_UTF8, 0, text, strlen(text), wtext, 255);
-
 			component.text = wtext;
-
-			int len = WideCharToMultiByte(CP_ACP, 0, wtext, -1, NULL, 0, NULL, NULL);
-			WideCharToMultiByte(CP_ACP, 0, wtext, -1, text, len, NULL, NULL);
-
-			int a = 0;
 		}
+
+		ImGui::ColorEdit4("FontColor", reinterpret_cast<float*>(&component.color));
+		ImGui::DragFloat("FontSize", &component.size, 0.1f);
+		ImGui::DragInt("LineLength", &component.lineLength, 1);
 	}
 }

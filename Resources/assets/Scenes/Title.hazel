@@ -5,7 +5,7 @@ Entities:
       Tag: Sun
     State: 0
     TransformComponent:
-      Translation: [-144, -179.300003, 120]
+      Translation: [-144, -224, 120]
       Rotation: [0, 0, 0.00349235907]
       Scale: [512, 512, 1]
     SpriteRendererComponent:
@@ -40,8 +40,8 @@ Entities:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
       DiffusePath: textures\Title\Lost Ruins Title.png
-      Tile: [0, 0]
-      Offset: [0, 0]
+      Tile: [91, 121]
+      Offset: [393, 2031]
       Layer: 1
       Deffered: true
       int0: 0
@@ -78,8 +78,8 @@ Entities:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
       DiffusePath: textures\Title\Lost Ruins Title.png
-      Tile: [0, 0]
-      Offset: [0, 0]
+      Tile: [140, 72]
+      Offset: [728, 1816]
       Layer: 1
       Deffered: true
       int0: 0
@@ -116,8 +116,8 @@ Entities:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
       DiffusePath: textures\Title\Lost Ruins Title.png
-      Tile: [0, 0]
-      Offset: [0, 0]
+      Tile: [42, 27]
+      Offset: [966, 1610]
       Layer: 1
       Deffered: true
       int0: 0
@@ -154,8 +154,8 @@ Entities:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
       DiffusePath: textures\Title\Lost Ruins Title.png
-      Tile: [0, 0]
-      Offset: [0, 0]
+      Tile: [70, 137]
+      Offset: [1797, 543]
       Layer: 1
       Deffered: true
       int0: 0
@@ -180,6 +180,8 @@ Entities:
         []
       EndEvents:
         []
+    AudioSource:
+      {}
   - Entity: 18065289701662596453
     TagComponent:
       Tag: Ground
@@ -353,4 +355,31 @@ Entities:
     Bloom:
       Threshold: 1
       Intensity: 1
-TextKor: 한글
+    AudioSource:
+      {}
+    AudioListener:
+      {}
+  - Entity: 4319107625545031653
+    TagComponent:
+      Tag: StartMenu
+    State: 0
+    RectTransformComponent:
+      Translation: [-176, -48, 0]
+      Scale: [1, 1, 1]
+    UIText:
+      text: 새로 시작하기
+      color: [1, 1, 1, 0.501960814]
+      size: 10
+      lineLength: 10
+  - Entity: 1640081639081856083
+    TagComponent:
+      Tag: EndMenu
+    State: 0
+    RectTransformComponent:
+      Translation: [-176, -64, 0]
+      Scale: [1, 1, 1]
+    UIText:
+      text: 끝내기
+      color: [1, 1, 1, 0.501960814]
+      size: 10
+      lineLength: 10

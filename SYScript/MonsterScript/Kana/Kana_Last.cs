@@ -25,7 +25,7 @@ namespace Sandbox
             cam.Cinematic = true;
             cam.Following = this;
             FindEntityByName("BlockWall").Pause();
-            GetComponent<AudioSource>();
+            _audioSource.Play("assets\\soundClip\\death_03.wav");
         }
 
         void OnUpdate(float ts)

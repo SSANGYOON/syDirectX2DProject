@@ -111,13 +111,13 @@ namespace Sandbox
                         {
                             m_Animator.Play("Damaged_Kana2");
                             m_AudioSource.Stop();
-                            m_AudioSource.Play("assets\\soundClip\\death_03.wav");
                             MainCamera.GetComponent<AudioSource>().Stop();
                             Entity lastKana = FindEntityByName("Kana_Last");
                             lastKana.Translation = Translation;
                             lastKana.Activate();
                             m_Renderer.Shader = "SpriteFoward";
                             m_WingRenderer.Shader = "SpriteFoward";
+                            KanaBigSword.Pause();
                             m_Renderer.Color = new Vector4(1, 1, 1, 1);
                             hpBar.Entity.Pause();
                             break;
@@ -151,6 +151,7 @@ namespace Sandbox
                             Vector4 color = sr.Color;
                             color.W = 1f;
                             sr.Color = color;
+                            smallSwords[i].Translation = Vector3.Zero;
                             smallSwords[i].Activate();
                         }
                         break;
@@ -293,6 +294,7 @@ namespace Sandbox
                         SwordPhase = 1;
                         State = KanaState.Launch;
                         m_AudioSource.Play("assets\\soundClip\\buff up attack (2).wav");
+                        
                     }
                     break;
 

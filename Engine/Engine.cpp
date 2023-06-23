@@ -17,6 +17,15 @@
 #pragma comment(lib, "FW1FontWrapper\\Library\\Debug\\FW1FontWrapper.lib")
 #endif
 
+Engine::~Engine()
+{
+	mFW1Factory->Release();
+	mFW1Factory = nullptr;
+
+	mFontWrapper->Release();
+	mFontWrapper = nullptr;
+}
+
 HRESULT Engine::Init(const WindowInfo& info)
 {
 	_window = info;
@@ -82,9 +91,9 @@ HRESULT Engine::Init(const WindowInfo& info)
 	_constantBuffers[(UINT8)Constantbuffer_Type::BLOOM] = make_shared<ConstantBuffer>();
 	_constantBuffers[(UINT8)Constantbuffer_Type::BLOOM]->Init(Constantbuffer_Type::BLOOM, sizeof(BloomCB));
 
-	//auto r1 = FAILED(FW1CreateFactory(FW1_VERSION, &mFW1Factory));
+	auto r1 = FAILED(FW1CreateFactory(FW1_VERSION, &mFW1Factory));
 
-	//auto r2 = FAILED(mFW1Factory->CreateFontWrapper(_device.Get(), L"Arial", &mFontWrapper));
+	auto r2 = FAILED(mFW1Factory->CreateFontWrapper(_device.Get(), L"Arial", &mFontWrapper));
 
 	FmodWrapper::Initialize();
 

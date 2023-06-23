@@ -8,6 +8,9 @@ class IFW1FontWrapper;
 class Engine
 {
 public:
+	Engine() = default;
+	~Engine();
+
 	HRESULT Init(const WindowInfo& info);
 	void SetVSync(bool enabled) { _window.VSync = enabled; }
 

@@ -1,657 +1,132 @@
 Scene: Untitled
 Entities:
-  - Entity: 14679068985389141203
+  - Entity: 12127851309370192843
     TagComponent:
-      Tag: SwordThunder
+      Tag: sSpellView
+    State: 0
+    RectTransformComponent:
+      Translation: [150, 120, 5]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SlotComponent:
+      Rotation: 0
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 1660212051899677550
+    TagComponent:
+      Tag: aSpellView
+    State: 0
+    RectTransformComponent:
+      Translation: [125, 120, 5]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SlotComponent:
+      Rotation: 0
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 5461390180861376490
+    TagComponent:
+      Tag: Portal
     State: 0
     TransformComponent:
-      Translation: [1, -11, -1]
-      Rotation: [0, 0, 0]
-      Scale: [15, 32.0999985, 1]
-    Parent:
-      ParentID: 12086550092512969451
-    SpriteRendererComponent:
-      Shader: Thunder
-      Color: [0.352941185, 0.768627465, 1, 0.501960814]
-      Emission: [0, 0.34117648, 1, 2.00784326]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 12086550092512969451
-    TagComponent:
-      Tag: Kana_Small_Sword
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [1, 0.65198791, 0.378378391, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\BossCastlePhase2Sword.png
-      Tile: [25, 59]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.791999996, 0.623000026]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    TrailRenderer:
-      Color: [1, 0.423529416, 0.176470593, 0.501960814]
-      Base: [0, 9, 0.100000001]
-      Tip: [0, -25, 0.100000001]
-      Shader: TrailShader
-      Texture: textures\SlashTrail.png
-      Freq: 100
-      MaxRecord: 50
-  - Entity: 13417015866984907795
-    TagComponent:
-      Tag: SwordThunder
-    State: 0
-    TransformComponent:
-      Translation: [1, -11, -1]
-      Rotation: [0, 0, 0]
-      Scale: [15, 32.0999985, 1]
-    Parent:
-      ParentID: 12339507993678831758
-    SpriteRendererComponent:
-      Shader: Thunder
-      Color: [0.352941185, 0.768627465, 1, 0.501960814]
-      Emission: [0, 0.34117648, 1, 2.00784326]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 12339507993678831758
-    TagComponent:
-      Tag: Kana_Small_Sword
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [1, 0.65198791, 0.378378391, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\BossCastlePhase2Sword.png
-      Tile: [25, 59]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.791999996, 0.623000026]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    TrailRenderer:
-      Color: [1, 0.423529416, 0.176470593, 0.501960814]
-      Base: [0, 9, 0.100000001]
-      Tip: [0, -25, 0.100000001]
-      Shader: TrailShader
-      Texture: textures\SlashTrail.png
-      Freq: 100
-      MaxRecord: 50
-  - Entity: 5151664278534750683
-    TagComponent:
-      Tag: SwordThunder
-    State: 0
-    TransformComponent:
-      Translation: [1, -11, -1]
-      Rotation: [0, 0, 0]
-      Scale: [15, 32.0999985, 1]
-    Parent:
-      ParentID: 15014054702708640957
-    SpriteRendererComponent:
-      Shader: Thunder
-      Color: [0.352941185, 0.768627465, 1, 0.501960814]
-      Emission: [0, 0.34117648, 1, 2.00784326]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 15014054702708640957
-    TagComponent:
-      Tag: Kana_Small_Sword
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [1, 0.65198791, 0.378378391, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\BossCastlePhase2Sword.png
-      Tile: [25, 59]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.791999996, 0.623000026]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    TrailRenderer:
-      Color: [1, 0.423529416, 0.176470593, 0.501960814]
-      Base: [0, 9, 0.100000001]
-      Tip: [0, -25, 0.100000001]
-      Shader: TrailShader
-      Texture: textures\SlashTrail.png
-      Freq: 100
-      MaxRecord: 50
-  - Entity: 1489368408292294683
-    TagComponent:
-      Tag: SwordThunder
-    State: 0
-    TransformComponent:
-      Translation: [1, -11, -1]
-      Rotation: [0, 0, 0]
-      Scale: [15, 32.0999985, 1]
-    Parent:
-      ParentID: 6830337683177132824
-    SpriteRendererComponent:
-      Shader: Thunder
-      Color: [0.352941185, 0.768627465, 1, 0.501960814]
-      Emission: [0, 0.34117648, 1, 2.00784326]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 6830337683177132824
-    TagComponent:
-      Tag: Kana_Small_Sword
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [1, 0.65198791, 0.378378391, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\BossCastlePhase2Sword.png
-      Tile: [25, 59]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.791999996, 0.623000026]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    TrailRenderer:
-      Color: [1, 0.423529416, 0.176470593, 0.501960814]
-      Base: [0, 9, 0.100000001]
-      Tip: [0, -25, 0.100000001]
-      Shader: TrailShader
-      Texture: textures\SlashTrail.png
-      Freq: 100
-      MaxRecord: 50
-  - Entity: 12075175115537351432
-    TagComponent:
-      Tag: SwordThunder
-    State: 0
-    TransformComponent:
-      Translation: [1, -11, -1]
-      Rotation: [0, 0, 0]
-      Scale: [15, 32.0999985, 1]
-    Parent:
-      ParentID: 712880847620357905
-    SpriteRendererComponent:
-      Shader: Thunder
-      Color: [0.352941185, 0.768627465, 1, 0.501960814]
-      Emission: [0, 0.34117648, 1, 2.00784326]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 712880847620357905
-    TagComponent:
-      Tag: Kana_Small_Sword
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [1, 0.65198791, 0.378378391, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\BossCastlePhase2Sword.png
-      Tile: [25, 59]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastlePhase2SwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.791999996, 0.623000026]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    TrailRenderer:
-      Color: [1, 0.423529416, 0.176470593, 0.501960814]
-      Base: [0, 9, 0.100000001]
-      Tip: [0, -25, 0.100000001]
-      Shader: TrailShader
-      Texture: textures\SlashTrail.png
-      Freq: 100
-      MaxRecord: 50
-  - Entity: 11137170229643836864
-    TagComponent:
-      Tag: Blind
-    State: 0
-    TransformComponent:
-      Translation: [224, -114.5, -10]
-      Rotation: [0, 0, 0]
-      Scale: [346.799988, 73.6999969, 1]
-    SpriteRendererComponent:
-      Color: [0, 0, 0, 1]
-      Emission: [0, 0, 0, 1]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 3629555401190881656
-    TagComponent:
-      Tag: Kana_Last
-    State: 1
-    TransformComponent:
-      Translation: [0, -47, -2]
+      Translation: [479, -41.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     ScriptComponent:
-      ClassName: Sandbox.Kana_Last
-    SpriteRendererComponent:
-      Shader: SpriteDeffered
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 1]
-      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
-      Tile: [34, 56]
-      Offset: [21, 1306]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Light:
-      Color: [1, 0.66023165, 0.66023165]
-      Type: 0
-      Range: 100
-      Direction: [0, 0, 0]
-    AnimatorComponent:
-      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
-      StartEvents:
-        []
-      EndEvents:
-        []
-    AudioSource:
-      {}
-  - Entity: 6455359744090987710
-    TagComponent:
-      Tag: SwordBody
-    State: 0
-    TransformComponent:
-      Translation: [0.5, -45, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 15526452569800264840
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [0.678254724, 1, 0.262548268, 1]
-      Emission: [1, 0.580392182, 0.376470596, 1]
-      DiffusePath: textures\BossCastleBigSword.png
-      Tile: [64, 192]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\BossCastleBigSwordLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 11580952431861025272
-    TagComponent:
-      Tag: Kana_tail
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    ScriptComponent:
-      ClassName: Sandbox.KanaTail
+      ClassName: Sandbox.Portal
       ScriptFields:
-        []
+        - Name: disiredPosition
+          Type: Vector3
+          Data: [-460, 30, -5]
+        - Name: nextScene
+          Type: String
+          Data: Resources\assets\Scenes\Boss.hazel
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: true
     BoxCollider2DComponent:
       Offset: [0, 0]
-      Size: [3, 3]
+      Size: [20, 30]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: true
       MaskBits: 2
-      CategoryBits: 16
-  - Entity: 9175115188073643187
+      CategoryBits: 32
+  - Entity: 8634268830774839764
     TagComponent:
-      Tag: Kana_wing
-    State: 0
-    TransformComponent:
-      Translation: [17, 26.5, 1]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    ScriptComponent:
-      ClassName: Sandbox.Kana_wing
-    SpriteRendererComponent:
-      Shader: TintShader
-      Color: [1, 1, 1, 1]
-      Emission: [1, 1, 1, 1]
-      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
-      Tile: [137, 64]
-      Offset: [460, 1550]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    AnimatorComponent:
-      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
-      StartEvents:
-        []
-      EndEvents:
-        []
-  - Entity: 483535830317511441
-    TagComponent:
-      Tag: Kana_Sprite
-    State: 0
-    TransformComponent:
-      Translation: [7, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 11685218613709162381
-    SpriteRendererComponent:
-      Shader: TintShader
-      Color: [1, 1, 1, 1]
-      Emission: [1, 1, 1, 1]
-      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
-      Tile: [49, 96]
-      Offset: [0, 17]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    AnimatorComponent:
-      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
-      StartEvents:
-        []
-      EndEvents:
-        []
-  - Entity: 11685218613709162381
-    TagComponent:
-      Tag: Kana_Phase2
+      Tag: Altar_Particle
     State: 1
     TransformComponent:
-      Translation: [-99.3000031, 4, 0]
+      Translation: [224, -69.5, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+    ParticleSystem:
+      Position: [0, 0]
+      PositionVariation: [128, 10]
+      Velocity: [0, 50]
+      VelocityVariation: [40, 0]
+      VelocityEnd: [0, -50]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.992156863, 0.262745112, 0.145098045, 1]
+      ColorEnd: [0.992156863, 0.262745112, 0.145098045, 0]
+      EmissionBegin: [0.992156863, 0.262745112, 0.145098045, 1]
+      EmissionEnd: [0.992156863, 0.262745112, 0.145098045, 0]
+      MaxParticles: 512
+      Frequency: 784
+      LifeTime: 0.5
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 15526452569800264840
+    TagComponent:
+      Tag: Kana_big_sword
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, -0.0191986244]
+      Scale: [1, 1, 1]
     ScriptComponent:
-      ClassName: Sandbox.Kana_Phase2
+      ClassName: Sandbox.Kana_BigSword
       ScriptFields:
-        - Name: swordPref
-          Type: Entity
-          Data: 422910671084272149
+        []
     Rigidbody2DComponent:
       BodyType: Dynamic
-      FixedRotation: true
+      FixedRotation: false
       LinearDamping: 0
       AngularDamping: 0
-      DisableGravity: false
+      DisableGravity: true
     BoxCollider2DComponent:
-      Offset: [0, -8]
-      Size: [10, 44]
+      Offset: [0, -71]
+      Size: [11, 51]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 5
-      CategoryBits: 8
+      IsSensor: true
+      MaskBits: 3
+      CategoryBits: 16
     AudioSource:
       {}
-  - Entity: 12114901299047182034
+  - Entity: 1348746500716204789
     TagComponent:
-      Tag: BlockWall
+      Tag: BlockWall2
     State: 0
     TransformComponent:
-      Translation: [472.5, 45, 0]
+      Translation: [-99, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Rigidbody2DComponent:
@@ -661,65 +136,220 @@ Entities:
       AngularDamping: 0
       DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [22, 133]
+      Offset: [0, 24]
+      Size: [10, 93]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
-      MaskBits: 10
+      MaskBits: 8
       CategoryBits: 1
-  - Entity: 5612326342403970815
+  - Entity: 12797282634452793339
     TagComponent:
-      Tag: CastleCollisionEvent
+      Tag: zWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [200, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 17401570155231626020
+    TagComponent:
+      Tag: xWeaponView
+    State: 0
+    RectTransformComponent:
+      Translation: [225, 120, 3]
+      Scale: [25, 25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ActionSlot.png
+      maskPath: textures\ui\ActionSlotMask.png
+  - Entity: 17329250101478116747
+    TagComponent:
+      Tag: HP
+    State: 0
+    RectTransformComponent:
+      Translation: [-190, 122, 4]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SliderComponent:
+      barPath: textures\ui\HpBar.png
+      gaugePath: textures\ui\hp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27
+  - Entity: 12214573549616232063
+    TagComponent:
+      Tag: MP
+    State: 0
+    RectTransformComponent:
+      Translation: [-183, 112, 4]
+      Scale: [0.25, 0.25, 1]
+    Parent:
+      ParentID: 16903692170961651401
+    SliderComponent:
+      barPath: textures\ui\MpBar.png
+      gaugePath: textures\ui\mp.png
+      showNumeric: true
+      currentValue: 26
+      maxValue: 27
+  - Entity: 16903692170961651401
+    TagComponent:
+      Tag: Always Visilble UI
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 0, 5]
+      Scale: [1, 1, 1]
+  - Entity: 13601235140809211746
+    TagComponent:
+      Tag: ItemPreviewSlot
+    State: 0
+    RectTransformComponent:
+      Translation: [0, 42, 0]
+      Scale: [30, 30, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    SlotComponent:
+      Rotation: -0.785398185
+      ItemSize: [3, 3]
+      slotPath: textures\ui\ItemSlot.png
+      maskPath: textures\ui\ItemSlotMask.png
+      itemPath: .
+  - Entity: 11008924993155435749
+    TagComponent:
+      Tag: EquipmentIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-40, 72, 0]
+      Scale: [20, 20, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\EquipmentIcon.png
+  - Entity: 13005445685898161844
+    TagComponent:
+      Tag: Inventory Slider
+    State: 0
+    RectTransformComponent:
+      Translation: [1, 56, -1]
+      Scale: [330, 2, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    PanelComponent:
+      PanelPath: textures\ui\HorizontalBar.png
+      resizeTexture: [1, 0.25]
+      panelOffset: [7, 2]
+      tineColor: [0, 0, 0, 0]
+      tineRange: [0, 0]
+  - Entity: 3663891083996610126
+    TagComponent:
+      Tag: SpellIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-112, 72, 0]
+      Scale: [20, 20, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\SpellIcon.png
+  - Entity: 3163743428082938960
+    TagComponent:
+      Tag: ConsumableIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-76, 72, 0]
+      Scale: [20, 20, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    IconComponent:
+      tint: [0.501960814, 0.501960814, 0.501960814, 1]
+      iconPath: textures\icons\ConsumableIcon.png
+  - Entity: 13042999964120872870
+    TagComponent:
+      Tag: WeaponIcon
+    State: 0
+    RectTransformComponent:
+      Translation: [-148, 72, -1]
+      Scale: [20, 20, 1]
+    Parent:
+      ParentID: 7917568214416097044
+    IconComponent:
+      tint: [1, 1, 1, 1]
+      iconPath: textures\icons\WeaponIcon.png
+  - Entity: 7917568214416097044
+    TagComponent:
+      Tag: InventoryPanel
+    State: 1
+    RectTransformComponent:
+      Translation: [0, 0, 5]
+      Scale: [352, 224, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Inventory
+      ScriptFields:
+        - Name: panalData
+          Type: Entity
+          Data: 140128075639298570
+    PanelComponent:
+      PanelPath: textures\ui\PanelLarge.png
+      resizeTexture: [2, 2]
+      panelOffset: [70, 70]
+      tineColor: [0, 0, 0, 0.501960814]
+      tineRange: [15, 10]
+    AudioSource:
+      {}
+  - Entity: 8985146526040605125
+    TagComponent:
+      Tag: BossHp
+    State: 1
+    RectTransformComponent:
+      Translation: [0, -128, 5]
+      Scale: [0.25, 0.25, 1]
+    SliderComponent:
+      barPath: textures\BossHpBar.png
+      gaugePath: textures\BossHp.png
+      showNumeric: true
+      currentValue: 100
+      maxValue: 100
+  - Entity: 13933927530458210008
+    TagComponent:
+      Tag: Kana_HumanBody
     State: 0
     TransformComponent:
-      Translation: [14, -54.5, 0]
+      Translation: [4, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+    Parent:
+      ParentID: 6187265494539528145
     ScriptComponent:
-      ClassName: Sandbox.CastleCollisionEvent
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: true
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [8, 14]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 2
-      CategoryBits: 32
-  - Entity: 6187265494539528145
-    TagComponent:
-      Tag: Kana_Phase1
-    State: 0
-    TransformComponent:
-      Translation: [224, -46.9850082, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ScriptComponent:
-      ClassName: Sandbox.Kana_Phase1
+      ClassName: Sandbox.KanaKatana
+      ScriptFields:
+        []
     SpriteRendererComponent:
-      Shader: DarkLady2
-      Color: [1, 0, 0, 0]
-      Emission: [0, 0, 0, 0]
+      Shader: DarkLady
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 1]
       DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 1.png
-      Tile: [48, 59]
-      Offset: [353, 141]
+      Tile: [40, 50]
+      Offset: [276, 17]
       Layer: 1
       Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 59.9746628
+      float0: 59.9795303
       float1: 0
       float2: 0
       float3: 0
@@ -731,27 +361,16 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-    Light:
-      Color: [0.563706577, 0.383059293, 0.383059293]
-      Type: 0
-      Range: 200
-      Direction: [0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: true
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [8, 25]
+      Offset: [-28, 0]
+      Size: [14, 1]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 13
-      CategoryBits: 8
+      IsSensor: true
+      MaskBits: 2
+      CategoryBits: 16
     AnimatorComponent:
       ClipPath: assets\spriteClips\KanaClip.anim
       StartEvents:
@@ -759,438 +378,58 @@ Entities:
       EndEvents:
         []
     ParticleSystem:
-      Position: [30, 0]
-      PositionVariation: [60, 360]
-      Velocity: [-10, 0]
-      VelocityVariation: [0, 0]
-      VelocityEnd: [-10, 0]
+      Position: [0, 0]
+      PositionVariation: [26, 50]
+      Velocity: [0, 10]
+      VelocityVariation: [4, 4]
+      VelocityEnd: [0, 10]
       SizeBegin: [1, 1]
       SizeEnd: [1, 1]
       SizeVariation: [0, 0]
-      ColorBegin: [1, 0.274509817, 0.996078432, 1]
-      ColorEnd: [1, 0.274509817, 1, 1]
-      EmissionBegin: [1, 0.274509817, 1, 1]
-      EmissionEnd: [1, 0.274509817, 1, 0]
-      MaxParticles: 512
-      Frequency: 384
-      LifeTime: 1.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: true
+      ColorBegin: [0, 0, 0, 1]
+      ColorEnd: [0, 0, 0, 0]
+      EmissionBegin: [0, 0, 0, 1]
+      EmissionEnd: [0, 0, 0, 0]
+      MaxParticles: 256
+      Frequency: 256
+      LifeTime: 1
+      PositionPolar: false
+      VelocityPolar: false
+      UseLocalCoord: false
       UseAliveZone: false
       State: 2
+      AttachTexture: textures\Castle\PC Computer - Lost Ruins - Kana Phase 1.png
+      AttachOffset: [16, 42]
       GraphicsShader: ParticleGraphics
-    AudioSource:
-      {}
-  - Entity: 11067285721351833223
+  - Entity: 12135328184490441683
     TagComponent:
-      Tag: Candle0
-    State: 0
-    TransformComponent:
-      Translation: [-22, 10.3000002, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 15332609423532296875
-    TagComponent:
-      Tag: Candle1
-    State: 0
-    TransformComponent:
-      Translation: [-12.5, 9, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 17849539863483098707
-    TagComponent:
-      Tag: Candle2
-    State: 0
-    TransformComponent:
-      Translation: [-3.5999999, 4.69999981, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 11111594100254638565
-    TagComponent:
-      Tag: Candle3
-    State: 0
-    TransformComponent:
-      Translation: [3.5999999, 4.69999981, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 15196675610431870964
-    TagComponent:
-      Tag: Candle4
-    State: 0
-    TransformComponent:
-      Translation: [12.5, 9, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [0, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 9766220794849711721
-    TagComponent:
-      Tag: Candle5
-    State: 0
-    TransformComponent:
-      Translation: [22, 10.3000002, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 13751731138451369889
-    TagComponent:
-      Tag: Candle6
-    State: 0
-    TransformComponent:
-      Translation: [-15.5, 22.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [0, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 10089081838994850566
-    TagComponent:
-      Tag: Candle7
-    State: 0
-    TransformComponent:
-      Translation: [-10, 23.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 13705790573586642780
-    TagComponent:
-      Tag: Candle8
-    State: 0
-    TransformComponent:
-      Translation: [10, 23.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 5587123439883948615
-    TagComponent:
-      Tag: Candle9
-    State: 0
-    TransformComponent:
-      Translation: [15.5, 22.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.266666681, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 6809501146893513744
-    TagComponent:
-      Tag: Candle10
-    State: 0
-    TransformComponent:
-      Translation: [-9, 34, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 10634502775726899201
-    TagComponent:
-      Tag: Candle11
-    State: 0
-    TransformComponent:
-      Translation: [9, 34, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 585615163544494064
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
-      ColorEnd: [0.270588249, 0.956862748, 1, 0]
-      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
-      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
-      MaxParticles: 256
-      Frequency: 64
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 1297076282807070238
-    TagComponent:
-      Tag: Glass
+      Tag: StickHolder
     State: 0
     TransformComponent:
       Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
+      Rotation: [0, 0, 0.523598731]
       Scale: [1, 1, 1]
-  - Entity: 585615163544494064
+    Parent:
+      ParentID: 12672600137886426265
+  - Entity: 11609216364263227013
     TagComponent:
-      Tag: Chandelier
+      Tag: StickBody
     State: 0
     TransformComponent:
-      Translation: [-270, 48, 0]
+      Translation: [0, 11, 0.5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12135328184490441683
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleChandelier.png
-      Tile: [64, 92]
+      DiffusePath: textures\Castle\SwitchStick1.png
+      Tile: [16, 24]
       Offset: [0, 0]
       Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleChandelierlightMap.png
+      Deffered: false
+      LightMapPath: textures\Castle\SwitchStick1LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -1207,67 +446,26 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-    Light:
-      Color: [0.33976835, 0.931172788, 1]
-      Type: 0
-      Range: 500
-      Direction: [0, 0, 0]
-  - Entity: 18362221353190274895
+  - Entity: 12672600137886426265
     TagComponent:
-      Tag: GreenLight
+      Tag: Switch
     State: 0
     TransformComponent:
-      Translation: [0.5, 4.5, 0]
+      Translation: [-320, -67.5, -6]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12669963838071978858
-    Light:
-      Color: [0.167628005, 0.980695009, 0.121166974]
-      Type: 0
-      Range: 200
-      Direction: [0, 0, 0]
-    ParticleSystem:
-      Position: [10, -90]
-      PositionVariation: [4, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [5, 0]
-      VelocityEnd: [-20, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.250980407, 0.97647059, 0.101960786, 0.125490203]
-      ColorEnd: [0.250980407, 0.97647059, 0.101960786, 0]
-      EmissionBegin: [0.250980407, 0.97647059, 0.101960786, 2.00784326]
-      EmissionEnd: [0.250980407, 0.97647059, 0.101960786, 0]
-      MaxParticles: 256
-      Frequency: 128
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: true
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 14146381476248552627
-    TagComponent:
-      Tag: Ground2-0
-    State: 0
-    TransformComponent:
-      Translation: [-256, -16, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
+    ScriptComponent:
+      ClassName: Sandbox.CastleLever
     SpriteRendererComponent:
+      Shader: SpriteDeffered
       Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTopCorner1.png
-      Tile: [48, 48]
+      Emission: [0.843137264, 0, 1, 0]
+      DiffusePath: textures\Castle\Switch1.png
+      Tile: [32, 8]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTopCorner1LightMap.png
+      LightMapPath: textures\Castle\SwitchLightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -1284,366 +482,390 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 14406376611927573892
-    TagComponent:
-      Tag: Ground2-1
-    State: 0
-    TransformComponent:
-      Translation: [-224, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 14975489140739111681
-    TagComponent:
-      Tag: Ground2-2
-    State: 0
-    TransformComponent:
-      Translation: [-192, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 6039556741193670115
-    TagComponent:
-      Tag: Ground2-3
-    State: 0
-    TransformComponent:
-      Translation: [-160, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 11866611698177587504
-    TagComponent:
-      Tag: Ground2-4
-    State: 0
-    TransformComponent:
-      Translation: [-128, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 17225007768083079712
-    TagComponent:
-      Tag: Ground2-5
-    State: 0
-    TransformComponent:
-      Translation: [-96, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 15805045970859654807
-    TagComponent:
-      Tag: Ground2-6
-    State: 0
-    TransformComponent:
-      Translation: [-64, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 11650513711889752977
-    TagComponent:
-      Tag: Ground2-7
-    State: 0
-    TransformComponent:
-      Translation: [-32, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 15137755588536563860
-    TagComponent:
-      Tag: Ground2-8
-    State: 0
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 7472022869592014078
-    TagComponent:
-      Tag: Ground2
-    State: 0
-    TransformComponent:
-      Translation: [144, -72, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
     Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
+      BodyType: Dynamic
+      FixedRotation: true
       LinearDamping: 0
       AngularDamping: 0
-      DisableGravity: false
+      DisableGravity: true
     BoxCollider2DComponent:
-      Offset: [48, -10]
-      Size: [316, 10]
+      Offset: [0, 0]
+      Size: [19, 8]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 2
+      CategoryBits: 32
+  - Entity: 14984729440500166105
+    TagComponent:
+      Tag: Light0
+    State: 0
+    TransformComponent:
+      Translation: [-64, 4.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 3796999160630929503
+    Light:
+      Color: [1, 0.588235319, 0.588235319]
+      Type: 0
+      Range: 150
+      Direction: [0, 0, 0]
+  - Entity: 5998383668763932449
+    TagComponent:
+      Tag: Light1
+    State: 0
+    TransformComponent:
+      Translation: [64, 4.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 3796999160630929503
+    Light:
+      Color: [1, 0.586872578, 0.586872578]
+      Type: 0
+      Range: 150
+      Direction: [0, 0, 0]
+  - Entity: 12626953389594679583
+    TagComponent:
+      Tag: Fire0
+    State: 0
+    TransformComponent:
+      Translation: [-64, 30, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 3796999160630929503
+    ParticleSystem:
+      Position: [20, -90]
+      PositionVariation: [8, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [4, 0]
+      VelocityEnd: [-40, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [1, 0.423529416, 0.423529416, 0.250980407]
+      ColorEnd: [1, 0.423529416, 0.423529416, 0]
+      EmissionBegin: [1, 0.423529416, 0.423529416, 1.00392163]
+      EmissionEnd: [1, 0.423529416, 0.423529416, 0]
+      MaxParticles: 256
+      Frequency: 256
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 17977626216970151511
+    TagComponent:
+      Tag: Fire1
+    State: 0
+    TransformComponent:
+      Translation: [64, 30, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 3796999160630929503
+    ParticleSystem:
+      Position: [20, -90]
+      PositionVariation: [8, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-40, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [1, 0.423529416, 0.423529416, 0.250980407]
+      ColorEnd: [1, 0.423529416, 0.423529416, 0]
+      EmissionBegin: [1, 0.423529416, 0.423529416, 1.00392163]
+      EmissionEnd: [1, 0.423529416, 0.423529416, 0]
+      MaxParticles: 256
+      Frequency: 256
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 16897558601526014272
+    TagComponent:
+      Tag: Glass0
+    State: 0
+    TransformComponent:
+      Translation: [116, 78, 50]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1297076282807070238
+    SpriteRendererComponent:
+      Color: [1.50588238, 1.50588238, 1.50588238, 1]
+      Emission: [1, 1, 1, 0.250980407]
+      DiffusePath: textures\Castle\StainedGlass8.png
+      Tile: [80, 160]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 7303713709962478277
+    TagComponent:
+      Tag: Glass2
+    State: 0
+    TransformComponent:
+      Translation: [332, 78, 50]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1297076282807070238
+    SpriteRendererComponent:
+      Color: [1.50588238, 1.50588238, 1.50588238, 1]
+      Emission: [1, 1, 1, 0.250980407]
+      DiffusePath: textures\Castle\StainedGlass6.png
+      Tile: [80, 160]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 12827346523407168031
+    TagComponent:
+      Tag: Glass1
+    State: 0
+    TransformComponent:
+      Translation: [224, 78, 50]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 1297076282807070238
+    SpriteRendererComponent:
+      Color: [1.50588238, 1.50588238, 1.50588238, 1]
+      Emission: [1, 1, 1, 0.250980407]
+      DiffusePath: textures\Castle\StainedGlass7.png
+      Tile: [80, 160]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 5580562409314544920
+    TagComponent:
+      Tag: GlassWall
+    State: 0
+    TransformComponent:
+      Translation: [224, 56, 30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\StaircaseWall.png
+      Tile: [640, 256]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\Castle\StaircaseWallLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 3796999160630929503
+    TagComponent:
+      Tag: Altar
+    State: 0
+    TransformComponent:
+      Translation: [224, -24.5, 20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\Altar.png
+      Tile: [160, 96]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\AltarLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 15507100758533617186
+    TagComponent:
+      Tag: Stair
+    State: 0
+    TransformComponent:
+      Translation: [217.699997, 56, 25]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\StairCaseFront.png
+      Tile: [640, 256]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 2321974533690470207
+    TagComponent:
+      Tag: Chain13
+    State: 0
+    TransformComponent:
+      Translation: [-187.003098, 51.4759598, 0]
+      Rotation: [0, 0, -1.90516257]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
       IsSensor: false
-      MaskBits: 63
-      CategoryBits: 1
+      MaskBits: 64
+      CategoryBits: 64
     RevoluteJointComponent:
       Opponent: 6069315058612517805
-      LocalAnchor: [-272, 0]
-      OpponentLocalAnchor: [80, 5.9000001]
-      EnableLimit: true
-      AngleRange: [-60, -60]
-  - Entity: 12669963838071978858
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [-64, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 8444673183305860140
     TagComponent:
-      Tag: Statue
+      Tag: Chain12
     State: 0
     TransformComponent:
-      Translation: [-368, -40, 20]
-      Rotation: [0, 0, 0]
+      Translation: [-167.960297, 51.0058289, 0]
+      Rotation: [0, 0, -1.28579628]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0.0154440403, 0.0154440403, 0.0154440403, 0]
-      DiffusePath: textures\Castle\AutoSave.png
-      Tile: [64, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\AutoSaveLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 18301026243330039496
-    TagComponent:
-      Tag: Pilar
-    State: 0
-    TransformComponent:
-      Translation: [-416, 24, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastlePillarLarge.png
-      Tile: [48, 192]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastlePillarLargeLightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -1660,138 +882,46 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 10416152679557863963
-    TagComponent:
-      Tag: Wall0
-    State: 0
-    TransformComponent:
-      Translation: [-480, -12, 5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 4815859421026663677
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleWall.png
-      Tile: [320, 320]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleWallLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 17436317242103461519
-    TagComponent:
-      Tag: Wall1
-    State: 0
-    TransformComponent:
-      Translation: [-160, -12, 5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 4815859421026663677
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleWall.png
-      Tile: [320, 320]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleWallLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 1286534391101175320
-    TagComponent:
-      Tag: zWeapon
-    State: 1
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 4910083728966867532
-    ScriptComponent:
-      ClassName: Sandbox.PlayerWeapon
-    SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [0.98841697, 0.972842395, 0.41215843, 1]
-      Emission: [1, 0.996078432, 0.156862751, 1]
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
     BoxCollider2DComponent:
       Offset: [0, 0]
-      Size: [1, 1]
-      Density: 0
-      Friction: 0.5
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 24
-      CategoryBits: 4
-    TransfromAnimatorComponent:
-      ClipPath: assets\transformClips\WeaponAnim.anim
-    AudioSource:
-      {}
-  - Entity: 6283719450378191957
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 2321974533690470207
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 5643595090361546119
     TagComponent:
-      Tag: xWeapon
-    State: 1
+      Tag: Chain11
+    State: 0
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [-151.028122, 60.6137009, 0]
+      Rotation: [0, 0, -0.823538661]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 4910083728966867532
-    ScriptComponent:
-      ClassName: Sandbox.PlayerWeapon
+      ParentID: 16518836624140651911
     SpriteRendererComponent:
-      Shader: GlowSword
-      Color: [0.99613899, 0.979091406, 0.365379155, 1]
-      Emission: [0.98841697, 0.946703076, 0.419791013, 1]
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
       int0: 0
       int1: 0
       int2: 0
@@ -1808,39 +938,46 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, 5]
-      Size: [3, 10]
-      Density: 0
-      Friction: 0.5
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 24
-      CategoryBits: 4
-    TransfromAnimatorComponent:
-      ClipPath: assets\transformClips\WeaponAnim.anim
-    AudioSource:
-      {}
-  - Entity: 5534335148212246852
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 8444673183305860140
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 7412126472836957250
     TagComponent:
-      Tag: Ground1-0
+      Tag: Chain10
     State: 0
     TransformComponent:
-      Translation: [-64, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [-138.331604, 75.8515625, 0]
+      Rotation: [0, 0, -0.565806508]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 16818949008041219223
+      ParentID: 16518836624140651911
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -1857,25 +994,46 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 2232743232375499890
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 5643595090361546119
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 8740273860209524915
     TagComponent:
-      Tag: Ground1-1
+      Tag: Chain9
     State: 0
     TransformComponent:
-      Translation: [-32, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [-128.854965, 93.406929, 0]
+      Rotation: [0, 0, -0.424172491]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 16818949008041219223
+      ParentID: 16518836624140651911
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -1892,117 +1050,570 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 18179368508544059193
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 7412126472836957250
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 423588467561642420
     TagComponent:
-      Tag: Ground1-2
+      Tag: Chain8
+    State: 0
+    TransformComponent:
+      Translation: [-121.068764, 111.822716, 0]
+      Rotation: [0, 0, -0.375839591]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: true
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 8740273860209524915
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 825989938527839966
+    TagComponent:
+      Tag: Chain7
+    State: 0
+    TransformComponent:
+      Translation: [-114.080536, 130.558334, 0]
+      Rotation: [0, 0, -0.338178366]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 423588467561642420
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 9453660517097904848
+    TagComponent:
+      Tag: Chain6
+    State: 0
+    TransformComponent:
+      Translation: [-108.015068, 149.60701, 0]
+      Rotation: [0, 0, -0.278357446]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 825989938527839966
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 14238463602679783668
+    TagComponent:
+      Tag: Chain5
+    State: 0
+    TransformComponent:
+      Translation: [-102.927002, 168.944382, 0]
+      Rotation: [0, 0, -0.23622112]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 9453660517097904848
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 725615539277257677
+    TagComponent:
+      Tag: ChainBase
+    State: 0
+    TransformComponent:
+      Translation: [-80.5, 303.5, -5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    DistanceJointComponent:
+      Opponent: 7520631836248447134
+      LocalAnchor: [0, 0]
+      OpponentLocalAnchor: [0, 10]
+      minLength: 0
+      maxLength: 10000
+      stiffness: 1000
+      damping: 10000
+  - Entity: 13538032894333926659
+    TagComponent:
+      Tag: Chain4
+    State: 0
+    TransformComponent:
+      Translation: [-98.5438309, 188.455795, 0]
+      Rotation: [0, 0, -0.205733567]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 14238463602679783668
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 3517491225298648712
+    TagComponent:
+      Tag: Chain3
+    State: 0
+    TransformComponent:
+      Translation: [-94.6921234, 208.079941, 0]
+      Rotation: [0, 0, -0.181887835]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 13538032894333926659
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 10478510817780292735
+    TagComponent:
+      Tag: Chain2
+    State: 0
+    TransformComponent:
+      Translation: [-91.2473831, 227.780258, 0]
+      Rotation: [0, 0, -0.164324716]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 3517491225298648712
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 8433458985088218273
+    TagComponent:
+      Tag: Chain1
+    State: 0
+    TransformComponent:
+      Translation: [-88.123642, 247.534256, 0]
+      Rotation: [0, 0, -0.149343163]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainSide.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 10478510817780292735
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 7520631836248447134
+    TagComponent:
+      Tag: Chain0
+    State: 0
+    TransformComponent:
+      Translation: [-85.2879791, 267.331696, 0]
+      Rotation: [0, 0, -0.135188922]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16518836624140651911
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\ChainFront.png
+      Tile: [16, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 1
+      AngularDamping: 1
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [5, 10]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 64
+      CategoryBits: 64
+    RevoluteJointComponent:
+      Opponent: 8433458985088218273
+      LocalAnchor: [0, -10]
+      OpponentLocalAnchor: [0, 10]
+      EnableLimit: false
+      AngleRange: [0, 0]
+  - Entity: 16518836624140651911
+    TagComponent:
+      Tag: Chain
     State: 0
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16818949008041219223
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 5817841075576338556
+  - Entity: 7486607231965015447
     TagComponent:
-      Tag: Ground1-3
+      Tag: Empty Entity
     State: 0
     TransformComponent:
-      Translation: [32, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16818949008041219223
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 3222406918959836680
-    TagComponent:
-      Tag: Ground1-4
-    State: 0
-    TransformComponent:
-      Translation: [64, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16818949008041219223
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 16818949008041219223
-    TagComponent:
-      Tag: Ground1
-    State: 0
-    TransformComponent:
-      Translation: [-208, -101, 0]
+      Translation: [-155, 103, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Rigidbody2DComponent:
@@ -2011,34 +1622,113 @@ Entities:
       LinearDamping: 0
       AngularDamping: 0
       DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, -5]
-      Size: [80, 5]
+    CircleCollider2DComponent:
+      Offset: [0, 0]
+      Radius: 15
       Density: 1
-      Friction: 0.5
+      Friction: 0
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
-      MaskBits: 63
-      CategoryBits: 1
-  - Entity: 8028491360371537045
+      MaskBits: 64
+      CategoryBits: 64
+  - Entity: 6069315058612517805
     TagComponent:
-      Tag: Ground0-End
+      Tag: Bridge
     State: 0
     TransformComponent:
-      Translation: [112, 1, -0.100000001]
-      Rotation: [0, 0, 0]
+      Translation: [-173.109528, -5.66796207, -5]
+      Rotation: [0, 0, -1.04719758]
       Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\drawBridgeCoverLeft.png
+      DiffusePath: textures\Castle\drawBridge.png
+      Tile: [160, 32]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, -2]
+      Size: [80, 7.9000001]
+      Density: 0.00999999978
+      Friction: 0
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 62
+      CategoryBits: 1
+  - Entity: 5035305504393238832
+    TagComponent:
+      Tag: BridgeHolder
+    State: 0
+    TransformComponent:
+      Translation: [-127.5, 77.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\drawBridgeCoverTop.png
       Tile: [80, 80]
       Offset: [0, 0]
       Layer: 1
-      Deffered: true
+      Deffered: false
+      LightMapPath: textures\Castle\drawBridgeCoverTopLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 17153594791661087915
+    TagComponent:
+      Tag: BridgeLeft
+    State: 0
+    TransformComponent:
+      Translation: [-128, -71, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\drawBridgeCoverRight.png
+      Tile: [80, 80]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
       LightMapPath: textures\Castle\drawBridgeCoverRightLightMap.png
       int0: 0
       int1: 0
@@ -2056,35 +1746,33 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-    BoxCollider2DComponent:
-      Offset: [7, -26.7999992]
-      Size: [13, 10]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 1
-      CategoryBits: 32
-  - Entity: 1599269034408003846
+  - Entity: 4815859421026663677
     TagComponent:
-      Tag: Ground0-4
+      Tag: Walls
     State: 0
     TransformComponent:
-      Translation: [64, 0, 0]
+      Translation: [0, 0, 100]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: 3569014275945626379
+    TagComponent:
+      Tag: Wall3
+    State: 0
+    TransformComponent:
+      Translation: [480, -12, 5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 12471771747761689369
+      ParentID: 4815859421026663677
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
+      DiffusePath: textures\Castle\CastleWall.png
+      Tile: [320, 320]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      LightMapPath: textures\Castle\CastleWallLightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2101,25 +1789,25 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 12561989695244276254
+  - Entity: 2901764976178314019
     TagComponent:
-      Tag: Ground0-0
+      Tag: Wall2
     State: 0
     TransformComponent:
-      Translation: [-64, 0, 0]
+      Translation: [160, -12, 5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 12471771747761689369
+      ParentID: 4815859421026663677
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
+      DiffusePath: textures\Castle\CastleWall.png
+      Tile: [320, 320]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      LightMapPath: textures\Castle\CastleWallLightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2136,86 +1824,16 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 5058763529432483593
+  - Entity: 12177397681533288031
     TagComponent:
-      Tag: Ground0-1
+      Tag: Ground2-17
     State: 0
     TransformComponent:
-      Translation: [-32, 0, 0]
+      Translation: [288, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 12471771747761689369
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 13828879245568298065
-    TagComponent:
-      Tag: Ground0-2
-    State: 0
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12471771747761689369
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 13283217280868708787
-    TagComponent:
-      Tag: Ground0-3
-    State: 0
-    TransformComponent:
-      Translation: [32, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12471771747761689369
+      ParentID: 7472022869592014078
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
@@ -2241,25 +1859,25 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 4351545701191658086
+  - Entity: 17952120471854542244
     TagComponent:
-      Tag: Ground0-5
+      Tag: Ground2-9
     State: 0
     TransformComponent:
-      Translation: [96, -16, 0]
+      Translation: [32, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [-1, 1, 1]
+      Scale: [1, 1, 1]
     Parent:
-      ParentID: 12471771747761689369
+      ParentID: 7472022869592014078
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTopCorner1.png
-      Tile: [48, 48]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTopCorner1LightMap.png
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2276,6 +1894,323 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
+  - Entity: 13938774827298837328
+    TagComponent:
+      Tag: Ground2-10
+    State: 0
+    TransformComponent:
+      Translation: [64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 9290124195312850370
+    TagComponent:
+      Tag: Ground2-11
+    State: 0
+    TransformComponent:
+      Translation: [96, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 2323620118988391978
+    TagComponent:
+      Tag: Ground2-12
+    State: 0
+    TransformComponent:
+      Translation: [128, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 18111828472991554517
+    TagComponent:
+      Tag: Ground2-13
+    State: 0
+    TransformComponent:
+      Translation: [160, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 6749065645478234747
+    TagComponent:
+      Tag: Ground2-14
+    State: 0
+    TransformComponent:
+      Translation: [192, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 234416426963964830
+    TagComponent:
+      Tag: Ground2-15
+    State: 0
+    TransformComponent:
+      Translation: [224, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 17591650791924556194
+    TagComponent:
+      Tag: Ground2-16
+    State: 0
+    TransformComponent:
+      Translation: [256, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 12471771747761689369
+    TagComponent:
+      Tag: Ground0
+    State: 0
+    TransformComponent:
+      Translation: [-400, -72, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [-16, -10]
+      Size: [128, 10]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 31
+      CategoryBits: 1
+  - Entity: 17061122718703816526
+    TagComponent:
+      Tag: MainCamera
+    State: 0
+    TransformComponent:
+      Translation: [-240, 0, -22]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        Near: 0.00999999978
+        Far: 1000
+        OrthographicSize: 270
+      Primary: true
+      FixedAspectRatio: false
+      LayerMask: 255
+      OscillationAmp: 0
+      OscillationFreq: 10
+      OscillationDamp: 10
+      MaxAmp: 0
+      FadeColor: [0, 0, 0, 0]
+      ScissorRect: [0, 0, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Camera
+      ScriptFields:
+        - Name: CameraRange
+          Type: Vector2
+          Data: [960, 270]
+        - Name: DistanceFromPlayer
+          Type: Float
+          Data: 20
+        - Name: bgmFile
+          Type: String
+          Data: assets/soundClip/12192783_MotionElements_demonic-ritual.wav
+    Light:
+      Color: [0.250980407, 0.250980407, 0.250980407]
+      Type: 3
+      Range: 0
+      Direction: [0, 0, 0]
+    Bloom:
+      Threshold: 1
+      Intensity: 1
+    AudioSource:
+      ClipPath: soundClip\12192783_MotionElements_demonic-ritual.wav
+    AudioListener:
+      {}
   - Entity: 4910083728966867532
     TagComponent:
       Tag: Player
@@ -2290,6 +2225,9 @@ Entities:
         - Name: Speed
           Type: Float
           Data: 150
+        - Name: swordPref
+          Type: Entity
+          Data: 2962620313084047084
     SpriteRendererComponent:
       Shader: SmoothErase
       Color: [1, 1, 1, 1]
@@ -2370,97 +2308,25 @@ Entities:
       GraphicsShader: ParticleGraphics
     AudioSource:
       {}
-  - Entity: 17061122718703816526
+  - Entity: 4351545701191658086
     TagComponent:
-      Tag: MainCamera
+      Tag: Ground0-5
     State: 0
     TransformComponent:
-      Translation: [-240, 0, -22]
+      Translation: [96, -16, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 0.785398185
-        Near: 0.00999999978
-        Far: 1000
-        OrthographicSize: 270
-      Primary: true
-      FixedAspectRatio: false
-      LayerMask: 255
-      OscillationAmp: 0
-      OscillationFreq: 20
-      OscillationDamp: 1
-      MaxAmp: 0
-      FadeColor: [0, 0, 0, 0]
-      ScissorRect: [0, 0, 1, 1]
-    ScriptComponent:
-      ClassName: Sandbox.Camera
-      ScriptFields:
-        - Name: CameraRange
-          Type: Vector2
-          Data: [960, 270]
-        - Name: DistanceFromPlayer
-          Type: Float
-          Data: 20
-        - Name: bgmFile
-          Type: String
-          Data: assets/soundClip/12192783_MotionElements_demonic-ritual.wav
-    Light:
-      Color: [0.250980407, 0.250980407, 0.250980407]
-      Type: 3
-      Range: 0
-      Direction: [0, 0, 0]
-    Bloom:
-      Threshold: 1
-      Intensity: 1
-    AudioSource:
-      ClipPath: soundClip\12192783_MotionElements_demonic-ritual.wav
-    AudioListener:
-      {}
-  - Entity: 12471771747761689369
-    TagComponent:
-      Tag: Ground0
-    State: 0
-    TransformComponent:
-      Translation: [-400, -72, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [-16, -10]
-      Size: [128, 10]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 31
-      CategoryBits: 1
-  - Entity: 17591650791924556194
-    TagComponent:
-      Tag: Ground2-16
-    State: 0
-    TransformComponent:
-      Translation: [256, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [-1, 1, 1]
     Parent:
-      ParentID: 7472022869592014078
+      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
+      DiffusePath: textures\Castle\CastleTopCorner1.png
+      Tile: [48, 48]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      LightMapPath: textures\Castle\CastleTopCorner1LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2477,261 +2343,16 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 234416426963964830
+  - Entity: 13283217280868708787
     TagComponent:
-      Tag: Ground2-15
-    State: 0
-    TransformComponent:
-      Translation: [224, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 6749065645478234747
-    TagComponent:
-      Tag: Ground2-14
-    State: 0
-    TransformComponent:
-      Translation: [192, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 18111828472991554517
-    TagComponent:
-      Tag: Ground2-13
-    State: 0
-    TransformComponent:
-      Translation: [160, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 2323620118988391978
-    TagComponent:
-      Tag: Ground2-12
-    State: 0
-    TransformComponent:
-      Translation: [128, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 9290124195312850370
-    TagComponent:
-      Tag: Ground2-11
-    State: 0
-    TransformComponent:
-      Translation: [96, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop1.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop1LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 13938774827298837328
-    TagComponent:
-      Tag: Ground2-10
-    State: 0
-    TransformComponent:
-      Translation: [64, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop2.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop2LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 17952120471854542244
-    TagComponent:
-      Tag: Ground2-9
+      Tag: Ground0-3
     State: 0
     TransformComponent:
       Translation: [32, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 7472022869592014078
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleTop0.png
-      Tile: [32, 64]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\CastleTop0LightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 12177397681533288031
-    TagComponent:
-      Tag: Ground2-17
-    State: 0
-    TransformComponent:
-      Translation: [288, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 7472022869592014078
+      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
@@ -2757,25 +2378,25 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 2901764976178314019
+  - Entity: 13828879245568298065
     TagComponent:
-      Tag: Wall2
+      Tag: Ground0-2
     State: 0
     TransformComponent:
-      Translation: [160, -12, 5]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 4815859421026663677
+      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleWall.png
-      Tile: [320, 320]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleWallLightMap.png
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2792,25 +2413,25 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 3569014275945626379
+  - Entity: 5058763529432483593
     TagComponent:
-      Tag: Wall3
+      Tag: Ground0-1
     State: 0
     TransformComponent:
-      Translation: [480, -12, 5]
+      Translation: [-32, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 4815859421026663677
+      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\CastleWall.png
-      Tile: [320, 320]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
       Offset: [0, 0]
       Layer: 1
       Deffered: true
-      LightMapPath: textures\Castle\CastleWallLightMap.png
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -2827,30 +2448,94 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 4815859421026663677
+  - Entity: 12561989695244276254
     TagComponent:
-      Tag: Walls
+      Tag: Ground0-0
     State: 0
     TransformComponent:
-      Translation: [0, 0, 100]
+      Translation: [-64, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-  - Entity: 17153594791661087915
-    TagComponent:
-      Tag: BridgeLeft
-    State: 0
-    TransformComponent:
-      Translation: [-128, -71, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12471771747761689369
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\drawBridgeCoverRight.png
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 1599269034408003846
+    TagComponent:
+      Tag: Ground0-4
+    State: 0
+    TransformComponent:
+      Translation: [64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12471771747761689369
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 8028491360371537045
+    TagComponent:
+      Tag: Ground0-End
+    State: 0
+    TransformComponent:
+      Translation: [112, 1, -0.100000001]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12471771747761689369
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\drawBridgeCoverLeft.png
       Tile: [80, 80]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
+      Deffered: true
       LightMapPath: textures\Castle\drawBridgeCoverRightLightMap.png
       int0: 0
       int1: 0
@@ -2868,1292 +2553,59 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 5035305504393238832
-    TagComponent:
-      Tag: BridgeHolder
-    State: 0
-    TransformComponent:
-      Translation: [-127.5, 77.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\drawBridgeCoverTop.png
-      Tile: [80, 80]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\Castle\drawBridgeCoverTopLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 6069315058612517805
-    TagComponent:
-      Tag: Bridge
-    State: 0
-    TransformComponent:
-      Translation: [-173.109528, -5.66796207, -5]
-      Rotation: [0, 0, -1.04719758]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\drawBridge.png
-      Tile: [160, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, -2]
-      Size: [80, 7.9000001]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 62
-      CategoryBits: 1
-  - Entity: 7486607231965015447
-    TagComponent:
-      Tag: Empty Entity
-    State: 0
-    TransformComponent:
-      Translation: [-155, 103, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: false
-    CircleCollider2DComponent:
-      Offset: [0, 0]
-      Radius: 15
-      Density: 1
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-  - Entity: 16518836624140651911
-    TagComponent:
-      Tag: Chain
-    State: 0
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-  - Entity: 7520631836248447134
-    TagComponent:
-      Tag: Chain0
-    State: 0
-    TransformComponent:
-      Translation: [-85.2879791, 267.331696, 0]
-      Rotation: [0, 0, -0.135188922]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 8433458985088218273
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 8433458985088218273
-    TagComponent:
-      Tag: Chain1
-    State: 0
-    TransformComponent:
-      Translation: [-88.123642, 247.534256, 0]
-      Rotation: [0, 0, -0.149343163]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 10478510817780292735
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 10478510817780292735
-    TagComponent:
-      Tag: Chain2
-    State: 0
-    TransformComponent:
-      Translation: [-91.2473831, 227.780258, 0]
-      Rotation: [0, 0, -0.164324716]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 3517491225298648712
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 3517491225298648712
-    TagComponent:
-      Tag: Chain3
-    State: 0
-    TransformComponent:
-      Translation: [-94.6921234, 208.079941, 0]
-      Rotation: [0, 0, -0.181887835]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 13538032894333926659
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 13538032894333926659
-    TagComponent:
-      Tag: Chain4
-    State: 0
-    TransformComponent:
-      Translation: [-98.5438309, 188.455795, 0]
-      Rotation: [0, 0, -0.205733567]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 14238463602679783668
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 725615539277257677
-    TagComponent:
-      Tag: ChainBase
-    State: 0
-    TransformComponent:
-      Translation: [-80.5, 303.5, -5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: false
-    DistanceJointComponent:
-      Opponent: 7520631836248447134
-      LocalAnchor: [0, 0]
-      OpponentLocalAnchor: [0, 10]
-      minLength: 0
-      maxLength: 10000
-      stiffness: 1000
-      damping: 10000
-  - Entity: 14238463602679783668
-    TagComponent:
-      Tag: Chain5
-    State: 0
-    TransformComponent:
-      Translation: [-102.927002, 168.944382, 0]
-      Rotation: [0, 0, -0.23622112]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 9453660517097904848
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 9453660517097904848
-    TagComponent:
-      Tag: Chain6
-    State: 0
-    TransformComponent:
-      Translation: [-108.015068, 149.60701, 0]
-      Rotation: [0, 0, -0.278357446]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 825989938527839966
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 825989938527839966
-    TagComponent:
-      Tag: Chain7
-    State: 0
-    TransformComponent:
-      Translation: [-114.080536, 130.558334, 0]
-      Rotation: [0, 0, -0.338178366]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 423588467561642420
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 423588467561642420
-    TagComponent:
-      Tag: Chain8
-    State: 0
-    TransformComponent:
-      Translation: [-121.068764, 111.822716, 0]
-      Rotation: [0, 0, -0.375839591]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: true
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 8740273860209524915
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 8740273860209524915
-    TagComponent:
-      Tag: Chain9
-    State: 0
-    TransformComponent:
-      Translation: [-128.854965, 93.406929, 0]
-      Rotation: [0, 0, -0.424172491]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 7412126472836957250
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 7412126472836957250
-    TagComponent:
-      Tag: Chain10
-    State: 0
-    TransformComponent:
-      Translation: [-138.331604, 75.8515625, 0]
-      Rotation: [0, 0, -0.565806508]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 5643595090361546119
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 5643595090361546119
-    TagComponent:
-      Tag: Chain11
-    State: 0
-    TransformComponent:
-      Translation: [-151.028122, 60.6137009, 0]
-      Rotation: [0, 0, -0.823538661]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 8444673183305860140
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 8444673183305860140
-    TagComponent:
-      Tag: Chain12
-    State: 0
-    TransformComponent:
-      Translation: [-167.960297, 51.0058289, 0]
-      Rotation: [0, 0, -1.28579628]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainFront.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 2321974533690470207
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [0, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 2321974533690470207
-    TagComponent:
-      Tag: Chain13
-    State: 0
-    TransformComponent:
-      Translation: [-187.003098, 51.4759598, 0]
-      Rotation: [0, 0, -1.90516257]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 16518836624140651911
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\ChainSide.png
-      Tile: [16, 32]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 1
-      AngularDamping: 1
-      DisableGravity: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [5, 10]
-      Density: 0.00999999978
-      Friction: 0
-      Restitution: 0
-      RestitutionThreshold: 0.5
-      IsSensor: false
-      MaskBits: 64
-      CategoryBits: 64
-    RevoluteJointComponent:
-      Opponent: 6069315058612517805
-      LocalAnchor: [0, -10]
-      OpponentLocalAnchor: [-64, 10]
-      EnableLimit: false
-      AngleRange: [0, 0]
-  - Entity: 15507100758533617186
-    TagComponent:
-      Tag: Stair
-    State: 0
-    TransformComponent:
-      Translation: [217.699997, 56, 25]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\StairCaseFront.png
-      Tile: [640, 256]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 3796999160630929503
-    TagComponent:
-      Tag: Altar
-    State: 0
-    TransformComponent:
-      Translation: [224, -24.5, 20]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\Altar.png
-      Tile: [160, 96]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\AltarLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 5580562409314544920
-    TagComponent:
-      Tag: GlassWall
-    State: 0
-    TransformComponent:
-      Translation: [224, 56, 30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\StaircaseWall.png
-      Tile: [640, 256]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: false
-      LightMapPath: textures\Castle\StaircaseWallLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 12827346523407168031
-    TagComponent:
-      Tag: Glass1
-    State: 0
-    TransformComponent:
-      Translation: [224, 78, 50]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 1297076282807070238
-    SpriteRendererComponent:
-      Color: [1.50588238, 1.50588238, 1.50588238, 1]
-      Emission: [1, 1, 1, 0.250980407]
-      DiffusePath: textures\Castle\StainedGlass7.png
-      Tile: [80, 160]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 7303713709962478277
-    TagComponent:
-      Tag: Glass2
-    State: 0
-    TransformComponent:
-      Translation: [332, 78, 50]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 1297076282807070238
-    SpriteRendererComponent:
-      Color: [1.50588238, 1.50588238, 1.50588238, 1]
-      Emission: [1, 1, 1, 0.250980407]
-      DiffusePath: textures\Castle\StainedGlass6.png
-      Tile: [80, 160]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 16897558601526014272
-    TagComponent:
-      Tag: Glass0
-    State: 0
-    TransformComponent:
-      Translation: [116, 78, 50]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 1297076282807070238
-    SpriteRendererComponent:
-      Color: [1.50588238, 1.50588238, 1.50588238, 1]
-      Emission: [1, 1, 1, 0.250980407]
-      DiffusePath: textures\Castle\StainedGlass8.png
-      Tile: [80, 160]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-  - Entity: 17977626216970151511
-    TagComponent:
-      Tag: Fire1
-    State: 0
-    TransformComponent:
-      Translation: [64, 30, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 3796999160630929503
-    ParticleSystem:
-      Position: [20, -90]
-      PositionVariation: [8, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [2, 0]
-      VelocityEnd: [-40, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [1, 0.423529416, 0.423529416, 0.250980407]
-      ColorEnd: [1, 0.423529416, 0.423529416, 0]
-      EmissionBegin: [1, 0.423529416, 0.423529416, 1.00392163]
-      EmissionEnd: [1, 0.423529416, 0.423529416, 0]
-      MaxParticles: 256
-      Frequency: 256
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 12626953389594679583
-    TagComponent:
-      Tag: Fire0
-    State: 0
-    TransformComponent:
-      Translation: [-64, 30, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 3796999160630929503
-    ParticleSystem:
-      Position: [20, -90]
-      PositionVariation: [8, 20]
-      Velocity: [0, 0]
-      VelocityVariation: [4, 0]
-      VelocityEnd: [-40, 0]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [1, 0.423529416, 0.423529416, 0.250980407]
-      ColorEnd: [1, 0.423529416, 0.423529416, 0]
-      EmissionBegin: [1, 0.423529416, 0.423529416, 1.00392163]
-      EmissionEnd: [1, 0.423529416, 0.423529416, 0]
-      MaxParticles: 256
-      Frequency: 256
-      LifeTime: 0.5
-      PositionPolar: true
-      VelocityPolar: true
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 5998383668763932449
-    TagComponent:
-      Tag: Light1
-    State: 0
-    TransformComponent:
-      Translation: [64, 4.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 3796999160630929503
-    Light:
-      Color: [1, 0.586872578, 0.586872578]
-      Type: 0
-      Range: 150
-      Direction: [0, 0, 0]
-  - Entity: 14984729440500166105
-    TagComponent:
-      Tag: Light0
-    State: 0
-    TransformComponent:
-      Translation: [-64, 4.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 3796999160630929503
-    Light:
-      Color: [1, 0.588235319, 0.588235319]
-      Type: 0
-      Range: 150
-      Direction: [0, 0, 0]
-  - Entity: 12672600137886426265
-    TagComponent:
-      Tag: Switch
-    State: 0
-    TransformComponent:
-      Translation: [-320, -67.5, -6]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ScriptComponent:
-      ClassName: Sandbox.CastleLever
-    SpriteRendererComponent:
-      Shader: SpriteDeffered
-      Color: [1, 1, 1, 1]
-      Emission: [0.843137264, 0, 1, 0]
-      DiffusePath: textures\Castle\Switch1.png
-      Tile: [32, 8]
-      Offset: [0, 0]
-      Layer: 1
-      Deffered: true
-      LightMapPath: textures\Castle\SwitchLightMap.png
-      int0: 0
-      int1: 0
-      int2: 0
-      int3: 0
-      float0: 0
-      float1: 0
-      float2: 0
-      float3: 0
-      vec20: [0, 0]
-      vec21: [0, 0]
-      vec22: [0, 0]
-      vec23: [0, 0]
-      vec40: [0, 0, 0, 0]
-      vec41: [0, 0, 0, 0]
-      vec42: [0, 0, 0, 0]
-      vec43: [0, 0, 0, 0]
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: true
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: true
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [19, 8]
+      Offset: [7, -26.7999992]
+      Size: [13, 10]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 2
+      IsSensor: false
+      MaskBits: 1
       CategoryBits: 32
-  - Entity: 11609216364263227013
+  - Entity: 16818949008041219223
     TagComponent:
-      Tag: StickBody
+      Tag: Ground1
     State: 0
     TransformComponent:
-      Translation: [0, 11, 0.5]
+      Translation: [-208, -101, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [0, -5]
+      Size: [80, 5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 63
+      CategoryBits: 1
+  - Entity: 3222406918959836680
+    TagComponent:
+      Tag: Ground1-4
+    State: 0
+    TransformComponent:
+      Translation: [64, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 12135328184490441683
+      ParentID: 16818949008041219223
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
       Emission: [0, 0, 0, 0]
-      DiffusePath: textures\Castle\SwitchStick1.png
-      Tile: [16, 24]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
       Offset: [0, 0]
       Layer: 1
-      Deffered: false
-      LightMapPath: textures\Castle\SwitchStick1LightMap.png
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
       int0: 0
       int1: 0
       int2: 0
@@ -4170,44 +2622,1218 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
-  - Entity: 12135328184490441683
+  - Entity: 5817841075576338556
     TagComponent:
-      Tag: StickHolder
+      Tag: Ground1-3
     State: 0
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0.523598731]
-      Scale: [1, 1, 1]
-    Parent:
-      ParentID: 12672600137886426265
-  - Entity: 13933927530458210008
-    TagComponent:
-      Tag: Kana_HumanBody
-    State: 0
-    TransformComponent:
-      Translation: [4, 0, 0]
+      Translation: [32, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Parent:
-      ParentID: 6187265494539528145
-    ScriptComponent:
-      ClassName: Sandbox.KanaKatana
-      ScriptFields:
-        []
+      ParentID: 16818949008041219223
     SpriteRendererComponent:
-      Shader: DarkLady
       Color: [1, 1, 1, 1]
-      Emission: [0, 0, 0, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 18179368508544059193
+    TagComponent:
+      Tag: Ground1-2
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16818949008041219223
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 2232743232375499890
+    TagComponent:
+      Tag: Ground1-1
+    State: 0
+    TransformComponent:
+      Translation: [-32, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16818949008041219223
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 5534335148212246852
+    TagComponent:
+      Tag: Ground1-0
+    State: 0
+    TransformComponent:
+      Translation: [-64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 16818949008041219223
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 6283719450378191957
+    TagComponent:
+      Tag: xWeapon
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 4910083728966867532
+    ScriptComponent:
+      ClassName: Sandbox.PlayerWeapon
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.99613899, 0.979091406, 0.365379155, 1]
+      Emission: [0.98841697, 0.946703076, 0.419791013, 1]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    BoxCollider2DComponent:
+      Offset: [0, 5]
+      Size: [3, 10]
+      Density: 0
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 24
+      CategoryBits: 4
+    TransfromAnimatorComponent:
+      ClipPath: assets\transformClips\WeaponAnim.anim
+    TrailRenderer:
+      Color: [1, 0.984313726, 0.431372553, 1]
+      Base: [0, 0, 0]
+      Tip: [0, 36, 0]
+      Shader: TrailShader
+      Texture: textures\SlashTrail.png
+      Freq: 100
+      MaxRecord: 50
+    AudioSource:
+      {}
+  - Entity: 1286534391101175320
+    TagComponent:
+      Tag: zWeapon
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 4910083728966867532
+    ScriptComponent:
+      ClassName: Sandbox.PlayerWeapon
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.98841697, 0.972842395, 0.41215843, 1]
+      Emission: [1, 0.996078432, 0.156862751, 1]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [1, 1]
+      Density: 0
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 24
+      CategoryBits: 4
+    TransfromAnimatorComponent:
+      ClipPath: assets\transformClips\WeaponAnim.anim
+    AudioSource:
+      {}
+  - Entity: 17436317242103461519
+    TagComponent:
+      Tag: Wall1
+    State: 0
+    TransformComponent:
+      Translation: [-160, -12, 5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 4815859421026663677
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleWall.png
+      Tile: [320, 320]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleWallLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 10416152679557863963
+    TagComponent:
+      Tag: Wall0
+    State: 0
+    TransformComponent:
+      Translation: [-480, -12, 5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 4815859421026663677
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleWall.png
+      Tile: [320, 320]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleWallLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 18301026243330039496
+    TagComponent:
+      Tag: Pilar
+    State: 0
+    TransformComponent:
+      Translation: [-416, 24, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastlePillarLarge.png
+      Tile: [48, 192]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastlePillarLargeLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 12669963838071978858
+    TagComponent:
+      Tag: Statue
+    State: 0
+    TransformComponent:
+      Translation: [-368, -40, 20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0.0154440403, 0.0154440403, 0.0154440403, 0]
+      DiffusePath: textures\Castle\AutoSave.png
+      Tile: [64, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\AutoSaveLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 7472022869592014078
+    TagComponent:
+      Tag: Ground2
+    State: 0
+    TransformComponent:
+      Translation: [144, -72, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
+    BoxCollider2DComponent:
+      Offset: [48, -10]
+      Size: [316, 10]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: false
+      MaskBits: 63
+      CategoryBits: 1
+    RevoluteJointComponent:
+      Opponent: 6069315058612517805
+      LocalAnchor: [-272, 0]
+      OpponentLocalAnchor: [80, 5.9000001]
+      EnableLimit: true
+      AngleRange: [-60, -60]
+  - Entity: 15137755588536563860
+    TagComponent:
+      Tag: Ground2-8
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 11650513711889752977
+    TagComponent:
+      Tag: Ground2-7
+    State: 0
+    TransformComponent:
+      Translation: [-32, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 15805045970859654807
+    TagComponent:
+      Tag: Ground2-6
+    State: 0
+    TransformComponent:
+      Translation: [-64, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 17225007768083079712
+    TagComponent:
+      Tag: Ground2-5
+    State: 0
+    TransformComponent:
+      Translation: [-96, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 11866611698177587504
+    TagComponent:
+      Tag: Ground2-4
+    State: 0
+    TransformComponent:
+      Translation: [-128, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 6039556741193670115
+    TagComponent:
+      Tag: Ground2-3
+    State: 0
+    TransformComponent:
+      Translation: [-160, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop0.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop0LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 14975489140739111681
+    TagComponent:
+      Tag: Ground2-2
+    State: 0
+    TransformComponent:
+      Translation: [-192, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop2.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop2LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 14406376611927573892
+    TagComponent:
+      Tag: Ground2-1
+    State: 0
+    TransformComponent:
+      Translation: [-224, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTop1.png
+      Tile: [32, 64]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTop1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 14146381476248552627
+    TagComponent:
+      Tag: Ground2-0
+    State: 0
+    TransformComponent:
+      Translation: [-256, -16, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 7472022869592014078
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleTopCorner1.png
+      Tile: [48, 48]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleTopCorner1LightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 18362221353190274895
+    TagComponent:
+      Tag: GreenLight
+    State: 0
+    TransformComponent:
+      Translation: [0.5, 4.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 12669963838071978858
+    Light:
+      Color: [0.167628005, 0.980695009, 0.121166974]
+      Type: 0
+      Range: 200
+      Direction: [0, 0, 0]
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [5, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.250980407, 0.97647059, 0.101960786, 0.125490203]
+      ColorEnd: [0.250980407, 0.97647059, 0.101960786, 0]
+      EmissionBegin: [0.250980407, 0.97647059, 0.101960786, 2.00784326]
+      EmissionEnd: [0.250980407, 0.97647059, 0.101960786, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: true
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 585615163544494064
+    TagComponent:
+      Tag: Chandelier
+    State: 0
+    TransformComponent:
+      Translation: [-270, 48, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 0]
+      DiffusePath: textures\Castle\CastleChandelier.png
+      Tile: [64, 92]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: true
+      LightMapPath: textures\Castle\CastleChandelierlightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Light:
+      Color: [0.33976835, 0.931172788, 1]
+      Type: 0
+      Range: 500
+      Direction: [0, 0, 0]
+  - Entity: 1297076282807070238
+    TagComponent:
+      Tag: Glass
+    State: 0
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: 10634502775726899201
+    TagComponent:
+      Tag: Candle11
+    State: 0
+    TransformComponent:
+      Translation: [9, 34, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 64
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 6809501146893513744
+    TagComponent:
+      Tag: Candle10
+    State: 0
+    TransformComponent:
+      Translation: [-9, 34, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 5587123439883948615
+    TagComponent:
+      Tag: Candle9
+    State: 0
+    TransformComponent:
+      Translation: [15.5, 22.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.266666681, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 13705790573586642780
+    TagComponent:
+      Tag: Candle8
+    State: 0
+    TransformComponent:
+      Translation: [10, 23.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 10089081838994850566
+    TagComponent:
+      Tag: Candle7
+    State: 0
+    TransformComponent:
+      Translation: [-10, 23.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 13751731138451369889
+    TagComponent:
+      Tag: Candle6
+    State: 0
+    TransformComponent:
+      Translation: [-15.5, 22.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 9766220794849711721
+    TagComponent:
+      Tag: Candle5
+    State: 0
+    TransformComponent:
+      Translation: [22, 10.3000002, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 15196675610431870964
+    TagComponent:
+      Tag: Candle4
+    State: 0
+    TransformComponent:
+      Translation: [12.5, 9, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 11111594100254638565
+    TagComponent:
+      Tag: Candle3
+    State: 0
+    TransformComponent:
+      Translation: [3.5999999, 4.69999981, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 17849539863483098707
+    TagComponent:
+      Tag: Candle2
+    State: 0
+    TransformComponent:
+      Translation: [-3.5999999, 4.69999981, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 15332609423532296875
+    TagComponent:
+      Tag: Candle1
+    State: 0
+    TransformComponent:
+      Translation: [-12.5, 9, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 11067285721351833223
+    TagComponent:
+      Tag: Candle0
+    State: 0
+    TransformComponent:
+      Translation: [-22, 10.3000002, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 585615163544494064
+    ParticleSystem:
+      Position: [10, -90]
+      PositionVariation: [4, 20]
+      Velocity: [0, 0]
+      VelocityVariation: [2, 0]
+      VelocityEnd: [-20, 0]
+      SizeBegin: [1, 1]
+      SizeEnd: [1, 1]
+      SizeVariation: [0, 0]
+      ColorBegin: [0.270588249, 0.956862748, 1, 0.125490203]
+      ColorEnd: [0.270588249, 0.956862748, 1, 0]
+      EmissionBegin: [0.270588249, 0.956862748, 1, 2.00784326]
+      EmissionEnd: [0.270588249, 0.956862748, 1, 0]
+      MaxParticles: 256
+      Frequency: 128
+      LifeTime: 0.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: false
+      UseAliveZone: false
+      State: 0
+      GraphicsShader: ParticleGraphics
+  - Entity: 6187265494539528145
+    TagComponent:
+      Tag: Kana_Phase1
+    State: 0
+    TransformComponent:
+      Translation: [224, -46.9850082, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Kana_Phase1
+    SpriteRendererComponent:
+      Shader: DarkLady2
+      Color: [1, 0, 0, 0]
+      Emission: [0, 0, 0, 0]
       DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 1.png
-      Tile: [40, 50]
-      Offset: [276, 17]
+      Tile: [48, 59]
+      Offset: [353, 141]
       Layer: 1
       Deffered: true
       int0: 0
       int1: 0
       int2: 0
       int3: 0
-      float0: 59.9746628
+      float0: 59.9795303
       float1: 0
       float2: 0
       float3: 0
@@ -4219,16 +3845,27 @@ Entities:
       vec41: [0, 0, 0, 0]
       vec42: [0, 0, 0, 0]
       vec43: [0, 0, 0, 0]
+    Light:
+      Color: [0.563706577, 0.383059293, 0.383059293]
+      Type: 0
+      Range: 200
+      Direction: [0, 0, 0]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: true
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [-28, 0]
-      Size: [14, 1]
+      Offset: [0, 0]
+      Size: [8, 25]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 2
-      CategoryBits: 16
+      IsSensor: false
+      MaskBits: 13
+      CategoryBits: 8
     AnimatorComponent:
       ClipPath: assets\spriteClips\KanaClip.anim
       StartEvents:
@@ -4236,212 +3873,61 @@ Entities:
       EndEvents:
         []
     ParticleSystem:
-      Position: [0, 0]
-      PositionVariation: [26, 50]
-      Velocity: [0, 10]
-      VelocityVariation: [4, 4]
-      VelocityEnd: [0, 10]
+      Position: [30, 0]
+      PositionVariation: [60, 360]
+      Velocity: [-10, 0]
+      VelocityVariation: [0, 0]
+      VelocityEnd: [-10, 0]
       SizeBegin: [1, 1]
       SizeEnd: [1, 1]
       SizeVariation: [0, 0]
-      ColorBegin: [0, 0, 0, 1]
-      ColorEnd: [0, 0, 0, 0]
-      EmissionBegin: [0, 0, 0, 1]
-      EmissionEnd: [0, 0, 0, 0]
-      MaxParticles: 256
-      Frequency: 256
-      LifeTime: 1
-      PositionPolar: false
-      VelocityPolar: false
-      UseLocalCoord: false
+      ColorBegin: [1, 0.274509817, 0.996078432, 1]
+      ColorEnd: [1, 0.274509817, 1, 1]
+      EmissionBegin: [1, 0.274509817, 1, 1]
+      EmissionEnd: [1, 0.274509817, 1, 0]
+      MaxParticles: 512
+      Frequency: 384
+      LifeTime: 1.5
+      PositionPolar: true
+      VelocityPolar: true
+      UseLocalCoord: true
       UseAliveZone: false
       State: 2
-      AttachTexture: textures\Castle\PC Computer - Lost Ruins - Kana Phase 1.png
-      AttachOffset: [16, 42]
       GraphicsShader: ParticleGraphics
-  - Entity: 8985146526040605125
-    TagComponent:
-      Tag: BossHp
-    State: 1
-    RectTransformComponent:
-      Translation: [0, -128, 5]
-      Scale: [0.25, 0.25, 1]
-    SliderComponent:
-      barPath: textures\BossHpBar.png
-      gaugePath: textures\BossHp.png
-      showNumeric: true
-      currentValue: 100
-      maxValue: 100
-  - Entity: 7917568214416097044
-    TagComponent:
-      Tag: InventoryPanel
-    State: 1
-    RectTransformComponent:
-      Translation: [0, 0, 5]
-      Scale: [352, 224, 1]
-    ScriptComponent:
-      ClassName: Sandbox.Inventory
-      ScriptFields:
-        - Name: panalData
-          Type: Entity
-          Data: 140128075639298570
-    PanelComponent:
-      PanelPath: textures\ui\PanelLarge.png
-      resizeTexture: [2, 2]
-      panelOffset: [70, 70]
-      tineColor: [0, 0, 0, 0.501960814]
-      tineRange: [15, 15]
     AudioSource:
       {}
-  - Entity: 13042999964120872870
+  - Entity: 5612326342403970815
     TagComponent:
-      Tag: WeaponIcon
-    State: 0
-    RectTransformComponent:
-      Translation: [-148, 72, -1]
-      Scale: [20, 20, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    IconComponent:
-      tint: [1, 1, 1, 1]
-      iconPath: textures\icons\WeaponIcon.png
-  - Entity: 3163743428082938960
-    TagComponent:
-      Tag: ConsumableIcon
-    State: 0
-    RectTransformComponent:
-      Translation: [-76, 72, 0]
-      Scale: [20, 20, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    IconComponent:
-      tint: [0.501960814, 0.501960814, 0.501960814, 1]
-      iconPath: textures\icons\ConsumableIcon.png
-  - Entity: 3663891083996610126
-    TagComponent:
-      Tag: SpellIcon
-    State: 0
-    RectTransformComponent:
-      Translation: [-112, 72, 0]
-      Scale: [20, 20, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    IconComponent:
-      tint: [0.501960814, 0.501960814, 0.501960814, 1]
-      iconPath: textures\icons\SpellIcon.png
-  - Entity: 13005445685898161844
-    TagComponent:
-      Tag: Inventory Slider
-    State: 0
-    RectTransformComponent:
-      Translation: [1, 56, -1]
-      Scale: [330, 2, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    PanelComponent:
-      PanelPath: textures\ui\HorizontalBar.png
-      resizeTexture: [1, 0.25]
-      panelOffset: [7, 2]
-      tineColor: [0, 0, 0, 0]
-      tineRange: [0, 0]
-  - Entity: 11008924993155435749
-    TagComponent:
-      Tag: EquipmentIcon
-    State: 0
-    RectTransformComponent:
-      Translation: [-40, 72, 0]
-      Scale: [20, 20, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    IconComponent:
-      tint: [0.501960814, 0.501960814, 0.501960814, 1]
-      iconPath: textures\icons\EquipmentIcon.png
-  - Entity: 13601235140809211746
-    TagComponent:
-      Tag: ItemPreviewSlot
-    State: 0
-    RectTransformComponent:
-      Translation: [0, 42, 0]
-      Scale: [30, 30, 1]
-    Parent:
-      ParentID: 7917568214416097044
-    SlotComponent:
-      Rotation: -0.785398185
-      ItemSize: [3, 3]
-      slotPath: textures\ui\ItemSlot.png
-      maskPath: textures\ui\ItemSlotMask.png
-      itemPath: .
-  - Entity: 16903692170961651401
-    TagComponent:
-      Tag: Always Visilble UI
-    State: 0
-    RectTransformComponent:
-      Translation: [0, 0, 5]
-      Scale: [1, 1, 1]
-  - Entity: 12214573549616232063
-    TagComponent:
-      Tag: MP
-    State: 0
-    RectTransformComponent:
-      Translation: [-183, 112, 4]
-      Scale: [0.25, 0.25, 1]
-    Parent:
-      ParentID: 16903692170961651401
-    SliderComponent:
-      barPath: textures\ui\MpBar.png
-      gaugePath: textures\ui\mp.png
-      showNumeric: true
-      currentValue: 26
-      maxValue: 27
-  - Entity: 17329250101478116747
-    TagComponent:
-      Tag: HP
-    State: 0
-    RectTransformComponent:
-      Translation: [-190, 122, 4]
-      Scale: [0.25, 0.25, 1]
-    Parent:
-      ParentID: 16903692170961651401
-    SliderComponent:
-      barPath: textures\ui\HpBar.png
-      gaugePath: textures\ui\hp.png
-      showNumeric: true
-      currentValue: 26
-      maxValue: 27
-  - Entity: 17401570155231626020
-    TagComponent:
-      Tag: xWeaponView
-    State: 0
-    RectTransformComponent:
-      Translation: [225, 120, 3]
-      Scale: [25, 25, 1]
-    Parent:
-      ParentID: 16903692170961651401
-    SlotComponent:
-      Rotation: -0.785398185
-      ItemSize: [3, 3]
-      slotPath: textures\ui\ActionSlot.png
-      maskPath: textures\ui\ActionSlotMask.png
-  - Entity: 12797282634452793339
-    TagComponent:
-      Tag: zWeaponView
-    State: 0
-    RectTransformComponent:
-      Translation: [200, 120, 3]
-      Scale: [25, 25, 1]
-    Parent:
-      ParentID: 16903692170961651401
-    SlotComponent:
-      Rotation: -0.785398185
-      ItemSize: [3, 3]
-      slotPath: textures\ui\ActionSlot.png
-      maskPath: textures\ui\ActionSlotMask.png
-  - Entity: 1348746500716204789
-    TagComponent:
-      Tag: BlockWall2
+      Tag: CastleCollisionEvent
     State: 0
     TransformComponent:
-      Translation: [-99, 0, 0]
+      Translation: [14, -54.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.CastleCollisionEvent
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+      LinearDamping: 0
+      AngularDamping: 0
+      DisableGravity: true
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [8, 14]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+      IsSensor: true
+      MaskBits: 2
+      CategoryBits: 32
+  - Entity: 12114901299047182034
+    TagComponent:
+      Tag: BlockWall
+    State: 0
+    TransformComponent:
+      Translation: [472.5, 45, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     Rigidbody2DComponent:
@@ -4451,106 +3937,263 @@ Entities:
       AngularDamping: 0
       DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, 24]
-      Size: [10, 93]
+      Offset: [0, 0]
+      Size: [22, 133]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: false
-      MaskBits: 8
+      MaskBits: 10
       CategoryBits: 1
-  - Entity: 15526452569800264840
+  - Entity: 11685218613709162381
     TagComponent:
-      Tag: Kana_big_sword
+      Tag: Kana_Phase2
     State: 1
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, -0.0191986244]
+      Translation: [-99.3000031, 4, 0]
+      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     ScriptComponent:
-      ClassName: Sandbox.Kana_BigSword
+      ClassName: Sandbox.Kana_Phase2
       ScriptFields:
-        []
+        - Name: swordPref
+          Type: Entity
+          Data: 422910671084272149
     Rigidbody2DComponent:
       BodyType: Dynamic
-      FixedRotation: false
+      FixedRotation: true
       LinearDamping: 0
       AngularDamping: 0
-      DisableGravity: true
+      DisableGravity: false
     BoxCollider2DComponent:
-      Offset: [0, -71]
-      Size: [11, 51]
+      Offset: [0, -8]
+      Size: [10, 44]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
-      IsSensor: true
-      MaskBits: 3
-      CategoryBits: 16
+      IsSensor: false
+      MaskBits: 5
+      CategoryBits: 8
     AudioSource:
       {}
-  - Entity: 8634268830774839764
+  - Entity: 483535830317511441
     TagComponent:
-      Tag: Altar_Particle
-    State: 1
-    TransformComponent:
-      Translation: [224, -69.5, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ParticleSystem:
-      Position: [0, 0]
-      PositionVariation: [128, 10]
-      Velocity: [0, 50]
-      VelocityVariation: [40, 0]
-      VelocityEnd: [0, -50]
-      SizeBegin: [1, 1]
-      SizeEnd: [1, 1]
-      SizeVariation: [0, 0]
-      ColorBegin: [0.992156863, 0.262745112, 0.145098045, 1]
-      ColorEnd: [0.992156863, 0.262745112, 0.145098045, 0]
-      EmissionBegin: [0.992156863, 0.262745112, 0.145098045, 1]
-      EmissionEnd: [0.992156863, 0.262745112, 0.145098045, 0]
-      MaxParticles: 512
-      Frequency: 784
-      LifeTime: 0.5
-      PositionPolar: false
-      VelocityPolar: false
-      UseLocalCoord: false
-      UseAliveZone: false
-      State: 0
-      GraphicsShader: ParticleGraphics
-  - Entity: 5461390180861376490
-    TagComponent:
-      Tag: Portal
+      Tag: Kana_Sprite
     State: 0
     TransformComponent:
-      Translation: [479, -41.5, 0]
+      Translation: [7, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11685218613709162381
+    SpriteRendererComponent:
+      Shader: TintShader
+      Color: [1, 1, 1, 1]
+      Emission: [1, 1, 1, 1]
+      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
+      Tile: [49, 96]
+      Offset: [0, 17]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+  - Entity: 9175115188073643187
+    TagComponent:
+      Tag: Kana_wing
+    State: 0
+    TransformComponent:
+      Translation: [17, 26.5, 1]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11685218613709162381
     ScriptComponent:
-      ClassName: Sandbox.Portal
+      ClassName: Sandbox.Kana_wing
+    SpriteRendererComponent:
+      Shader: TintShader
+      Color: [1, 1, 1, 1]
+      Emission: [1, 1, 1, 1]
+      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
+      Tile: [137, 64]
+      Offset: [460, 1550]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+  - Entity: 11580952431861025272
+    TagComponent:
+      Tag: Kana_tail
+    State: 1
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 11685218613709162381
+    ScriptComponent:
+      ClassName: Sandbox.KanaTail
       ScriptFields:
-        - Name: disiredPosition
-          Type: Vector3
-          Data: [-460, 30, -5]
-        - Name: nextScene
-          Type: String
-          Data: Resources\assets\Scenes\Boss.hazel
-    Rigidbody2DComponent:
-      BodyType: Dynamic
-      FixedRotation: false
-      LinearDamping: 0
-      AngularDamping: 0
-      DisableGravity: true
+        []
     BoxCollider2DComponent:
       Offset: [0, 0]
-      Size: [20, 30]
+      Size: [3, 3]
       Density: 1
       Friction: 0.5
       Restitution: 0
       RestitutionThreshold: 0.5
       IsSensor: true
       MaskBits: 2
-      CategoryBits: 32
-TextKor: ÇÑ±Û
+      CategoryBits: 16
+  - Entity: 6455359744090987710
+    TagComponent:
+      Tag: SwordBody
+    State: 0
+    TransformComponent:
+      Translation: [0.5, -45, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Parent:
+      ParentID: 15526452569800264840
+    SpriteRendererComponent:
+      Shader: GlowSword
+      Color: [0.678254724, 1, 0.262548268, 1]
+      Emission: [1, 0.580392182, 0.376470596, 1]
+      DiffusePath: textures\BossCastleBigSword.png
+      Tile: [64, 192]
+      Offset: [0, 0]
+      Layer: 1
+      Deffered: false
+      LightMapPath: textures\BossCastleBigSwordLightMap.png
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+  - Entity: 3629555401190881656
+    TagComponent:
+      Tag: Kana_Last
+    State: 1
+    TransformComponent:
+      Translation: [0, -47, 2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.Kana_Last
+    SpriteRendererComponent:
+      Shader: SpriteDeffered
+      Color: [1, 1, 1, 1]
+      Emission: [0, 0, 0, 1]
+      DiffusePath: textures\Castle\PC Computer - Lost Ruins - Kana Phase 2.png
+      Tile: [34, 56]
+      Offset: [21, 1306]
+      Layer: 1
+      Deffered: true
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]
+    Light:
+      Color: [1, 0.66023165, 0.66023165]
+      Type: 0
+      Range: 100
+      Direction: [0, 0, 0]
+    AnimatorComponent:
+      ClipPath: assets\spriteClips\KanaPhase2Clip.anim
+      StartEvents:
+        []
+      EndEvents:
+        []
+    AudioSource:
+      {}
+  - Entity: 11137170229643836864
+    TagComponent:
+      Tag: Blind
+    State: 0
+    TransformComponent:
+      Translation: [196.600006, -114.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [640, 75, 1]
+    SpriteRendererComponent:
+      Color: [0, 0, 0, 1]
+      Emission: [0, 0, 0, 1]
+      int0: 0
+      int1: 0
+      int2: 0
+      int3: 0
+      float0: 0
+      float1: 0
+      float2: 0
+      float3: 0
+      vec20: [0, 0]
+      vec21: [0, 0]
+      vec22: [0, 0]
+      vec23: [0, 0]
+      vec40: [0, 0, 0, 0]
+      vec41: [0, 0, 0, 0]
+      vec42: [0, 0, 0, 0]
+      vec43: [0, 0, 0, 0]

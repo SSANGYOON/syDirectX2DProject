@@ -660,6 +660,30 @@ namespace SY {
 			out << YAML::EndMap; // AudioSource
 		}
 
+		if (entity.HasComponent<UIText>())
+		{
+			out << YAML::Key << "UIText";
+			out << YAML::BeginMap;
+
+			auto uiText = entity.GetComponent<UIText>();
+
+			wstring text = uiText.text;
+
+
+			char multiText[255];
+			
+			int len = WideCharToMultiByte(CP_ACP, 0, text.c_str(), -1, NULL, 0, NULL, NULL);
+			WideCharToMultiByte(CP_ACP, 0, text.c_str(), -1, multiText, len, NULL, NULL);
+
+
+			out << YAML::Key << "text" << YAML::Value << multiText;
+			out << YAML::Key << "color" << YAML::Value << uiText.color;
+			out << YAML::Key << "size" << YAML::Value << uiText.size;
+			out << YAML::Key << "lineLength" << YAML::Value << uiText.lineLength;
+
+			out << YAML::EndMap; // UIText
+		}
+
 		out << YAML::EndMap; // Entity
 	}
 
@@ -678,8 +702,6 @@ namespace SY {
 				SerializeEntity(out, entity);
 			});
 		out << YAML::EndSeq;
-
-		out << YAML::Key << "TextKor" << YAML::Value << "ÇÑ±Û";
 		out << YAML::EndMap;
 
 		std::ofstream fout(filepath);
@@ -1397,6 +1419,24 @@ namespace SY {
 
 				sourceComp.mSound = GET_SINGLE(Resources)->Load<AudioClip>(path.wstring(), path.wstring(), false);
 			}	
+		}
+
+		auto uiText = entity["UIText"];
+
+		if (uiText)
+		{
+			auto& textComp = deserializedEntity.AddComponent<UIText>();
+
+			wchar_t wText[255] = {0,};
+			string sText = uiText["text"].as<string>();
+
+			int len = MultiByteToWideChar(CP_ACP, 0, sText.c_str(), sText.length(), NULL, NULL);
+			MultiByteToWideChar(CP_ACP, 0, sText.c_str(), sText.length(), wText, len);
+
+			textComp.text = wText;
+			textComp.size = uiText["size"].as<float>();
+			textComp.color = uiText["color"].as<Vector4>();
+			textComp.lineLength = uiText["lineLength"].as<int>();
 		}
 
 		auto audioListener = entity["AudioListener"];

@@ -49,6 +49,7 @@ namespace SY {
     }
     void SceneManager::OnUpdate(float timeStep)
     {
+        bool change = false;
         SceneLock.lock();
         if (nextScene != activeScene)
         {
@@ -81,6 +82,7 @@ namespace SY {
                 activeScene->OnRuntimeShift();
                 
                 nextScene->OnRuntimeStart();
+                change = true;
             }
             else if(activeScene)
                 activeScene->OnRuntimeStop();
@@ -92,8 +94,11 @@ namespace SY {
         
         if (loadingThread.joinable())
             loadingThread.join();
+        if(change)
+            activeScene->OnUpdateRuntime(0);
+        else
+            activeScene->OnUpdateRuntime(timeStep);
 
-        activeScene->OnUpdateRuntime(timeStep);
         
     }
     void SceneManager::OnStop()

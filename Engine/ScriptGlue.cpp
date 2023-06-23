@@ -622,7 +622,8 @@ namespace SY {
 
 			col->ContactPoint = { ray.m_point.x, ray.m_point.y };
 			col->normal = { ray.m_normal.x, ray.m_normal.y };
-			col->entityID = ray.m_fixture->GetUserData().pointer;
+			Entity opp = { (entt::entity)ray.m_fixture->GetUserData().pointer, ScriptEngine::GetSceneContext() };
+			col->entityID = opp.GetUUID();
 			col->CollisionLayer = ray.m_fixture->GetFilterData().categoryBits;
 		}
 		else
@@ -1275,9 +1276,13 @@ namespace SY {
 		char* cKey = mono_string_to_utf8(monoKey);
 		mono_free(cKey);
 
-		string sKey = string(cKey);
+		wchar_t wText[255] = { 0, };
 
- 		audio.mSound = GET_SINGLE(Resources)->Load<AudioClip>(stow(sKey), stow(sKey), true);
+		int len = MultiByteToWideChar(CP_UTF8, 0, cKey, strlen(cKey), NULL, NULL);
+		MultiByteToWideChar(CP_UTF8, 0, cKey, strlen(cKey), wText, len);
+		wstring ws = wText;
+
+ 		audio.mSound = GET_SINGLE(Resources)->Load<AudioClip>(ws, ws, true);
 		audio.Play(loop);
 	}
 
@@ -1291,6 +1296,35 @@ namespace SY {
 		
 		if(audio.mChannel)
 			audio.Stop();
+	}
+
+	static void UIText_SetColor(UUID entityID, Vector4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		auto& text = entity.GetComponent<UIText>();
+
+		text.color = *color;
+	}
+
+	static void UIText_SetText(UUID entityID, MonoString* text)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		Entity entity = scene->GetEntityByUUID(entityID);
+		assert(entity);
+
+		char* cText = mono_string_to_utf8(text);
+		mono_free(cText);
+
+		wchar_t wText[255] = { 0, };
+
+		int len = MultiByteToWideChar(CP_UTF8, 0, cText, strlen(cText), NULL, NULL);
+		MultiByteToWideChar(CP_UTF8, 0, cText, strlen(cText), wText, len);
+
+		auto& textComp = entity.GetComponent<UIText>();
+		textComp.text = wText;
 	}
 	
 	static void Entity_Instantiate(uint64_t id, Vector3* position, uint64_t parentID, uint64_t* instanceId)
@@ -1608,6 +1642,9 @@ namespace SY {
 
 		HZ_ADD_INTERNAL_CALL(AudioSource_play);
 		HZ_ADD_INTERNAL_CALL(AudioSource_stop);
+
+		HZ_ADD_INTERNAL_CALL(UIText_SetColor);
+		HZ_ADD_INTERNAL_CALL(UIText_SetText);
 	}
 
 }

@@ -449,7 +449,7 @@ namespace SY {
 						{
 							prevTip = Vector4(Vector3::Transform(trail.tip, transform.localToWorld), 1.f);
 							prevBase = Vector4(Vector3::Transform(trail.base, transform.localToWorld), 1.f);
-							trail.currentIndex++;
+							trail.currentIndex = 0;
 							trail._vertexes[trail.currentIndex * 2].pos = prevBase;
 							trail._vertexes[trail.currentIndex * 2 + 1].pos = prevTip;
 						}
@@ -484,14 +484,13 @@ namespace SY {
 
 							trail._vertexes[i * 2].pos = tip + (base - tip) * (trail._vertexes[i * 2].uv.x * 0.5f + 0.5f);
 						}
-
 						for (int i = 0; i < trail.recoorded; i++)
 						{
-							int ind = (trail.currentIndex + trail.maxRecoord - i) % trail.maxRecoord;
-							trail._indexes[2 * (trail.recoorded - 1 - i)] = ind * 2;
-							trail._indexes[2 * (trail.recoorded - 1 - i) + 1] = ind * 2 + 1;
+							int ind = (trail.currentIndex + trail.maxRecoord - trail.recoorded + i + 1) % trail.maxRecoord;
+							trail._indexes[2 * i] = ind * 2;
+							trail._indexes[2 * i + 1] = ind * 2 + 1;
 						}
-
+						
 						trail.SetData();
 					}
 					trail.material->SetVec4(0, trail.Color);
@@ -549,6 +548,60 @@ namespace SY {
 					auto [transform, Icon] = group5.get<RectTransformComponent, IconComponent>(entity);
 					Icon.SetMaterial();
 					Renderer::DrawRect(transform.localToWorld, Icon.material, entity);
+				}
+
+				auto uitexts = m_Registry.group<UIText>(entt::get<RectTransformComponent>, entt::exclude<Pause>);
+				float ratio = ve.ViewPort.x / cameraViewport.x;
+				for (auto entity : uitexts)
+				{
+					auto [transform, text] = uitexts.get<RectTransformComponent, UIText>(entity);
+					
+
+					UINT r = (UINT)(text.color.x * 255);
+					UINT g = (UINT)(text.color.y * 255);
+					UINT b = (UINT)(text.color.z * 255);
+					UINT a = (UINT)(text.color.w * 255);
+
+					UINT ABGR = FONT_RGBA(r, g, b, a);
+
+					float currentLineLength = 0;
+					UINT currentLine = 0;
+					UINT startIndex = 0;
+
+					Vector3 worldTrans = transform.localToWorld.Translation();
+					for (int i = 0; i < text.text.length(); i++)
+					{
+						float nextCharLength;
+
+						if (text.text.at(i) == L' ')
+							nextCharLength = 0.5f;
+						else
+							nextCharLength = 1;
+
+						if (currentLineLength + nextCharLength > text.lineLength) {
+							GEngine->mFontWrapper->DrawString(CONTEXT, text.text.substr(startIndex, i - startIndex).c_str(),
+								text.size * ratio, worldTrans.x * ratio + ve.ViewPort.x / 2.f,
+								(-worldTrans.y + text.size * currentLine) * ratio + ve.ViewPort.y / 2.f, ABGR, FW1_RESTORESTATE);
+
+							if (nextCharLength == 0.5f) {
+								startIndex = i + 1;
+								currentLineLength = 0;
+							}
+							else {
+								startIndex = i;
+								currentLineLength = 1;
+							}
+							currentLine++;
+						}
+						else
+							currentLineLength++;
+					}
+
+					if (currentLineLength > 0) {
+						GEngine->mFontWrapper->DrawString(CONTEXT, text.text.substr(startIndex, text.text.length() - startIndex).c_str(),
+							text.size* ratio, worldTrans.x* ratio + ve.ViewPort.x/2.f,
+							(-worldTrans.y + text.size * currentLine)* ratio + ve.ViewPort.y / 2.f, ABGR, FW1_RESTORESTATE);
+					}
 				}
 
 				auto soundObject = m_Registry.group<AudioSource>(entt::exclude<Pause>);

@@ -18,12 +18,11 @@ namespace Sandbox
         {
             if ((collsion.CollisionLayer & (1 << 1)) > 0 )
             {
-                if (boss != null)
-                {
-                    var bossCon = boss.As<BossController>();
-                    bossCon.bossState = BossController.BossState.Chain;
-                    Destroy();
-                }
+                FindEntityByName("ScriptPanel").Activate();
+                var cam = FindEntityByName("MainCamera").As<Camera>();
+                cam.Cinematic = true;
+                cam.Following = this;
+                Pause();
             }
         }
     }

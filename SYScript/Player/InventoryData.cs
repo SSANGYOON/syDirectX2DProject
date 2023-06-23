@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using Sandbox.ItemDatas.Skill;
 using SY;
 using SYScript.ItemDatas;
 using System;
@@ -35,6 +36,8 @@ namespace SYScript
             itemDatas[(int)CATEGORY.Weapon].Add(new HolySword());
             itemDatas[(int)CATEGORY.Weapon].Add(new BestFriend());
             itemDatas[(int)CATEGORY.Weapon].Add(new ShieldOfLife());
+
+            itemDatas[(int)CATEGORY.Spell].Add(new SummonSword());
         }
     }
 }

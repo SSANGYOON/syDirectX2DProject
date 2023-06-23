@@ -227,5 +227,11 @@ namespace SY
         internal extern static void AudioSource_play(ulong entityID, string clip, bool loop);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void AudioSource_stop(ulong entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void UIText_SetColor(ulong entityID, ref Vector4 color);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void UIText_SetText(ulong entityID, string text);
     }
 }

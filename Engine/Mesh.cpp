@@ -66,6 +66,7 @@ void Mesh::SetIndexData(void* data, UINT count)
 	CONTEXT->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
 	memcpy(sub.pData, data, sizeof(UINT) * count);
 	CONTEXT->Unmap(_indexBuffer.Get(), 0);
+	_indexes = count;
 }
 
 void Mesh::BindBuffer()
